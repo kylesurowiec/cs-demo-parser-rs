@@ -2,3 +2,6 @@
 	path = test/cs-demos
 	url = https://gitlab.com/markus-wa/cs-demos-2
 	branch = master
+[submodule "demos-external"]
+	path = demos-external
+	url = https://gitlab.com/markus-wa/cs-demos-2.git
