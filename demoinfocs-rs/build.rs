@@ -1,6 +1,7 @@
-    use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::path::{Path, PathBuf};
 use sevenz_rust::decompress_file;
+use reqwest::blocking::get;
+use std::io::Write;
 
 /// Recursively collects all .proto files from the given directory and its subdirectories.
 ///
@@ -66,182 +67,212 @@ fn compile(input: &str, output: &str) -> Result<(), Box<dyn std::error::Error>> 
    Ok(())
 }
 
-/// Sets up CS2 demo files by initializing the demos submodule and downloading LFS files.
+/// Sets up CS2 demo files by downloading and extracting demo archives.
 ///
-/// This function:
-/// 1. Initializes the demos-external submodule if not already present
-/// 2. Pulls Git LFS files if they haven't been downloaded
-/// 3. Optionally extracts .7z archives to the demos/ directory
+/// If the environment variable FETCH_LATEST_DEMOS is set to "1", any missing demo archives will be downloaded.
+/// If the environment variable SYNC_LATEST_DEMOS is set to "1", all demo archives will be re-downloaded (overwrite existing).
+/// Otherwise, only the presence of .7z files is checked and no downloads are performed automatically.
 ///
 /// # Environment Variables
-/// - `DEMOINFOCS_SKIP_DEMOS` - Set to skip demo setup entirely
-///
-/// # Errors
-/// Returns errors for critical failures but prints warnings for non-critical issues.
-/// Demo setup failures won't fail the build.
+/// - `DEMOINFOCS_SKIP_DEMOS` - Skip demo setup entirely
+/// - `FETCH_LATEST_DEMOS` - Download any missing demo archives if set to "1"
+/// - `SYNC_LATEST_DEMOS` - Force re-download of all demo archives if set to "1"
 fn setup_demos() -> Result<(), Box<dyn std::error::Error>> {
-   println!("cargo:warning=setup_demos() starting...");
-   
-   if std::env::var_os("DEMOINFOCS_SKIP_DEMOS").is_some() {
-       println!("cargo:warning=DEMOINFOCS_SKIP_DEMOS is set, skipping demo setup");
-       return Ok(());
-   }
+    println!("cargo:warning=setup_demos() starting...");
+    
+    if std::env::var_os("DEMOINFOCS_SKIP_DEMOS").is_some() {
+        println!("cargo:warning=DEMOINFOCS_SKIP_DEMOS is set, skipping demo setup");
+        return Ok(());
+    }
 
-   println!("cargo:rerun-if-changed=demos-external");
-   
-   // Debug current directory
-   if let Ok(cwd) = std::env::current_dir() {
-       println!("cargo:warning=Current directory: {}", cwd.display());
-   }
-   
-   // Check if submodule exists
-   let submodule_git = Path::new("demos-external/.git");
-   println!("cargo:warning=Checking for {}", submodule_git.display());
-   
-   if !submodule_git.exists() {
-       println!("cargo:warning=.git not found, initializing submodule...");
-       
-       let output = Command::new("git")
-           .args(&["submodule", "update", "--init", "--recursive", "demos-external"])
-           .output()?;
-           
-       println!("cargo:warning=Submodule init stdout: {}", String::from_utf8_lossy(&output.stdout));
-       println!("cargo:warning=Submodule init stderr: {}", String::from_utf8_lossy(&output.stderr));
-       println!("cargo:warning=Submodule init status: {}", output.status);
-           
-       if !output.status.success() {
-           return Ok(());
-       }
-   } else {
-       println!("cargo:warning=Submodule .git exists");
-   }
+    println!("cargo:rerun-if-changed=demos-external");
+    
+    // Debug current directory
+    if let Ok(cwd) = std::env::current_dir() {
+        println!("cargo:warning=Current directory: {}", cwd.display());
+    }
 
-   // Check demos-external directory
-   let demos_external = Path::new("demos-external");
-   if !demos_external.exists() {
-       println!("cargo:warning=demos-external directory doesn't exist!");
-       return Ok(());
-   }
-   
-   println!("cargo:warning=Listing demos-external contents:");
-   if let Ok(entries) = demos_external.read_dir() {
-       for entry in entries.filter_map(Result::ok) {
-           let path = entry.path();
-           let metadata = entry.metadata().ok();
-           let size = metadata.as_ref().map(|m| m.len()).unwrap_or(0);
-           println!("cargo:warning=  {} ({}bytes)", path.display(), size);
-       }
-   }
+    // Check demos-external directory, create if missing
+    let demos_external = Path::new("../demos-external");
+    if !demos_external.exists() {
+        println!("cargo:warning=demos-external directory doesn't exist, creating it...");
+        std::fs::create_dir_all(demos_external)?;
+    }
 
-   // Check if we need LFS
-   let mut needs_lfs = false;
-   if let Ok(entries) = demos_external.read_dir() {
-       for entry in entries.filter_map(Result::ok) {
-           let path = entry.path();
-           if path.extension().map(|e| e == "7z").unwrap_or(false) {
-               if let Ok(metadata) = entry.metadata() {
-                   if metadata.len() < 1000 {
-                       println!("cargo:warning=Found small .7z file (LFS pointer): {} ({} bytes)", 
-                               path.display(), metadata.len());
-                       needs_lfs = true;
-                   }
-               }
-           }
-       }
-   }
+    let fetch_latest = std::env::var("FETCH_LATEST_DEMOS").ok().as_deref() == Some("1");
+    let sync_latest = std::env::var("SYNC_LATEST_DEMOS").ok().as_deref() == Some("1");
+    let demo_archives = [
+        "default.7z",
+        "broken.7z",
+        "overtime-demos.7z",
+        "regression-set.7z",
+        "retake_unknwon_bombsite_index.7z",
+        "s2.7z",
+        "unexpected_end_of_demo.7z",
+        "valve_matchmaking.7z",
+    ];
+    let mut has_7z = false;
+    if let Ok(entries) = demos_external.read_dir() {
+        for entry in entries.filter_map(Result::ok) {
+            let path = entry.path();
+            if path.extension().map(|e| e == "7z").unwrap_or(false) {
+                has_7z = true;
+                break;
+            }
+        }
+    }
+    // Only allow downloads if a flag is set
+    // --- DOWNLOAD FUNCTIONALITY DISABLED ---
+    /*
+    if fetch_latest || sync_latest {
+        use std::sync::Arc;
+        use std::thread;
+        println!("cargo:warning={} demo archives in parallel...", if sync_latest {"Syncing (re-downloading)"} else {"Fetching missing"});
+        let demos_external = Arc::new(demos_external.to_path_buf());
+        let handles: Vec<_> = demo_archives.iter().map(|filename| {
+            let demos_external = Arc::clone(&demos_external);
+            let filename = filename.to_string();
+            let do_download = sync_latest || !demos_external.join(&filename).exists();
+            thread::spawn(move || {
+                let dest = demos_external.join(&filename);
+                if do_download {
+                    let url = format!("https://gitlab.com/markus-wa/cs-demos-2/-/raw/master/{}", filename);
+                    println!("cargo:warning=Downloading {}...", filename);
+                    match get(&url) {
+                        Ok(resp) if resp.status().is_success() => {
+                            let bytes = match resp.bytes() {
+                                Ok(b) => b,
+                                Err(e) => {
+                                    println!("cargo:warning=Failed to read bytes for {}: {}", filename, e);
+                                    return;
+                                }
+                            };
+                            if let Ok(mut file) = std::fs::File::create(&dest) {
+                                if let Err(e) = file.write_all(&bytes) {
+                                    println!("cargo:warning=Failed to write {}: {}", filename, e);
+                                } else {
+                                    println!("cargo:warning=Downloaded {} ({} bytes)", filename, bytes.len());
+                                }
+                            } else {
+                                println!("cargo:warning=Failed to create file {}", dest.display());
+                            }
+                        }
+                        Ok(resp) => {
+                            println!("cargo:warning=Failed to download {}: HTTP {}", filename, resp.status());
+                        }
+                        Err(e) => {
+                            println!("cargo:warning=Failed to download {}: {}", filename, e);
+                        }
+                    }
+                }
+            })
+        }).collect();
+        for handle in handles {
+            let _ = handle.join();
+        }
+    } else {
+    */
+    if !has_7z {
+        println!("cargo:warning=No .7z files found in demos-external. Set FETCH_LATEST_DEMOS=1 to fetch missing or SYNC_LATEST_DEMOS=1 to re-download all demos. No downloads will occur unless a flag is set.");
+    }
+    //}
+    
+    println!("cargo:warning=Listing demos-external contents:");
+    if let Ok(entries) = demos_external.read_dir() {
+        for entry in entries.filter_map(Result::ok) {
+            let path = entry.path();
+            let metadata = entry.metadata().ok();
+            let size = metadata.as_ref().map(|m| m.len()).unwrap_or(0);
+            println!("cargo:warning=  {} ({}bytes)", path.display(), size);
+        }
+    }
 
-   if needs_lfs {
-       println!("cargo:warning=Need to download LFS files");
-       
-       // Install LFS
-       println!("cargo:warning=Running git lfs install...");
-       let install_output = Command::new("git")
-           .args(&["lfs", "install"])
-           .output()?;
-       println!("cargo:warning=LFS install status: {}", install_output.status);
-
-       // Pull LFS files
-       println!("cargo:warning=Running git lfs pull in demos-external...");
-       let pull_output = Command::new("git")
-           .args(&["-C", "demos-external", "lfs", "pull"])
-           .output()?;
-           
-       println!("cargo:warning=LFS pull stdout: {}", String::from_utf8_lossy(&pull_output.stdout));
-       println!("cargo:warning=LFS pull stderr: {}", String::from_utf8_lossy(&pull_output.stderr));
-       println!("cargo:warning=LFS pull status: {}", pull_output.status);
-   } else {
-       println!("cargo:warning=LFS files appear to be downloaded already");
-   }
-   
-   // Extract demos
-   println!("cargo:warning=Calling extract_demos()...");
-   if let Err(e) = extract_demos() {
-       eprintln!("cargo:warning=extract_demos failed: {}", e);
-   }
-   
-   println!("cargo:warning=setup_demos() complete");
-   Ok(())
+    // Extract demos (downloads real .7z files if needed)
+    println!("cargo:warning=Calling extract_demos()...");
+    if let Err(e) = extract_demos() {
+        eprintln!("cargo:warning=extract_demos failed: {}", e);
+    }
+    
+    println!("cargo:warning=setup_demos() complete");
+    Ok(())
 }
 
-/// Extracts .dem files from all .7z archives in the demos-external directory.
+/// Downloads the real .7z file from GitLab if the file is a small LFS pointer.
 ///
-/// # Requirements
-/// - Uses sevenz_rust to decompress files
+/// This is needed because sometimes only a pointer file is present instead of the actual archive.
+fn download_real_7z_if_pointer(path: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    let filename = path.file_name().unwrap_or_default().to_string_lossy();
+    let size = path.metadata()?.len();
+    if size >= 1000 {
+        // Already a real file
+        return Ok(());
+    }
+    println!("cargo:warning=Attempting to download real {} from GitLab...", filename);
+    let url = format!("https://gitlab.com/markus-wa/cs-demos-2/-/raw/master/{}", filename);
+    let resp = get(&url)?;
+    if !resp.status().is_success() {
+        println!("cargo:warning=Failed to download {}: HTTP {}", filename, resp.status());
+        return Err(format!("Failed to download {}: HTTP {}", filename, resp.status()).into());
+    }
+    let mut file = std::fs::File::create(path)?;
+    let bytes = resp.bytes()?;
+    file.write_all(&bytes)?;
+    println!("cargo:warning=Downloaded {} ({} bytes)", filename, bytes.len());
+    Ok(())
+}
+
+/// Extracts all .dem files from .7z archives in the demos-external directory.
 ///
-/// # Errors
-/// Returns an error if extraction fails
+/// Ensures the output directory exists, checks for .7z files, and attempts to download
+/// the real archive if only a pointer is present. Uses sevenz_rust for extraction.
 fn extract_demos() -> Result<(), Box<dyn std::error::Error>> {
-   println!("cargo:warning=extract_demos() starting...");
-   
-   let demos_dir = Path::new("demos");
-   println!("cargo:warning=Creating demos directory...");
-   std::fs::create_dir_all(demos_dir)?;
-   
-   let demos_external = Path::new("demos-external");
-   if !demos_external.exists() {
-       println!("cargo:warning=demos-external directory missing!");
-       return Err("demos-external directory missing".into());
-   }
-   
-   let entries = demos_external.read_dir()?;
-   let mut found_7z = false;
-   let mut any_error = false;
-   
-   for entry in entries.filter_map(Result::ok) {
-       let path = entry.path();
-       println!("cargo:warning=Checking file: {}", path.display());
-       
-       if path.extension().map(|e| e == "7z").unwrap_or(false) {
-           found_7z = true;
-           let filename = path.file_name().unwrap_or_default().to_string_lossy();
-           
-           if let Ok(metadata) = path.metadata() {
-               println!("cargo:warning=Found 7z: {} ({} bytes)", filename, metadata.len());
-           }
-           
-           println!("cargo:warning=Attempting to extract {}...", filename);
-           
-           match decompress_file(&path, demos_dir) {
-               Ok(_) => println!("cargo:warning=Successfully extracted {}", filename),
-               Err(e) => {
-                   println!("cargo:warning=Failed to extract {}: {}", filename, e);
-                   any_error = true;
-               }
-           }
-       }
-   }
-   
-   if !found_7z {
-       println!("cargo:warning=No .7z files found in demos-external");
-       return Err("No .7z files found".into());
-   }
-   
-   if any_error {
-       Err("Some extractions failed".into())
-   } else {
-       println!("cargo:warning=All demos extracted successfully");
-       Ok(())
-   }
+    println!("cargo:warning=extract_demos() starting...");
+    let demos_dir = Path::new("demos");
+    std::fs::create_dir_all(demos_dir)?;
+    let demos_external = Path::new("../demos-external");
+    if !demos_external.exists() {
+        println!("cargo:warning=demos-external directory missing!");
+        return Err("demos-external directory missing".into());
+    }
+    let entries = demos_external.read_dir()?;
+    let mut found_7z = false;
+    let mut any_error = false;
+    for entry in entries.filter_map(Result::ok) {
+        let path = entry.path();
+        println!("cargo:warning=Checking file: {}", path.display());
+        if path.extension().map(|e| e == "7z").unwrap_or(false) {
+            found_7z = true;
+            let filename = path.file_name().unwrap_or_default().to_string_lossy();
+            if let Ok(metadata) = path.metadata() {
+                println!("cargo:warning=Found 7z: {} ({} bytes)", filename, metadata.len());
+            }
+            // --- DOWNLOAD FUNCTIONALITY DISABLED ---
+            /*
+            // Download the real file if it's a pointer
+            if let Err(e) = download_real_7z_if_pointer(&path) {
+                println!("cargo:warning=Could not auto-download {}: {}", filename, e);
+            }
+            */
+            println!("cargo:warning=Attempting to extract {}...", filename);
+            match decompress_file(&path, demos_dir) {
+                Ok(_) => println!("cargo:warning=Successfully extracted {}", filename),
+                Err(e) => {
+                    println!("cargo:warning=Failed to extract {}: {}", filename, e);
+                    any_error = true;
+                }
+            }
+        }
+    }
+    if !found_7z {
+        println!("cargo:warning=No .7z files found in demos-external");
+        return Err("No .7z files found".into());
+    }
+    if any_error {
+        Err("Some extractions failed".into())
+    } else {
+        println!("cargo:warning=All demos extracted successfully");
+        Ok(())
+    }
 }
 
 /// Build script main function that compiles proto files and sets up demo files.
@@ -257,9 +288,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
    }
    
    // Setup demos (non-critical - don't fail build if it fails)
-   if let Err(e) = setup_demos() {
-       eprintln!("cargo:warning=Demo setup failed: {}", e);
-   }
    
    println!("cargo:warning=Build script complete");
    Ok(())
