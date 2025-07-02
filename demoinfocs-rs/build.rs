@@ -1,5 +1,6 @@
-use std::path::{Path, PathBuf};
+    use std::path::{Path, PathBuf};
 use std::process::Command;
+use sevenz_rust::decompress_file;
 
 /// Recursively collects all .proto files from the given directory and its subdirectories.
 ///
@@ -79,138 +80,168 @@ fn compile(input: &str, output: &str) -> Result<(), Box<dyn std::error::Error>> 
 /// Returns errors for critical failures but prints warnings for non-critical issues.
 /// Demo setup failures won't fail the build.
 fn setup_demos() -> Result<(), Box<dyn std::error::Error>> {
-   // Skip if explicitly disabled
+   println!("cargo:warning=setup_demos() starting...");
+   
    if std::env::var_os("DEMOINFOCS_SKIP_DEMOS").is_some() {
+       println!("cargo:warning=DEMOINFOCS_SKIP_DEMOS is set, skipping demo setup");
        return Ok(());
    }
 
    println!("cargo:rerun-if-changed=demos-external");
    
-   // Check if submodule is initialized
-   if !Path::new("demos-external/.git").exists() {
-       println!("cargo:warning=Initializing demos submodule...");
+   // Debug current directory
+   if let Ok(cwd) = std::env::current_dir() {
+       println!("cargo:warning=Current directory: {}", cwd.display());
+   }
+   
+   // Check if submodule exists
+   let submodule_git = Path::new("demos-external/.git");
+   println!("cargo:warning=Checking for {}", submodule_git.display());
+   
+   if !submodule_git.exists() {
+       println!("cargo:warning=.git not found, initializing submodule...");
        
        let output = Command::new("git")
-           .args(&["submodule", "update", "--init", "--recursive"])
+           .args(&["submodule", "update", "--init", "--recursive", "demos-external"])
            .output()?;
            
+       println!("cargo:warning=Submodule init stdout: {}", String::from_utf8_lossy(&output.stdout));
+       println!("cargo:warning=Submodule init stderr: {}", String::from_utf8_lossy(&output.stderr));
+       println!("cargo:warning=Submodule init status: {}", output.status);
+           
        if !output.status.success() {
-           eprintln!("Warning: Failed to initialize submodule: {}", 
-                    String::from_utf8_lossy(&output.stderr));
-           // Don't fail the build, just warn
            return Ok(());
        }
+   } else {
+       println!("cargo:warning=Submodule .git exists");
+   }
+
+   // Check demos-external directory
+   let demos_external = Path::new("demos-external");
+   if !demos_external.exists() {
+       println!("cargo:warning=demos-external directory doesn't exist!");
+       return Ok(());
    }
    
-   // Check if LFS files need to be pulled
-   let needs_lfs = Path::new("demos-external")
-       .read_dir()
-       .map(|entries| {
-           entries.filter_map(Result::ok)
-               .any(|entry| {
-                   entry.path().extension()
-                       .map(|ext| ext == "7z")
-                       .unwrap_or(false)
-                       && entry.metadata()
-                           .map(|m| m.len() < 1000) // LFS pointer files are tiny
-                           .unwrap_or(false)
-               })
-       })
-       .unwrap_or(true);
-   
+   println!("cargo:warning=Listing demos-external contents:");
+   if let Ok(entries) = demos_external.read_dir() {
+       for entry in entries.filter_map(Result::ok) {
+           let path = entry.path();
+           let metadata = entry.metadata().ok();
+           let size = metadata.as_ref().map(|m| m.len()).unwrap_or(0);
+           println!("cargo:warning=  {} ({}bytes)", path.display(), size);
+       }
+   }
+
+   // Check if we need LFS
+   let mut needs_lfs = false;
+   if let Ok(entries) = demos_external.read_dir() {
+       for entry in entries.filter_map(Result::ok) {
+           let path = entry.path();
+           if path.extension().map(|e| e == "7z").unwrap_or(false) {
+               if let Ok(metadata) = entry.metadata() {
+                   if metadata.len() < 1000 {
+                       println!("cargo:warning=Found small .7z file (LFS pointer): {} ({} bytes)", 
+                               path.display(), metadata.len());
+                       needs_lfs = true;
+                   }
+               }
+           }
+       }
+   }
+
    if needs_lfs {
-       println!("cargo:warning=Downloading demo files via Git LFS...");
+       println!("cargo:warning=Need to download LFS files");
        
-       let output = Command::new("git")
-           .current_dir("demos-external")
-           .args(&["lfs", "pull"])
+       // Install LFS
+       println!("cargo:warning=Running git lfs install...");
+       let install_output = Command::new("git")
+           .args(&["lfs", "install"])
+           .output()?;
+       println!("cargo:warning=LFS install status: {}", install_output.status);
+
+       // Pull LFS files
+       println!("cargo:warning=Running git lfs pull in demos-external...");
+       let pull_output = Command::new("git")
+           .args(&["-C", "demos-external", "lfs", "pull"])
            .output()?;
            
-       if !output.status.success() {
-           eprintln!("Warning: Failed to pull LFS files: {}", 
-                    String::from_utf8_lossy(&output.stderr));
-           eprintln!("cargo:warning=Demos may not be available. Run 'git lfs pull' in demos-external/");
-       }
+       println!("cargo:warning=LFS pull stdout: {}", String::from_utf8_lossy(&pull_output.stdout));
+       println!("cargo:warning=LFS pull stderr: {}", String::from_utf8_lossy(&pull_output.stderr));
+       println!("cargo:warning=LFS pull status: {}", pull_output.status);
+   } else {
+       println!("cargo:warning=LFS files appear to be downloaded already");
    }
    
-   // Optional: Extract demos if 7z is available
-   if !Path::new("demos").exists() || is_demos_empty() {
-       if let Err(e) = extract_demos() {
-           eprintln!("cargo:warning=Failed to extract demos: {}", e);
-           eprintln!("cargo:warning=Please extract .7z files from demos-external/ manually");
-       }
+   // Extract demos
+   println!("cargo:warning=Calling extract_demos()...");
+   if let Err(e) = extract_demos() {
+       eprintln!("cargo:warning=extract_demos failed: {}", e);
    }
    
+   println!("cargo:warning=setup_demos() complete");
    Ok(())
-}
-
-/// Checks if the demos directory exists but is empty.
-///
-/// # Returns
-/// `true` if the demos directory doesn't exist or contains no entries
-fn is_demos_empty() -> bool {
-   Path::new("demos")
-       .read_dir()
-       .map(|mut entries| entries.next().is_none())
-       .unwrap_or(true)
 }
 
 /// Extracts .dem files from all .7z archives in the demos-external directory.
 ///
 /// # Requirements
-/// - 7-Zip must be installed and available in PATH or standard locations
+/// - Uses sevenz_rust to decompress files
 ///
 /// # Errors
-/// Returns an error if 7-Zip is not found or if extraction fails
+/// Returns an error if extraction fails
 fn extract_demos() -> Result<(), Box<dyn std::error::Error>> {
-   // Create demos directory
-   std::fs::create_dir_all("demos")?;
+   println!("cargo:warning=extract_demos() starting...");
    
-   // Try to find 7z
-   let seven_zip_paths = if cfg!(windows) {
-       vec![
-           "7z",
-           "C:\\Program Files\\7-Zip\\7z.exe",
-           "C:\\Program Files (x86)\\7-Zip\\7z.exe",
-       ]
-   } else {
-       vec!["7z", "/usr/bin/7z", "/usr/local/bin/7z"]
-   };
+   let demos_dir = Path::new("demos");
+   println!("cargo:warning=Creating demos directory...");
+   std::fs::create_dir_all(demos_dir)?;
    
-   let seven_zip = seven_zip_paths.iter()
-       .find(|path| {
-           Command::new(path)
-               .arg("--help")
-               .output()
-               .map(|o| o.status.success())
-               .unwrap_or(false)
-       });
+   let demos_external = Path::new("demos-external");
+   if !demos_external.exists() {
+       println!("cargo:warning=demos-external directory missing!");
+       return Err("demos-external directory missing".into());
+   }
    
-   if let Some(cmd) = seven_zip {
-       println!("cargo:warning=Extracting demo archives...");
+   let entries = demos_external.read_dir()?;
+   let mut found_7z = false;
+   let mut any_error = false;
+   
+   for entry in entries.filter_map(Result::ok) {
+       let path = entry.path();
+       println!("cargo:warning=Checking file: {}", path.display());
        
-       // Extract each 7z file
-       if let Ok(entries) = Path::new("demos-external").read_dir() {
-           for entry in entries.filter_map(Result::ok) {
-               let path = entry.path();
-               if path.extension().map(|e| e == "7z").unwrap_or(false) {
-                   Command::new(cmd)
-                       .args(&[
-                           "x",
-                           "-y",
-                           path.to_str().unwrap(),
-                           "-odemos/",
-                           "*.dem"
-                       ])
-                       .status()?;
+       if path.extension().map(|e| e == "7z").unwrap_or(false) {
+           found_7z = true;
+           let filename = path.file_name().unwrap_or_default().to_string_lossy();
+           
+           if let Ok(metadata) = path.metadata() {
+               println!("cargo:warning=Found 7z: {} ({} bytes)", filename, metadata.len());
+           }
+           
+           println!("cargo:warning=Attempting to extract {}...", filename);
+           
+           match decompress_file(&path, demos_dir) {
+               Ok(_) => println!("cargo:warning=Successfully extracted {}", filename),
+               Err(e) => {
+                   println!("cargo:warning=Failed to extract {}: {}", filename, e);
+                   any_error = true;
                }
            }
        }
-   } else {
-       return Err("7z not found. Install from https://www.7-zip.org/".into());
    }
    
-   Ok(())
+   if !found_7z {
+       println!("cargo:warning=No .7z files found in demos-external");
+       return Err("No .7z files found".into());
+   }
+   
+   if any_error {
+       Err("Some extractions failed".into())
+   } else {
+       println!("cargo:warning=All demos extracted successfully");
+       Ok(())
+   }
 }
 
 /// Build script main function that compiles proto files and sets up demo files.
@@ -219,12 +250,10 @@ fn extract_demos() -> Result<(), Box<dyn std::error::Error>> {
 /// - `DEMOINFOCS_SKIP_PROTO` - Skip protocol buffer compilation
 /// - `DEMOINFOCS_SKIP_DEMOS` - Skip demo file setup
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+   println!("cargo:warning=Build script starting...");
+   
    if std::env::var_os("DEMOINFOCS_SKIP_PROTO").is_none() {
        compile("proto/msg", "msg")?;
-       // The msgs2 protos are currently unused and fail to compile with modern
-       // `protoc` versions. Skip generating Rust code for them until the
-       // definitions are updated.
-       // compile("proto/msgs2", "msgs2")?;
    }
    
    // Setup demos (non-critical - don't fail build if it fails)
@@ -232,5 +261,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
        eprintln!("cargo:warning=Demo setup failed: {}", e);
    }
    
+   println!("cargo:warning=Build script complete");
    Ok(())
 }
