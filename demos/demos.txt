@@ -1,0 +1,5 @@
+default.dem: 2016-08-30-ALTERNATE-aTTaX-vs-Team-LDLC-de_cache
+unexpected_end_of_demo.dem: 2014-11-01-ESWC2014-fnatic-vs-hellraisers-de_inferno
+esea_league_ot.dem: 2017-11-06-ESEA-Premier-Season26-NorthAmerica-torqued-vs-ex-morior-invictus-cache
+faceit_ot.dem: 2018-04-24-ECS-Season5-Europe-g2-vs-astralis-mirage
+starseries_ot.dem: 2018-06-02-StarSeries-I-League-Season5-sk-vs-natus-vincere-m1-inferno
