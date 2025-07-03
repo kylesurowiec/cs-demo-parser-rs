@@ -4,11 +4,11 @@ This example shows how to create a heatmap from positions where players fired th
 
 :information_source: Uses radar images from `../_assets/radar` directory.
 
-See `heatmap.go` for the source code.
+See [`demoinfocs-rs/examples/heatmap.rs`](../../demoinfocs-rs/examples/heatmap.rs) for the source code.
 
 ## Running the example
 
-`go run heatmap.go -demo /path/to/demo > out.jpg`
+`cargo run --example heatmap -- -demo /path/to/demo > out.jpg`
 
 This will create a JPEG of a radar overview with dots on all the locations where shots were fired from.
 
