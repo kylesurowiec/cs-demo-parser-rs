@@ -1,5 +1,4 @@
 use demoinfocs_rs::parser::Parser;
-use demoinfocs_rs::proto::msg::all::CsvcMsgBspDecal;
 use std::env;
 use std::fs::File;
 
@@ -21,18 +20,12 @@ fn main() {
         | Err(err) => println!("failed to parse header: {:?}", err),
     }
 
-    parser.register_net_message_handler::<CsvcMsgBspDecal, _>(|msg| {
-        if let Some(pos) = &msg.pos {
-            println!(
-                "bullet decal at x={} y={} z={}",
-                pos.x.as_ref().map(|v| v.to_string()).unwrap_or_default(),
-                pos.y.as_ref().map(|v| v.to_string()).unwrap_or_default(),
-                pos.z.as_ref().map(|v| v.to_string()).unwrap_or_default()
-            );
-        }
+    parser.register_net_message_handler::<u8, _>(|_| {
+        // handle messages
     });
 
     if let Err(e) = parser.parse_to_end() {
         println!("error while parsing: {:?}", e);
     }
+    println!("frames parsed: {}", parser.current_frame());
 }

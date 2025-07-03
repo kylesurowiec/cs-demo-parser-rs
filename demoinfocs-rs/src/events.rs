@@ -1,5 +1,6 @@
 use crate::proto::msg::{self, csvc_msg_game_event};
 use crate::sendtables::entity::Vector;
+
 use std::collections::HashMap;
 use std::time::Duration;
 
@@ -536,6 +537,11 @@ pub struct ItemRefund {
 }
 
 #[derive(Clone, Debug)]
+pub struct RoundEnd;
+
+#[derive(Clone, Debug)]
+pub struct DataTablesParsed;
+
 pub struct TeamClanNameUpdated {
     pub old_name: String,
     pub new_name: String,
