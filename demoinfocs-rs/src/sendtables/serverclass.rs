@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fmt;
 
 use super::entity::FlattenedPropEntry;
@@ -10,6 +11,8 @@ pub struct ServerClass {
     pub data_table_name: String,
     pub base_classes: Vec<ServerClass>,
     pub flattened_props: Vec<FlattenedPropEntry>,
+    pub instance_baseline: Vec<u8>,
+    pub preprocessed_baseline: HashMap<i32, super::entity::PropertyValue>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -78,10 +81,13 @@ impl fmt::Display for ServerClass {
         };
         write!(
             f,
-            "serverClass: id={} \
-             name={}\n\tdataTableId={}\n\tdataTableName={}\n\tbaseClasses:\n\t\t{}\n\tproperties:\\
-             n\t\t{}",
-            self.id, self.name, self.data_table_id, self.data_table_name, base, props
+            "serverClass: id={} name={}\n\tdataTableId={}\n\tdataTableName={}\n\tbaseClasses:\n\t\t{}\n\tproperties:\n\t\t{}",
+            self.id,
+            self.name,
+            self.data_table_id,
+            self.data_table_name,
+            base,
+            props
         )
     }
 }
