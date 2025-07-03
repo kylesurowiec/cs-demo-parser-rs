@@ -26,5 +26,7 @@ impl Parser {
         Ok(())
     }
 
-    pub fn class_id_size(&self) -> u32 { self.class_id_size }
+    pub fn class_id_size(&self) -> u32 {
+        self.class_id_size
+    }
 }

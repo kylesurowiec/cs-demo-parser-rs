@@ -1,7 +1,8 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
-use crate::sendtables2;
 use crate::events;
+use crate::game_state::GameState;
+use crate::sendtables2;
 use prost::Message;
 use std::io::Read;
 use std::sync::Arc;
@@ -38,6 +39,7 @@ pub struct Parser<R: Read> {
     msg_dispatcher: Arc<EventDispatcher>,
     s2_tables: sendtables2::Parser,
     header: Option<DemoHeader>,
+    game_state: GameState,
 }
 
 impl<R: Read> Parser<R> {
@@ -49,6 +51,7 @@ impl<R: Read> Parser<R> {
             msg_dispatcher: EventDispatcher::new(),
             s2_tables: sendtables2::Parser::new(),
             header: None,
+            game_state: GameState::new(),
         }
     }
 
@@ -68,17 +71,27 @@ impl<R: Read> Parser<R> {
         self.msg_dispatcher.register_handler::<M, F>(handler)
     }
 
-    pub fn dispatch_event<E>(&self, event: E)
+    pub fn game_state(&self) -> &GameState {
+        &self.game_state
+    }
+
+    fn game_state_mut(&mut self) -> &mut GameState {
+        &mut self.game_state
+    }
+
+    pub fn dispatch_event<E>(&mut self, event: E)
     where
         E: Send + Sync + 'static,
     {
+        self.game_state_mut().handle_event(&event);
         self.event_dispatcher.dispatch(event);
     }
 
-    pub fn dispatch_net_message<M>(&self, msg: M)
+    pub fn dispatch_net_message<M>(&mut self, msg: M)
     where
         M: Send + Sync + 'static,
     {
+        self.game_state_mut().handle_net_message(&msg);
         self.msg_dispatcher.dispatch(msg);
     }
 
@@ -176,7 +189,9 @@ impl<R: Read> Parser<R> {
             | _ => Ok(true),
         }
         .map(|res| {
-            if res { self.dispatch_event(crate::events::FrameDone); }
+            if res {
+                self.dispatch_event(crate::events::FrameDone);
+            }
             res
         })
     }
@@ -208,7 +223,9 @@ impl<R: Read> Parser<R> {
         }
 
         let cont = msg_type != 0;
-        if cont { self.dispatch_event(crate::events::FrameDone); }
+        if cont {
+            self.dispatch_event(crate::events::FrameDone);
+        }
         Ok(cont)
     }
 }
