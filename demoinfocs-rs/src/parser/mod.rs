@@ -382,27 +382,6 @@ impl<R: Read> Parser<R> {
         let mut handler = std::mem::take(&mut self.game_events);
         handler.handle_game_event(self, msg);
         self.game_events = handler;
-
-        if let Some(id) = msg.eventid {
-            if let Some(name) = self.game_events.descriptor_name(id) {
-                match name {
-                    | "begin_new_match" => self.dispatch_event(crate::events::MatchStart),
-                    | "round_start" => self.dispatch_event(crate::events::RoundStart {
-                        time_limit: 0,
-                        frag_limit: 0,
-                        objective: String::new(),
-                    }),
-                    | "round_end" => self.dispatch_event(crate::events::RoundEnd {
-                        message: String::new(),
-                        reason: crate::events::RoundEndReason::StillInProgress,
-                        winner: 0,
-                        winner_state: None,
-                        loser_state: None,
-                    }),
-                    | _ => {},
-                }
-            }
-        }
     }
 
     pub fn handle_user_message(&self, um: &crate::proto::msg::all::CsvcMsgUserMessage) {

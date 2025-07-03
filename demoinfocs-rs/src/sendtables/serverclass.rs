@@ -1,7 +1,9 @@
 use std::collections::HashMap;
 use std::fmt;
+use std::io::Read;
 
 use super::entity::FlattenedPropEntry;
+use crate::bitreader::BitReader;
 
 #[derive(Debug, Default, Clone)]
 pub struct ServerClass {
@@ -56,6 +58,49 @@ impl ServerClass {
                 },
             })
             .collect()
+    }
+
+    pub fn new_entity<R: Read>(
+        &mut self,
+        reader: &mut BitReader<R>,
+        entity_id: i32,
+        serial_num: i32,
+    ) -> super::entity::Entity {
+        use super::entity::PropertyValue;
+        use super::entity::{Entity, Property};
+        use std::rc::Rc;
+
+        let props = self
+            .flattened_props
+            .iter()
+            .cloned()
+            .map(|entry| Property {
+                entry,
+                value: PropertyValue::default(),
+            })
+            .collect::<Vec<_>>();
+
+        let mut ent = Entity {
+            server_class: Rc::new(self.clone()),
+            id: entity_id,
+            serial_num,
+            props,
+        };
+
+        if !self.preprocessed_baseline.is_empty() {
+            ent.apply_baseline(&self.preprocessed_baseline);
+        } else if !self.instance_baseline.is_empty() {
+            let mut r = BitReader::new_small(&self.instance_baseline[..]);
+            self.preprocessed_baseline = ent.initialize_baseline(&mut r);
+        } else {
+            self.preprocessed_baseline = HashMap::new();
+        }
+
+        // Only apply updates if baseline data contains any bits
+        if self.instance_baseline.len() > 0 || self.preprocessed_baseline.len() > 0 {
+            ent.apply_update(reader);
+        }
+        ent
     }
 }
 

@@ -7,11 +7,14 @@ use super::propdecoder::{
     PROP_TYPE_ARRAY, PROP_TYPE_DATATABLE, SendPropertyFlags, SendTableProperty,
 };
 use super::serverclass::ServerClass;
+use std::collections::HashMap;
+use std::io::Read;
 
 #[derive(Default)]
 pub struct Parser {
     send_tables: Vec<SendTable>,
     server_classes: Vec<ServerClass>,
+    instance_baselines: HashMap<i32, Vec<u8>>,
 }
 
 #[derive(Default)]
@@ -103,18 +106,55 @@ impl Parser {
                 .iter()
                 .position(|t| t.name == dt_name)
                 .unwrap_or(0) as i32;
-            self.server_classes.push(ServerClass {
+            let mut sc = ServerClass {
                 id,
                 name,
                 data_table_id: dt_id,
                 data_table_name: dt_name,
                 ..Default::default()
-            });
+            };
+            if let Some(b) = self.instance_baselines.remove(&id) {
+                sc.instance_baseline = b;
+            }
+            self.server_classes.push(sc);
         }
         for i in 0..count {
             self.flatten_data_table(i);
         }
         Ok(())
+    }
+
+    pub fn set_instance_baseline(&mut self, sc_id: i32, data: Vec<u8>) {
+        if let Some(sc) = self.server_classes.get_mut(sc_id as usize) {
+            sc.instance_baseline = data;
+        } else {
+            self.instance_baselines.insert(sc_id, data);
+        }
+    }
+
+    pub fn class_bits(&self) -> u32 {
+        ((self.server_classes.len() as f32).log2().ceil()) as u32
+    }
+
+    pub fn read_enter_pvs<R: Read>(
+        &mut self,
+        reader: &mut BitReader<R>,
+        entity_id: i32,
+        existing: &mut HashMap<i32, super::entity::Entity>,
+    ) -> super::entity::Entity {
+        use crate::constants::ENTITY_HANDLE_SERIAL_NUMBER_BITS;
+        let class_id = reader.read_int(self.class_bits()) as i32;
+        let serial = reader.read_int(ENTITY_HANDLE_SERIAL_NUMBER_BITS) as i32;
+        if let Some(ent) = existing.get_mut(&entity_id) {
+            if ent.serial_num() == serial {
+                ent.apply_update(reader);
+                return ent.clone();
+            }
+            existing.remove(&entity_id);
+        }
+        let ent = self.server_classes[class_id as usize].new_entity(reader, entity_id, serial);
+        existing.insert(entity_id, ent.clone());
+        ent
     }
 
     fn flatten_data_table(&mut self, sc_idx: usize) {
