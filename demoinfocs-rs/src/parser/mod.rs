@@ -1,7 +1,9 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
 use crate::events;
+use crate::game_state::GameState;
 use crate::sendtables2;
+
 use prost::Message;
 use std::io::Read;
 use std::sync::Arc;
@@ -39,6 +41,7 @@ pub struct Parser<R: Read> {
     user_msg_dispatcher: Arc<EventDispatcher>,
     s2_tables: sendtables2::Parser,
     header: Option<DemoHeader>,
+    game_state: GameState,
 }
 
 impl<R: Read> Parser<R> {
@@ -51,6 +54,7 @@ impl<R: Read> Parser<R> {
             user_msg_dispatcher: EventDispatcher::new(),
             s2_tables: sendtables2::Parser::new(),
             header: None,
+            game_state: GameState::new(),
         }
     }
 
@@ -70,25 +74,27 @@ impl<R: Read> Parser<R> {
         self.msg_dispatcher.register_handler::<M, F>(handler)
     }
 
-    pub fn register_user_message_handler<M, F>(&self, handler: F) -> HandlerIdentifier
-    where
-        M: Send + Sync + 'static,
-        F: Fn(&M) + Send + Sync + 'static,
-    {
-        self.user_msg_dispatcher.register_handler::<M, F>(handler)
+    pub fn game_state(&self) -> &GameState {
+        &self.game_state
     }
 
-    pub fn dispatch_event<E>(&self, event: E)
+    fn game_state_mut(&mut self) -> &mut GameState {
+        &mut self.game_state
+    }
+
+    pub fn dispatch_event<E>(&mut self, event: E)
     where
         E: Send + Sync + 'static,
     {
+        self.game_state_mut().handle_event(&event);
         self.event_dispatcher.dispatch(event);
     }
 
-    pub fn dispatch_net_message<M>(&self, msg: M)
+    pub fn dispatch_net_message<M>(&mut self, msg: M)
     where
         M: Send + Sync + 'static,
     {
+        self.game_state_mut().handle_net_message(&msg);
         self.msg_dispatcher.dispatch(msg);
     }
 
