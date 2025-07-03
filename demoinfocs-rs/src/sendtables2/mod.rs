@@ -8,6 +8,7 @@ mod field;
 mod field_type;
 mod huffman;
 pub mod proto;
+mod reader;
 mod serializer;
 
 pub use class::Class;
@@ -22,6 +23,9 @@ pub struct Parser {
     class_id_size: u32,
     serializers: HashMap<String, Serializer>,
     classes_by_id: HashMap<i32, Class>,
+    classes_by_name: HashMap<String, Class>,
+    class_baselines: HashMap<i32, Vec<u8>>,
+    entities: HashMap<i32, Entity>,
 }
 
 impl Parser {
@@ -30,6 +34,9 @@ impl Parser {
             class_id_size: 0,
             serializers: HashMap::new(),
             classes_by_id: HashMap::new(),
+            classes_by_name: HashMap::new(),
+            class_baselines: HashMap::new(),
+            entities: HashMap::new(),
         }
     }
 
@@ -110,6 +117,68 @@ impl Parser {
 
     pub fn serializer(&self, name: &str) -> Option<&Serializer> {
         self.serializers.get(name)
+    }
+
+    pub fn entity(&self, index: i32) -> Option<&Entity> {
+        self.entities.get(&index)
+    }
+
+    /// Handles CSVCMsg_ClassInfo and registers classes with their serializers.
+    pub fn on_class_info(&mut self, msg: &msg::CsvcMsgClassInfo) {
+        for c in &msg.classes {
+            let class_id = c.class_id.unwrap_or_default();
+            let name = c.class_name.clone().unwrap_or_default();
+            let serializer = self.serializers.get(&name).cloned();
+            let class = Class {
+                class_id,
+                name: name.clone(),
+                serializer,
+            };
+            self.classes_by_id.insert(class_id, class.clone());
+            self.classes_by_name.insert(name, class);
+        }
+    }
+
+    /// Stores baseline data for a given class id.
+    pub fn set_instance_baseline(&mut self, class_id: i32, data: Vec<u8>) {
+        self.class_baselines.insert(class_id, data);
+    }
+
+    /// Parses a PacketEntities message and creates entities for enter operations.
+    pub fn parse_packet_entities(&mut self, msg: &msg::CsvcMsgPacketEntities) -> Vec<Entity> {
+        let mut created = Vec::new();
+        if let Some(data) = msg.entity_data.as_ref() {
+            let mut r = reader::Reader::new(data);
+            let mut index: i32 = -1;
+            let mut updates = msg.updated_entries.unwrap_or(0);
+            while updates > 0 {
+                let next = index + r.read_ubit_var() as i32 + 1;
+                index = next;
+                let cmd = r.read_bits(2);
+                if cmd & 0x01 == 0 {
+                    if cmd & 0x02 != 0 {
+                        let class_id = r.read_bits(self.class_id_size) as i32;
+                        let serial = r.read_bits(17) as i32;
+                        let _ = r.read_var_uint32();
+                        if let Some(class) = self.classes_by_id.get(&class_id) {
+                            let ent = Entity {
+                                index,
+                                serial,
+                                class: class.clone(),
+                            };
+                            self.entities.insert(index, ent.clone());
+                            created.push(ent);
+                        }
+                    } else {
+                        // existing entity update - skip
+                    }
+                } else if cmd & 0x02 != 0 {
+                    self.entities.remove(&index);
+                }
+                updates -= 1;
+            }
+        }
+        created
     }
 }
 

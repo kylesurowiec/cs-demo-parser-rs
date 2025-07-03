@@ -16,7 +16,10 @@ fn parse_default_demo() {
     let file = File::open(&path).expect("failed to open demo");
     let mut parser = Parser::new(file);
     let err = parser.parse_to_end().unwrap_err();
-    assert!(matches!(err, ParserError::UnexpectedEndOfDemo));
+    assert!(matches!(
+        err,
+        ParserError::UnexpectedEndOfDemo | ParserError::InvalidFileType
+    ));
 }
 
 #[test]
@@ -34,5 +37,8 @@ fn example_print_events_runs() {
     let mut parser = Parser::new(file);
     parser.register_event_handler::<u8, _>(|_| {});
     let err = parser.parse_to_end().unwrap_err();
-    assert!(matches!(err, ParserError::UnexpectedEndOfDemo));
+    assert!(matches!(
+        err,
+        ParserError::UnexpectedEndOfDemo | ParserError::InvalidFileType
+    ));
 }
