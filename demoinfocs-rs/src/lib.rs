@@ -5,6 +5,7 @@ pub mod proto;
 pub mod sendtables;
 pub mod sendtables2;
 pub mod events;
+pub mod game_state;
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right

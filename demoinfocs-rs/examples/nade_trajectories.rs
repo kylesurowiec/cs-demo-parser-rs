@@ -26,4 +26,5 @@ fn main() {
     if let Err(e) = parser.parse_to_end() {
         println!("error while parsing: {:?}", e);
     }
+    println!("frames parsed: {}", parser.current_frame());
 }

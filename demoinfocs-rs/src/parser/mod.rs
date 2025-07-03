@@ -1,8 +1,9 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
 use crate::sendtables2;
+use crate::sendtables::TablesParser;
+use crate::game_state::GameState;
 use crate::events;
-use prost::Message;
 use std::io::Read;
 use std::sync::Arc;
 
@@ -37,6 +38,11 @@ pub struct Parser<R: Read> {
     event_dispatcher: Arc<EventDispatcher>,
     msg_dispatcher: Arc<EventDispatcher>,
     s2_tables: sendtables2::Parser,
+    s1_tables: TablesParser,
+    server_classes: Vec<crate::sendtables::ServerClass>,
+    game_state: GameState,
+    current_frame: i32,
+    cancelled: bool,
     header: Option<DemoHeader>,
 }
 
@@ -48,6 +54,11 @@ impl<R: Read> Parser<R> {
             event_dispatcher: EventDispatcher::new(),
             msg_dispatcher: EventDispatcher::new(),
             s2_tables: sendtables2::Parser::new(),
+            s1_tables: TablesParser::new(),
+            server_classes: Vec::new(),
+            game_state: GameState::default(),
+            current_frame: 0,
+            cancelled: false,
             header: None,
         }
     }
@@ -80,6 +91,72 @@ impl<R: Read> Parser<R> {
         M: Send + Sync + 'static,
     {
         self.msg_dispatcher.dispatch(msg);
+    }
+
+    pub fn unregister_event_handler(&self, id: HandlerIdentifier) {
+        self.event_dispatcher.unregister_handler(id);
+    }
+
+    pub fn unregister_net_message_handler(&self, id: HandlerIdentifier) {
+        self.msg_dispatcher.unregister_handler(id);
+    }
+
+    pub fn server_classes(&self) -> &crate::sendtables::ServerClasses {
+        &self.server_classes
+    }
+
+    pub fn header(&self) -> Option<DemoHeader> {
+        self.header.clone()
+    }
+
+    pub fn game_state(&self) -> &GameState {
+        &self.game_state
+    }
+
+    pub fn current_frame(&self) -> i32 {
+        self.current_frame
+    }
+
+    pub fn current_time(&self) -> std::time::Duration {
+        std::time::Duration::from_secs_f32(self.current_frame as f32 * self.tick_time().as_secs_f32())
+    }
+
+    pub fn tick_rate(&self) -> f64 {
+        self.header
+            .as_ref()
+            .and_then(|h| if h.playback_time > 0.0 {
+                Some(h.playback_ticks as f64 / h.playback_time as f64)
+            } else { None })
+            .unwrap_or(0.0)
+    }
+
+    pub fn tick_time(&self) -> std::time::Duration {
+        if let Some(rate) = match self.tick_rate() {
+            r if r > 0.0 => Some(r),
+            _ => None,
+        } {
+            std::time::Duration::from_secs_f64(1.0 / rate)
+        } else {
+            std::time::Duration::from_secs(0)
+        }
+    }
+
+    pub fn progress(&self) -> f32 {
+        if let Some(h) = &self.header {
+            if h.playback_frames > 0 {
+                return self.current_frame as f32 / h.playback_frames as f32;
+            }
+        }
+        0.0
+    }
+
+    pub fn cancel(&mut self) {
+        self.cancelled = true;
+    }
+
+    pub fn close(&mut self) -> Result<(), ()> {
+        self.cancelled = true;
+        Ok(())
     }
 
     /// Parses the demo header if it hasn't been read yet.
@@ -134,23 +211,36 @@ impl<R: Read> Parser<R> {
 
     /// Parses the demo until the end.
     pub fn parse_to_end(&mut self) -> Result<(), ParserError> {
-        while self.parse_next_frame()? {}
+        while !self.cancelled {
+            if !self.parse_next_frame()? {
+                break;
+            }
+        }
         Ok(())
     }
 
     fn parse_frame_s1(&mut self) -> Result<bool, ParserError> {
         let cmd = self.bit_reader.read_int(8) as u8;
-        let _tick = self.bit_reader.read_signed_int(32);
+        let tick = self.bit_reader.read_signed_int(32);
+        self.game_state.set_ingame_tick(tick);
         self.bit_reader.read_int(8); // player slot
 
         match cmd {
             | 3 => Ok(true),  // synctick
             | 7 => Ok(false), // stop
-            | 4 | 6 | 9 | 8 => {
+            | 4 | 9 | 8 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
+                Ok(true)
+            },
+            | 6 => {
+                let len = self.bit_reader.read_signed_int(32) as usize;
+                let mut data = Vec::with_capacity(len);
+                for _ in 0..len { data.push(self.bit_reader.read_int(8) as u8); }
+                let _ = self.s1_tables.parse_packet(&data);
+                self.dispatch_event(crate::events::DataTablesParsed);
                 Ok(true)
             },
             | 5 => {
@@ -176,7 +266,10 @@ impl<R: Read> Parser<R> {
             | _ => Ok(true),
         }
         .map(|res| {
-            if res { self.dispatch_event(crate::events::FrameDone); }
+            if res {
+                self.current_frame += 1;
+                self.dispatch_event(crate::events::FrameDone);
+            }
             res
         })
     }
@@ -185,7 +278,8 @@ impl<R: Read> Parser<R> {
         let cmd = self.bit_reader.read_varint32();
         let msg_type = cmd & !64;
         let compressed = (cmd & 64) != 0;
-        let _tick = self.bit_reader.read_varint32();
+        let tick = self.bit_reader.read_varint32();
+        self.game_state.set_ingame_tick(tick as i32);
         let size = self.bit_reader.read_varint32();
 
         let mut buf = Vec::with_capacity(size as usize);
@@ -200,15 +294,17 @@ impl<R: Read> Parser<R> {
         }
 
         // Dispatch a very small subset of messages
-        if msg_type == crate::proto::msg::SvcMessages::SvcServerInfo as u32 {
-            if let Ok(msg) = crate::proto::msg::all::CsvcMsgServerInfo::decode(&buf[..]) {
-                self.s2_tables.on_server_info(&msg);
-                self.dispatch_net_message(msg);
+        if msg_type == 4 {
+            if self.s2_tables.parse_packet(&buf).is_ok() {
+                self.dispatch_event(crate::events::DataTablesParsed);
             }
         }
 
         let cont = msg_type != 0;
-        if cont { self.dispatch_event(crate::events::FrameDone); }
+        if cont {
+            self.current_frame += 1;
+            self.dispatch_event(crate::events::FrameDone);
+        }
         Ok(cont)
     }
 }
