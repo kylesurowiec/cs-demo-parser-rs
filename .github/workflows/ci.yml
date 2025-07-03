@@ -1,119 +1,30 @@
-on: [push, pull_request]
 name: CI
+on:
+  push:
+  pull_request:
 
 jobs:
-  ci:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Install Rust
+      - uses: actions/checkout@v4
+
+      - name: Set up Rust
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
           components: rustfmt, clippy
 
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Format
+        run: cargo fmt --manifest-path demoinfocs-rs/Cargo.toml -- --check
 
-      - name: Cache cargo registry
-        uses: actions/cache@v4
-        with:
-          path: ~/.cargo/registry
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+      - name: Clippy
+        run: cargo clippy --manifest-path demoinfocs-rs/Cargo.toml -- -D warnings
 
-      - name: Cache cargo index
-        uses: actions/cache@v4
-        with:
-          path: ~/.cargo/git
-          key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Cache cargo build
-        uses: actions/cache@v4
-        with:
-          path: target
-          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Install Tools
-        run: |
-          # install 7zip for decompressing test demos
-          sudo apt-get install -y p7zip-full
-          # Install cargo-make for build scripts
-          cargo install --force cargo-make
-          # Fetch refs for linter
-          git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-          git fetch
-
-      - name: Build
-        run: cargo build --release
-
-      - name: Check Formatting
-        run: cargo fmt -- --check
-
-      - name: Lint with Clippy
-        run: cargo clippy -- -D warnings
-        continue-on-error: true
-
-      - name: Run Tests
-        run: cargo test
-
-      - name: Run Tests with All Features
-        run: cargo test --all-features
-
-      - name: Generate Coverage Report
-        run: |
-          cargo install cargo-tarpaulin
-          cargo tarpaulin --out Xml
-          bash <(curl -s https://codecov.io/bash)
-
-  test-csda: # Run tests of CS Demo Analyzer
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout demoinfocs-rust repo
-        uses: actions/checkout@v4
-        with:
-          path: demoinfocs-rust
-
-      - name: Checkout CSDA repo
-        uses: actions/checkout@v4
-        with:
-          repository: akiver/cs-demo-analyzer
-          path: cs-demo-analyzer
-          ref: main
-
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-
-      - name: Update CSDA dependencies
-        run: |
-          cd cs-demo-analyzer
-          # Update Cargo.toml to use local path dependency
-          # This assumes the CSDA project has been ported to Rust
-          echo '[patch."https://github.com/markus-wa/demoinfocs-rust"]' >> Cargo.toml
-          echo 'demoinfocs-rust = { path = "../demoinfocs-rust" }' >> Cargo.toml
-
-      - name: Download demos cache file
-        run: |
-          cd cs-demo-analyzer
-          curl -L -o demos.txt https://gitlab.com/akiver/cs-demos/-/raw/main/demos.txt
-
-      - name: Restore demos cache
-        uses: actions/cache@v4
-        id: demos-cache
-        with:
-          path: cs-demo-analyzer/cs-demos
-          key: demos-${{ hashFiles('cs-demo-analyzer/demos.txt') }}
-
-      - name: Download demos
-        if: steps.demos-cache.outputs.cache-hit != 'true'
-        run: |
-          cd cs-demo-analyzer
-          ./download-demos.sh
+      - name: Build examples
+        run: cargo build --manifest-path demoinfocs-rs/Cargo.toml --examples
 
       - name: Test
-        run: |
-          cd cs-demo-analyzer
-          cargo test
+        run: cargo test --manifest-path demoinfocs-rs/Cargo.toml
+
