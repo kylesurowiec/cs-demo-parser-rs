@@ -82,6 +82,8 @@ pub struct GameState {
     pub entities: HashMap<i32, Entity>,
     pub bomb: Bomb,
 
+    pub equipment_mapping: HashMap<String, crate::common::EquipmentType>,
+
     pub rules: GameRules,
 }
 
