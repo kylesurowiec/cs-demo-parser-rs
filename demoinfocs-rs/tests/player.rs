@@ -63,3 +63,34 @@ fn active_weapon_and_weapons() {
     assert!(p.active_weapon().is_some());
     assert_eq!(1, p.weapons().len());
 }
+
+#[test]
+fn equipment_values_and_gear() {
+    let ent = make_entity(vec![
+        ("m_unCurrentEquipmentValue", 1600),
+        ("m_unRoundStartEquipmentValue", 1500),
+        ("m_unFreezetimeEndEquipmentValue", 1400),
+        ("m_pItemServices.m_bHasDefuser", 1),
+        ("m_pItemServices.m_bHasHelmet", 0),
+    ]);
+    let p = Player {
+        entity: Some(ent),
+        ..Default::default()
+    };
+    assert_eq!(1600, p.equipment_value_current());
+    assert_eq!(1500, p.equipment_value_round_start());
+    assert_eq!(1400, p.equipment_value_freezetime_end());
+    assert!(p.has_defuse_kit());
+    assert!(!p.has_helmet());
+}
+
+#[test]
+fn gear_alt_property_names() {
+    let ent = make_entity(vec![("m_bHasDefuser", 1), ("m_bHasHelmet", 1)]);
+    let p = Player {
+        entity: Some(ent),
+        ..Default::default()
+    };
+    assert!(p.has_defuse_kit());
+    assert!(p.has_helmet());
+}
