@@ -4,9 +4,6 @@ use crate::sendtables2;
 use crate::sendtables::TablesParser;
 use crate::game_state::GameState;
 use crate::events;
-use crate::sendtables2;
-use crate::game_state::GameState;
-use crate::sendtables2;
 
 use prost::Message;
 use std::io::Read;
@@ -51,7 +48,6 @@ pub struct Parser<R: Read> {
     cancelled: bool,
     game_events: crate::game_events::GameEventHandler,
     header: Option<DemoHeader>,
-    game_state: GameState,
 }
 
 impl<R: Read> Parser<R> {
@@ -70,7 +66,6 @@ impl<R: Read> Parser<R> {
             cancelled: false,
             game_events: crate::game_events::GameEventHandler::new(),
             header: None,
-            game_state: GameState::new(),
         }
     }
 
@@ -128,10 +123,6 @@ impl<R: Read> Parser<R> {
 
     pub fn header(&self) -> Option<DemoHeader> {
         self.header.clone()
-    }
-
-    pub fn game_state(&self) -> &GameState {
-        &self.game_state
     }
 
     pub fn current_frame(&self) -> i32 {
