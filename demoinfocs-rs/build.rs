@@ -66,7 +66,11 @@ fn compile(input: &str, output: &str) -> Result<(), Box<dyn std::error::Error>> 
     std::fs::write(out_dir.join("mod.rs"), mod_rs)?;
     let mut config = prost_build::Config::new();
     config.out_dir(&out_dir);
-    config.compile_protos(&protos, &[in_dir.as_path(), Path::new("/usr/include")])?;
+    let mut includes: Vec<PathBuf> = vec![in_dir.clone()];
+    if let Ok(protoc_include) = std::env::var("PROTOC_INCLUDE") {
+        includes.push(PathBuf::from(protoc_include));
+    }
+    config.compile_protos(&protos, &includes)?;
     Ok(())
 }
 
