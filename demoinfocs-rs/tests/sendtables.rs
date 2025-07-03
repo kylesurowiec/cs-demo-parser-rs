@@ -66,7 +66,7 @@ fn test_server_class_string() {
         data_table_name: "ADataTable".into(),
         ..Default::default()
     };
-    let expected = sc.to_string();
+    let expected = "serverClass: id=1 name=TestClass\n\tdataTableId=2\n\tdataTableName=ADataTable\n\tbaseClasses:\n\t\t-\n\tproperties:\n\t\t-";
     assert_eq!(expected, sc.to_string());
     sc.base_classes = vec![
         ServerClass {
@@ -106,7 +106,7 @@ fn test_server_class_string() {
             array_element_prop: None,
         },
     ];
-    let expected2 = sc.to_string();
+    let expected2 = "serverClass: id=1 name=TestClass\n\tdataTableId=2\n\tdataTableName=ADataTable\n\tbaseClasses:\n\t\tAnotherClass\n\t\tYetAnotherClass\n\tproperties:\n\t\tprop1\n\t\tprop2";
     assert_eq!(expected2, sc.to_string());
 }
 

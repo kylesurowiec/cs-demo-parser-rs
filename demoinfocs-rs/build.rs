@@ -1,7 +1,7 @@
-use std::path::{Path, PathBuf};
-use sevenz_rust::decompress_file;
 use reqwest::blocking::get;
+use sevenz_rust::decompress_file;
 use std::io::Write;
+use std::path::{Path, PathBuf};
 
 /// Recursively collects all .proto files from the given directory and its subdirectories.
 ///
@@ -11,19 +11,19 @@ use std::io::Write;
 /// # Returns
 /// A vector of paths to all .proto files found
 fn collect_proto_files(dir: &Path) -> Result<Vec<PathBuf>, std::io::Error> {
-   let mut files = Vec::new();
-   if dir.is_dir() {
-       for entry in std::fs::read_dir(dir)? {
-           let entry = entry?;
-           let path = entry.path();
-           if path.is_dir() {
-               files.extend(collect_proto_files(&path)?);
-           } else if path.extension().map_or(false, |ext| ext == "proto") {
-               files.push(path);
-           }
-       }
-   }
-   Ok(files)
+    let mut files = Vec::new();
+    if dir.is_dir() {
+        for entry in std::fs::read_dir(dir)? {
+            let entry = entry?;
+            let path = entry.path();
+            if path.is_dir() {
+                files.extend(collect_proto_files(&path)?);
+            } else if path.extension().map_or(false, |ext| ext == "proto") {
+                files.push(path);
+            }
+        }
+    }
+    Ok(files)
 }
 
 /// Compiles protocol buffer files from the input directory to Rust code in the output directory.
@@ -36,35 +36,38 @@ fn collect_proto_files(dir: &Path) -> Result<Vec<PathBuf>, std::io::Error> {
 /// - Skips certain conflicting proto files (base_gcmessages_csgo.proto, steamworkssdk.proto, etc.)
 /// - Generates a mod.rs file that exports all compiled proto modules
 fn compile(input: &str, output: &str) -> Result<(), Box<dyn std::error::Error>> {
-   let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
-   let in_dir = manifest_dir.join(input);
-   let out_dir = manifest_dir.join("src").join("proto").join(output);
-   std::fs::create_dir_all(&out_dir)?;
-   let mut protos = collect_proto_files(&in_dir)?;
-   // `base_gcmessages_csgo.proto` duplicates several definitions from
-   // `base_gcmessages.proto` and compiling both at the same time causes
-   // conflicts in `prost-build`. Skip the CS:GO specific variant for now.
-   protos.retain(|p| {
-       let name = p.file_name().and_then(|f| f.to_str());
-       match name {
-           | Some("base_gcmessages_csgo.proto") => false,
-           | Some(n) if n.ends_with("steamworkssdk.proto") => false,
-           | Some("enums_clientserver.proto") => false,
-           | _ => true,
-       }
-   });
-   let mut mod_rs = String::new();
-   for proto in &protos {
-       println!("cargo:rerun-if-changed={} ", proto.display());
-       if let Some(stem) = proto.file_stem().and_then(|s| s.to_str()) {
-           mod_rs.push_str(&format!("pub mod {};\n", stem));
-       }
-   }
-   std::fs::write(out_dir.join("mod.rs"), mod_rs)?;
-   let mut config = prost_build::Config::new();
-   config.out_dir(&out_dir);
-   config.compile_protos(&protos, &[in_dir.as_path(), Path::new("/usr/include")])?;
-   Ok(())
+    let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let in_dir = manifest_dir.join(input);
+    let out_dir = manifest_dir.join("src").join("proto").join(output);
+    std::fs::create_dir_all(&out_dir)?;
+    let mut protos = collect_proto_files(&in_dir)?;
+    // `base_gcmessages_csgo.proto` duplicates several definitions from
+    // `base_gcmessages.proto` and compiling both at the same time causes
+    // conflicts in `prost-build`. Skip the CS:GO specific variant for now.
+    protos.retain(|p| {
+        let name = p.file_name().and_then(|f| f.to_str());
+        match name {
+            | Some("base_gcmessages_csgo.proto") => false,
+            | Some(n) if n.ends_with("steamworkssdk.proto") => false,
+            | Some("enums_clientserver.proto") => false,
+            | _ => true,
+        }
+    });
+    let mut mod_rs = String::new();
+    for proto in &protos {
+        println!("cargo:rerun-if-changed={} ", proto.display());
+        if let Some(stem) = proto.file_stem().and_then(|s| s.to_str()) {
+            mod_rs.push_str(&format!("pub mod {};\n", stem));
+        }
+    }
+    mod_rs.push_str("#[path = \"_.rs\"]\n");
+    mod_rs.push_str("pub mod all;\n");
+    mod_rs.push_str("pub use all::*;\n");
+    std::fs::write(out_dir.join("mod.rs"), mod_rs)?;
+    let mut config = prost_build::Config::new();
+    config.out_dir(&out_dir);
+    config.compile_protos(&protos, &[in_dir.as_path(), Path::new("/usr/include")])?;
+    Ok(())
 }
 
 /// Sets up CS2 demo files by downloading and extracting demo archives.
@@ -79,14 +82,14 @@ fn compile(input: &str, output: &str) -> Result<(), Box<dyn std::error::Error>> 
 /// - `SYNC_LATEST_DEMOS` - Force re-download of all demo archives if set to "1"
 fn setup_demos() -> Result<(), Box<dyn std::error::Error>> {
     println!("cargo:warning=setup_demos() starting...");
-    
+
     if std::env::var_os("DEMOINFOCS_SKIP_DEMOS").is_some() {
         println!("cargo:warning=DEMOINFOCS_SKIP_DEMOS is set, skipping demo setup");
         return Ok(());
     }
 
     println!("cargo:rerun-if-changed=demos-external");
-    
+
     // Debug current directory
     if let Ok(cwd) = std::env::current_dir() {
         println!("cargo:warning=Current directory: {}", cwd.display());
@@ -173,10 +176,12 @@ fn setup_demos() -> Result<(), Box<dyn std::error::Error>> {
     } else {
     */
     if !has_7z {
-        println!("cargo:warning=No .7z files found in demos-external. Set FETCH_LATEST_DEMOS=1 to fetch missing or SYNC_LATEST_DEMOS=1 to re-download all demos. No downloads will occur unless a flag is set.");
+        println!(
+            "cargo:warning=No .7z files found in demos-external. Set FETCH_LATEST_DEMOS=1 to fetch missing or SYNC_LATEST_DEMOS=1 to re-download all demos. No downloads will occur unless a flag is set."
+        );
     }
     //}
-    
+
     println!("cargo:warning=Listing demos-external contents:");
     if let Ok(entries) = demos_external.read_dir() {
         for entry in entries.filter_map(Result::ok) {
@@ -192,7 +197,7 @@ fn setup_demos() -> Result<(), Box<dyn std::error::Error>> {
     if let Err(e) = extract_demos() {
         eprintln!("cargo:warning=extract_demos failed: {}", e);
     }
-    
+
     println!("cargo:warning=setup_demos() complete");
     Ok(())
 }
@@ -207,17 +212,31 @@ fn download_real_7z_if_pointer(path: &Path) -> Result<(), Box<dyn std::error::Er
         // Already a real file
         return Ok(());
     }
-    println!("cargo:warning=Attempting to download real {} from GitLab...", filename);
-    let url = format!("https://gitlab.com/markus-wa/cs-demos-2/-/raw/master/{}", filename);
+    println!(
+        "cargo:warning=Attempting to download real {} from GitLab...",
+        filename
+    );
+    let url = format!(
+        "https://gitlab.com/markus-wa/cs-demos-2/-/raw/master/{}",
+        filename
+    );
     let resp = get(&url)?;
     if !resp.status().is_success() {
-        println!("cargo:warning=Failed to download {}: HTTP {}", filename, resp.status());
+        println!(
+            "cargo:warning=Failed to download {}: HTTP {}",
+            filename,
+            resp.status()
+        );
         return Err(format!("Failed to download {}: HTTP {}", filename, resp.status()).into());
     }
     let mut file = std::fs::File::create(path)?;
     let bytes = resp.bytes()?;
     file.write_all(&bytes)?;
-    println!("cargo:warning=Downloaded {} ({} bytes)", filename, bytes.len());
+    println!(
+        "cargo:warning=Downloaded {} ({} bytes)",
+        filename,
+        bytes.len()
+    );
     Ok(())
 }
 
@@ -244,7 +263,11 @@ fn extract_demos() -> Result<(), Box<dyn std::error::Error>> {
             found_7z = true;
             let filename = path.file_name().unwrap_or_default().to_string_lossy();
             if let Ok(metadata) = path.metadata() {
-                println!("cargo:warning=Found 7z: {} ({} bytes)", filename, metadata.len());
+                println!(
+                    "cargo:warning=Found 7z: {} ({} bytes)",
+                    filename,
+                    metadata.len()
+                );
             }
             // --- DOWNLOAD FUNCTIONALITY DISABLED ---
             /*
@@ -255,11 +278,11 @@ fn extract_demos() -> Result<(), Box<dyn std::error::Error>> {
             */
             println!("cargo:warning=Attempting to extract {}...", filename);
             match decompress_file(&path, demos_dir) {
-                Ok(_) => println!("cargo:warning=Successfully extracted {}", filename),
-                Err(e) => {
+                | Ok(_) => println!("cargo:warning=Successfully extracted {}", filename),
+                | Err(e) => {
                     println!("cargo:warning=Failed to extract {}: {}", filename, e);
                     any_error = true;
-                }
+                },
             }
         }
     }
@@ -281,14 +304,14 @@ fn extract_demos() -> Result<(), Box<dyn std::error::Error>> {
 /// - `DEMOINFOCS_SKIP_PROTO` - Skip protocol buffer compilation
 /// - `DEMOINFOCS_SKIP_DEMOS` - Skip demo file setup
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-   println!("cargo:warning=Build script starting...");
-   
-   if std::env::var_os("DEMOINFOCS_SKIP_PROTO").is_none() {
-       compile("proto/msg", "msg")?;
-   }
-   
-   // Setup demos (non-critical - don't fail build if it fails)
-   
-   println!("cargo:warning=Build script complete");
-   Ok(())
+    println!("cargo:warning=Build script starting...");
+
+    if std::env::var_os("DEMOINFOCS_SKIP_PROTO").is_none() {
+        compile("proto/msg", "msg")?;
+    }
+
+    // Setup demos (non-critical - don't fail build if it fails)
+
+    println!("cargo:warning=Build script complete");
+    Ok(())
 }

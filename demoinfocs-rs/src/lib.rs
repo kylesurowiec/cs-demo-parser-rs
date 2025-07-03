@@ -1,7 +1,10 @@
 pub mod bitreader;
+pub mod common;
+pub mod constants;
 pub mod dispatcher;
 pub mod events;
 pub mod game_events;
+pub mod game_state;
 pub mod parser;
 pub mod proto;
 pub mod sendtables;
