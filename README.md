@@ -1,9 +1,22 @@
 # cs-demo-parser
 
-## Running the Rust tests
+This repository contains a Counter‑Strike demo parser that is now **entirely
+implemented in Rust**. The previous Go implementation has been removed.
 
-The Rust portion of this repository lives under `demoinfocs-rs`. To run its
-tests, invoke `cargo` with an explicit manifest path:
+## Building
+
+Build the crate using `cargo` from the repository root and pointing to the
+crate's manifest:
+
+```bash
+cargo build --manifest-path demoinfocs-rs/Cargo.toml
+```
+
+This builds the library and all examples.
+
+## Testing
+
+Run the tests with:
 
 ```bash
 cargo test --manifest-path demoinfocs-rs/Cargo.toml
@@ -12,15 +25,14 @@ cargo test --manifest-path demoinfocs-rs/Cargo.toml
 Running `cargo test` from the repository root fails because there is no
 `Cargo.toml` at that location.
 
+## Examples
 
-## Running the Rust examples
-
-Several short examples live under `demoinfocs-rs/examples`. Run them with
-`cargo run` passing the demo path via the `-demo` flag:
+Several short examples live under `demoinfocs-rs/examples`. Execute any of them
+by passing the demo path with the `-demo` flag:
 
 ```bash
 cargo run --example heatmap -- -demo demo.dem
 ```
 
-Replace `heatmap` with any of the other example names such as
-`nade_trajectories` or `print_events`.
+Replace `heatmap` with any other example name such as `nade_trajectories` or
+`print_events`.
