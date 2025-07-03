@@ -104,7 +104,9 @@ impl Parser {
         Ok(())
     }
 
-    pub fn class_id_size(&self) -> u32 { self.class_id_size }
+    pub fn class_id_size(&self) -> u32 {
+        self.class_id_size
+    }
 
     pub fn serializer(&self, name: &str) -> Option<&Serializer> {
         self.serializers.get(name)

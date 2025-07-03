@@ -6,7 +6,7 @@ use std::thread;
 
 #[test]
 fn test_parser_handlers() {
-    let p = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut p = Parser::new(Cursor::new(Vec::<u8>::new()));
     let ev_count = Arc::new(AtomicUsize::new(0));
     let ev_c = ev_count.clone();
     p.register_event_handler::<u8, _>(move |v| {
