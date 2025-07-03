@@ -3,7 +3,9 @@ use crate::proto::msg::{self, all as proto};
 use prost::Message;
 
 use super::entity::FlattenedPropEntry;
-use super::propdecoder::{SendPropertyFlags, SendTableProperty, PROP_TYPE_ARRAY, PROP_TYPE_DATATABLE};
+use super::propdecoder::{
+    PROP_TYPE_ARRAY, PROP_TYPE_DATATABLE, SendPropertyFlags, SendTableProperty,
+};
 use super::serverclass::ServerClass;
 
 #[derive(Default)]
@@ -44,9 +46,13 @@ impl Default for SendPropEntry {
 }
 
 impl Parser {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 
-    pub fn server_classes(&self) -> &[ServerClass] { &self.server_classes }
+    pub fn server_classes(&self) -> &[ServerClass] {
+        &self.server_classes
+    }
 
     pub fn parse_packet(&mut self, data: &[u8]) -> Result<(), prost::DecodeError> {
         let mut r = BitReader::new_small(data);
@@ -65,7 +71,10 @@ impl Parser {
             if st.is_end.unwrap_or(false) {
                 break;
             }
-            let mut table = SendTable { name: st.net_table_name.unwrap_or_default(), ..Default::default() };
+            let mut table = SendTable {
+                name: st.net_table_name.unwrap_or_default(),
+                ..Default::default()
+            };
             for p in st.props {
                 let prop = SendTableProperty {
                     flags: SendPropertyFlags::from_bits_truncate(p.flags.unwrap_or(0) as u32),

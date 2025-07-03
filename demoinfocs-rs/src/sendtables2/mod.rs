@@ -2,13 +2,13 @@ use crate::proto::msg::all as msg;
 use prost::Message;
 use std::collections::HashMap;
 
-pub mod proto;
-mod field_type;
-mod field;
-mod serializer;
 mod class;
 mod entity;
+mod field;
+mod field_type;
 mod huffman;
+pub mod proto;
+mod serializer;
 
 pub use class::Class;
 pub use entity::Entity;
@@ -123,7 +123,9 @@ fn read_var_uint32(slice: &mut &[u8]) -> u32 {
         let b = slice[0];
         *slice = &slice[1..];
         x |= ((b & 0x7f) as u32) << s;
-        if b & 0x80 == 0 { break; }
+        if b & 0x80 == 0 {
+            break;
+        }
         s += 7;
     }
     x
