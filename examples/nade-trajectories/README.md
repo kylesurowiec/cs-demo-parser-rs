@@ -6,7 +6,7 @@ This example shows how to create a overview of grenade trajectories of a match.
 
 ## Running the example
 
-`go run nade_trajectories.go -demo /path/to/demo > out.jpg`
+`cargo run --example nade_trajectories -- -demo /path/to/demo > out.jpg`
 
 This will create a JPEG with grenade trajectories of the first five rounds. The reason it doesn't do more trajectories is because the image would look quite cluttered otherwise.
 

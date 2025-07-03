@@ -4,7 +4,7 @@ This example shows how to use the library to print out information of some key g
 
 ## Running the example
 
-`go run print_events.go -demo /path/to/demo`
+`cargo run --example print_events -- -demo /path/to/demo`
 
 ### Sample output
 

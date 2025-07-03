@@ -6,9 +6,9 @@ This example shows how to use unhandled data of entities by registering entity-c
 
 You can use the build tag `debugdemoinfocs` and the set `debugServerClasses=YES` with ldflags to find interesting server-classes and their properties.
 
-Example: `go run myprogram.go -tags debugdemoinfocs -ldflags '-X github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs.debugServerClasses=YES' | grep ServerClass`
+Example: `cargo run --example myprogram -- -tags debugdemoinfocs -ldflags '-X github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs.debugServerClasses=YES' | grep ServerClass`
 
-This gives you a list of all server-classes from any demo that was parsed in `myprogram.go`.
+This gives you a list of all server-classes from any demo that was parsed in `myprogram.rs`.
 
 <details>
 <summary>Sample output</summary>
@@ -839,7 +839,7 @@ p.RegisterEventHandler(func(events.DataTablesParsed) {
 
 The Example prints the life-cycle of all AWPs during the game - i.e. who picked up whose AWP.
 
-`go run server_classes.go -demo /path/to/demo`
+`cargo run --example server_classes -- -demo /path/to/demo`
 
 Sample output:
 

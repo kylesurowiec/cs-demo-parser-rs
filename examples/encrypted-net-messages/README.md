@@ -9,6 +9,6 @@ The key then needs to be passed to `ParserConfig.NetMessageDecryptionKey`.
 
 ## Run
 
-    go run enc_net_nsg.go -demo path/to/demo.dem -info path/to/demo.dem.info
+    cargo run --example encrypted_net_messages -- -demo path/to/demo.dem -info path/to/demo.dem.info
 
 This prints chat messages from the passed demo (assuming the `.dem.info` file contains the correct decryption key).
