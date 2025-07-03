@@ -44,7 +44,7 @@ impl From<i32> for PropertyType {
 }
 
 bitflags! {
-    #[derive(Clone, Copy)]
+    #[derive(Debug, Clone, Copy, Default)]
     pub struct SendPropertyFlags: u32 {
         const UNSIGNED = 1 << 0;
         const COORD = 1 << 1;
@@ -69,7 +69,7 @@ bitflags! {
     }
 }
 
-#[derive(Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct SendTableProperty {
     pub flags: SendPropertyFlags,
     pub low_value: f32,

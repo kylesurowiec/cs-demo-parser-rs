@@ -31,7 +31,15 @@ impl GameEventHandler {
         }
     }
 
-    pub fn handle_game_event<R: Read>(&self, parser: &Parser<R>, event: &msg::CsvcMsgGameEvent) {
+    pub fn descriptor_name(&self, id: i32) -> Option<&str> {
+        self.descriptors.get(&id).map(|d| d.name.as_str())
+    }
+
+    pub fn handle_game_event<R: Read>(
+        &self,
+        parser: &mut Parser<R>,
+        event: &msg::CsvcMsgGameEvent,
+    ) {
         let id = match event.eventid {
             | Some(v) => v,
             | None => return,
@@ -43,8 +51,18 @@ impl GameEventHandler {
 
         match desc.name.as_str() {
             | "begin_new_match" => parser.dispatch_event(events::MatchStart),
-            | "round_start" => parser.dispatch_event(events::RoundStart),
-            | "round_end" => parser.dispatch_event(events::RoundEnd),
+            | "round_start" => parser.dispatch_event(events::RoundStart {
+                time_limit: 0,
+                frag_limit: 0,
+                objective: String::new(),
+            }),
+            | "round_end" => parser.dispatch_event(events::RoundEnd {
+                message: String::new(),
+                reason: events::RoundEndReason::StillInProgress,
+                winner: 0,
+                winner_state: None,
+                loser_state: None,
+            }),
             | _ => {},
         }
     }

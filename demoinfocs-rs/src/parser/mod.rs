@@ -4,8 +4,7 @@ use crate::events;
 use crate::game_state::GameState;
 use crate::sendtables::TablesParser;
 use crate::sendtables2;
-mod datatable;
-use crate::parser::datatable;
+pub mod datatable;
 
 use prost::Message;
 use std::collections::HashMap;
@@ -90,6 +89,14 @@ impl<R: Read> Parser<R> {
         self.msg_dispatcher.register_handler::<M, F>(handler)
     }
 
+    pub fn register_user_message_handler<M, F>(&self, handler: F) -> HandlerIdentifier
+    where
+        M: Send + Sync + 'static,
+        F: Fn(&M) + Send + Sync + 'static,
+    {
+        self.user_msg_dispatcher.register_handler::<M, F>(handler)
+    }
+
     pub fn game_state(&self) -> &GameState {
         &self.game_state
     }
@@ -125,6 +132,10 @@ impl<R: Read> Parser<R> {
 
     pub fn unregister_net_message_handler(&self, id: HandlerIdentifier) {
         self.msg_dispatcher.unregister_handler(id);
+    }
+
+    pub fn unregister_user_message_handler(&self, id: HandlerIdentifier) {
+        self.user_msg_dispatcher.unregister_handler(id);
     }
 
     pub fn server_classes(&self) -> &crate::sendtables::ServerClasses {
@@ -360,6 +371,29 @@ impl<R: Read> Parser<R> {
 
     pub fn on_game_event_list(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEventList) {
         self.game_events.handle_game_event_list(msg);
+    }
+
+    pub fn on_game_event(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEvent) {
+        if let Some(id) = msg.eventid {
+            if let Some(name) = self.game_events.descriptor_name(id) {
+                match name {
+                    | "begin_new_match" => self.dispatch_event(crate::events::MatchStart),
+                    | "round_start" => self.dispatch_event(crate::events::RoundStart {
+                        time_limit: 0,
+                        frag_limit: 0,
+                        objective: String::new(),
+                    }),
+                    | "round_end" => self.dispatch_event(crate::events::RoundEnd {
+                        message: String::new(),
+                        reason: crate::events::RoundEndReason::StillInProgress,
+                        winner: 0,
+                        winner_state: None,
+                        loser_state: None,
+                    }),
+                    | _ => {},
+                }
+            }
+        }
     }
 
     pub fn handle_user_message(&self, um: &crate::proto::msg::all::CsvcMsgUserMessage) {

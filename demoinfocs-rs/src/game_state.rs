@@ -72,6 +72,8 @@ pub struct GameState {
     pub t_state: TeamState,
     pub ct_state: TeamState,
 
+    pub ingame_tick: i32,
+
     pub players_by_user_id: HashMap<i32, Player>,
     pub players_by_entity_id: HashMap<i32, Player>,
 
@@ -106,4 +108,8 @@ impl GameState {
     pub fn handle_event<E>(&mut self, _event: &E) {}
 
     pub fn handle_net_message<M>(&mut self, _msg: &M) {}
+
+    pub fn set_ingame_tick(&mut self, tick: i32) {
+        self.ingame_tick = tick;
+    }
 }

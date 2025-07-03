@@ -23,14 +23,14 @@ impl PropertyValue {
     }
 }
 
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct FlattenedPropEntry {
     pub prop: SendTableProperty,
     pub array_element_prop: Option<SendTableProperty>,
     pub name: String,
 }
 
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct Property {
     pub entry: FlattenedPropEntry,
     pub value: PropertyValue,
@@ -55,6 +55,7 @@ impl Property {
     }
 }
 
+#[derive(Debug, Clone)]
 pub struct Entity {
     pub server_class: ServerClassRef,
     pub id: i32,
@@ -95,5 +96,11 @@ impl Entity {
             .expect("property not found")
             .value
             .clone()
+    }
+
+    pub fn position(&self) -> Vector {
+        self.property_value("m_vecOrigin")
+            .map(|v| v.vector_val)
+            .unwrap_or_default()
     }
 }
