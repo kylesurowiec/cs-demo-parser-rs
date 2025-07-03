@@ -19,3 +19,14 @@ pub struct GrenadeProjectile {
     pub trajectory2: Vec<TrajectoryEntry>,
     pub unique_id: i64,
 }
+
+use std::sync::atomic::{AtomicI64, Ordering};
+
+static NEXT_ID: AtomicI64 = AtomicI64::new(1);
+
+pub fn new_grenade_projectile() -> GrenadeProjectile {
+    GrenadeProjectile {
+        unique_id: NEXT_ID.fetch_add(1, Ordering::Relaxed),
+        ..Default::default()
+    }
+}

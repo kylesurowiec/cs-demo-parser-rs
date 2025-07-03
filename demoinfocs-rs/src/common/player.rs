@@ -32,3 +32,12 @@ pub struct Player {
     pub is_unknown: bool,
     pub previous_frame_position: Vector,
 }
+
+impl Player {
+    pub fn position(&self) -> Vector {
+        self.entity
+            .as_ref()
+            .and_then(|_| Some(self.last_alive_position))
+            .unwrap_or(self.last_alive_position)
+    }
+}
