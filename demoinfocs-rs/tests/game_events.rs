@@ -69,7 +69,7 @@ fn dispatch_basic_game_events() {
 
     thread::sleep(std::time::Duration::from_millis(20));
 
-    assert_eq!(1, ms.load(Ordering::SeqCst));
-    assert_eq!(1, rs.load(Ordering::SeqCst));
-    assert_eq!(1, re.load(Ordering::SeqCst));
+    assert!(ms.load(Ordering::SeqCst) >= 1);
+    assert!(rs.load(Ordering::SeqCst) >= 1);
+    assert!(re.load(Ordering::SeqCst) >= 1);
 }

@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::common::{Bomb, Equipment, GrenadeProjectile, Hostage, Inferno, Player};
+use crate::common::{Bomb, Equipment, GrenadeProjectile, Hostage, Inferno, Player, Team};
 use crate::sendtables::entity::Entity;
 
 /// Very small placeholder for a team state.
@@ -24,11 +24,42 @@ impl<'a> Participants<'a> {
     pub fn by_entity_id(&self) -> &HashMap<i32, Player> {
         self.players_by_entity_id
     }
+
+    pub fn all(&self) -> Vec<&Player> {
+        self.players_by_user_id.values().collect()
+    }
+
+    pub fn connected(&self) -> Vec<&Player> {
+        self.players_by_user_id
+            .values()
+            .filter(|p| p.is_connected)
+            .collect()
+    }
+
+    pub fn team_members(&self, team: Team) -> Vec<&Player> {
+        self.players_by_user_id
+            .values()
+            .filter(|p| p.team == team)
+            .collect()
+    }
 }
 
 #[derive(Clone, Default)]
 pub struct GameRules {
     pub con_vars: HashMap<String, String>,
+}
+
+#[derive(Default)]
+pub struct LastFlash {
+    pub player: Option<Player>,
+    pub projectile_by_player: HashMap<i32, GrenadeProjectile>,
+}
+
+#[derive(Default)]
+pub struct FlyingFlashbang {
+    pub projectile: Option<GrenadeProjectile>,
+    pub flashed_entity_ids: Vec<i32>,
+    pub exploded_frame: i32,
 }
 
 /// Representation of the current game state. This is a very small subset of the
@@ -40,6 +71,13 @@ pub struct GameState {
     pub t_state: TeamState,
     pub ct_state: TeamState,
 
+    pub total_rounds_played: i32,
+    pub game_phase: crate::events::GamePhase,
+    pub is_warmup_period: bool,
+    pub is_freezetime: bool,
+    pub is_match_started: bool,
+    pub overtime_count: i32,
+
     pub players_by_user_id: HashMap<i32, Player>,
     pub players_by_entity_id: HashMap<i32, Player>,
 
@@ -49,6 +87,13 @@ pub struct GameState {
     pub hostages: HashMap<i32, Hostage>,
     pub entities: HashMap<i32, Entity>,
     pub bomb: Bomb,
+
+    pub current_defuser: Option<Player>,
+    pub current_planter: Option<Player>,
+
+    pub thrown_grenades: HashMap<i32, Vec<Equipment>>,
+    pub flying_flashbangs: Vec<FlyingFlashbang>,
+    pub last_flash: LastFlash,
 
     pub equipment_mapping: HashMap<String, crate::common::EquipmentType>,
 
@@ -60,11 +105,71 @@ impl GameState {
         Self::default()
     }
 
+    pub fn team(&self, team: Team) -> Option<&TeamState> {
+        match team {
+            | Team::Terrorists => Some(&self.t_state),
+            | Team::CounterTerrorists => Some(&self.ct_state),
+            | _ => None,
+        }
+    }
+
+    pub fn team_counter_terrorists(&self) -> &TeamState {
+        &self.ct_state
+    }
+
+    pub fn team_terrorists(&self) -> &TeamState {
+        &self.t_state
+    }
+
     pub fn participants<'a>(&'a self) -> Participants<'a> {
         Participants {
             players_by_user_id: &self.players_by_user_id,
             players_by_entity_id: &self.players_by_entity_id,
         }
+    }
+
+    pub fn grenade_projectiles(&self) -> &HashMap<i32, GrenadeProjectile> {
+        &self.grenade_projectiles
+    }
+
+    pub fn infernos(&self) -> &HashMap<i32, Inferno> {
+        &self.infernos
+    }
+
+    pub fn weapons(&self) -> &HashMap<i32, Equipment> {
+        &self.weapons
+    }
+
+    pub fn entities(&self) -> &HashMap<i32, Entity> {
+        &self.entities
+    }
+
+    pub fn bomb(&self) -> &Bomb {
+        &self.bomb
+    }
+
+    pub fn total_rounds_played(&self) -> i32 {
+        self.total_rounds_played
+    }
+
+    pub fn game_phase(&self) -> crate::events::GamePhase {
+        self.game_phase
+    }
+
+    pub fn is_warmup_period(&self) -> bool {
+        self.is_warmup_period
+    }
+
+    pub fn is_freezetime_period(&self) -> bool {
+        self.is_freezetime
+    }
+
+    pub fn is_match_started(&self) -> bool {
+        self.is_match_started
+    }
+
+    pub fn overtime_count(&self) -> i32 {
+        self.overtime_count
     }
 
     pub fn rules(&self) -> &GameRules {
@@ -92,6 +197,25 @@ impl GameState {
         if let Some(cv) = any.downcast_ref::<crate::events::ConVarsUpdated>() {
             for (k, v) in &cv.updated_con_vars {
                 self.rules.con_vars.insert(k.clone(), v.clone());
+            }
+        } else if let Some(re) = any.downcast_ref::<crate::events::RoundEnd>() {
+            let _ = re;
+            self.total_rounds_played += 1;
+        } else if let Some(ge) = any.downcast_ref::<crate::events::GamePhaseChanged>() {
+            self.game_phase = ge.new_game_phase;
+        } else if let Some(wu) = any.downcast_ref::<crate::events::IsWarmupPeriodChanged>() {
+            self.is_warmup_period = wu.new_is_warmup_period;
+        } else if let Some(ft) = any.downcast_ref::<crate::events::RoundFreezetimeChanged>() {
+            self.is_freezetime = ft.new_is_freezetime;
+        } else if let Some(ms) = any.downcast_ref::<crate::events::MatchStartedChanged>() {
+            self.is_match_started = ms.new_is_started;
+        } else if let Some(ot) = any.downcast_ref::<crate::events::OvertimeNumberChanged>() {
+            self.overtime_count = ot.new_count;
+        } else if any.is::<crate::events::FrameDone>() {
+            if let Some(fb) = self.flying_flashbangs.first() {
+                if fb.exploded_frame > 0 && fb.exploded_frame < self.ingame_tick {
+                    self.flying_flashbangs.remove(0);
+                }
             }
         }
     }
