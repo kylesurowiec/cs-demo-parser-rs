@@ -1,6 +1,7 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
 use crate::events;
+use crate::sendtables2;
 use crate::game_state::GameState;
 use crate::sendtables2;
 
@@ -40,6 +41,7 @@ pub struct Parser<R: Read> {
     msg_dispatcher: Arc<EventDispatcher>,
     user_msg_dispatcher: Arc<EventDispatcher>,
     s2_tables: sendtables2::Parser,
+    game_events: crate::game_events::GameEventHandler,
     header: Option<DemoHeader>,
     game_state: GameState,
 }
@@ -53,6 +55,7 @@ impl<R: Read> Parser<R> {
             msg_dispatcher: EventDispatcher::new(),
             user_msg_dispatcher: EventDispatcher::new(),
             s2_tables: sendtables2::Parser::new(),
+            game_events: crate::game_events::GameEventHandler::new(),
             header: None,
             game_state: GameState::new(),
         }
@@ -224,27 +227,23 @@ impl<R: Read> Parser<R> {
                 .map_err(|_| ParserError::UnexpectedEndOfDemo)?;
         }
 
-        use crate::proto::msg::{self as proto_msg};
+        // Dispatch a very small subset of messages
+        if msg_type == crate::proto::msg::SvcMessages::SvcServerInfo as u32 {
+            if let Ok(msg) = crate::proto::msg::all::CsvcMsgServerInfo::decode(&buf[..]) {
+                self.s2_tables.on_server_info(&msg);
+                self.dispatch_net_message(msg);
+            }
+        } else if msg_type == crate::proto::msg::SvcMessages::SvcGameEventList as u32 {
+            if let Ok(msg) = crate::proto::msg::all::CsvcMsgGameEventList::decode(&buf[..]) {
+                self.on_game_event_list(&msg);
+                self.dispatch_net_message(msg);
+            }
+        } else if msg_type == crate::proto::msg::SvcMessages::SvcGameEvent as u32 {
+            if let Ok(msg) = crate::proto::msg::all::CsvcMsgGameEvent::decode(&buf[..]) {
+                self.on_game_event(&msg);
+                self.dispatch_net_message(msg);
+            }
 
-        match proto_msg::SvcMessages::from_i32(msg_type as i32) {
-            | Some(proto_msg::SvcMessages::SvcServerInfo) => {
-                if let Ok(msg) = proto_msg::all::CsvcMsgServerInfo::decode(&buf[..]) {
-                    self.s2_tables.on_server_info(&msg);
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcUserMessage) => {
-                if let Ok(msg) = proto_msg::all::CsvcMsgUserMessage::decode(&buf[..]) {
-                    self.dispatch_net_message(msg.clone());
-                    self.handle_user_message(&msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcBspDecal) => {
-                if let Ok(msg) = proto_msg::all::CsvcMsgBspDecal::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | _ => {},
         }
 
         let cont = msg_type != 0;
@@ -252,6 +251,10 @@ impl<R: Read> Parser<R> {
             self.dispatch_event(crate::events::FrameDone);
         }
         Ok(cont)
+    }
+
+    pub fn on_game_event_list(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEventList) {
+        self.game_events.handle_game_event_list(msg);
     }
 
     pub fn handle_user_message(&self, um: &crate::proto::msg::all::CsvcMsgUserMessage) {
