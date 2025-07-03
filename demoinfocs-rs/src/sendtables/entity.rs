@@ -1,4 +1,8 @@
 use super::propdecoder::{PropertyType, SendTableProperty};
+use crate::bitreader::BitReader;
+use crate::sendtables::propdecoder::PropertyDecoder;
+use std::collections::HashMap;
+use std::io::Read;
 
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct Vector {
@@ -109,5 +113,70 @@ impl Entity {
         self.property_value("m_vecOrigin")
             .map(|v| v.vector_val)
             .unwrap_or_default()
+    }
+
+    pub fn apply_update<R: Read>(&mut self, reader: &mut BitReader<R>) {
+        let mut idx: i32 = -1;
+        let new_way = reader.read_bit();
+        let mut updated = Vec::new();
+
+        loop {
+            idx = read_field_index(reader, idx, new_way);
+            if idx == -1 {
+                break;
+            }
+            updated.push(idx as usize);
+        }
+
+        let decoder = PropertyDecoder;
+        for i in updated {
+            decoder.decode_prop(&mut self.props[i], reader);
+        }
+    }
+
+    pub(super) fn initialize_baseline<R: Read>(
+        &mut self,
+        reader: &mut BitReader<R>,
+    ) -> HashMap<i32, PropertyValue> {
+        self.apply_update(reader);
+        let mut map = HashMap::new();
+        for (i, p) in self.props.iter().enumerate() {
+            map.insert(i as i32, p.value.clone());
+        }
+        map
+    }
+
+    pub(super) fn apply_baseline(&mut self, baseline: &HashMap<i32, PropertyValue>) {
+        for (idx, val) in baseline {
+            if let Some(p) = self.props.get_mut(*idx as usize) {
+                p.value = val.clone();
+            }
+        }
+    }
+}
+
+fn read_field_index<R: Read>(reader: &mut BitReader<R>, last_index: i32, new_way: bool) -> i32 {
+    if new_way && reader.read_bit() {
+        return last_index + 1;
+    }
+
+    let mut res: u32;
+    if new_way && reader.read_bit() {
+        res = reader.read_int(3);
+    } else {
+        res = reader.read_int(7);
+        match res & (32 | 64) {
+            | 32 => res = (res & !96) | (reader.read_int(2) << 5),
+            | 64 => res = (res & !96) | (reader.read_int(4) << 5),
+            | 96 => res = (res & !96) | (reader.read_int(7) << 5),
+            | _ => {},
+        }
+    }
+
+    const FIELD_INDEX_END_MARKER: u32 = 0xfff;
+    if res == FIELD_INDEX_END_MARKER {
+        -1
+    } else {
+        last_index + 1 + res as i32
     }
 }

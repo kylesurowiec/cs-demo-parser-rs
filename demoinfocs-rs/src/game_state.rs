@@ -79,6 +79,14 @@ impl GameState {
         self.ingame_tick = tick;
     }
 
+    pub fn add_entity(&mut self, entity: Entity) {
+        self.entities.insert(entity.id, entity);
+    }
+
+    pub fn remove_entity(&mut self, id: i32) {
+        self.entities.remove(&id);
+    }
+
     pub fn handle_event<E: 'static>(&mut self, event: &E) {
         let any = event as &dyn std::any::Any;
         if let Some(cv) = any.downcast_ref::<crate::events::ConVarsUpdated>() {
