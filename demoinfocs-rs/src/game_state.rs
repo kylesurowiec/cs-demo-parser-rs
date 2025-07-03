@@ -94,7 +94,7 @@ impl GameState {
         Self::default()
     }
 
-    pub fn participants(&self) -> Participants {
+    pub fn participants<'a>(&'a self) -> Participants<'a> {
         Participants {
             players_by_user_id: &self.players_by_user_id,
             players_by_entity_id: &self.players_by_entity_id,

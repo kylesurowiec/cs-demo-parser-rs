@@ -51,8 +51,8 @@ impl Parser {
     pub fn parse_packet(&mut self, data: &[u8]) -> Result<(), prost::DecodeError> {
         let mut r = BitReader::new_small(data);
         loop {
-            let t = msg::SvcMessages::from_i32(r.read_varint32() as i32)
-                .ok_or_else(|| prost::DecodeError::new("invalid message"))?;
+            let t = msg::SvcMessages::try_from(r.read_varint32() as i32)
+                .map_err(|_| prost::DecodeError::new("invalid message"))?;
             if t != msg::SvcMessages::SvcSendTable {
                 panic!("Expected SendTable message");
             }

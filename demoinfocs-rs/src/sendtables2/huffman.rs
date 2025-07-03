@@ -39,6 +39,7 @@ impl Node {
     }
 }
 
+#[allow(dead_code)]
 pub fn build_huffman_tree(freqs: &[i32]) -> Node {
     use std::cmp::Ordering;
     use std::collections::BinaryHeap;

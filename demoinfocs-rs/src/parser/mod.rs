@@ -1,6 +1,5 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
-use crate::events;
 use crate::game_state::GameState;
 use crate::sendtables::TablesParser;
 use crate::sendtables2;
