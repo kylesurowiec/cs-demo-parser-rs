@@ -4,6 +4,11 @@ use crate::sendtables2;
 use crate::sendtables::TablesParser;
 use crate::game_state::GameState;
 use crate::events;
+use crate::sendtables2;
+use crate::game_state::GameState;
+use crate::sendtables2;
+
+use prost::Message;
 use std::io::Read;
 use std::sync::Arc;
 
@@ -37,13 +42,16 @@ pub struct Parser<R: Read> {
     bit_reader: BitReader<R>,
     event_dispatcher: Arc<EventDispatcher>,
     msg_dispatcher: Arc<EventDispatcher>,
+    user_msg_dispatcher: Arc<EventDispatcher>,
     s2_tables: sendtables2::Parser,
     s1_tables: TablesParser,
     server_classes: Vec<crate::sendtables::ServerClass>,
     game_state: GameState,
     current_frame: i32,
     cancelled: bool,
+    game_events: crate::game_events::GameEventHandler,
     header: Option<DemoHeader>,
+    game_state: GameState,
 }
 
 impl<R: Read> Parser<R> {
@@ -53,13 +61,16 @@ impl<R: Read> Parser<R> {
             bit_reader: BitReader::new_large(reader),
             event_dispatcher: EventDispatcher::new(),
             msg_dispatcher: EventDispatcher::new(),
+            user_msg_dispatcher: EventDispatcher::new(),
             s2_tables: sendtables2::Parser::new(),
             s1_tables: TablesParser::new(),
             server_classes: Vec::new(),
             game_state: GameState::default(),
             current_frame: 0,
             cancelled: false,
+            game_events: crate::game_events::GameEventHandler::new(),
             header: None,
+            game_state: GameState::new(),
         }
     }
 
@@ -79,17 +90,27 @@ impl<R: Read> Parser<R> {
         self.msg_dispatcher.register_handler::<M, F>(handler)
     }
 
-    pub fn dispatch_event<E>(&self, event: E)
+    pub fn game_state(&self) -> &GameState {
+        &self.game_state
+    }
+
+    fn game_state_mut(&mut self) -> &mut GameState {
+        &mut self.game_state
+    }
+
+    pub fn dispatch_event<E>(&mut self, event: E)
     where
         E: Send + Sync + 'static,
     {
+        self.game_state_mut().handle_event(&event);
         self.event_dispatcher.dispatch(event);
     }
 
-    pub fn dispatch_net_message<M>(&self, msg: M)
+    pub fn dispatch_net_message<M>(&mut self, msg: M)
     where
         M: Send + Sync + 'static,
     {
+        self.game_state_mut().handle_net_message(&msg);
         self.msg_dispatcher.dispatch(msg);
     }
 
@@ -157,6 +178,13 @@ impl<R: Read> Parser<R> {
     pub fn close(&mut self) -> Result<(), ()> {
         self.cancelled = true;
         Ok(())
+    }
+
+    pub fn dispatch_user_message<M>(&self, msg: M)
+    where
+        M: Send + Sync + 'static,
+    {
+        self.user_msg_dispatcher.dispatch(msg);
     }
 
     /// Parses the demo header if it hasn't been read yet.
@@ -298,6 +326,17 @@ impl<R: Read> Parser<R> {
             if self.s2_tables.parse_packet(&buf).is_ok() {
                 self.dispatch_event(crate::events::DataTablesParsed);
             }
+        } else if msg_type == crate::proto::msg::SvcMessages::SvcGameEventList as u32 {
+            if let Ok(msg) = crate::proto::msg::all::CsvcMsgGameEventList::decode(&buf[..]) {
+                self.on_game_event_list(&msg);
+                self.dispatch_net_message(msg);
+            }
+        } else if msg_type == crate::proto::msg::SvcMessages::SvcGameEvent as u32 {
+            if let Ok(msg) = crate::proto::msg::all::CsvcMsgGameEvent::decode(&buf[..]) {
+                self.on_game_event(&msg);
+                self.dispatch_net_message(msg);
+            }
+
         }
 
         let cont = msg_type != 0;
@@ -306,5 +345,44 @@ impl<R: Read> Parser<R> {
             self.dispatch_event(crate::events::FrameDone);
         }
         Ok(cont)
+    }
+
+    pub fn on_game_event_list(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEventList) {
+        self.game_events.handle_game_event_list(msg);
+    }
+
+    pub fn handle_user_message(&self, um: &crate::proto::msg::all::CsvcMsgUserMessage) {
+        use crate::proto::msg::{self as proto_msg};
+        if let (Some(t), Some(data)) = (um.msg_type, &um.msg_data) {
+            if let Ok(kind) = proto_msg::ECstrike15UserMessages::try_from(t) {
+                match kind {
+                    | proto_msg::ECstrike15UserMessages::CsUmSayText => {
+                        if let Ok(msg) = proto_msg::all::CcsUsrMsgSayText::decode(&data[..]) {
+                            self.dispatch_user_message(msg);
+                        }
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmSayText2 => {
+                        if let Ok(msg) = proto_msg::all::CcsUsrMsgSayText2::decode(&data[..]) {
+                            self.dispatch_user_message(msg);
+                        }
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmServerRankUpdate => {
+                        if let Ok(msg) =
+                            proto_msg::all::CcsUsrMsgServerRankUpdate::decode(&data[..])
+                        {
+                            self.dispatch_user_message(msg);
+                        }
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmRoundImpactScoreData => {
+                        if let Ok(msg) =
+                            proto_msg::all::CcsUsrMsgRoundImpactScoreData::decode(&data[..])
+                        {
+                            self.dispatch_user_message(msg);
+                        }
+                    },
+                    | _ => {},
+                }
+            }
+        }
     }
 }
