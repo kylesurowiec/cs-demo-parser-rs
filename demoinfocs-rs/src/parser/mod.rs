@@ -1,9 +1,8 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
-use crate::sendtables2;
-use crate::sendtables::TablesParser;
 use crate::game_state::GameState;
-use crate::events;
+use crate::sendtables::TablesParser;
+use crate::sendtables2;
 
 use prost::Message;
 use std::io::Read;
@@ -85,6 +84,14 @@ impl<R: Read> Parser<R> {
         self.msg_dispatcher.register_handler::<M, F>(handler)
     }
 
+    pub fn register_user_message_handler<M, F>(&self, handler: F) -> HandlerIdentifier
+    where
+        M: Send + Sync + 'static,
+        F: Fn(&M) + Send + Sync + 'static,
+    {
+        self.user_msg_dispatcher.register_handler::<M, F>(handler)
+    }
+
     pub fn game_state(&self) -> &GameState {
         &self.game_state
     }
@@ -117,6 +124,10 @@ impl<R: Read> Parser<R> {
         self.msg_dispatcher.unregister_handler(id);
     }
 
+    pub fn unregister_user_message_handler(&self, id: HandlerIdentifier) {
+        self.user_msg_dispatcher.unregister_handler(id);
+    }
+
     pub fn server_classes(&self) -> &crate::sendtables::ServerClasses {
         &self.server_classes
     }
@@ -130,22 +141,28 @@ impl<R: Read> Parser<R> {
     }
 
     pub fn current_time(&self) -> std::time::Duration {
-        std::time::Duration::from_secs_f32(self.current_frame as f32 * self.tick_time().as_secs_f32())
+        std::time::Duration::from_secs_f32(
+            self.current_frame as f32 * self.tick_time().as_secs_f32(),
+        )
     }
 
     pub fn tick_rate(&self) -> f64 {
         self.header
             .as_ref()
-            .and_then(|h| if h.playback_time > 0.0 {
-                Some(h.playback_ticks as f64 / h.playback_time as f64)
-            } else { None })
+            .and_then(|h| {
+                if h.playback_time > 0.0 {
+                    Some(h.playback_ticks as f64 / h.playback_time as f64)
+                } else {
+                    None
+                }
+            })
             .unwrap_or(0.0)
     }
 
     pub fn tick_time(&self) -> std::time::Duration {
         if let Some(rate) = match self.tick_rate() {
-            r if r > 0.0 => Some(r),
-            _ => None,
+            | r if r > 0.0 => Some(r),
+            | _ => None,
         } {
             std::time::Duration::from_secs_f64(1.0 / rate)
         } else {
@@ -257,7 +274,9 @@ impl<R: Read> Parser<R> {
             | 6 => {
                 let len = self.bit_reader.read_signed_int(32) as usize;
                 let mut data = Vec::with_capacity(len);
-                for _ in 0..len { data.push(self.bit_reader.read_int(8) as u8); }
+                for _ in 0..len {
+                    data.push(self.bit_reader.read_int(8) as u8);
+                }
                 let _ = self.s1_tables.parse_packet(&data);
                 self.dispatch_event(crate::events::DataTablesParsed);
                 Ok(true)
@@ -327,7 +346,6 @@ impl<R: Read> Parser<R> {
                 self.on_game_event(&msg);
                 self.dispatch_net_message(msg);
             }
-
         }
 
         let cont = msg_type != 0;
@@ -340,6 +358,12 @@ impl<R: Read> Parser<R> {
 
     pub fn on_game_event_list(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEventList) {
         self.game_events.handle_game_event_list(msg);
+    }
+
+    pub fn on_game_event(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEvent) {
+        let mut handler = std::mem::take(&mut self.game_events);
+        handler.handle_game_event(self, msg);
+        self.game_events = handler;
     }
 
     pub fn handle_user_message(&self, um: &crate::proto::msg::all::CsvcMsgUserMessage) {

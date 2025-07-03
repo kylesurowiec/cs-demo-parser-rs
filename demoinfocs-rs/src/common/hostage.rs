@@ -13,16 +13,14 @@ pub enum HostageState {
     Dead = 7,
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Default)]
 pub struct Hostage {
     pub entity: Option<Entity>,
 }
 
 impl Hostage {
     pub fn position(&self) -> Vector {
-        self.entity
-            .as_ref()
-            .map(|e| e.position())
-            .unwrap_or_default()
+        let _ = &self.entity;
+        Vector::default()
     }
 }

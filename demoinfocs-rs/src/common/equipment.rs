@@ -12,6 +12,12 @@ pub enum EquipmentClass {
     Grenade = 6,
 }
 
+impl Default for EquipmentClass {
+    fn default() -> Self {
+        EquipmentClass::Unknown
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(i32)]
 pub enum EquipmentType {
@@ -39,7 +45,6 @@ pub enum EquipmentType {
     SawedOff = 201,
     Nova = 202,
     Mag7 = 203,
-    Swag7 = 203,
     Xm1014 = 204,
     M249 = 205,
     Negev = 206,
@@ -49,9 +54,7 @@ pub enum EquipmentType {
     Ak47 = 303,
     M4A4 = 304,
     M4A1 = 305,
-    Scout = 306,
     Ssg08 = 306,
-    Sg556 = 307,
     Sg553 = 307,
     Aug = 308,
     Awp = 309,
@@ -88,6 +91,12 @@ pub enum EquipmentType {
     He = 506,
 }
 
+impl Default for EquipmentType {
+    fn default() -> Self {
+        EquipmentType::Unknown
+    }
+}
+
 impl EquipmentType {
     pub fn class(self) -> EquipmentClass {
         let val = self as i32;
@@ -116,7 +125,7 @@ impl EquipmentType {
             | EquipmentType::Mp5 => "MP5-SD",
             | EquipmentType::SawedOff => "Sawed-Off",
             | EquipmentType::Nova => "Nova",
-            | EquipmentType::Mag7 | EquipmentType::Swag7 => "MAG-7",
+            | EquipmentType::Mag7 => "MAG-7",
             | EquipmentType::Xm1014 => "XM1014",
             | EquipmentType::M249 => "M249",
             | EquipmentType::Negev => "Negev",
@@ -125,8 +134,8 @@ impl EquipmentType {
             | EquipmentType::Ak47 => "AK-47",
             | EquipmentType::M4A4 => "M4A4",
             | EquipmentType::M4A1 => "M4A1",
-            | EquipmentType::Scout | EquipmentType::Ssg08 => "SSG 08",
-            | EquipmentType::Sg556 | EquipmentType::Sg553 => "SG 553",
+            | EquipmentType::Ssg08 => "SSG 08",
+            | EquipmentType::Sg553 => "SG 553",
             | EquipmentType::Aug => "AUG",
             | EquipmentType::Awp => "AWP",
             | EquipmentType::Scar20 => "SCAR-20",
@@ -177,7 +186,7 @@ impl EquipmentClass {
     }
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Default)]
 pub struct Equipment {
     pub equipment_type: EquipmentType,
     pub entity: Option<Entity>,

@@ -11,7 +11,13 @@ pub enum Team {
     CounterTerrorists = 3,
 }
 
-#[derive(Debug, Clone, Default)]
+impl Default for Team {
+    fn default() -> Self {
+        Team::Unassigned
+    }
+}
+
+#[derive(Default)]
 pub struct Player {
     pub steam_id64: u64,
     pub last_alive_position: Vector,
@@ -31,4 +37,13 @@ pub struct Player {
     pub is_reloading: bool,
     pub is_unknown: bool,
     pub previous_frame_position: Vector,
+}
+
+impl Player {
+    pub fn position(&self) -> Vector {
+        self.entity
+            .as_ref()
+            .and_then(|_| Some(self.last_alive_position.clone()))
+            .unwrap_or_else(|| self.last_alive_position.clone())
+    }
 }

@@ -114,6 +114,16 @@ pub struct RoundStart {
     pub objective: String,
 }
 
+impl Default for RoundStart {
+    fn default() -> Self {
+        Self {
+            time_limit: 0,
+            frag_limit: 0,
+            objective: String::new(),
+        }
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct RoundFreezetimeEnd;
 
@@ -535,9 +545,6 @@ pub struct ItemRefund {
     pub player: Option<Player>,
     pub weapon: Option<Equipment>,
 }
-
-#[derive(Clone, Debug)]
-pub struct RoundEnd;
 
 #[derive(Clone, Debug)]
 pub struct DataTablesParsed;
