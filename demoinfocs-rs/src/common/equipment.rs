@@ -172,6 +172,12 @@ impl EquipmentType {
     }
 }
 
+impl Default for EquipmentType {
+    fn default() -> Self {
+        EquipmentType::Unknown
+    }
+}
+
 impl EquipmentClass {
     fn from(v: i32) -> Self {
         match v {
@@ -193,4 +199,74 @@ pub struct Equipment {
     pub original_string: String,
     pub unique_id: i64,
     pub position: Vector,
+}
+
+/// Maps a weapon or equipment name to [`EquipmentType`].
+pub fn map_equipment(name: &str) -> EquipmentType {
+    let mut n = name.to_lowercase();
+    if let Some(stripped) = n.strip_prefix("weapon_") {
+        n = stripped.to_string();
+    }
+
+    if n.contains("knife") || n.contains("bayonet") {
+        return EquipmentType::Knife;
+    }
+
+    match n.as_str() {
+        | "ak47" => EquipmentType::Ak47,
+        | "aug" => EquipmentType::Aug,
+        | "awp" => EquipmentType::Awp,
+        | "bizon" => EquipmentType::Bizon,
+        | "c4" | "planted_c4" => EquipmentType::Bomb,
+        | "deagle" => EquipmentType::Deagle,
+        | "decoy" | "decoygrenade" | "decoyprojectile" | "decoy_projectile" => EquipmentType::Decoy,
+        | "elite" => EquipmentType::DualBerettas,
+        | "famas" => EquipmentType::Famas,
+        | "fiveseven" => EquipmentType::FiveSeven,
+        | "flashbang" => EquipmentType::Flash,
+        | "g3sg1" => EquipmentType::G3Sg1,
+        | "galil" | "galilar" => EquipmentType::Galil,
+        | "glock" => EquipmentType::Glock,
+        | "hegrenade" => EquipmentType::He,
+        | "hkp2000" => EquipmentType::P2000,
+        | "incgrenade" | "incendiarygrenade" => EquipmentType::Incendiary,
+        | "m249" => EquipmentType::M249,
+        | "m4a1" => EquipmentType::M4A4,
+        | "mac10" => EquipmentType::Mac10,
+        | "mag7" => EquipmentType::Mag7,
+        | "molotov" | "molotovgrenade" | "molotovprojectile" | "molotov_projectile" => {
+            EquipmentType::Molotov
+        },
+        | "mp7" => EquipmentType::Mp7,
+        | "mp5sd" => EquipmentType::Mp5,
+        | "mp9" => EquipmentType::Mp9,
+        | "negev" => EquipmentType::Negev,
+        | "nova" => EquipmentType::Nova,
+        | "p250" => EquipmentType::P250,
+        | "p90" => EquipmentType::P90,
+        | "sawedoff" => EquipmentType::SawedOff,
+        | "scar20" => EquipmentType::Scar20,
+        | "sg556" => EquipmentType::Sg556,
+        | "smokegrenade" | "smokegrenadeprojectile" | "smokegrenade_projectile" => {
+            EquipmentType::Smoke
+        },
+        | "ssg08" => EquipmentType::Scout,
+        | "taser" => EquipmentType::Zeus,
+        | "tec9" => EquipmentType::Tec9,
+        | "ump45" => EquipmentType::Ump45,
+        | "xm1014" => EquipmentType::Xm1014,
+        | "m4a1_silencer" | "m4a1_silencer_off" => EquipmentType::M4A1,
+        | "cz75a" => EquipmentType::Cz75,
+        | "usp" | "usp_silencer" | "usp_silencer_off" => EquipmentType::Usp,
+        | "world" | "worldspawn" => EquipmentType::World,
+        | "inferno" => EquipmentType::Incendiary,
+        | "revolver" => EquipmentType::Revolver,
+        | "vest" => EquipmentType::Kevlar,
+        | "vesthelm" => EquipmentType::Helmet,
+        | "defuser" => EquipmentType::DefuseKit,
+        | "scar17" | "sensorgrenade" | "mp5navy" | "p228" | "scout" | "sg550" | "sg552" | "tmp" => {
+            EquipmentType::Unknown
+        },
+        | _ => EquipmentType::Unknown,
+    }
 }

@@ -28,7 +28,6 @@ fn invalid_file_type() {
 }
 
 #[test]
-#[ignore]
 fn example_print_events_runs() {
     let path = fixture_path("s2/s2.dem");
     let file = File::open(&path).expect("failed to open demo");

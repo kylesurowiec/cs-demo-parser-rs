@@ -4,7 +4,10 @@ use crate::game_state::GameState;
 use crate::sendtables::TablesParser;
 use crate::sendtables2;
 
+pub mod datatable;
+
 use prost::Message;
+use std::collections::HashMap;
 use std::io::Read;
 use std::sync::Arc;
 
@@ -42,6 +45,7 @@ pub struct Parser<R: Read> {
     s2_tables: sendtables2::Parser,
     s1_tables: TablesParser,
     server_classes: Vec<crate::sendtables::ServerClass>,
+    equipment_mapping: HashMap<String, crate::common::EquipmentType>,
     game_state: GameState,
     current_frame: i32,
     cancelled: bool,
@@ -60,6 +64,7 @@ impl<R: Read> Parser<R> {
             s2_tables: sendtables2::Parser::new(),
             s1_tables: TablesParser::new(),
             server_classes: Vec::new(),
+            equipment_mapping: HashMap::new(),
             game_state: GameState::default(),
             current_frame: 0,
             cancelled: false,
@@ -98,6 +103,11 @@ impl<R: Read> Parser<R> {
 
     fn game_state_mut(&mut self) -> &mut GameState {
         &mut self.game_state
+    }
+
+    fn update_equipment_mapping_from_classes(&mut self) {
+        self.equipment_mapping = datatable::build_equipment_mapping(&self.server_classes);
+        self.game_state.equipment_mapping = self.equipment_mapping.clone();
     }
 
     pub fn dispatch_event<E>(&mut self, event: E)
@@ -277,8 +287,16 @@ impl<R: Read> Parser<R> {
                 for _ in 0..len {
                     data.push(self.bit_reader.read_int(8) as u8);
                 }
+
                 let _ = self.s1_tables.parse_packet(&data);
                 self.dispatch_event(crate::events::DataTablesParsed);
+
+                if self.s1_tables.parse_packet(&data).is_ok() {
+                    self.server_classes = self.s1_tables.server_classes().to_vec();
+                    self.update_equipment_mapping_from_classes();
+                    self.dispatch_event(crate::events::DataTablesParsed);
+                }
+
                 Ok(true)
             },
             | 5 => {
@@ -364,6 +382,27 @@ impl<R: Read> Parser<R> {
         let mut handler = std::mem::take(&mut self.game_events);
         handler.handle_game_event(self, msg);
         self.game_events = handler;
+
+        if let Some(id) = msg.eventid {
+            if let Some(name) = self.game_events.descriptor_name(id) {
+                match name {
+                    | "begin_new_match" => self.dispatch_event(crate::events::MatchStart),
+                    | "round_start" => self.dispatch_event(crate::events::RoundStart {
+                        time_limit: 0,
+                        frag_limit: 0,
+                        objective: String::new(),
+                    }),
+                    | "round_end" => self.dispatch_event(crate::events::RoundEnd {
+                        message: String::new(),
+                        reason: crate::events::RoundEndReason::StillInProgress,
+                        winner: 0,
+                        winner_state: None,
+                        loser_state: None,
+                    }),
+                    | _ => {},
+                }
+            }
+        }
     }
 
     pub fn handle_user_message(&self, um: &crate::proto::msg::all::CsvcMsgUserMessage) {

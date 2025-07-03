@@ -31,8 +31,12 @@ impl GameEventHandler {
         }
     }
 
+    pub fn descriptor_name(&self, id: i32) -> Option<&str> {
+        self.descriptors.get(&id).map(|d| d.name.as_str())
+    }
+
     pub fn handle_game_event<R: Read>(
-        &mut self,
+        &self,
         parser: &mut Parser<R>,
         event: &msg::CsvcMsgGameEvent,
     ) {

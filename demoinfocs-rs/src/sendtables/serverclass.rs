@@ -3,7 +3,7 @@ use std::fmt;
 
 use super::entity::FlattenedPropEntry;
 
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct ServerClass {
     pub id: i32,
     pub name: String,
@@ -82,12 +82,7 @@ impl fmt::Display for ServerClass {
         write!(
             f,
             "serverClass: id={} name={}\n\tdataTableId={}\n\tdataTableName={}\n\tbaseClasses:\n\t\t{}\n\tproperties:\n\t\t{}",
-            self.id,
-            self.name,
-            self.data_table_id,
-            self.data_table_name,
-            base,
-            props
+            self.id, self.name, self.data_table_id, self.data_table_name, base, props
         )
     }
 }

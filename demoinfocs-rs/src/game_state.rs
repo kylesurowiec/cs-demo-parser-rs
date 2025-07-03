@@ -40,6 +40,8 @@ pub struct GameState {
     pub t_state: TeamState,
     pub ct_state: TeamState,
 
+    pub ingame_tick: i32,
+
     pub players_by_user_id: HashMap<i32, Player>,
     pub players_by_entity_id: HashMap<i32, Player>,
 
@@ -50,6 +52,8 @@ pub struct GameState {
     pub entities: HashMap<i32, Entity>,
     pub bomb: Bomb,
 
+    pub equipment_mapping: HashMap<String, crate::common::EquipmentType>,
+
     pub rules: GameRules,
 }
 
@@ -58,7 +62,7 @@ impl GameState {
         Self::default()
     }
 
-    pub fn participants(&self) -> Participants {
+    pub fn participants<'a>(&'a self) -> Participants<'a> {
         Participants {
             players_by_user_id: &self.players_by_user_id,
             players_by_entity_id: &self.players_by_entity_id,
@@ -87,4 +91,8 @@ impl GameState {
     }
 
     pub fn handle_net_message<M>(&mut self, _msg: &M) {}
+
+    pub fn set_ingame_tick(&mut self, tick: i32) {
+        self.ingame_tick = tick;
+    }
 }
