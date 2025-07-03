@@ -18,7 +18,7 @@ impl Default for Team {
     }
 }
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(i32)]
 pub enum Color {
     Grey = -1,
@@ -58,7 +58,6 @@ pub struct Player {
 }
 
 impl Player {
-
     pub fn position(&self) -> Vector {
         self.entity
             .as_ref()
