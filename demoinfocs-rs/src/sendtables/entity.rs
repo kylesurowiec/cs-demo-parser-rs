@@ -79,6 +79,13 @@ impl Entity {
         self.props.iter().collect()
     }
     fn property(&self, name: &str) -> Option<&Property> {
+        if self.server_class.flattened_props.is_empty() {
+            // Tests may construct `Entity` instances manually without a fully
+            // populated `ServerClass`. In that case fall back to a linear
+            // search through all properties by name.
+            return self.props.iter().find(|p| p.name() == name);
+        }
+
         self.server_class
             .flattened_props
             .iter()
