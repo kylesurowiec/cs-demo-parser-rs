@@ -1,6 +1,9 @@
 #[derive(Clone)]
 pub enum Node {
-    Leaf { weight: i32, value: usize },
+    Leaf {
+        weight: i32,
+        value: usize,
+    },
     Branch {
         weight: i32,
         value: usize,
@@ -12,14 +15,14 @@ pub enum Node {
 impl Node {
     pub fn weight(&self) -> i32 {
         match self {
-            Node::Leaf { weight, .. } => *weight,
-            Node::Branch { weight, .. } => *weight,
+            | Node::Leaf { weight, .. } => *weight,
+            | Node::Branch { weight, .. } => *weight,
         }
     }
     pub fn value(&self) -> usize {
         match self {
-            Node::Leaf { value, .. } => *value,
-            Node::Branch { value, .. } => *value,
+            | Node::Leaf { value, .. } => *value,
+            | Node::Branch { value, .. } => *value,
         }
     }
     pub fn is_leaf(&self) -> bool {
@@ -27,14 +30,14 @@ impl Node {
     }
     pub fn left(&self) -> &Node {
         match self {
-            Node::Branch { left, .. } => left,
-            _ => panic!("no left"),
+            | Node::Branch { left, .. } => left,
+            | _ => panic!("no left"),
         }
     }
     pub fn right(&self) -> &Node {
         match self {
-            Node::Branch { right, .. } => right,
-            _ => panic!("no right"),
+            | Node::Branch { right, .. } => right,
+            | _ => panic!("no right"),
         }
     }
 }
@@ -51,17 +54,28 @@ pub fn build_huffman_tree(freqs: &[i32]) -> Node {
         }
     }
     impl PartialOrd for HeapItem {
-        fn partial_cmp(&self, other: &Self) -> Option<Ordering> { Some(self.cmp(other)) }
+        fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+            Some(self.cmp(other))
+        }
     }
     impl PartialEq for HeapItem {
-        fn eq(&self, other: &Self) -> bool { self.0 == other.0 && self.1 == other.1 }
+        fn eq(&self, other: &Self) -> bool {
+            self.0 == other.0 && self.1 == other.1
+        }
     }
     impl Eq for HeapItem {}
 
     let mut heap: BinaryHeap<HeapItem> = BinaryHeap::new();
     for (i, &w) in freqs.iter().enumerate() {
         let w = if w == 0 { 1 } else { w };
-        heap.push(HeapItem(w, i, Node::Leaf { weight: w, value: i }));
+        heap.push(HeapItem(
+            w,
+            i,
+            Node::Leaf {
+                weight: w,
+                value: i,
+            },
+        ));
     }
     let mut next_val = freqs.len();
     while heap.len() > 1 {

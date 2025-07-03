@@ -58,7 +58,6 @@ pub struct Player {
 }
 
 impl Player {
-
     pub fn position(&self) -> Vector {
         self.entity
             .as_ref()

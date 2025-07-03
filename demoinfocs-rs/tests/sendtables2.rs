@@ -17,7 +17,10 @@ fn encode_var(mut value: u32) -> Vec<u8> {
 #[test]
 fn test_on_server_info() {
     let mut p = Parser::new();
-    let msg = demoinfocs_rs::proto::msg::CsvcMsgServerInfo { max_classes: Some(255), ..Default::default() };
+    let msg = demoinfocs_rs::proto::msg::CsvcMsgServerInfo {
+        max_classes: Some(255),
+        ..Default::default()
+    };
     p.on_server_info(&msg);
     assert!(p.class_id_size() > 0);
 }
@@ -26,8 +29,17 @@ fn test_on_server_info() {
 fn test_parse_flattened_serializer() {
     let mut p = Parser::new();
     let msg = CsvcMsgFlattenedSerializer {
-        serializers: vec![ProtoFlattenedSerializerT { serializer_name_sym: Some(1), serializer_version: Some(0), fields_index: vec![0] }],
-        symbols: vec!["dummy".into(), "Test".into(), "int32".into(), "m_int".into()],
+        serializers: vec![ProtoFlattenedSerializerT {
+            serializer_name_sym: Some(1),
+            serializer_version: Some(0),
+            fields_index: vec![0],
+        }],
+        symbols: vec![
+            "dummy".into(),
+            "Test".into(),
+            "int32".into(),
+            "m_int".into(),
+        ],
         fields: vec![ProtoFlattenedSerializerFieldT {
             var_type_sym: Some(2),
             var_name_sym: Some(3),
