@@ -537,9 +537,6 @@ pub struct ItemRefund {
 }
 
 #[derive(Clone, Debug)]
-pub struct RoundEnd;
-
-#[derive(Clone, Debug)]
 pub struct DataTablesParsed;
 
 pub struct TeamClanNameUpdated {

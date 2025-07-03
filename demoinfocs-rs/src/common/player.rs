@@ -1,4 +1,4 @@
-use super::{Equipment, EquipmentType};
+use super::Equipment;
 use crate::constants;
 use crate::sendtables::entity::{Entity, Vector};
 use std::collections::HashMap;
@@ -10,6 +10,12 @@ pub enum Team {
     Spectators = 1,
     Terrorists = 2,
     CounterTerrorists = 3,
+}
+
+impl Default for Team {
+    fn default() -> Self {
+        Team::Unassigned
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

@@ -39,7 +39,6 @@ pub enum EquipmentType {
     SawedOff = 201,
     Nova = 202,
     Mag7 = 203,
-    Swag7 = 203,
     Xm1014 = 204,
     M249 = 205,
     Negev = 206,
@@ -50,9 +49,7 @@ pub enum EquipmentType {
     M4A4 = 304,
     M4A1 = 305,
     Scout = 306,
-    Ssg08 = 306,
     Sg556 = 307,
-    Sg553 = 307,
     Aug = 308,
     Awp = 309,
     Scar20 = 310,
@@ -116,7 +113,7 @@ impl EquipmentType {
             | EquipmentType::Mp5 => "MP5-SD",
             | EquipmentType::SawedOff => "Sawed-Off",
             | EquipmentType::Nova => "Nova",
-            | EquipmentType::Mag7 | EquipmentType::Swag7 => "MAG-7",
+            | EquipmentType::Mag7 => "MAG-7",
             | EquipmentType::Xm1014 => "XM1014",
             | EquipmentType::M249 => "M249",
             | EquipmentType::Negev => "Negev",
@@ -125,8 +122,8 @@ impl EquipmentType {
             | EquipmentType::Ak47 => "AK-47",
             | EquipmentType::M4A4 => "M4A4",
             | EquipmentType::M4A1 => "M4A1",
-            | EquipmentType::Scout | EquipmentType::Ssg08 => "SSG 08",
-            | EquipmentType::Sg556 | EquipmentType::Sg553 => "SG 553",
+            | EquipmentType::Scout => "SSG 08",
+            | EquipmentType::Sg556 => "SG 553",
             | EquipmentType::Aug => "AUG",
             | EquipmentType::Awp => "AWP",
             | EquipmentType::Scar20 => "SCAR-20",
@@ -160,6 +157,12 @@ impl EquipmentType {
             | EquipmentType::He => "HE Grenade",
             | EquipmentType::Unknown => "UNKNOWN",
         }
+    }
+}
+
+impl Default for EquipmentType {
+    fn default() -> Self {
+        EquipmentType::Unknown
     }
 }
 
@@ -218,7 +221,7 @@ pub fn map_equipment(name: &str) -> EquipmentType {
         | "m249" => EquipmentType::M249,
         | "m4a1" => EquipmentType::M4A4,
         | "mac10" => EquipmentType::Mac10,
-        | "mag7" => EquipmentType::Swag7,
+        | "mag7" => EquipmentType::Mag7,
         | "molotov" | "molotovgrenade" | "molotovprojectile" | "molotov_projectile" => {
             EquipmentType::Molotov
         },
