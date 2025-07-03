@@ -27,6 +27,19 @@ If `PROTOC_INCLUDE` is set, the build script will use it to locate
 `google/protobuf/descriptor.proto`. When `prost-build` is built with its
 bundled `protoc`, this variable is provided automatically.
 
+### Demo files
+
+The test suite expects a collection of Counter-Strike demo files located in the
+`demos-external` submodule. Fetch them with:
+
+```bash
+git submodule update --init
+```
+
+If you don't want to download the demos, set the environment variable
+`DEMOINFOCS_SKIP_DEMOS=1` before building or running the tests. The build script
+also understands `FETCH_LATEST_DEMOS=1` to download any missing archives.
+
 ## Testing
 
 Run the tests with:
