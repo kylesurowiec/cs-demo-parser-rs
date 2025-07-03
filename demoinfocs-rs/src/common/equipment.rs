@@ -12,6 +12,12 @@ pub enum EquipmentClass {
     Grenade = 6,
 }
 
+impl Default for EquipmentClass {
+    fn default() -> Self {
+        EquipmentClass::Unknown
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(i32)]
 pub enum EquipmentType {
@@ -48,8 +54,8 @@ pub enum EquipmentType {
     Ak47 = 303,
     M4A4 = 304,
     M4A1 = 305,
-    Scout = 306,
-    Sg556 = 307,
+    Ssg08 = 306,
+    Sg553 = 307,
     Aug = 308,
     Awp = 309,
     Scar20 = 310,
@@ -83,6 +89,12 @@ pub enum EquipmentType {
     Flash = 504,
     Smoke = 505,
     He = 506,
+}
+
+impl Default for EquipmentType {
+    fn default() -> Self {
+        EquipmentType::Unknown
+    }
 }
 
 impl EquipmentType {
@@ -122,8 +134,8 @@ impl EquipmentType {
             | EquipmentType::Ak47 => "AK-47",
             | EquipmentType::M4A4 => "M4A4",
             | EquipmentType::M4A1 => "M4A1",
-            | EquipmentType::Scout => "SSG 08",
-            | EquipmentType::Sg556 => "SG 553",
+            | EquipmentType::Ssg08 => "SSG 08",
+            | EquipmentType::Sg553 => "SG 553",
             | EquipmentType::Aug => "AUG",
             | EquipmentType::Awp => "AWP",
             | EquipmentType::Scar20 => "SCAR-20",
@@ -180,7 +192,7 @@ impl EquipmentClass {
     }
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Default)]
 pub struct Equipment {
     pub equipment_type: EquipmentType,
     pub entity: Option<Entity>,

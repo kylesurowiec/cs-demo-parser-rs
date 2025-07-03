@@ -3,6 +3,7 @@ use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
 use crate::game_state::GameState;
 use crate::sendtables::TablesParser;
 use crate::sendtables2;
+
 pub mod datatable;
 
 use prost::Message;
@@ -286,11 +287,16 @@ impl<R: Read> Parser<R> {
                 for _ in 0..len {
                     data.push(self.bit_reader.read_int(8) as u8);
                 }
+
+                let _ = self.s1_tables.parse_packet(&data);
+                self.dispatch_event(crate::events::DataTablesParsed);
+
                 if self.s1_tables.parse_packet(&data).is_ok() {
                     self.server_classes = self.s1_tables.server_classes().to_vec();
                     self.update_equipment_mapping_from_classes();
                     self.dispatch_event(crate::events::DataTablesParsed);
                 }
+
                 Ok(true)
             },
             | 5 => {
@@ -373,6 +379,10 @@ impl<R: Read> Parser<R> {
     }
 
     pub fn on_game_event(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEvent) {
+        let mut handler = std::mem::take(&mut self.game_events);
+        handler.handle_game_event(self, msg);
+        self.game_events = handler;
+
         if let Some(id) = msg.eventid {
             if let Some(name) = self.game_events.descriptor_name(id) {
                 match name {

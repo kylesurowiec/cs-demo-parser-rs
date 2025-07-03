@@ -51,11 +51,7 @@ impl GameEventHandler {
 
         match desc.name.as_str() {
             | "begin_new_match" => parser.dispatch_event(events::MatchStart),
-            | "round_start" => parser.dispatch_event(events::RoundStart {
-                time_limit: 0,
-                frag_limit: 0,
-                objective: String::new(),
-            }),
+            | "round_start" => parser.dispatch_event(events::RoundStart::default()),
             | "round_end" => parser.dispatch_event(events::RoundEnd {
                 message: String::new(),
                 reason: events::RoundEndReason::StillInProgress,

@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use crate::common::{Bomb, Equipment, GrenadeProjectile, Hostage, Inferno, Player};
 use crate::sendtables::entity::Entity;
 
 /// Very small placeholder for a team state.
@@ -9,40 +10,6 @@ pub struct TeamState {
     pub score: i32,
 }
 
-/// Minimal representation of a player.
-#[derive(Clone, Default)]
-pub struct Player {
-    pub user_id: i32,
-    pub entity_id: i32,
-    pub name: String,
-    pub team: i32,
-}
-
-#[derive(Clone, Default)]
-pub struct GrenadeProjectile {
-    pub entity_id: i32,
-}
-
-#[derive(Clone, Default)]
-pub struct Inferno {
-    pub entity_id: i32,
-}
-
-#[derive(Clone, Default)]
-pub struct Equipment {
-    pub entity_id: i32,
-}
-
-#[derive(Clone, Default)]
-pub struct Hostage {
-    pub entity_id: i32,
-}
-
-#[derive(Clone, Default)]
-pub struct Bomb {
-    pub entity_id: i32,
-}
-
 /// Holds all connected participants.
 pub struct Participants<'a> {
     players_by_user_id: &'a HashMap<i32, Player>,
@@ -50,12 +17,12 @@ pub struct Participants<'a> {
 }
 
 impl<'a> Participants<'a> {
-    pub fn by_user_id(&self) -> HashMap<i32, Player> {
-        self.players_by_user_id.clone()
+    pub fn by_user_id(&self) -> &HashMap<i32, Player> {
+        self.players_by_user_id
     }
 
-    pub fn by_entity_id(&self) -> HashMap<i32, Player> {
-        self.players_by_entity_id.clone()
+    pub fn by_entity_id(&self) -> &HashMap<i32, Player> {
+        self.players_by_entity_id
     }
 }
 
@@ -69,6 +36,7 @@ pub struct GameRules {
 /// compile. Further logic will be added as the parser grows.
 #[derive(Default)]
 pub struct GameState {
+    pub ingame_tick: i32,
     pub t_state: TeamState,
     pub ct_state: TeamState,
 
@@ -105,7 +73,22 @@ impl GameState {
         &self.rules
     }
 
-    pub fn handle_event<E>(&mut self, _event: &E) {}
+    pub fn ingame_tick(&self) -> i32 {
+        self.ingame_tick
+    }
+
+    pub fn set_ingame_tick(&mut self, tick: i32) {
+        self.ingame_tick = tick;
+    }
+
+    pub fn handle_event<E: 'static>(&mut self, event: &E) {
+        let any = event as &dyn std::any::Any;
+        if let Some(cv) = any.downcast_ref::<crate::events::ConVarsUpdated>() {
+            for (k, v) in &cv.updated_con_vars {
+                self.rules.con_vars.insert(k.clone(), v.clone());
+            }
+        }
+    }
 
     pub fn handle_net_message<M>(&mut self, _msg: &M) {}
 
