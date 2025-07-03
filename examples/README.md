@@ -1,6 +1,6 @@
 # Examples
 
-Here you can find a overview of examples on how to use demoinfocs-golang.
+Here you can find a overview of examples on how to use demoinfocs-rs.
 
 :information_source: Example code may not be production ready - specifically error handling and such is done in a simplified way and should not be used in critical systems as-is.
 
@@ -10,7 +10,7 @@ Here you can find a overview of examples on how to use demoinfocs-golang.
 |[nade-trajectories](nade-trajectories)|Map overview with grenade trajectories|
 |[voice-capture](voice-capture)|Capture voice data from players|
 |[entities](entities)|Using unhandled data from entities (`Parser.ServerClasses()`)|
-|[net-messages](net-messages)|Parsing and handling custom net-messages|
+|[net-messages](../demoinfocs-rs/examples/net_messages.rs)|Parsing and handling custom net-messages|
 |[encrypted-net-messages](encrypted-net-messages)|Parsing and handling encrypted net-messages (e.g. text chat in MM demos)|
 |[print-events](print-events)|Printing kills, scores & chat messages|
 |[mocking](mocking)|Using the `fake` package to write unit tests for your code|
