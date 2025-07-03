@@ -1,7 +1,7 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
-use crate::sendtables2;
 use crate::events;
+use crate::sendtables2;
 use prost::Message;
 use std::io::Read;
 use std::sync::Arc;
@@ -37,6 +37,7 @@ pub struct Parser<R: Read> {
     event_dispatcher: Arc<EventDispatcher>,
     msg_dispatcher: Arc<EventDispatcher>,
     s2_tables: sendtables2::Parser,
+    game_events: crate::game_events::GameEventHandler,
     header: Option<DemoHeader>,
 }
 
@@ -48,6 +49,7 @@ impl<R: Read> Parser<R> {
             event_dispatcher: EventDispatcher::new(),
             msg_dispatcher: EventDispatcher::new(),
             s2_tables: sendtables2::Parser::new(),
+            game_events: crate::game_events::GameEventHandler::new(),
             header: None,
         }
     }
@@ -176,7 +178,9 @@ impl<R: Read> Parser<R> {
             | _ => Ok(true),
         }
         .map(|res| {
-            if res { self.dispatch_event(crate::events::FrameDone); }
+            if res {
+                self.dispatch_event(crate::events::FrameDone);
+            }
             res
         })
     }
@@ -205,10 +209,30 @@ impl<R: Read> Parser<R> {
                 self.s2_tables.on_server_info(&msg);
                 self.dispatch_net_message(msg);
             }
+        } else if msg_type == crate::proto::msg::SvcMessages::SvcGameEventList as u32 {
+            if let Ok(msg) = crate::proto::msg::all::CsvcMsgGameEventList::decode(&buf[..]) {
+                self.on_game_event_list(&msg);
+                self.dispatch_net_message(msg);
+            }
+        } else if msg_type == crate::proto::msg::SvcMessages::SvcGameEvent as u32 {
+            if let Ok(msg) = crate::proto::msg::all::CsvcMsgGameEvent::decode(&buf[..]) {
+                self.on_game_event(&msg);
+                self.dispatch_net_message(msg);
+            }
         }
 
         let cont = msg_type != 0;
-        if cont { self.dispatch_event(crate::events::FrameDone); }
+        if cont {
+            self.dispatch_event(crate::events::FrameDone);
+        }
         Ok(cont)
+    }
+
+    pub fn on_game_event_list(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEventList) {
+        self.game_events.handle_game_event_list(msg);
+    }
+
+    pub fn on_game_event(&self, msg: &crate::proto::msg::all::CsvcMsgGameEvent) {
+        self.game_events.handle_game_event(self, msg);
     }
 }
