@@ -1,7 +1,6 @@
-use demoinfocs_rs::common::{Equipment, EquipmentType, Player, Team};
-use demoinfocs_rs::constants;
+use demoinfocs_rs::common::{Equipment, EquipmentType, Player};
 use demoinfocs_rs::sendtables::entity::{
-    Entity, FlattenedPropEntry, Property, PropertyValue, Vector,
+    Entity, FlattenedPropEntry, Property, PropertyValue,
 };
 use demoinfocs_rs::sendtables::propdecoder::SendTableProperty;
 use demoinfocs_rs::sendtables::serverclass::ServerClass;
