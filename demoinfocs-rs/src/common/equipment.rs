@@ -172,12 +172,6 @@ impl EquipmentType {
     }
 }
 
-impl Default for EquipmentType {
-    fn default() -> Self {
-        EquipmentType::Unknown
-    }
-}
-
 impl EquipmentClass {
     fn from(v: i32) -> Self {
         match v {
@@ -192,7 +186,7 @@ impl EquipmentClass {
     }
 }
 
-#[derive(Default)]
+#[derive(Debug, Clone, Default)]
 pub struct Equipment {
     pub equipment_type: EquipmentType,
     pub entity: Option<Entity>,
@@ -246,11 +240,11 @@ pub fn map_equipment(name: &str) -> EquipmentType {
         | "p90" => EquipmentType::P90,
         | "sawedoff" => EquipmentType::SawedOff,
         | "scar20" => EquipmentType::Scar20,
-        | "sg556" => EquipmentType::Sg556,
+        | "sg556" => EquipmentType::Sg553,
         | "smokegrenade" | "smokegrenadeprojectile" | "smokegrenade_projectile" => {
             EquipmentType::Smoke
         },
-        | "ssg08" => EquipmentType::Scout,
+        | "ssg08" => EquipmentType::Ssg08,
         | "taser" => EquipmentType::Zeus,
         | "tec9" => EquipmentType::Tec9,
         | "ump45" => EquipmentType::Ump45,
