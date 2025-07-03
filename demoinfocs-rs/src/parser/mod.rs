@@ -1,11 +1,14 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
-use crate::sendtables2;
-use crate::sendtables::TablesParser;
-use crate::game_state::GameState;
 use crate::events;
+use crate::game_state::GameState;
+use crate::sendtables::TablesParser;
+use crate::sendtables2;
+mod datatable;
+use crate::parser::datatable;
 
 use prost::Message;
+use std::collections::HashMap;
 use std::io::Read;
 use std::sync::Arc;
 
@@ -43,6 +46,7 @@ pub struct Parser<R: Read> {
     s2_tables: sendtables2::Parser,
     s1_tables: TablesParser,
     server_classes: Vec<crate::sendtables::ServerClass>,
+    equipment_mapping: HashMap<String, crate::common::EquipmentType>,
     game_state: GameState,
     current_frame: i32,
     cancelled: bool,
@@ -61,6 +65,7 @@ impl<R: Read> Parser<R> {
             s2_tables: sendtables2::Parser::new(),
             s1_tables: TablesParser::new(),
             server_classes: Vec::new(),
+            equipment_mapping: HashMap::new(),
             game_state: GameState::default(),
             current_frame: 0,
             cancelled: false,
@@ -91,6 +96,11 @@ impl<R: Read> Parser<R> {
 
     fn game_state_mut(&mut self) -> &mut GameState {
         &mut self.game_state
+    }
+
+    fn update_equipment_mapping_from_classes(&mut self) {
+        self.equipment_mapping = datatable::build_equipment_mapping(&self.server_classes);
+        self.game_state.equipment_mapping = self.equipment_mapping.clone();
     }
 
     pub fn dispatch_event<E>(&mut self, event: E)
@@ -130,22 +140,28 @@ impl<R: Read> Parser<R> {
     }
 
     pub fn current_time(&self) -> std::time::Duration {
-        std::time::Duration::from_secs_f32(self.current_frame as f32 * self.tick_time().as_secs_f32())
+        std::time::Duration::from_secs_f32(
+            self.current_frame as f32 * self.tick_time().as_secs_f32(),
+        )
     }
 
     pub fn tick_rate(&self) -> f64 {
         self.header
             .as_ref()
-            .and_then(|h| if h.playback_time > 0.0 {
-                Some(h.playback_ticks as f64 / h.playback_time as f64)
-            } else { None })
+            .and_then(|h| {
+                if h.playback_time > 0.0 {
+                    Some(h.playback_ticks as f64 / h.playback_time as f64)
+                } else {
+                    None
+                }
+            })
             .unwrap_or(0.0)
     }
 
     pub fn tick_time(&self) -> std::time::Duration {
         if let Some(rate) = match self.tick_rate() {
-            r if r > 0.0 => Some(r),
-            _ => None,
+            | r if r > 0.0 => Some(r),
+            | _ => None,
         } {
             std::time::Duration::from_secs_f64(1.0 / rate)
         } else {
@@ -257,9 +273,14 @@ impl<R: Read> Parser<R> {
             | 6 => {
                 let len = self.bit_reader.read_signed_int(32) as usize;
                 let mut data = Vec::with_capacity(len);
-                for _ in 0..len { data.push(self.bit_reader.read_int(8) as u8); }
-                let _ = self.s1_tables.parse_packet(&data);
-                self.dispatch_event(crate::events::DataTablesParsed);
+                for _ in 0..len {
+                    data.push(self.bit_reader.read_int(8) as u8);
+                }
+                if self.s1_tables.parse_packet(&data).is_ok() {
+                    self.server_classes = self.s1_tables.server_classes().to_vec();
+                    self.update_equipment_mapping_from_classes();
+                    self.dispatch_event(crate::events::DataTablesParsed);
+                }
                 Ok(true)
             },
             | 5 => {
@@ -327,7 +348,6 @@ impl<R: Read> Parser<R> {
                 self.on_game_event(&msg);
                 self.dispatch_net_message(msg);
             }
-
         }
 
         let cont = msg_type != 0;
