@@ -6,6 +6,7 @@ pub mod sendtables;
 pub mod sendtables2;
 pub mod events;
 pub mod common;
+pub mod constants;
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
