@@ -13,16 +13,17 @@ This repository originally provided a Go library for demo parsing. The new Rust 
 
 Functions that do not have an equivalent yet will be added over time. The overall workflow of creating a parser, registering handlers and parsing frames remains the same.
 
-## Missing features
+## Feature differences
 
-Several parts of the Go API are not yet implemented in Rust:
+Some Go features work slightly differently in Rust:
 
-* **Parser configuration** – use `Parser::with_config` together with
-  `ParserConfig` to customize queue sizes, supply decryption keys or ignore
-  certain errors.
-* **Entity callbacks** – Go allows registering `OnEntity`/`OnEntityCreated`
-  handlers to observe property changes. Rust only exposes a small `GameState`
-  snapshot and does not emit entity events yet.
+* **Parser configuration** – build a [`ParserConfig`] struct to set the
+  message queue size, provide a decryption key or ignore specific errors.
+  Pass it to [`Parser::with_config`] when creating the parser.
+* **Entity callbacks** – register closures with
+  [`Parser::register_on_entity`] or [`Parser::register_on_entity_created`] to
+  receive [`EntityEvent`]s whenever an entity is updated or when a new entity is
+  spawned.
 
 ## Examples
 
