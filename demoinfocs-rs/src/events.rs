@@ -433,6 +433,41 @@ pub struct PlayerNameChange {
 }
 
 #[derive(Clone, Debug)]
+pub struct PlayerSpawn {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerSpawned {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerTeam {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerPing {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerPingStop {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerGivenC4 {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerFallDamage {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
 pub struct StringTablePlayerUpdateApplied {
     pub player: Option<Player>,
 }
