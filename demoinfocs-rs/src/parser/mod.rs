@@ -497,6 +497,16 @@ impl<R: Read> Parser<R> {
                             self.dispatch_user_message(msg);
                         }
                     },
+                    | proto_msg::ECstrike15UserMessages::CsUmTextMsg => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgTextMsg::decode(&data[..]) {
+                            self.dispatch_user_message(msg);
+                        }
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmHintText => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgHintText::decode(&data[..]) {
+                            self.dispatch_user_message(msg);
+                        }
+                    },
                     | _ => {},
                 }
             }
