@@ -716,7 +716,6 @@ pub struct WeaponZoom;
 
 #[derive(Clone, Debug)]
 pub struct WeaponZoomRifle;
-=======
 pub struct AmmoPickup;
 
 #[derive(Clone, Debug)]
