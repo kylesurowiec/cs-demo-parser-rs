@@ -50,6 +50,7 @@ fn compile(input: &str, output: &str) -> Result<(), Box<dyn std::error::Error>> 
             | Some("base_gcmessages_csgo.proto") => false,
             | Some(n) if n.ends_with("steamworkssdk.proto") => false,
             | Some("enums_clientserver.proto") => false,
+            | Some("steammessages_base.proto") => false, // skip problematic proto
             | _ => true,
         }
     });
@@ -320,9 +321,10 @@ fn extract_demos() -> Result<(), Box<dyn std::error::Error>> {
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("cargo:warning=Build script starting...");
 
-    if std::env::var_os("DEMOINFOCS_SKIP_PROTO").is_none() {
+    //if std::env::var_os("DEMOINFOCS_SKIP_PROTO").is_none() {
         compile("proto/msg", "msg")?;
-    }
+        compile("proto/msgs2", "msgs2")?;
+    //}
 
     // Setup demos (non-critical - don't fail build if it fails)
 

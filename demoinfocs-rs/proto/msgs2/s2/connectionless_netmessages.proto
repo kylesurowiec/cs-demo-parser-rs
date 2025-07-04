@@ -1,5 +1,6 @@
-package com.github.markus_wa.demoinfocs_golang.s2;
+package com.github.kylesurowiec.cs_demo_parser_rs;
 
+import "s2/networkbasetypes.proto";
 import "s2/netmessages.proto";
 
 message C2S_CONNECT_Message {

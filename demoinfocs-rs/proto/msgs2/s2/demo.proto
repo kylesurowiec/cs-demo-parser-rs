@@ -1,4 +1,6 @@
-package com.github.markus_wa.demoinfocs_golang.s2;
+package com.github.kylesurowiec.cs_demo_parser_rs;
+
+import "s2/networkbasetypes.proto";
 
 enum EDemoCommands {
 	DEM_Error = -1;
