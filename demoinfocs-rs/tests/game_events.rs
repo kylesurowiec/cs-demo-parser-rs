@@ -88,41 +88,32 @@ fn dispatch_equipment_and_server_events() {
     let vote = Arc::new(AtomicUsize::new(0));
     let reward = Arc::new(AtomicUsize::new(0));
 
-    let c = ammo.clone();
     parser.register_event_handler::<events::AmmoPickup, _>(move |_| {
-        c.fetch_add(1, Ordering::SeqCst);
+        ammo.fetch_add(1, Ordering::SeqCst);
     });
-    let c = equip.clone();
     parser.register_event_handler::<events::ItemEquip, _>(move |_| {
-        c.fetch_add(1, Ordering::SeqCst);
+        equip.fetch_add(1, Ordering::SeqCst);
     });
-    let c = pickup.clone();
     parser.register_event_handler::<events::ItemPickup, _>(move |_| {
-        c.fetch_add(1, Ordering::SeqCst);
+        pickup.fetch_add(1, Ordering::SeqCst);
     });
-    let c = slerp.clone();
     parser.register_event_handler::<events::ItemPickupSlerp, _>(move |_| {
-        c.fetch_add(1, Ordering::SeqCst);
+        slerp.fetch_add(1, Ordering::SeqCst);
     });
-    let c = remove.clone();
     parser.register_event_handler::<events::ItemRemove, _>(move |_| {
-        c.fetch_add(1, Ordering::SeqCst);
+        remove.fetch_add(1, Ordering::SeqCst);
     });
-    let c = inspect.clone();
     parser.register_event_handler::<events::InspectWeapon, _>(move |_| {
-        c.fetch_add(1, Ordering::SeqCst);
+        inspect.fetch_add(1, Ordering::SeqCst);
     });
-    let c = cvar.clone();
     parser.register_event_handler::<events::ServerCvar, _>(move |_| {
-        c.fetch_add(1, Ordering::SeqCst);
+        cvar.fetch_add(1, Ordering::SeqCst);
     });
-    let c = vote.clone();
     parser.register_event_handler::<events::VoteCast, _>(move |_| {
-        c.fetch_add(1, Ordering::SeqCst);
+        vote.fetch_add(1, Ordering::SeqCst);
     });
-    let c = reward.clone();
     parser.register_event_handler::<events::TournamentReward, _>(move |_| {
-        c.fetch_add(1, Ordering::SeqCst);
+        reward.fetch_add(1, Ordering::SeqCst);
     });
 
     let list = msg::CsvcMsgGameEventList {
@@ -160,4 +151,119 @@ fn dispatch_equipment_and_server_events() {
     assert!(cvar.load(Ordering::SeqCst) >= 1);
     assert!(vote.load(Ordering::SeqCst) >= 1);
     assert!(reward.load(Ordering::SeqCst) >= 1);
+}
+
+#[test]
+fn dispatch_round_state_events() {
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+
+    let final_c = Arc::new(AtomicUsize::new(0));
+    let last_half_c = Arc::new(AtomicUsize::new(0));
+    let match_point_c = Arc::new(AtomicUsize::new(0));
+    let match_start_c = Arc::new(AtomicUsize::new(0));
+    let warmup_c = Arc::new(AtomicUsize::new(0));
+    let upload_stats_c = Arc::new(AtomicUsize::new(0));
+    let mvp_c = Arc::new(AtomicUsize::new(0));
+    let freeze_end_c = Arc::new(AtomicUsize::new(0));
+    let official_c = Arc::new(AtomicUsize::new(0));
+
+    parser.register_event_handler::<events::RoundAnnounceFinal, _>(move |_| {
+        final_c.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::RoundAnnounceLastRoundHalf, _>(move |_| {
+        last_half_c.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::RoundAnnounceMatchPoint, _>(move |_| {
+        match_point_c.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::RoundAnnounceMatchStart, _>(move |_| {
+        match_start_c.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::RoundAnnounceWarmup, _>(move |_| {
+        warmup_c.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::RoundEndUploadStats, _>(move |_| {
+        upload_stats_c.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::RoundMVPAnnouncement, _>(move |_| {
+        mvp_c.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::RoundFreezetimeEnd, _>(move |_| {
+        freeze_end_c.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::RoundEndOfficial, _>(move |_| {
+        official_c.fetch_add(1, Ordering::SeqCst);
+    });
+
+    let list = msg::CsvcMsgGameEventList {
+        descriptors: vec![
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(1),
+                name: Some("round_announce_final".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(2),
+                name: Some("round_announce_last_round_half".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(3),
+                name: Some("round_announce_match_point".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(4),
+                name: Some("round_announce_match_start".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(5),
+                name: Some("round_announce_warmup".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(6),
+                name: Some("round_end_upload_stats".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(7),
+                name: Some("round_mvp".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(8),
+                name: Some("round_freeze_end".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(9),
+                name: Some("round_officially_ended".into()),
+                keys: vec![],
+            },
+        ],
+    };
+    parser.on_game_event_list(&list);
+
+    for id in 1..=9 {
+        parser.on_game_event(&msg::CsvcMsgGameEvent {
+            event_name: None,
+            eventid: Some(id),
+            keys: vec![],
+            passthrough: None,
+        });
+    }
+
+    thread::sleep(std::time::Duration::from_millis(20));
+
+    assert!(final_c.load(Ordering::SeqCst) >= 1);
+    assert!(last_half_c.load(Ordering::SeqCst) >= 1);
+    assert!(match_point_c.load(Ordering::SeqCst) >= 1);
+    assert!(match_start_c.load(Ordering::SeqCst) >= 1);
+    assert!(warmup_c.load(Ordering::SeqCst) >= 1);
+    assert!(upload_stats_c.load(Ordering::SeqCst) >= 1);
+    assert!(mvp_c.load(Ordering::SeqCst) >= 1);
+    assert!(freeze_end_c.load(Ordering::SeqCst) >= 1);
+    assert!(official_c.load(Ordering::SeqCst) >= 1);
 }

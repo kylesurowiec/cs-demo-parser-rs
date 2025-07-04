@@ -164,6 +164,24 @@ pub struct AnnouncementFinalRound;
 pub struct AnnouncementWinPanelMatch;
 
 #[derive(Clone, Debug)]
+pub struct RoundAnnounceFinal;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceLastRoundHalf;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceMatchPoint;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceMatchStart;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceWarmup;
+
+#[derive(Clone, Debug)]
+pub struct RoundEndUploadStats;
+
+#[derive(Clone, Debug)]
 pub struct Footstep {
     pub player: Option<Player>,
 }
@@ -229,6 +247,18 @@ pub struct GrenadeEvent {
     pub position: Vector,
     pub thrower: Option<Player>,
     pub grenade_entity_id: i32,
+}
+
+impl Default for GrenadeEvent {
+    fn default() -> Self {
+        Self {
+            grenade_type: 0,
+            grenade: None,
+            position: Vector::default(),
+            thrower: None,
+            grenade_entity_id: 0,
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -355,6 +385,11 @@ pub struct BombPickup {
 }
 
 #[derive(Clone, Debug)]
+pub struct BombBeep {
+    pub inner: BombEvent,
+}
+
+#[derive(Clone, Debug)]
 pub struct HostageRescued {
     pub player: Option<Player>,
     pub hostage: Option<Hostage>,
@@ -430,6 +465,41 @@ pub struct PlayerNameChange {
     pub player: Option<Player>,
     pub old_name: String,
     pub new_name: String,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerSpawn {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerSpawned {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerTeam {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerPing {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerPingStop {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerGivenC4 {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerFallDamage {
+    pub player: Option<Player>,
 }
 
 #[derive(Clone, Debug)]
