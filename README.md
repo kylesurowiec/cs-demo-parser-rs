@@ -26,6 +26,9 @@ sudo apt-get install protobuf-compiler libprotobuf-dev
 If `PROTOC_INCLUDE` is set, the build script will use it to locate
 `google/protobuf/descriptor.proto`. When `prost-build` is built with its
 bundled `protoc`, this variable is provided automatically.
+Otherwise the build script falls back to common system locations such as
+`/usr/include` or `/usr/local/include`. Installing `libprotobuf-dev` on
+Debian/Ubuntu provides the descriptor in `/usr/include`.
 
 ### Demo files
 
