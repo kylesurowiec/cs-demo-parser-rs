@@ -88,45 +88,90 @@ fn dispatch_equipment_and_server_events() {
     let vote = Arc::new(AtomicUsize::new(0));
     let reward = Arc::new(AtomicUsize::new(0));
 
+    let ammo_c = ammo.clone();
     parser.register_event_handler::<events::AmmoPickup, _>(move |_| {
-        ammo.fetch_add(1, Ordering::SeqCst);
+        ammo_c.fetch_add(1, Ordering::SeqCst);
     });
+    let equip_c = equip.clone();
     parser.register_event_handler::<events::ItemEquip, _>(move |_| {
-        equip.fetch_add(1, Ordering::SeqCst);
+        equip_c.fetch_add(1, Ordering::SeqCst);
     });
+    let pickup_c = pickup.clone();
     parser.register_event_handler::<events::ItemPickup, _>(move |_| {
-        pickup.fetch_add(1, Ordering::SeqCst);
+        pickup_c.fetch_add(1, Ordering::SeqCst);
     });
+    let slerp_c = slerp.clone();
     parser.register_event_handler::<events::ItemPickupSlerp, _>(move |_| {
-        slerp.fetch_add(1, Ordering::SeqCst);
+        slerp_c.fetch_add(1, Ordering::SeqCst);
     });
+    let remove_c = remove.clone();
     parser.register_event_handler::<events::ItemRemove, _>(move |_| {
-        remove.fetch_add(1, Ordering::SeqCst);
+        remove_c.fetch_add(1, Ordering::SeqCst);
     });
+    let inspect_c = inspect.clone();
     parser.register_event_handler::<events::InspectWeapon, _>(move |_| {
-        inspect.fetch_add(1, Ordering::SeqCst);
+        inspect_c.fetch_add(1, Ordering::SeqCst);
     });
+    let cvar_c = cvar.clone();
     parser.register_event_handler::<events::ServerCvar, _>(move |_| {
-        cvar.fetch_add(1, Ordering::SeqCst);
+        cvar_c.fetch_add(1, Ordering::SeqCst);
     });
+    let vote_c = vote.clone();
     parser.register_event_handler::<events::VoteCast, _>(move |_| {
-        vote.fetch_add(1, Ordering::SeqCst);
+        vote_c.fetch_add(1, Ordering::SeqCst);
     });
+    let reward_c = reward.clone();
     parser.register_event_handler::<events::TournamentReward, _>(move |_| {
-        reward.fetch_add(1, Ordering::SeqCst);
+        reward_c.fetch_add(1, Ordering::SeqCst);
     });
 
     let list = msg::CsvcMsgGameEventList {
         descriptors: vec![
-            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(1), name: Some("ammo_pickup".into()), keys: vec![] },
-            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(2), name: Some("item_equip".into()), keys: vec![] },
-            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(3), name: Some("item_pickup".into()), keys: vec![] },
-            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(4), name: Some("item_pickup_slerp".into()), keys: vec![] },
-            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(5), name: Some("item_remove".into()), keys: vec![] },
-            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(6), name: Some("inspect_weapon".into()), keys: vec![] },
-            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(7), name: Some("server_cvar".into()), keys: vec![] },
-            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(8), name: Some("vote_cast".into()), keys: vec![] },
-            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(9), name: Some("tournament_reward".into()), keys: vec![] },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(1),
+                name: Some("ammo_pickup".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(2),
+                name: Some("item_equip".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(3),
+                name: Some("item_pickup".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(4),
+                name: Some("item_pickup_slerp".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(5),
+                name: Some("item_remove".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(6),
+                name: Some("inspect_weapon".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(7),
+                name: Some("server_cvar".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(8),
+                name: Some("vote_cast".into()),
+                keys: vec![],
+            },
+            msg::csvc_msg_game_event_list::DescriptorT {
+                eventid: Some(9),
+                name: Some("tournament_reward".into()),
+                keys: vec![],
+            },
         ],
     };
     parser.on_game_event_list(&list);
@@ -167,32 +212,41 @@ fn dispatch_round_state_events() {
     let freeze_end_c = Arc::new(AtomicUsize::new(0));
     let official_c = Arc::new(AtomicUsize::new(0));
 
+    let final_c_c = final_c.clone();
     parser.register_event_handler::<events::RoundAnnounceFinal, _>(move |_| {
-        final_c.fetch_add(1, Ordering::SeqCst);
+        final_c_c.fetch_add(1, Ordering::SeqCst);
     });
+    let last_half_c_c = last_half_c.clone();
     parser.register_event_handler::<events::RoundAnnounceLastRoundHalf, _>(move |_| {
-        last_half_c.fetch_add(1, Ordering::SeqCst);
+        last_half_c_c.fetch_add(1, Ordering::SeqCst);
     });
+    let match_point_c_c = match_point_c.clone();
     parser.register_event_handler::<events::RoundAnnounceMatchPoint, _>(move |_| {
-        match_point_c.fetch_add(1, Ordering::SeqCst);
+        match_point_c_c.fetch_add(1, Ordering::SeqCst);
     });
+    let match_start_c_c = match_start_c.clone();
     parser.register_event_handler::<events::RoundAnnounceMatchStart, _>(move |_| {
-        match_start_c.fetch_add(1, Ordering::SeqCst);
+        match_start_c_c.fetch_add(1, Ordering::SeqCst);
     });
+    let warmup_c_c = warmup_c.clone();
     parser.register_event_handler::<events::RoundAnnounceWarmup, _>(move |_| {
-        warmup_c.fetch_add(1, Ordering::SeqCst);
+        warmup_c_c.fetch_add(1, Ordering::SeqCst);
     });
+    let upload_stats_c_c = upload_stats_c.clone();
     parser.register_event_handler::<events::RoundEndUploadStats, _>(move |_| {
-        upload_stats_c.fetch_add(1, Ordering::SeqCst);
+        upload_stats_c_c.fetch_add(1, Ordering::SeqCst);
     });
+    let mvp_c_c = mvp_c.clone();
     parser.register_event_handler::<events::RoundMVPAnnouncement, _>(move |_| {
-        mvp_c.fetch_add(1, Ordering::SeqCst);
+        mvp_c_c.fetch_add(1, Ordering::SeqCst);
     });
+    let freeze_end_c_c = freeze_end_c.clone();
     parser.register_event_handler::<events::RoundFreezetimeEnd, _>(move |_| {
-        freeze_end_c.fetch_add(1, Ordering::SeqCst);
+        freeze_end_c_c.fetch_add(1, Ordering::SeqCst);
     });
+    let official_c_c = official_c.clone();
     parser.register_event_handler::<events::RoundEndOfficial, _>(move |_| {
-        official_c.fetch_add(1, Ordering::SeqCst);
+        official_c_c.fetch_add(1, Ordering::SeqCst);
     });
 
     let list = msg::CsvcMsgGameEventList {

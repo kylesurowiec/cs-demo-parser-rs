@@ -1,6 +1,7 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
 use crate::game_state::GameState;
+use crate::sendtables::EntityOp;
 use crate::sendtables::TablesParser;
 use crate::sendtables2;
 
@@ -34,6 +35,17 @@ pub struct DemoHeader {
     pub playback_ticks: i32,
     pub playback_frames: i32,
     pub signon_length: i32,
+}
+
+#[derive(Clone, Debug)]
+pub struct EntityEvent {
+    pub entity: crate::sendtables2::Entity,
+    pub op: crate::sendtables::EntityOp,
+}
+
+#[derive(Clone, Debug)]
+pub struct EntityCreated {
+    pub entity: crate::sendtables2::Entity,
 }
 
 /// Parser for CS:GO / CS2 demo files.
@@ -95,6 +107,26 @@ impl<R: Read> Parser<R> {
         F: Fn(&M) + Send + Sync + 'static,
     {
         self.user_msg_dispatcher.register_handler::<M, F>(handler)
+    }
+
+    pub fn register_on_entity<F>(&self, handler: F) -> HandlerIdentifier
+    where
+        F: Fn(&EntityEvent) + Send + Sync + 'static,
+    {
+        self.event_dispatcher
+            .register_handler::<EntityEvent, F>(handler)
+    }
+
+    pub fn register_on_entity_created<F>(&self, handler: F) -> HandlerIdentifier
+    where
+        F: Fn(&crate::sendtables2::Entity) + Send + Sync + 'static,
+    {
+        self.event_dispatcher
+            .register_handler::<EntityEvent, _>(move |ev| {
+                if ev.op.contains(crate::sendtables::EntityOp::CREATED) {
+                    handler(&ev.entity);
+                }
+            })
     }
 
     pub fn game_state(&self) -> &GameState {
@@ -358,6 +390,19 @@ impl<R: Read> Parser<R> {
             if let Ok(msg) = crate::proto::msg::all::CsvcMsgGameEventList::decode(&buf[..]) {
                 self.on_game_event_list(&msg);
                 self.dispatch_net_message(msg);
+            }
+        } else if msg_type == crate::proto::msg::SvcMessages::SvcPacketEntities as u32 {
+            if let Ok(msg) = crate::proto::msg::all::CsvcMsgPacketEntities::decode(&buf[..]) {
+                for (ent, op) in self.s2_tables.parse_packet_entities(&msg) {
+                    let ev = EntityEvent {
+                        entity: ent.clone(),
+                        op,
+                    };
+                    self.dispatch_event(ev.clone());
+                    if op.contains(crate::sendtables::EntityOp::CREATED) {
+                        self.dispatch_event(EntityCreated { entity: ent });
+                    }
+                }
             }
         } else if msg_type == crate::proto::msg::SvcMessages::SvcGameEvent as u32 {
             if let Ok(msg) = crate::proto::msg::all::CsvcMsgGameEvent::decode(&buf[..]) {

@@ -144,9 +144,13 @@ impl Parser {
         self.class_baselines.insert(class_id, data);
     }
 
-    /// Parses a PacketEntities message and creates entities for enter operations.
-    pub fn parse_packet_entities(&mut self, msg: &msg::CsvcMsgPacketEntities) -> Vec<Entity> {
-        let mut created = Vec::new();
+    /// Parses a PacketEntities message and returns entity operations.
+    pub fn parse_packet_entities(
+        &mut self,
+        msg: &msg::CsvcMsgPacketEntities,
+    ) -> Vec<(Entity, crate::sendtables::EntityOp)> {
+        use crate::sendtables::EntityOp;
+        let mut events = Vec::new();
         if let Some(data) = msg.entity_data.as_ref() {
             let mut r = reader::Reader::new(data);
             let mut index: i32 = -1;
@@ -167,18 +171,22 @@ impl Parser {
                                 class: class.clone(),
                             };
                             self.entities.insert(index, ent.clone());
-                            created.push(ent);
+                            events.push((ent, EntityOp::CREATED | EntityOp::ENTERED));
                         }
                     } else {
-                        // existing entity update - skip
+                        if let Some(ent) = self.entities.get(&index).cloned() {
+                            events.push((ent, EntityOp::UPDATED));
+                        }
                     }
                 } else if cmd & 0x02 != 0 {
-                    self.entities.remove(&index);
+                    if let Some(ent) = self.entities.remove(&index) {
+                        events.push((ent, EntityOp::DELETED | EntityOp::LEFT));
+                    }
                 }
                 updates -= 1;
             }
         }
-        created
+        events
     }
 }
 

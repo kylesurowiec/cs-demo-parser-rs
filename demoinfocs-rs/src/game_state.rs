@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::common::{Bomb, Equipment, GrenadeProjectile, Hostage, Inferno, Player, Team};
-use crate::sendtables::entity::Entity;
+use crate::sendtables2::Entity;
 
 /// Very small placeholder for a team state.
 #[derive(Clone, Default)]
@@ -185,7 +185,7 @@ impl GameState {
     }
 
     pub fn add_entity(&mut self, entity: Entity) {
-        self.entities.insert(entity.id, entity);
+        self.entities.insert(entity.index, entity);
     }
 
     pub fn remove_entity(&mut self, id: i32) {
@@ -211,6 +211,15 @@ impl GameState {
             self.is_match_started = ms.new_is_started;
         } else if let Some(ot) = any.downcast_ref::<crate::events::OvertimeNumberChanged>() {
             self.overtime_count = ot.new_count;
+        } else if let Some(ev) = any.downcast_ref::<crate::parser::EntityEvent>() {
+            use crate::sendtables::EntityOp;
+            if ev.op.contains(EntityOp::DELETED) {
+                self.remove_entity(ev.entity.index);
+            } else if ev.op.contains(EntityOp::CREATED) {
+                self.add_entity(ev.entity.clone());
+            } else if ev.op.contains(EntityOp::UPDATED) {
+                self.add_entity(ev.entity.clone());
+            }
         } else if any.is::<crate::events::FrameDone>() {
             if let Some(fb) = self.flying_flashbangs.first() {
                 if fb.exploded_frame > 0 && fb.exploded_frame < self.ingame_tick {
