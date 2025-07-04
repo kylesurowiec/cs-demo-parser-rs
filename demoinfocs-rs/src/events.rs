@@ -164,6 +164,24 @@ pub struct AnnouncementFinalRound;
 pub struct AnnouncementWinPanelMatch;
 
 #[derive(Clone, Debug)]
+pub struct RoundAnnounceFinal;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceLastRoundHalf;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceMatchPoint;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceMatchStart;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceWarmup;
+
+#[derive(Clone, Debug)]
+pub struct RoundEndUploadStats;
+
+#[derive(Clone, Debug)]
 pub struct Footstep {
     pub player: Option<Player>,
 }
@@ -229,6 +247,18 @@ pub struct GrenadeEvent {
     pub position: Vector,
     pub thrower: Option<Player>,
     pub grenade_entity_id: i32,
+}
+
+impl Default for GrenadeEvent {
+    fn default() -> Self {
+        Self {
+            grenade_type: 0,
+            grenade: None,
+            position: Vector::default(),
+            thrower: None,
+            grenade_entity_id: 0,
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -438,6 +468,41 @@ pub struct PlayerNameChange {
 }
 
 #[derive(Clone, Debug)]
+pub struct PlayerSpawn {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerSpawned {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerTeam {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerPing {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerPingStop {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerGivenC4 {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PlayerFallDamage {
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
 pub struct StringTablePlayerUpdateApplied {
     pub player: Option<Player>,
 }
@@ -560,7 +625,6 @@ pub struct TeamClanNameUpdated {
     pub team_state: Option<TeamState>,
 }
 
-#[derive(Clone, Debug)]
 pub struct AnnouncePhaseEnd;
 
 #[derive(Clone, Debug)]
@@ -652,3 +716,29 @@ pub struct WeaponZoom;
 
 #[derive(Clone, Debug)]
 pub struct WeaponZoomRifle;
+=======
+pub struct AmmoPickup;
+
+#[derive(Clone, Debug)]
+pub struct ItemEquip;
+
+#[derive(Clone, Debug)]
+pub struct ItemPickup;
+
+#[derive(Clone, Debug)]
+pub struct ItemPickupSlerp;
+
+#[derive(Clone, Debug)]
+pub struct ItemRemove;
+
+#[derive(Clone, Debug)]
+pub struct InspectWeapon;
+
+#[derive(Clone, Debug)]
+pub struct ServerCvar;
+
+#[derive(Clone, Debug)]
+pub struct VoteCast;
+
+#[derive(Clone, Debug)]
+pub struct TournamentReward;
