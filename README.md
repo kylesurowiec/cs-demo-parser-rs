@@ -1,7 +1,7 @@
 # cs-demo-parser
 
-This repository contains a Counter‑Strike demo parser that is now **entirely
-implemented in Rust**. The previous Go implementation has been removed.
+This repository contains a Counter‑Strike demo parser written in Rust.
+Old Go sources remain under `pkg/` and example directories but are no longer maintained; only the `demoinfocs-rs` crate is actively developed.
 
 ## Building
 
