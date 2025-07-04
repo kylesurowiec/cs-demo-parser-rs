@@ -54,16 +54,10 @@ fn compile(input: &str, output: &str) -> Result<(), Box<dyn std::error::Error>> 
             | _ => true,
         }
     });
-    let mut mod_rs = String::new();
-    for proto in &protos {
-        println!("cargo:rerun-if-changed={} ", proto.display());
-        if let Some(stem) = proto.file_stem().and_then(|s| s.to_str()) {
-            mod_rs.push_str(&format!("pub mod {};\n", stem));
-        }
-    }
-    mod_rs.push_str("#[path = \"_.rs\"]\n");
-    mod_rs.push_str("pub mod all;\n");
-    mod_rs.push_str("pub use all::*;\n");
+    // Only generate a minimal mod.rs for the consolidated protobuf module
+    let mod_rs = r#"pub mod cs_demo_parser_rs;
+pub use cs_demo_parser_rs::*;
+"#;
     std::fs::write(out_dir.join("mod.rs"), mod_rs)?;
     let mut config = prost_build::Config::new();
     config.out_dir(&out_dir);

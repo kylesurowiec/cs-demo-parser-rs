@@ -1,4 +1,4 @@
-use crate::proto::msg::{self, csvc_msg_game_event};
+use crate::proto::msgs2::csvc_msg_game_event;
 use crate::sendtables::entity::Vector;
 
 use std::collections::HashMap;
@@ -595,7 +595,7 @@ pub struct ConVarsUpdated {
 
 #[derive(Clone, Debug)]
 pub struct RoundImpactScoreData {
-    pub raw_message: Option<msg::CcsUsrMsgRoundImpactScoreData>,
+    pub raw_message: Option<crate::proto::msg::cs_demo_parser_rs::CcsUsrMsgRoundImpactScoreData>,
 }
 
 #[derive(Clone, Debug)]

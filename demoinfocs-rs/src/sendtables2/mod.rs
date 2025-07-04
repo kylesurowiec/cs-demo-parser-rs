@@ -1,4 +1,4 @@
-use crate::proto::msg::all as msg;
+use crate::proto::msg::cs_demo_parser_rs as msg;
 use prost::Message;
 use std::collections::HashMap;
 

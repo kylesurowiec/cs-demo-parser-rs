@@ -1,3 +1,2 @@
-#[path = "com_github_kylesurowiec_cs_demo_parser_rs.rs"]
-pub mod all;
-pub use all::*;
+pub mod cs_demo_parser_rs;
+pub use cs_demo_parser_rs::*;

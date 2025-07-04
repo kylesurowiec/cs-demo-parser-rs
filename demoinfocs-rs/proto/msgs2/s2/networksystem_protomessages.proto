@@ -1,4 +1,4 @@
-package com.github.kylesurowiec.cs_demo_parser_rs;
+package cs_demo_parser_rs;
 
 message NetMessageSplitscreenUserChanged {
 	optional uint32 slot = 1;

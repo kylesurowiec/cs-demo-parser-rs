@@ -1,4 +1,4 @@
-package com.github.kylesurowiec.cs_demo_parser_rs;
+package cs_demo_parser_rs;
 
 import "s2/steamnetworkingsockets_messages.proto";
 import "s2/steamdatagram_messages_sdr.proto";

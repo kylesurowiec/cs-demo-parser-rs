@@ -1,9 +1,12 @@
+use crate::proto::msg;
 use std::collections::HashMap;
 use std::io::Read;
 
 use crate::events;
 use crate::parser::Parser;
-use crate::proto::msg::all as msg;
+// Update this import to match the actual structure of your proto::msg module.
+// For example, if you want to import everything from msg, use:
+// Use the correct import for the message types you need:
 
 struct Descriptor {
     name: String,

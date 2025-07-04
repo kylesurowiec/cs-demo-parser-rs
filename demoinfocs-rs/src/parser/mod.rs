@@ -6,7 +6,6 @@ use crate::sendtables2;
 
 pub mod datatable;
 
-use prost::Message;
 use std::collections::HashMap;
 use std::io::Read;
 use std::sync::Arc;
@@ -428,13 +427,13 @@ impl<R: Read> Parser<R> {
             if self.s2_tables.parse_packet(&buf).is_ok() {
                 self.dispatch_event(crate::events::DataTablesParsed);
             }
-        } else if msg_type == crate::proto::msg::SvcMessages::SvcGameEventList as u32 {
-            if let Ok(msg) = crate::proto::msg::all::CsvcMsgGameEventList::decode(&buf[..]) {
+        } else if msg_type == proto_msg::SvcMessages::SvcGameEventList as u32 {
+            if let Ok(msg) = proto_msg::CsvcMsgGameEventList::decode(&buf[..]) {
                 self.on_game_event_list(&msg);
                 self.dispatch_net_message(msg);
             }
-        } else if msg_type == crate::proto::msg::SvcMessages::SvcPacketEntities as u32 {
-            if let Ok(msg) = crate::proto::msg::all::CsvcMsgPacketEntities::decode(&buf[..]) {
+        } else if msg_type == proto_msg::SvcMessages::SvcPacketEntities as u32 {
+            if let Ok(msg) = proto_msg::CsvcMsgPacketEntities::decode(&buf[..]) {
                 for (ent, op) in self.s2_tables.parse_packet_entities(&msg) {
                     let ev = EntityEvent {
                         entity: ent.clone(),
@@ -446,8 +445,8 @@ impl<R: Read> Parser<R> {
                     }
                 }
             }
-        } else if msg_type == crate::proto::msg::SvcMessages::SvcGameEvent as u32 {
-            if let Ok(msg) = crate::proto::msg::all::CsvcMsgGameEvent::decode(&buf[..]) {
+        } else if msg_type == proto_msg::SvcMessages::SvcGameEvent as u32 {
+            if let Ok(msg) = proto_msg::CsvcMsgGameEvent::decode(&buf[..]) {
                 self.on_game_event(&msg);
                 self.dispatch_net_message(msg);
             }
@@ -461,48 +460,46 @@ impl<R: Read> Parser<R> {
         Ok(cont)
     }
 
-    pub fn on_game_event_list(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEventList) {
+    pub fn on_game_event_list(&mut self, msg: &proto_msg::CsvcMsgGameEventList) {
         self.game_events.handle_game_event_list(msg);
     }
 
-    pub fn on_game_event(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEvent) {
+    pub fn on_game_event(&mut self, msg: &proto_msg::CsvcMsgGameEvent) {
         let handler = std::mem::take(&mut self.game_events);
         handler.handle_game_event(self, msg);
         self.game_events = handler;
     }
 
-    pub fn handle_user_message(&self, um: &crate::proto::msg::all::CsvcMsgUserMessage) {
+    pub fn handle_user_message(&self, um: &proto_msg::CsvcMsgUserMessage) {
         use crate::proto::msg::{self as proto_msg};
         if let (Some(t), Some(data)) = (um.msg_type, &um.msg_data) {
             if let Ok(kind) = proto_msg::ECstrike15UserMessages::try_from(t) {
                 match kind {
-                    | proto_msg::ECstrike15UserMessages::CsUmSayText => {
-                        if let Ok(msg) = proto_msg::all::CcsUsrMsgSayText::decode(&data[..]) {
+                    proto_msg::ECstrike15UserMessages::CsUmSayText => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgSayText::decode(&data[..]) {
                             self.dispatch_user_message(msg);
                         }
-                    },
-                    | proto_msg::ECstrike15UserMessages::CsUmSayText2 => {
-                        if let Ok(msg) = proto_msg::all::CcsUsrMsgSayText2::decode(&data[..]) {
+                    }
+                    proto_msg::ECstrike15UserMessages::CsUmSayText2 => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgSayText2::decode(&data[..]) {
                             self.dispatch_user_message(msg);
                         }
-                    },
-                    | proto_msg::ECstrike15UserMessages::CsUmServerRankUpdate => {
-                        if let Ok(msg) =
-                            proto_msg::all::CcsUsrMsgServerRankUpdate::decode(&data[..])
-                        {
+                    }
+                    proto_msg::ECstrike15UserMessages::CsUmServerRankUpdate => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgServerRankUpdate::decode(&data[..]) {
                             self.dispatch_user_message(msg);
                         }
-                    },
-                    | proto_msg::ECstrike15UserMessages::CsUmRoundImpactScoreData => {
-                        if let Ok(msg) =
-                            proto_msg::all::CcsUsrMsgRoundImpactScoreData::decode(&data[..])
-                        {
+                    }
+                    proto_msg::ECstrike15UserMessages::CsUmRoundImpactScoreData => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgRoundImpactScoreData::decode(&data[..]) {
                             self.dispatch_user_message(msg);
                         }
-                    },
-                    | _ => {},
+                    }
+                    _ => {}
                 }
             }
         }
     }
 }
+
+use crate::proto::msg::cs_demo_parser_rs as proto_msg;

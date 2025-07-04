@@ -1,6 +1,9 @@
+use prost::Message as _;
+
+use crate::proto::msgs2::CsvcMsgSendTable;
 use crate::bitreader::BitReader;
-use crate::proto::msg::{self, all as proto};
-use prost::Message;
+use crate::proto::msg::cs_demo_parser_rs as proto_msg;
+use crate::proto::msg::cs_demo_parser_rs::CsvcMsgSendTable;
 
 use super::entity::FlattenedPropEntry;
 use super::propdecoder::{
@@ -60,9 +63,9 @@ impl Parser {
     pub fn parse_packet(&mut self, data: &[u8]) -> Result<(), prost::DecodeError> {
         let mut r = BitReader::new_small(data);
         loop {
-            let t = msg::SvcMessages::try_from(r.read_varint32() as i32)
+            let t = proto_msg::SvcMessages::try_from(r.read_varint32() as i32)
                 .map_err(|_| prost::DecodeError::new("invalid message"))?;
-            if t != msg::SvcMessages::SvcSendTable {
+            if t != proto_msg::SvcMessages::SvcSendTable {
                 panic!("Expected SendTable message");
             }
             let size = r.read_varint32() as usize;
@@ -70,7 +73,7 @@ impl Parser {
             for b in &mut bytes {
                 *b = r.read_int(8) as u8;
             }
-            let st = proto::CsvcMsgSendTable::decode(&bytes[..])?;
+            let st = CsvcMsgSendTable::decode(&bytes[..])?;
             if st.is_end.unwrap_or(false) {
                 break;
             }
