@@ -231,6 +231,18 @@ pub struct GrenadeEvent {
     pub grenade_entity_id: i32,
 }
 
+impl Default for GrenadeEvent {
+    fn default() -> Self {
+        Self {
+            grenade_type: 0,
+            grenade: None,
+            position: Vector::default(),
+            thrower: None,
+            grenade_entity_id: 0,
+        }
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct HeExplode {
     pub inner: GrenadeEvent,
@@ -352,6 +364,11 @@ pub struct BombDropped {
 #[derive(Clone, Debug)]
 pub struct BombPickup {
     pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
+pub struct BombBeep {
+    pub inner: BombEvent,
 }
 
 #[derive(Clone, Debug)]

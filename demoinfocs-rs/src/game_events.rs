@@ -59,6 +59,7 @@ impl GameEventHandler {
                 winner_state: None,
                 loser_state: None,
             }),
+            // Player events
             | "player_connect" | "player_connect_full" => {
                 parser.dispatch_event(events::PlayerConnect { player: None })
             },
@@ -81,6 +82,71 @@ impl GameEventHandler {
             | "player_given_c4" => parser.dispatch_event(events::PlayerGivenC4 { player: None }),
             | "player_jump" => parser.dispatch_event(events::PlayerJump { player: None }),
             | "player_footstep" => parser.dispatch_event(events::Footstep { player: None }),
+            // Grenade events
+            | "flashbang_detonate" => parser.dispatch_event(events::FlashExplode {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "hegrenade_detonate" => parser.dispatch_event(events::HeExplode {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "decoy_started" => parser.dispatch_event(events::DecoyStart {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "decoy_detonate" => parser.dispatch_event(events::DecoyExpired {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "smokegrenade_detonate" => parser.dispatch_event(events::SmokeStart {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "smokegrenade_expired" => parser.dispatch_event(events::SmokeExpired {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "inferno_startburn" => parser.dispatch_event(events::FireGrenadeStart {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "inferno_expire" => parser.dispatch_event(events::FireGrenadeExpired {
+                inner: events::GrenadeEvent::default(),
+            }),
+            // Bomb events
+            | "bomb_beginplant" => parser.dispatch_event(events::BombPlantBegin {
+                inner: events::BombEvent {
+                    player: None,
+                    site: events::Bombsite::Unknown,
+                },
+            }),
+            | "bomb_begindefuse" => parser.dispatch_event(events::BombDefuseStart {
+                player: None,
+                has_kit: false,
+            }),
+            | "bomb_defused" => parser.dispatch_event(events::BombDefused {
+                inner: events::BombEvent {
+                    player: None,
+                    site: events::Bombsite::Unknown,
+                },
+            }),
+            | "bomb_exploded" => parser.dispatch_event(events::BombExplode {
+                inner: events::BombEvent {
+                    player: None,
+                    site: events::Bombsite::Unknown,
+                },
+            }),
+            | "bomb_dropped" => parser.dispatch_event(events::BombDropped {
+                player: None,
+                entity_id: 0,
+            }),
+            | "bomb_pickup" => parser.dispatch_event(events::BombPickup { player: None }),
+            | "bomb_planted" => parser.dispatch_event(events::BombPlanted {
+                inner: events::BombEvent {
+                    player: None,
+                    site: events::Bombsite::Unknown,
+                },
+            }),
+            | "bomb_beep" => parser.dispatch_event(events::BombBeep {
+                inner: events::BombEvent {
+                    player: None,
+                    site: events::Bombsite::Unknown,
+                },
+            }),
             | _ => {},
         }
     }
