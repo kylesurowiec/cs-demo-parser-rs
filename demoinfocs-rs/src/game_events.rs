@@ -59,6 +59,29 @@ impl GameEventHandler {
                 winner_state: None,
                 loser_state: None,
             }),
+            // Player events
+            | "player_connect" | "player_connect_full" => {
+                parser.dispatch_event(events::PlayerConnect { player: None })
+            },
+            | "player_disconnect" => {
+                parser.dispatch_event(events::PlayerDisconnected { player: None })
+            },
+            | "player_changename" => parser.dispatch_event(events::PlayerNameChange {
+                player: None,
+                old_name: String::new(),
+                new_name: String::new(),
+            }),
+            | "player_spawn" => parser.dispatch_event(events::PlayerSpawn { player: None }),
+            | "player_spawned" => parser.dispatch_event(events::PlayerSpawned { player: None }),
+            | "player_team" => parser.dispatch_event(events::PlayerTeam { player: None }),
+            | "player_ping" => parser.dispatch_event(events::PlayerPing { player: None }),
+            | "player_ping_stop" => parser.dispatch_event(events::PlayerPingStop { player: None }),
+            | "player_falldamage" => {
+                parser.dispatch_event(events::PlayerFallDamage { player: None })
+            },
+            | "player_given_c4" => parser.dispatch_event(events::PlayerGivenC4 { player: None }),
+            | "player_jump" => parser.dispatch_event(events::PlayerJump { player: None }),
+            | "player_footstep" => parser.dispatch_event(events::Footstep { player: None }),
             // Grenade events
             | "flashbang_detonate" => parser.dispatch_event(events::FlashExplode {
                 inner: events::GrenadeEvent::default(),
