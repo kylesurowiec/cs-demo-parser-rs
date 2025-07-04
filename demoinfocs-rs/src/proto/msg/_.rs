@@ -573,7 +573,9 @@ pub struct CMsgGccStrike15V2MatchmakingGc2ClientUpdate {
     #[prost(message, optional, tag = "12")]
     pub server_ipaddress_mask: ::core::option::Option<IpAddressMask>,
     #[prost(message, repeated, tag = "13")]
-    pub notes: ::prost::alloc::vec::Vec<c_msg_gcc_strike15_v2_matchmaking_gc2_client_update::Note>,
+    pub notes: ::prost::alloc::vec::Vec<
+        c_msg_gcc_strike15_v2_matchmaking_gc2_client_update::Note,
+    >,
     #[prost(uint32, repeated, packed = "false", tag = "14")]
     pub penalty_account_id_sessions_green: ::prost::alloc::vec::Vec<u32>,
     #[prost(uint32, repeated, packed = "false", tag = "15")]
@@ -622,7 +624,9 @@ pub struct CDataGccStrike15V2TournamentMatchDraft {
     #[prost(int32, optional, tag = "9")]
     pub team_id_pickn: ::core::option::Option<i32>,
     #[prost(message, repeated, tag = "10")]
-    pub drafts: ::prost::alloc::vec::Vec<c_data_gcc_strike15_v2_tournament_match_draft::Entry>,
+    pub drafts: ::prost::alloc::vec::Vec<
+        c_data_gcc_strike15_v2_tournament_match_draft::Entry,
+    >,
 }
 /// Nested message and enum types in `CDataGCCStrike15_v2_TournamentMatchDraft`.
 pub mod c_data_gcc_strike15_v2_tournament_match_draft {
@@ -706,7 +710,9 @@ pub struct CMsgGccStrike15V2MatchmakingServerReservationResponse {
     #[prost(uint64, optional, tag = "1")]
     pub reservationid: ::core::option::Option<u64>,
     #[prost(message, optional, tag = "2")]
-    pub reservation: ::core::option::Option<CMsgGccStrike15V2MatchmakingGc2ServerReserve>,
+    pub reservation: ::core::option::Option<
+        CMsgGccStrike15V2MatchmakingGc2ServerReserve,
+    >,
     #[prost(string, optional, tag = "3")]
     pub map: ::core::option::Option<::prost::alloc::string::String>,
     #[prost(uint64, optional, tag = "4")]
@@ -750,7 +756,9 @@ pub struct CMsgGccStrike15V2MatchmakingGc2ClientReserve {
     #[prost(uint64, optional, tag = "4")]
     pub reservationid: ::core::option::Option<u64>,
     #[prost(message, optional, tag = "5")]
-    pub reservation: ::core::option::Option<CMsgGccStrike15V2MatchmakingGc2ServerReserve>,
+    pub reservation: ::core::option::Option<
+        CMsgGccStrike15V2MatchmakingGc2ServerReserve,
+    >,
     #[prost(string, optional, tag = "6")]
     pub map: ::core::option::Option<::prost::alloc::string::String>,
     #[prost(string, optional, tag = "7")]
@@ -762,7 +770,9 @@ pub struct CMsgGccStrike15V2MatchmakingServerRoundStats {
     #[prost(uint64, optional, tag = "1")]
     pub reservationid: ::core::option::Option<u64>,
     #[prost(message, optional, tag = "2")]
-    pub reservation: ::core::option::Option<CMsgGccStrike15V2MatchmakingGc2ServerReserve>,
+    pub reservation: ::core::option::Option<
+        CMsgGccStrike15V2MatchmakingGc2ServerReserve,
+    >,
     #[prost(string, optional, tag = "3")]
     pub map: ::core::option::Option<::prost::alloc::string::String>,
     #[prost(int32, optional, tag = "4")]
@@ -810,8 +820,9 @@ pub struct CMsgGccStrike15V2MatchmakingServerRoundStats {
     #[prost(int32, repeated, packed = "false", tag = "25")]
     pub enemy_kills_agg: ::prost::alloc::vec::Vec<i32>,
     #[prost(message, optional, tag = "26")]
-    pub drop_info:
-        ::core::option::Option<c_msg_gcc_strike15_v2_matchmaking_server_round_stats::DropInfo>,
+    pub drop_info: ::core::option::Option<
+        c_msg_gcc_strike15_v2_matchmaking_server_round_stats::DropInfo,
+    >,
     #[prost(bool, optional, tag = "27")]
     pub b_switched_teams: ::core::option::Option<bool>,
     #[prost(int32, repeated, packed = "false", tag = "28")]
@@ -841,7 +852,9 @@ pub struct CMsgGccStrike15V2MatchmakingGc2ClientHello {
     #[prost(uint32, optional, tag = "1")]
     pub account_id: ::core::option::Option<u32>,
     #[prost(message, optional, tag = "2")]
-    pub ongoingmatch: ::core::option::Option<CMsgGccStrike15V2MatchmakingGc2ClientReserve>,
+    pub ongoingmatch: ::core::option::Option<
+        CMsgGccStrike15V2MatchmakingGc2ClientReserve,
+    >,
     #[prost(message, optional, tag = "3")]
     pub global_stats: ::core::option::Option<GlobalStatistics>,
     #[prost(uint32, optional, tag = "4")]
@@ -881,7 +894,9 @@ pub struct CMsgGccStrike15V2MatchmakingGc2ClientHello {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CMsgGccStrike15V2AccountPrivacySettings {
     #[prost(message, repeated, tag = "1")]
-    pub settings: ::prost::alloc::vec::Vec<c_msg_gcc_strike15_v2_account_privacy_settings::Setting>,
+    pub settings: ::prost::alloc::vec::Vec<
+        c_msg_gcc_strike15_v2_account_privacy_settings::Setting,
+    >,
 }
 /// Nested message and enum types in `CMsgGCCStrike15_v2_AccountPrivacySettings`.
 pub mod c_msg_gcc_strike15_v2_account_privacy_settings {
@@ -900,7 +915,9 @@ pub struct CMsgGccStrike15V2MatchmakingGc2ClientAbandon {
     #[prost(uint32, optional, tag = "1")]
     pub account_id: ::core::option::Option<u32>,
     #[prost(message, optional, tag = "2")]
-    pub abandoned_match: ::core::option::Option<CMsgGccStrike15V2MatchmakingGc2ClientReserve>,
+    pub abandoned_match: ::core::option::Option<
+        CMsgGccStrike15V2MatchmakingGc2ClientReserve,
+    >,
     #[prost(uint32, optional, tag = "3")]
     pub penalty_seconds: ::core::option::Option<u32>,
     #[prost(uint32, optional, tag = "4")]
@@ -1118,9 +1135,13 @@ pub struct CMsgGccStrike15ClientDeepStats {
     #[prost(uint32, optional, tag = "1")]
     pub account_id: ::core::option::Option<u32>,
     #[prost(message, optional, tag = "2")]
-    pub range: ::core::option::Option<c_msg_gcc_strike15_client_deep_stats::DeepStatsRange>,
+    pub range: ::core::option::Option<
+        c_msg_gcc_strike15_client_deep_stats::DeepStatsRange,
+    >,
     #[prost(message, repeated, tag = "3")]
-    pub matches: ::prost::alloc::vec::Vec<c_msg_gcc_strike15_client_deep_stats::DeepStatsMatch>,
+    pub matches: ::prost::alloc::vec::Vec<
+        c_msg_gcc_strike15_client_deep_stats::DeepStatsMatch,
+    >,
 }
 /// Nested message and enum types in `CMsgGCCStrike15_ClientDeepStats`.
 pub mod c_msg_gcc_strike15_client_deep_stats {
@@ -1173,7 +1194,9 @@ pub struct CMsgGccStrike15V2PlayersProfile {
     #[prost(uint32, optional, tag = "1")]
     pub request_id: ::core::option::Option<u32>,
     #[prost(message, repeated, tag = "2")]
-    pub account_profiles: ::prost::alloc::vec::Vec<CMsgGccStrike15V2MatchmakingGc2ClientHello>,
+    pub account_profiles: ::prost::alloc::vec::Vec<
+        CMsgGccStrike15V2MatchmakingGc2ClientHello,
+    >,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1259,7 +1282,9 @@ pub struct CMsgGccStrike15V2Client2GcTextMsg {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CMsgGccStrike15V2MatchEndRunRewardDrops {
     #[prost(message, optional, tag = "3")]
-    pub serverinfo: ::core::option::Option<CMsgGccStrike15V2MatchmakingServerReservationResponse>,
+    pub serverinfo: ::core::option::Option<
+        CMsgGccStrike15V2MatchmakingServerReservationResponse,
+    >,
     #[prost(message, optional, tag = "4")]
     pub match_end_quest_data: ::core::option::Option<CMsgGcServerQuestUpdateData>,
 }
@@ -1393,9 +1418,13 @@ pub struct CDataGccStrike15V2MatchInfo {
     #[prost(message, optional, tag = "3")]
     pub watchablematchinfo: ::core::option::Option<WatchableMatchInfo>,
     #[prost(message, optional, tag = "4")]
-    pub roundstats_legacy: ::core::option::Option<CMsgGccStrike15V2MatchmakingServerRoundStats>,
+    pub roundstats_legacy: ::core::option::Option<
+        CMsgGccStrike15V2MatchmakingServerRoundStats,
+    >,
     #[prost(message, repeated, tag = "5")]
-    pub roundstatsall: ::prost::alloc::vec::Vec<CMsgGccStrike15V2MatchmakingServerRoundStats>,
+    pub roundstatsall: ::prost::alloc::vec::Vec<
+        CMsgGccStrike15V2MatchmakingServerRoundStats,
+    >,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1492,8 +1521,9 @@ pub struct CMsgGccStrike15V2Predictions {
     #[prost(uint32, optional, tag = "1")]
     pub event_id: ::core::option::Option<u32>,
     #[prost(message, repeated, tag = "2")]
-    pub group_match_team_picks:
-        ::prost::alloc::vec::Vec<c_msg_gcc_strike15_v2_predictions::GroupMatchTeamPick>,
+    pub group_match_team_picks: ::prost::alloc::vec::Vec<
+        c_msg_gcc_strike15_v2_predictions::GroupMatchTeamPick,
+    >,
 }
 /// Nested message and enum types in `CMsgGCCStrike15_v2_Predictions`.
 pub mod c_msg_gcc_strike15_v2_predictions {
@@ -1889,7 +1919,9 @@ pub struct CMsgGccStrike15V2PartySearch {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CMsgGccStrike15V2PartySearchResults {
     #[prost(message, repeated, tag = "1")]
-    pub entries: ::prost::alloc::vec::Vec<c_msg_gcc_strike15_v2_party_search_results::Entry>,
+    pub entries: ::prost::alloc::vec::Vec<
+        c_msg_gcc_strike15_v2_party_search_results::Entry,
+    >,
 }
 /// Nested message and enum types in `CMsgGCCStrike15_v2_Party_SearchResults`.
 pub mod c_msg_gcc_strike15_v2_party_search_results {
@@ -1924,7 +1956,9 @@ pub struct CMsgGccStrike15V2PartyInvite {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CMsgGccStrike15V2AccountRequestCoPlays {
     #[prost(message, repeated, tag = "1")]
-    pub players: ::prost::alloc::vec::Vec<c_msg_gcc_strike15_v2_account_request_co_plays::Player>,
+    pub players: ::prost::alloc::vec::Vec<
+        c_msg_gcc_strike15_v2_account_request_co_plays::Player,
+    >,
     #[prost(uint32, optional, tag = "2")]
     pub servertime: ::core::option::Option<u32>,
 }
@@ -1992,7 +2026,9 @@ pub struct CMsgGccStrike15V2ClientPartyJoinRelay {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CMsgGccStrike15V2ClientPartyWarning {
     #[prost(message, repeated, tag = "1")]
-    pub entries: ::prost::alloc::vec::Vec<c_msg_gcc_strike15_v2_client_party_warning::Entry>,
+    pub entries: ::prost::alloc::vec::Vec<
+        c_msg_gcc_strike15_v2_client_party_warning::Entry,
+    >,
 }
 /// Nested message and enum types in `CMsgGCCStrike15_v2_ClientPartyWarning`.
 pub mod c_msg_gcc_strike15_v2_client_party_warning {
@@ -2033,7 +2069,9 @@ pub struct CMsgGccStrike15V2GetEventFavoritesResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CMsgGccStrike15V2ClientPerfReport {
     #[prost(message, repeated, tag = "1")]
-    pub entries: ::prost::alloc::vec::Vec<c_msg_gcc_strike15_v2_client_perf_report::Entry>,
+    pub entries: ::prost::alloc::vec::Vec<
+        c_msg_gcc_strike15_v2_client_perf_report::Entry,
+    >,
 }
 /// Nested message and enum types in `CMsgGCCStrike15_v2_ClientPerfReport`.
 pub mod c_msg_gcc_strike15_v2_client_perf_report {
@@ -2301,546 +2339,582 @@ impl ECsgoGcMsg {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | ECsgoGcMsg::KEMsgGccStrike15V2Base => "k_EMsgGCCStrike15_v2_Base",
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingStart => {
+            ECsgoGcMsg::KEMsgGccStrike15V2Base => "k_EMsgGCCStrike15_v2_Base",
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingStart => {
                 "k_EMsgGCCStrike15_v2_MatchmakingStart"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingStop => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingStop => {
                 "k_EMsgGCCStrike15_v2_MatchmakingStop"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingClient2ServerPing => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingClient2ServerPing => {
                 "k_EMsgGCCStrike15_v2_MatchmakingClient2ServerPing"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingGc2ClientUpdate => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingGc2ClientUpdate => {
                 "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientUpdate"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingServerReservationResponse => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingServerReservationResponse => {
                 "k_EMsgGCCStrike15_v2_MatchmakingServerReservationResponse"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingGc2ClientReserve => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingGc2ClientReserve => {
                 "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientReserve"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingClient2GcHello => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingClient2GcHello => {
                 "k_EMsgGCCStrike15_v2_MatchmakingClient2GCHello"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingGc2ClientHello => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingGc2ClientHello => {
                 "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientHello"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingGc2ClientAbandon => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingGc2ClientAbandon => {
                 "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientAbandon"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingGcOperationalStats => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingGcOperationalStats => {
                 "k_EMsgGCCStrike15_v2_MatchmakingGCOperationalStats"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingOperator2GcBlogUpdate => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchmakingOperator2GcBlogUpdate => {
                 "k_EMsgGCCStrike15_v2_MatchmakingOperator2GCBlogUpdate"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ServerNotificationForUserPenalty => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ServerNotificationForUserPenalty => {
                 "k_EMsgGCCStrike15_v2_ServerNotificationForUserPenalty"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientReportPlayer => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientReportPlayer => {
                 "k_EMsgGCCStrike15_v2_ClientReportPlayer"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientReportServer => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientReportServer => {
                 "k_EMsgGCCStrike15_v2_ClientReportServer"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientCommendPlayer => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientCommendPlayer => {
                 "k_EMsgGCCStrike15_v2_ClientCommendPlayer"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientReportResponse => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientReportResponse => {
                 "k_EMsgGCCStrike15_v2_ClientReportResponse"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientCommendPlayerQuery => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientCommendPlayerQuery => {
                 "k_EMsgGCCStrike15_v2_ClientCommendPlayerQuery"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientCommendPlayerQueryResponse => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientCommendPlayerQueryResponse => {
                 "k_EMsgGCCStrike15_v2_ClientCommendPlayerQueryResponse"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2WatchInfoUsers => "k_EMsgGCCStrike15_v2_WatchInfoUsers",
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestPlayersProfile => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2WatchInfoUsers => {
+                "k_EMsgGCCStrike15_v2_WatchInfoUsers"
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestPlayersProfile => {
                 "k_EMsgGCCStrike15_v2_ClientRequestPlayersProfile"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2PlayersProfile => "k_EMsgGCCStrike15_v2_PlayersProfile",
-            | ECsgoGcMsg::KEMsgGccStrike15V2PlayerOverwatchCaseUpdate => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2PlayersProfile => {
+                "k_EMsgGCCStrike15_v2_PlayersProfile"
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2PlayerOverwatchCaseUpdate => {
                 "k_EMsgGCCStrike15_v2_PlayerOverwatchCaseUpdate"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2PlayerOverwatchCaseAssignment => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2PlayerOverwatchCaseAssignment => {
                 "k_EMsgGCCStrike15_v2_PlayerOverwatchCaseAssignment"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2PlayerOverwatchCaseStatus => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2PlayerOverwatchCaseStatus => {
                 "k_EMsgGCCStrike15_v2_PlayerOverwatchCaseStatus"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientTextMsg => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientTextMsg => {
                 "k_EMsgGCCStrike15_v2_GC2ClientTextMsg"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Client2GcTextMsg => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Client2GcTextMsg => {
                 "k_EMsgGCCStrike15_v2_Client2GCTextMsg"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchEndRunRewardDrops => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchEndRunRewardDrops => {
                 "k_EMsgGCCStrike15_v2_MatchEndRunRewardDrops"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchEndRewardDropsNotification => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchEndRewardDropsNotification => {
                 "k_EMsgGCCStrike15_v2_MatchEndRewardDropsNotification"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestWatchInfoFriends2 => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestWatchInfoFriends2 => {
                 "k_EMsgGCCStrike15_v2_ClientRequestWatchInfoFriends2"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchList => "k_EMsgGCCStrike15_v2_MatchList",
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestCurrentLiveGames => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchList => "k_EMsgGCCStrike15_v2_MatchList",
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestCurrentLiveGames => {
                 "k_EMsgGCCStrike15_v2_MatchListRequestCurrentLiveGames"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestRecentUserGames => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestRecentUserGames => {
                 "k_EMsgGCCStrike15_v2_MatchListRequestRecentUserGames"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Gc2ServerReservationUpdate => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Gc2ServerReservationUpdate => {
                 "k_EMsgGCCStrike15_v2_GC2ServerReservationUpdate"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientVarValueNotificationInfo => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientVarValueNotificationInfo => {
                 "k_EMsgGCCStrike15_v2_ClientVarValueNotificationInfo"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestTournamentGames => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestTournamentGames => {
                 "k_EMsgGCCStrike15_v2_MatchListRequestTournamentGames"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestFullGameInfo => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestFullGameInfo => {
                 "k_EMsgGCCStrike15_v2_MatchListRequestFullGameInfo"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2GiftsLeaderboardRequest => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2GiftsLeaderboardRequest => {
                 "k_EMsgGCCStrike15_v2_GiftsLeaderboardRequest"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2GiftsLeaderboardResponse => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2GiftsLeaderboardResponse => {
                 "k_EMsgGCCStrike15_v2_GiftsLeaderboardResponse"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ServerVarValueNotificationInfo => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ServerVarValueNotificationInfo => {
                 "k_EMsgGCCStrike15_v2_ServerVarValueNotificationInfo"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientSubmitSurveyVote => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientSubmitSurveyVote => {
                 "k_EMsgGCCStrike15_v2_ClientSubmitSurveyVote"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Server2GcClientValidate => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Server2GcClientValidate => {
                 "k_EMsgGCCStrike15_v2_Server2GCClientValidate"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestLiveGameForUser => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestLiveGameForUser => {
                 "k_EMsgGCCStrike15_v2_MatchListRequestLiveGameForUser"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Client2GcEconPreviewDataBlockRequest => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Client2GcEconPreviewDataBlockRequest => {
                 "k_EMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockRequest"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Client2GcEconPreviewDataBlockResponse => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Client2GcEconPreviewDataBlockResponse => {
                 "k_EMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockResponse"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2AccountPrivacySettings => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2AccountPrivacySettings => {
                 "k_EMsgGCCStrike15_v2_AccountPrivacySettings"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2SetMyActivityInfo => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2SetMyActivityInfo => {
                 "k_EMsgGCCStrike15_v2_SetMyActivityInfo"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestTournamentPredictions => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchListRequestTournamentPredictions => {
                 "k_EMsgGCCStrike15_v2_MatchListRequestTournamentPredictions"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchListUploadTournamentPredictions => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchListUploadTournamentPredictions => {
                 "k_EMsgGCCStrike15_v2_MatchListUploadTournamentPredictions"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2DraftSummary => "k_EMsgGCCStrike15_v2_DraftSummary",
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestJoinFriendData => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2DraftSummary => {
+                "k_EMsgGCCStrike15_v2_DraftSummary"
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestJoinFriendData => {
                 "k_EMsgGCCStrike15_v2_ClientRequestJoinFriendData"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestJoinServerData => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestJoinServerData => {
                 "k_EMsgGCCStrike15_v2_ClientRequestJoinServerData"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestNewMission => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestNewMission => {
                 "k_EMsgGCCStrike15_v2_ClientRequestNewMission"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientTournamentInfo => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientTournamentInfo => {
                 "k_EMsgGCCStrike15_v2_GC2ClientTournamentInfo"
-            },
-            | ECsgoGcMsg::KEMsgGcGlobalGameSubscribe => "k_EMsgGC_GlobalGame_Subscribe",
-            | ECsgoGcMsg::KEMsgGcGlobalGameUnsubscribe => "k_EMsgGC_GlobalGame_Unsubscribe",
-            | ECsgoGcMsg::KEMsgGcGlobalGamePlay => "k_EMsgGC_GlobalGame_Play",
-            | ECsgoGcMsg::KEMsgGccStrike15V2AcknowledgePenalty => {
+            }
+            ECsgoGcMsg::KEMsgGcGlobalGameSubscribe => "k_EMsgGC_GlobalGame_Subscribe",
+            ECsgoGcMsg::KEMsgGcGlobalGameUnsubscribe => "k_EMsgGC_GlobalGame_Unsubscribe",
+            ECsgoGcMsg::KEMsgGcGlobalGamePlay => "k_EMsgGC_GlobalGame_Play",
+            ECsgoGcMsg::KEMsgGccStrike15V2AcknowledgePenalty => {
                 "k_EMsgGCCStrike15_v2_AcknowledgePenalty"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Client2GcRequestPrestigeCoin => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Client2GcRequestPrestigeCoin => {
                 "k_EMsgGCCStrike15_v2_Client2GCRequestPrestigeCoin"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientGlobalStats => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientGlobalStats => {
                 "k_EMsgGCCStrike15_v2_GC2ClientGlobalStats"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Client2GcStreamUnlock => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Client2GcStreamUnlock => {
                 "k_EMsgGCCStrike15_v2_Client2GCStreamUnlock"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2FantasyRequestClientData => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2FantasyRequestClientData => {
                 "k_EMsgGCCStrike15_v2_FantasyRequestClientData"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2FantasyUpdateClientData => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2FantasyUpdateClientData => {
                 "k_EMsgGCCStrike15_v2_FantasyUpdateClientData"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2GcToClientSteamdatagramTicket => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2GcToClientSteamdatagramTicket => {
                 "k_EMsgGCCStrike15_v2_GCToClientSteamdatagramTicket"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientToGcRequestTicket => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientToGcRequestTicket => {
                 "k_EMsgGCCStrike15_v2_ClientToGCRequestTicket"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientToGcRequestElevate => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientToGcRequestElevate => {
                 "k_EMsgGCCStrike15_v2_ClientToGCRequestElevate"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2GlobalChat => "k_EMsgGCCStrike15_v2_GlobalChat",
-            | ECsgoGcMsg::KEMsgGccStrike15V2GlobalChatSubscribe => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2GlobalChat => "k_EMsgGCCStrike15_v2_GlobalChat",
+            ECsgoGcMsg::KEMsgGccStrike15V2GlobalChatSubscribe => {
                 "k_EMsgGCCStrike15_v2_GlobalChat_Subscribe"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2GlobalChatUnsubscribe => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2GlobalChatUnsubscribe => {
                 "k_EMsgGCCStrike15_v2_GlobalChat_Unsubscribe"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientAuthKeyCode => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientAuthKeyCode => {
                 "k_EMsgGCCStrike15_v2_ClientAuthKeyCode"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2GotvSyncPacket => "k_EMsgGCCStrike15_v2_GotvSyncPacket",
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientPlayerDecalSign => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2GotvSyncPacket => {
+                "k_EMsgGCCStrike15_v2_GotvSyncPacket"
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientPlayerDecalSign => {
                 "k_EMsgGCCStrike15_v2_ClientPlayerDecalSign"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientLogonFatalError => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientLogonFatalError => {
                 "k_EMsgGCCStrike15_v2_ClientLogonFatalError"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientPollState => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientPollState => {
                 "k_EMsgGCCStrike15_v2_ClientPollState"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2PartyRegister => "k_EMsgGCCStrike15_v2_Party_Register",
-            | ECsgoGcMsg::KEMsgGccStrike15V2PartyUnregister => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2PartyRegister => {
+                "k_EMsgGCCStrike15_v2_Party_Register"
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2PartyUnregister => {
                 "k_EMsgGCCStrike15_v2_Party_Unregister"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2PartySearch => "k_EMsgGCCStrike15_v2_Party_Search",
-            | ECsgoGcMsg::KEMsgGccStrike15V2PartyInvite => "k_EMsgGCCStrike15_v2_Party_Invite",
-            | ECsgoGcMsg::KEMsgGccStrike15V2AccountRequestCoPlays => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2PartySearch => {
+                "k_EMsgGCCStrike15_v2_Party_Search"
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2PartyInvite => {
+                "k_EMsgGCCStrike15_v2_Party_Invite"
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2AccountRequestCoPlays => {
                 "k_EMsgGCCStrike15_v2_Account_RequestCoPlays"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientGcRankUpdate => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientGcRankUpdate => {
                 "k_EMsgGCCStrike15_v2_ClientGCRankUpdate"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestOffers => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestOffers => {
                 "k_EMsgGCCStrike15_v2_ClientRequestOffers"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientAccountBalance => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientAccountBalance => {
                 "k_EMsgGCCStrike15_v2_ClientAccountBalance"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientPartyJoinRelay => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientPartyJoinRelay => {
                 "k_EMsgGCCStrike15_v2_ClientPartyJoinRelay"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientPartyWarning => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientPartyWarning => {
                 "k_EMsgGCCStrike15_v2_ClientPartyWarning"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2SetEventFavorite => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2SetEventFavorite => {
                 "k_EMsgGCCStrike15_v2_SetEventFavorite"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2GetEventFavoritesRequest => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2GetEventFavoritesRequest => {
                 "k_EMsgGCCStrike15_v2_GetEventFavorites_Request"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientPerfReport => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientPerfReport => {
                 "k_EMsgGCCStrike15_v2_ClientPerfReport"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2GetEventFavoritesResponse => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2GetEventFavoritesResponse => {
                 "k_EMsgGCCStrike15_v2_GetEventFavorites_Response"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestSouvenir => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientRequestSouvenir => {
                 "k_EMsgGCCStrike15_v2_ClientRequestSouvenir"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientReportValidation => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientReportValidation => {
                 "k_EMsgGCCStrike15_v2_ClientReportValidation"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientRefuseSecureMode => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientRefuseSecureMode => {
                 "k_EMsgGCCStrike15_v2_GC2ClientRefuseSecureMode"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientRequestValidation => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientRequestValidation => {
                 "k_EMsgGCCStrike15_v2_GC2ClientRequestValidation"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2ClientRedeemMissionReward => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2ClientRedeemMissionReward => {
                 "k_EMsgGCCStrike15_v2_ClientRedeemMissionReward"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15ClientDeepStats => "k_EMsgGCCStrike15_ClientDeepStats",
-            | ECsgoGcMsg::KEMsgGccStrike15StartAgreementSessionInGame => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15ClientDeepStats => {
+                "k_EMsgGCCStrike15_ClientDeepStats"
+            }
+            ECsgoGcMsg::KEMsgGccStrike15StartAgreementSessionInGame => {
                 "k_EMsgGCCStrike15_StartAgreementSessionInGame"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientInitSystem => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientInitSystem => {
                 "k_EMsgGCCStrike15_v2_GC2ClientInitSystem"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientInitSystemResponse => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2Gc2ClientInitSystemResponse => {
                 "k_EMsgGCCStrike15_v2_GC2ClientInitSystem_Response"
-            },
-            | ECsgoGcMsg::KEMsgGccStrike15V2PrivateQueues => "k_EMsgGCCStrike15_v2_PrivateQueues",
-            | ECsgoGcMsg::KEMsgGccStrike15V2MatchListTournamentOperatorMgmt => {
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2PrivateQueues => {
+                "k_EMsgGCCStrike15_v2_PrivateQueues"
+            }
+            ECsgoGcMsg::KEMsgGccStrike15V2MatchListTournamentOperatorMgmt => {
                 "k_EMsgGCCStrike15_v2_MatchListTournamentOperatorMgmt"
-            },
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "k_EMsgGCCStrike15_v2_Base" => Some(Self::KEMsgGccStrike15V2Base),
-            | "k_EMsgGCCStrike15_v2_MatchmakingStart" => {
+            "k_EMsgGCCStrike15_v2_Base" => Some(Self::KEMsgGccStrike15V2Base),
+            "k_EMsgGCCStrike15_v2_MatchmakingStart" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingStart)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchmakingStop" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchmakingStop" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingStop)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchmakingClient2ServerPing" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchmakingClient2ServerPing" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingClient2ServerPing)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientUpdate" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientUpdate" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingGc2ClientUpdate)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchmakingServerReservationResponse" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchmakingServerReservationResponse" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingServerReservationResponse)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientReserve" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientReserve" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingGc2ClientReserve)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchmakingClient2GCHello" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchmakingClient2GCHello" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingClient2GcHello)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientHello" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientHello" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingGc2ClientHello)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientAbandon" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchmakingGC2ClientAbandon" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingGc2ClientAbandon)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchmakingGCOperationalStats" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchmakingGCOperationalStats" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingGcOperationalStats)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchmakingOperator2GCBlogUpdate" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchmakingOperator2GCBlogUpdate" => {
                 Some(Self::KEMsgGccStrike15V2MatchmakingOperator2GcBlogUpdate)
-            },
-            | "k_EMsgGCCStrike15_v2_ServerNotificationForUserPenalty" => {
+            }
+            "k_EMsgGCCStrike15_v2_ServerNotificationForUserPenalty" => {
                 Some(Self::KEMsgGccStrike15V2ServerNotificationForUserPenalty)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientReportPlayer" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientReportPlayer" => {
                 Some(Self::KEMsgGccStrike15V2ClientReportPlayer)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientReportServer" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientReportServer" => {
                 Some(Self::KEMsgGccStrike15V2ClientReportServer)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientCommendPlayer" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientCommendPlayer" => {
                 Some(Self::KEMsgGccStrike15V2ClientCommendPlayer)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientReportResponse" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientReportResponse" => {
                 Some(Self::KEMsgGccStrike15V2ClientReportResponse)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientCommendPlayerQuery" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientCommendPlayerQuery" => {
                 Some(Self::KEMsgGccStrike15V2ClientCommendPlayerQuery)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientCommendPlayerQueryResponse" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientCommendPlayerQueryResponse" => {
                 Some(Self::KEMsgGccStrike15V2ClientCommendPlayerQueryResponse)
-            },
-            | "k_EMsgGCCStrike15_v2_WatchInfoUsers" => Some(Self::KEMsgGccStrike15V2WatchInfoUsers),
-            | "k_EMsgGCCStrike15_v2_ClientRequestPlayersProfile" => {
+            }
+            "k_EMsgGCCStrike15_v2_WatchInfoUsers" => {
+                Some(Self::KEMsgGccStrike15V2WatchInfoUsers)
+            }
+            "k_EMsgGCCStrike15_v2_ClientRequestPlayersProfile" => {
                 Some(Self::KEMsgGccStrike15V2ClientRequestPlayersProfile)
-            },
-            | "k_EMsgGCCStrike15_v2_PlayersProfile" => Some(Self::KEMsgGccStrike15V2PlayersProfile),
-            | "k_EMsgGCCStrike15_v2_PlayerOverwatchCaseUpdate" => {
+            }
+            "k_EMsgGCCStrike15_v2_PlayersProfile" => {
+                Some(Self::KEMsgGccStrike15V2PlayersProfile)
+            }
+            "k_EMsgGCCStrike15_v2_PlayerOverwatchCaseUpdate" => {
                 Some(Self::KEMsgGccStrike15V2PlayerOverwatchCaseUpdate)
-            },
-            | "k_EMsgGCCStrike15_v2_PlayerOverwatchCaseAssignment" => {
+            }
+            "k_EMsgGCCStrike15_v2_PlayerOverwatchCaseAssignment" => {
                 Some(Self::KEMsgGccStrike15V2PlayerOverwatchCaseAssignment)
-            },
-            | "k_EMsgGCCStrike15_v2_PlayerOverwatchCaseStatus" => {
+            }
+            "k_EMsgGCCStrike15_v2_PlayerOverwatchCaseStatus" => {
                 Some(Self::KEMsgGccStrike15V2PlayerOverwatchCaseStatus)
-            },
-            | "k_EMsgGCCStrike15_v2_GC2ClientTextMsg" => {
+            }
+            "k_EMsgGCCStrike15_v2_GC2ClientTextMsg" => {
                 Some(Self::KEMsgGccStrike15V2Gc2ClientTextMsg)
-            },
-            | "k_EMsgGCCStrike15_v2_Client2GCTextMsg" => {
+            }
+            "k_EMsgGCCStrike15_v2_Client2GCTextMsg" => {
                 Some(Self::KEMsgGccStrike15V2Client2GcTextMsg)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchEndRunRewardDrops" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchEndRunRewardDrops" => {
                 Some(Self::KEMsgGccStrike15V2MatchEndRunRewardDrops)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchEndRewardDropsNotification" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchEndRewardDropsNotification" => {
                 Some(Self::KEMsgGccStrike15V2MatchEndRewardDropsNotification)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientRequestWatchInfoFriends2" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientRequestWatchInfoFriends2" => {
                 Some(Self::KEMsgGccStrike15V2ClientRequestWatchInfoFriends2)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchList" => Some(Self::KEMsgGccStrike15V2MatchList),
-            | "k_EMsgGCCStrike15_v2_MatchListRequestCurrentLiveGames" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchList" => Some(Self::KEMsgGccStrike15V2MatchList),
+            "k_EMsgGCCStrike15_v2_MatchListRequestCurrentLiveGames" => {
                 Some(Self::KEMsgGccStrike15V2MatchListRequestCurrentLiveGames)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchListRequestRecentUserGames" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchListRequestRecentUserGames" => {
                 Some(Self::KEMsgGccStrike15V2MatchListRequestRecentUserGames)
-            },
-            | "k_EMsgGCCStrike15_v2_GC2ServerReservationUpdate" => {
+            }
+            "k_EMsgGCCStrike15_v2_GC2ServerReservationUpdate" => {
                 Some(Self::KEMsgGccStrike15V2Gc2ServerReservationUpdate)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientVarValueNotificationInfo" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientVarValueNotificationInfo" => {
                 Some(Self::KEMsgGccStrike15V2ClientVarValueNotificationInfo)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchListRequestTournamentGames" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchListRequestTournamentGames" => {
                 Some(Self::KEMsgGccStrike15V2MatchListRequestTournamentGames)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchListRequestFullGameInfo" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchListRequestFullGameInfo" => {
                 Some(Self::KEMsgGccStrike15V2MatchListRequestFullGameInfo)
-            },
-            | "k_EMsgGCCStrike15_v2_GiftsLeaderboardRequest" => {
+            }
+            "k_EMsgGCCStrike15_v2_GiftsLeaderboardRequest" => {
                 Some(Self::KEMsgGccStrike15V2GiftsLeaderboardRequest)
-            },
-            | "k_EMsgGCCStrike15_v2_GiftsLeaderboardResponse" => {
+            }
+            "k_EMsgGCCStrike15_v2_GiftsLeaderboardResponse" => {
                 Some(Self::KEMsgGccStrike15V2GiftsLeaderboardResponse)
-            },
-            | "k_EMsgGCCStrike15_v2_ServerVarValueNotificationInfo" => {
+            }
+            "k_EMsgGCCStrike15_v2_ServerVarValueNotificationInfo" => {
                 Some(Self::KEMsgGccStrike15V2ServerVarValueNotificationInfo)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientSubmitSurveyVote" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientSubmitSurveyVote" => {
                 Some(Self::KEMsgGccStrike15V2ClientSubmitSurveyVote)
-            },
-            | "k_EMsgGCCStrike15_v2_Server2GCClientValidate" => {
+            }
+            "k_EMsgGCCStrike15_v2_Server2GCClientValidate" => {
                 Some(Self::KEMsgGccStrike15V2Server2GcClientValidate)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchListRequestLiveGameForUser" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchListRequestLiveGameForUser" => {
                 Some(Self::KEMsgGccStrike15V2MatchListRequestLiveGameForUser)
-            },
-            | "k_EMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockRequest" => {
+            }
+            "k_EMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockRequest" => {
                 Some(Self::KEMsgGccStrike15V2Client2GcEconPreviewDataBlockRequest)
-            },
-            | "k_EMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockResponse" => {
+            }
+            "k_EMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockResponse" => {
                 Some(Self::KEMsgGccStrike15V2Client2GcEconPreviewDataBlockResponse)
-            },
-            | "k_EMsgGCCStrike15_v2_AccountPrivacySettings" => {
+            }
+            "k_EMsgGCCStrike15_v2_AccountPrivacySettings" => {
                 Some(Self::KEMsgGccStrike15V2AccountPrivacySettings)
-            },
-            | "k_EMsgGCCStrike15_v2_SetMyActivityInfo" => {
+            }
+            "k_EMsgGCCStrike15_v2_SetMyActivityInfo" => {
                 Some(Self::KEMsgGccStrike15V2SetMyActivityInfo)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchListRequestTournamentPredictions" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchListRequestTournamentPredictions" => {
                 Some(Self::KEMsgGccStrike15V2MatchListRequestTournamentPredictions)
-            },
-            | "k_EMsgGCCStrike15_v2_MatchListUploadTournamentPredictions" => {
+            }
+            "k_EMsgGCCStrike15_v2_MatchListUploadTournamentPredictions" => {
                 Some(Self::KEMsgGccStrike15V2MatchListUploadTournamentPredictions)
-            },
-            | "k_EMsgGCCStrike15_v2_DraftSummary" => Some(Self::KEMsgGccStrike15V2DraftSummary),
-            | "k_EMsgGCCStrike15_v2_ClientRequestJoinFriendData" => {
+            }
+            "k_EMsgGCCStrike15_v2_DraftSummary" => {
+                Some(Self::KEMsgGccStrike15V2DraftSummary)
+            }
+            "k_EMsgGCCStrike15_v2_ClientRequestJoinFriendData" => {
                 Some(Self::KEMsgGccStrike15V2ClientRequestJoinFriendData)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientRequestJoinServerData" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientRequestJoinServerData" => {
                 Some(Self::KEMsgGccStrike15V2ClientRequestJoinServerData)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientRequestNewMission" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientRequestNewMission" => {
                 Some(Self::KEMsgGccStrike15V2ClientRequestNewMission)
-            },
-            | "k_EMsgGCCStrike15_v2_GC2ClientTournamentInfo" => {
+            }
+            "k_EMsgGCCStrike15_v2_GC2ClientTournamentInfo" => {
                 Some(Self::KEMsgGccStrike15V2Gc2ClientTournamentInfo)
-            },
-            | "k_EMsgGC_GlobalGame_Subscribe" => Some(Self::KEMsgGcGlobalGameSubscribe),
-            | "k_EMsgGC_GlobalGame_Unsubscribe" => Some(Self::KEMsgGcGlobalGameUnsubscribe),
-            | "k_EMsgGC_GlobalGame_Play" => Some(Self::KEMsgGcGlobalGamePlay),
-            | "k_EMsgGCCStrike15_v2_AcknowledgePenalty" => {
+            }
+            "k_EMsgGC_GlobalGame_Subscribe" => Some(Self::KEMsgGcGlobalGameSubscribe),
+            "k_EMsgGC_GlobalGame_Unsubscribe" => Some(Self::KEMsgGcGlobalGameUnsubscribe),
+            "k_EMsgGC_GlobalGame_Play" => Some(Self::KEMsgGcGlobalGamePlay),
+            "k_EMsgGCCStrike15_v2_AcknowledgePenalty" => {
                 Some(Self::KEMsgGccStrike15V2AcknowledgePenalty)
-            },
-            | "k_EMsgGCCStrike15_v2_Client2GCRequestPrestigeCoin" => {
+            }
+            "k_EMsgGCCStrike15_v2_Client2GCRequestPrestigeCoin" => {
                 Some(Self::KEMsgGccStrike15V2Client2GcRequestPrestigeCoin)
-            },
-            | "k_EMsgGCCStrike15_v2_GC2ClientGlobalStats" => {
+            }
+            "k_EMsgGCCStrike15_v2_GC2ClientGlobalStats" => {
                 Some(Self::KEMsgGccStrike15V2Gc2ClientGlobalStats)
-            },
-            | "k_EMsgGCCStrike15_v2_Client2GCStreamUnlock" => {
+            }
+            "k_EMsgGCCStrike15_v2_Client2GCStreamUnlock" => {
                 Some(Self::KEMsgGccStrike15V2Client2GcStreamUnlock)
-            },
-            | "k_EMsgGCCStrike15_v2_FantasyRequestClientData" => {
+            }
+            "k_EMsgGCCStrike15_v2_FantasyRequestClientData" => {
                 Some(Self::KEMsgGccStrike15V2FantasyRequestClientData)
-            },
-            | "k_EMsgGCCStrike15_v2_FantasyUpdateClientData" => {
+            }
+            "k_EMsgGCCStrike15_v2_FantasyUpdateClientData" => {
                 Some(Self::KEMsgGccStrike15V2FantasyUpdateClientData)
-            },
-            | "k_EMsgGCCStrike15_v2_GCToClientSteamdatagramTicket" => {
+            }
+            "k_EMsgGCCStrike15_v2_GCToClientSteamdatagramTicket" => {
                 Some(Self::KEMsgGccStrike15V2GcToClientSteamdatagramTicket)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientToGCRequestTicket" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientToGCRequestTicket" => {
                 Some(Self::KEMsgGccStrike15V2ClientToGcRequestTicket)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientToGCRequestElevate" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientToGCRequestElevate" => {
                 Some(Self::KEMsgGccStrike15V2ClientToGcRequestElevate)
-            },
-            | "k_EMsgGCCStrike15_v2_GlobalChat" => Some(Self::KEMsgGccStrike15V2GlobalChat),
-            | "k_EMsgGCCStrike15_v2_GlobalChat_Subscribe" => {
+            }
+            "k_EMsgGCCStrike15_v2_GlobalChat" => Some(Self::KEMsgGccStrike15V2GlobalChat),
+            "k_EMsgGCCStrike15_v2_GlobalChat_Subscribe" => {
                 Some(Self::KEMsgGccStrike15V2GlobalChatSubscribe)
-            },
-            | "k_EMsgGCCStrike15_v2_GlobalChat_Unsubscribe" => {
+            }
+            "k_EMsgGCCStrike15_v2_GlobalChat_Unsubscribe" => {
                 Some(Self::KEMsgGccStrike15V2GlobalChatUnsubscribe)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientAuthKeyCode" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientAuthKeyCode" => {
                 Some(Self::KEMsgGccStrike15V2ClientAuthKeyCode)
-            },
-            | "k_EMsgGCCStrike15_v2_GotvSyncPacket" => Some(Self::KEMsgGccStrike15V2GotvSyncPacket),
-            | "k_EMsgGCCStrike15_v2_ClientPlayerDecalSign" => {
+            }
+            "k_EMsgGCCStrike15_v2_GotvSyncPacket" => {
+                Some(Self::KEMsgGccStrike15V2GotvSyncPacket)
+            }
+            "k_EMsgGCCStrike15_v2_ClientPlayerDecalSign" => {
                 Some(Self::KEMsgGccStrike15V2ClientPlayerDecalSign)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientLogonFatalError" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientLogonFatalError" => {
                 Some(Self::KEMsgGccStrike15V2ClientLogonFatalError)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientPollState" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientPollState" => {
                 Some(Self::KEMsgGccStrike15V2ClientPollState)
-            },
-            | "k_EMsgGCCStrike15_v2_Party_Register" => Some(Self::KEMsgGccStrike15V2PartyRegister),
-            | "k_EMsgGCCStrike15_v2_Party_Unregister" => {
+            }
+            "k_EMsgGCCStrike15_v2_Party_Register" => {
+                Some(Self::KEMsgGccStrike15V2PartyRegister)
+            }
+            "k_EMsgGCCStrike15_v2_Party_Unregister" => {
                 Some(Self::KEMsgGccStrike15V2PartyUnregister)
-            },
-            | "k_EMsgGCCStrike15_v2_Party_Search" => Some(Self::KEMsgGccStrike15V2PartySearch),
-            | "k_EMsgGCCStrike15_v2_Party_Invite" => Some(Self::KEMsgGccStrike15V2PartyInvite),
-            | "k_EMsgGCCStrike15_v2_Account_RequestCoPlays" => {
+            }
+            "k_EMsgGCCStrike15_v2_Party_Search" => {
+                Some(Self::KEMsgGccStrike15V2PartySearch)
+            }
+            "k_EMsgGCCStrike15_v2_Party_Invite" => {
+                Some(Self::KEMsgGccStrike15V2PartyInvite)
+            }
+            "k_EMsgGCCStrike15_v2_Account_RequestCoPlays" => {
                 Some(Self::KEMsgGccStrike15V2AccountRequestCoPlays)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientGCRankUpdate" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientGCRankUpdate" => {
                 Some(Self::KEMsgGccStrike15V2ClientGcRankUpdate)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientRequestOffers" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientRequestOffers" => {
                 Some(Self::KEMsgGccStrike15V2ClientRequestOffers)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientAccountBalance" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientAccountBalance" => {
                 Some(Self::KEMsgGccStrike15V2ClientAccountBalance)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientPartyJoinRelay" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientPartyJoinRelay" => {
                 Some(Self::KEMsgGccStrike15V2ClientPartyJoinRelay)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientPartyWarning" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientPartyWarning" => {
                 Some(Self::KEMsgGccStrike15V2ClientPartyWarning)
-            },
-            | "k_EMsgGCCStrike15_v2_SetEventFavorite" => {
+            }
+            "k_EMsgGCCStrike15_v2_SetEventFavorite" => {
                 Some(Self::KEMsgGccStrike15V2SetEventFavorite)
-            },
-            | "k_EMsgGCCStrike15_v2_GetEventFavorites_Request" => {
+            }
+            "k_EMsgGCCStrike15_v2_GetEventFavorites_Request" => {
                 Some(Self::KEMsgGccStrike15V2GetEventFavoritesRequest)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientPerfReport" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientPerfReport" => {
                 Some(Self::KEMsgGccStrike15V2ClientPerfReport)
-            },
-            | "k_EMsgGCCStrike15_v2_GetEventFavorites_Response" => {
+            }
+            "k_EMsgGCCStrike15_v2_GetEventFavorites_Response" => {
                 Some(Self::KEMsgGccStrike15V2GetEventFavoritesResponse)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientRequestSouvenir" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientRequestSouvenir" => {
                 Some(Self::KEMsgGccStrike15V2ClientRequestSouvenir)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientReportValidation" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientReportValidation" => {
                 Some(Self::KEMsgGccStrike15V2ClientReportValidation)
-            },
-            | "k_EMsgGCCStrike15_v2_GC2ClientRefuseSecureMode" => {
+            }
+            "k_EMsgGCCStrike15_v2_GC2ClientRefuseSecureMode" => {
                 Some(Self::KEMsgGccStrike15V2Gc2ClientRefuseSecureMode)
-            },
-            | "k_EMsgGCCStrike15_v2_GC2ClientRequestValidation" => {
+            }
+            "k_EMsgGCCStrike15_v2_GC2ClientRequestValidation" => {
                 Some(Self::KEMsgGccStrike15V2Gc2ClientRequestValidation)
-            },
-            | "k_EMsgGCCStrike15_v2_ClientRedeemMissionReward" => {
+            }
+            "k_EMsgGCCStrike15_v2_ClientRedeemMissionReward" => {
                 Some(Self::KEMsgGccStrike15V2ClientRedeemMissionReward)
-            },
-            | "k_EMsgGCCStrike15_ClientDeepStats" => Some(Self::KEMsgGccStrike15ClientDeepStats),
-            | "k_EMsgGCCStrike15_StartAgreementSessionInGame" => {
+            }
+            "k_EMsgGCCStrike15_ClientDeepStats" => {
+                Some(Self::KEMsgGccStrike15ClientDeepStats)
+            }
+            "k_EMsgGCCStrike15_StartAgreementSessionInGame" => {
                 Some(Self::KEMsgGccStrike15StartAgreementSessionInGame)
-            },
-            | "k_EMsgGCCStrike15_v2_GC2ClientInitSystem" => {
+            }
+            "k_EMsgGCCStrike15_v2_GC2ClientInitSystem" => {
                 Some(Self::KEMsgGccStrike15V2Gc2ClientInitSystem)
-            },
-            | "k_EMsgGCCStrike15_v2_GC2ClientInitSystem_Response" => {
+            }
+            "k_EMsgGCCStrike15_v2_GC2ClientInitSystem_Response" => {
                 Some(Self::KEMsgGccStrike15V2Gc2ClientInitSystemResponse)
-            },
-            | "k_EMsgGCCStrike15_v2_PrivateQueues" => Some(Self::KEMsgGccStrike15V2PrivateQueues),
-            | "k_EMsgGCCStrike15_v2_MatchListTournamentOperatorMgmt" => {
+            }
+            "k_EMsgGCCStrike15_v2_PrivateQueues" => {
+                Some(Self::KEMsgGccStrike15V2PrivateQueues)
+            }
+            "k_EMsgGCCStrike15_v2_MatchListTournamentOperatorMgmt" => {
                 Some(Self::KEMsgGccStrike15V2MatchListTournamentOperatorMgmt)
-            },
-            | _ => None,
+            }
+            _ => None,
         }
     }
 }
@@ -2858,28 +2932,30 @@ impl ECsgoSteamUserStat {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | ECsgoSteamUserStat::KECsgoSteamUserStatXpEarnedGames => {
+            ECsgoSteamUserStat::KECsgoSteamUserStatXpEarnedGames => {
                 "k_ECsgoSteamUserStat_XpEarnedGames"
-            },
-            | ECsgoSteamUserStat::KECsgoSteamUserStatMatchWinsCompetitive => {
+            }
+            ECsgoSteamUserStat::KECsgoSteamUserStatMatchWinsCompetitive => {
                 "k_ECsgoSteamUserStat_MatchWinsCompetitive"
-            },
-            | ECsgoSteamUserStat::KECsgoSteamUserStatSurvivedDangerZone => {
+            }
+            ECsgoSteamUserStat::KECsgoSteamUserStatSurvivedDangerZone => {
                 "k_ECsgoSteamUserStat_SurvivedDangerZone"
-            },
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "k_ECsgoSteamUserStat_XpEarnedGames" => Some(Self::KECsgoSteamUserStatXpEarnedGames),
-            | "k_ECsgoSteamUserStat_MatchWinsCompetitive" => {
+            "k_ECsgoSteamUserStat_XpEarnedGames" => {
+                Some(Self::KECsgoSteamUserStatXpEarnedGames)
+            }
+            "k_ECsgoSteamUserStat_MatchWinsCompetitive" => {
                 Some(Self::KECsgoSteamUserStatMatchWinsCompetitive)
-            },
-            | "k_ECsgoSteamUserStat_SurvivedDangerZone" => {
+            }
+            "k_ECsgoSteamUserStat_SurvivedDangerZone" => {
                 Some(Self::KECsgoSteamUserStatSurvivedDangerZone)
-            },
-            | _ => None,
+            }
+            _ => None,
         }
     }
 }
@@ -2897,30 +2973,30 @@ impl EClientReportingVersion {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | EClientReportingVersion::KEClientReportingVersionOldVersion => {
+            EClientReportingVersion::KEClientReportingVersionOldVersion => {
                 "k_EClientReportingVersion_OldVersion"
-            },
-            | EClientReportingVersion::KEClientReportingVersionBetaVersion => {
+            }
+            EClientReportingVersion::KEClientReportingVersionBetaVersion => {
                 "k_EClientReportingVersion_BetaVersion"
-            },
-            | EClientReportingVersion::KEClientReportingVersionSupportsTrustedMode => {
+            }
+            EClientReportingVersion::KEClientReportingVersionSupportsTrustedMode => {
                 "k_EClientReportingVersion_SupportsTrustedMode"
-            },
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "k_EClientReportingVersion_OldVersion" => {
+            "k_EClientReportingVersion_OldVersion" => {
                 Some(Self::KEClientReportingVersionOldVersion)
-            },
-            | "k_EClientReportingVersion_BetaVersion" => {
+            }
+            "k_EClientReportingVersion_BetaVersion" => {
                 Some(Self::KEClientReportingVersionBetaVersion)
-            },
-            | "k_EClientReportingVersion_SupportsTrustedMode" => {
+            }
+            "k_EClientReportingVersion_SupportsTrustedMode" => {
                 Some(Self::KEClientReportingVersionSupportsTrustedMode)
-            },
-            | _ => None,
+            }
+            _ => None,
         }
     }
 }
@@ -2944,30 +3020,40 @@ impl EInitSystemResult {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | EInitSystemResult::KEInitSystemResultInvalid => "k_EInitSystemResult_Invalid",
-            | EInitSystemResult::KEInitSystemResultSuccess => "k_EInitSystemResult_Success",
-            | EInitSystemResult::KEInitSystemResultNone => "k_EInitSystemResult_None",
-            | EInitSystemResult::KEInitSystemResultNotFound => "k_EInitSystemResult_NotFound",
-            | EInitSystemResult::KEInitSystemResultExisting => "k_EInitSystemResult_Existing",
-            | EInitSystemResult::KEInitSystemResultFailedOpen => "k_EInitSystemResult_FailedOpen",
-            | EInitSystemResult::KEInitSystemResultMismatch => "k_EInitSystemResult_Mismatch",
-            | EInitSystemResult::KEInitSystemResultFailedInit => "k_EInitSystemResult_FailedInit",
-            | EInitSystemResult::KEInitSystemResultMax => "k_EInitSystemResult_Max",
+            EInitSystemResult::KEInitSystemResultInvalid => "k_EInitSystemResult_Invalid",
+            EInitSystemResult::KEInitSystemResultSuccess => "k_EInitSystemResult_Success",
+            EInitSystemResult::KEInitSystemResultNone => "k_EInitSystemResult_None",
+            EInitSystemResult::KEInitSystemResultNotFound => {
+                "k_EInitSystemResult_NotFound"
+            }
+            EInitSystemResult::KEInitSystemResultExisting => {
+                "k_EInitSystemResult_Existing"
+            }
+            EInitSystemResult::KEInitSystemResultFailedOpen => {
+                "k_EInitSystemResult_FailedOpen"
+            }
+            EInitSystemResult::KEInitSystemResultMismatch => {
+                "k_EInitSystemResult_Mismatch"
+            }
+            EInitSystemResult::KEInitSystemResultFailedInit => {
+                "k_EInitSystemResult_FailedInit"
+            }
+            EInitSystemResult::KEInitSystemResultMax => "k_EInitSystemResult_Max",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "k_EInitSystemResult_Invalid" => Some(Self::KEInitSystemResultInvalid),
-            | "k_EInitSystemResult_Success" => Some(Self::KEInitSystemResultSuccess),
-            | "k_EInitSystemResult_None" => Some(Self::KEInitSystemResultNone),
-            | "k_EInitSystemResult_NotFound" => Some(Self::KEInitSystemResultNotFound),
-            | "k_EInitSystemResult_Existing" => Some(Self::KEInitSystemResultExisting),
-            | "k_EInitSystemResult_FailedOpen" => Some(Self::KEInitSystemResultFailedOpen),
-            | "k_EInitSystemResult_Mismatch" => Some(Self::KEInitSystemResultMismatch),
-            | "k_EInitSystemResult_FailedInit" => Some(Self::KEInitSystemResultFailedInit),
-            | "k_EInitSystemResult_Max" => Some(Self::KEInitSystemResultMax),
-            | _ => None,
+            "k_EInitSystemResult_Invalid" => Some(Self::KEInitSystemResultInvalid),
+            "k_EInitSystemResult_Success" => Some(Self::KEInitSystemResultSuccess),
+            "k_EInitSystemResult_None" => Some(Self::KEInitSystemResultNone),
+            "k_EInitSystemResult_NotFound" => Some(Self::KEInitSystemResultNotFound),
+            "k_EInitSystemResult_Existing" => Some(Self::KEInitSystemResultExisting),
+            "k_EInitSystemResult_FailedOpen" => Some(Self::KEInitSystemResultFailedOpen),
+            "k_EInitSystemResult_Mismatch" => Some(Self::KEInitSystemResultMismatch),
+            "k_EInitSystemResult_FailedInit" => Some(Self::KEInitSystemResultFailedInit),
+            "k_EInitSystemResult_Max" => Some(Self::KEInitSystemResultMax),
+            _ => None,
         }
     }
 }
@@ -3721,30 +3807,30 @@ impl NetMessages {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | NetMessages::NetNop => "net_NOP",
-            | NetMessages::NetDisconnect => "net_Disconnect",
-            | NetMessages::NetFile => "net_File",
-            | NetMessages::NetSplitScreenUser => "net_SplitScreenUser",
-            | NetMessages::NetTick => "net_Tick",
-            | NetMessages::NetStringCmd => "net_StringCmd",
-            | NetMessages::NetSetConVar => "net_SetConVar",
-            | NetMessages::NetSignonState => "net_SignonState",
-            | NetMessages::NetPlayerAvatarData => "net_PlayerAvatarData",
+            NetMessages::NetNop => "net_NOP",
+            NetMessages::NetDisconnect => "net_Disconnect",
+            NetMessages::NetFile => "net_File",
+            NetMessages::NetSplitScreenUser => "net_SplitScreenUser",
+            NetMessages::NetTick => "net_Tick",
+            NetMessages::NetStringCmd => "net_StringCmd",
+            NetMessages::NetSetConVar => "net_SetConVar",
+            NetMessages::NetSignonState => "net_SignonState",
+            NetMessages::NetPlayerAvatarData => "net_PlayerAvatarData",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "net_NOP" => Some(Self::NetNop),
-            | "net_Disconnect" => Some(Self::NetDisconnect),
-            | "net_File" => Some(Self::NetFile),
-            | "net_SplitScreenUser" => Some(Self::NetSplitScreenUser),
-            | "net_Tick" => Some(Self::NetTick),
-            | "net_StringCmd" => Some(Self::NetStringCmd),
-            | "net_SetConVar" => Some(Self::NetSetConVar),
-            | "net_SignonState" => Some(Self::NetSignonState),
-            | "net_PlayerAvatarData" => Some(Self::NetPlayerAvatarData),
-            | _ => None,
+            "net_NOP" => Some(Self::NetNop),
+            "net_Disconnect" => Some(Self::NetDisconnect),
+            "net_File" => Some(Self::NetFile),
+            "net_SplitScreenUser" => Some(Self::NetSplitScreenUser),
+            "net_Tick" => Some(Self::NetTick),
+            "net_StringCmd" => Some(Self::NetStringCmd),
+            "net_SetConVar" => Some(Self::NetSetConVar),
+            "net_SignonState" => Some(Self::NetSignonState),
+            "net_PlayerAvatarData" => Some(Self::NetPlayerAvatarData),
+            _ => None,
         }
     }
 }
@@ -3771,36 +3857,36 @@ impl ClcMessages {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | ClcMessages::ClcClientInfo => "clc_ClientInfo",
-            | ClcMessages::ClcMove => "clc_Move",
-            | ClcMessages::ClcVoiceData => "clc_VoiceData",
-            | ClcMessages::ClcBaselineAck => "clc_BaselineAck",
-            | ClcMessages::ClcListenEvents => "clc_ListenEvents",
-            | ClcMessages::ClcRespondCvarValue => "clc_RespondCvarValue",
-            | ClcMessages::ClcFileCrcCheck => "clc_FileCRCCheck",
-            | ClcMessages::ClcLoadingProgress => "clc_LoadingProgress",
-            | ClcMessages::ClcSplitPlayerConnect => "clc_SplitPlayerConnect",
-            | ClcMessages::ClcClientMessage => "clc_ClientMessage",
-            | ClcMessages::ClcCmdKeyValues => "clc_CmdKeyValues",
-            | ClcMessages::ClcHltvReplay => "clc_HltvReplay",
+            ClcMessages::ClcClientInfo => "clc_ClientInfo",
+            ClcMessages::ClcMove => "clc_Move",
+            ClcMessages::ClcVoiceData => "clc_VoiceData",
+            ClcMessages::ClcBaselineAck => "clc_BaselineAck",
+            ClcMessages::ClcListenEvents => "clc_ListenEvents",
+            ClcMessages::ClcRespondCvarValue => "clc_RespondCvarValue",
+            ClcMessages::ClcFileCrcCheck => "clc_FileCRCCheck",
+            ClcMessages::ClcLoadingProgress => "clc_LoadingProgress",
+            ClcMessages::ClcSplitPlayerConnect => "clc_SplitPlayerConnect",
+            ClcMessages::ClcClientMessage => "clc_ClientMessage",
+            ClcMessages::ClcCmdKeyValues => "clc_CmdKeyValues",
+            ClcMessages::ClcHltvReplay => "clc_HltvReplay",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "clc_ClientInfo" => Some(Self::ClcClientInfo),
-            | "clc_Move" => Some(Self::ClcMove),
-            | "clc_VoiceData" => Some(Self::ClcVoiceData),
-            | "clc_BaselineAck" => Some(Self::ClcBaselineAck),
-            | "clc_ListenEvents" => Some(Self::ClcListenEvents),
-            | "clc_RespondCvarValue" => Some(Self::ClcRespondCvarValue),
-            | "clc_FileCRCCheck" => Some(Self::ClcFileCrcCheck),
-            | "clc_LoadingProgress" => Some(Self::ClcLoadingProgress),
-            | "clc_SplitPlayerConnect" => Some(Self::ClcSplitPlayerConnect),
-            | "clc_ClientMessage" => Some(Self::ClcClientMessage),
-            | "clc_CmdKeyValues" => Some(Self::ClcCmdKeyValues),
-            | "clc_HltvReplay" => Some(Self::ClcHltvReplay),
-            | _ => None,
+            "clc_ClientInfo" => Some(Self::ClcClientInfo),
+            "clc_Move" => Some(Self::ClcMove),
+            "clc_VoiceData" => Some(Self::ClcVoiceData),
+            "clc_BaselineAck" => Some(Self::ClcBaselineAck),
+            "clc_ListenEvents" => Some(Self::ClcListenEvents),
+            "clc_RespondCvarValue" => Some(Self::ClcRespondCvarValue),
+            "clc_FileCRCCheck" => Some(Self::ClcFileCrcCheck),
+            "clc_LoadingProgress" => Some(Self::ClcLoadingProgress),
+            "clc_SplitPlayerConnect" => Some(Self::ClcSplitPlayerConnect),
+            "clc_ClientMessage" => Some(Self::ClcClientMessage),
+            "clc_CmdKeyValues" => Some(Self::ClcCmdKeyValues),
+            "clc_HltvReplay" => Some(Self::ClcHltvReplay),
+            _ => None,
         }
     }
 }
@@ -3817,16 +3903,16 @@ impl VoiceDataFormatT {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | VoiceDataFormatT::VoicedataFormatSteam => "VOICEDATA_FORMAT_STEAM",
-            | VoiceDataFormatT::VoicedataFormatEngine => "VOICEDATA_FORMAT_ENGINE",
+            VoiceDataFormatT::VoicedataFormatSteam => "VOICEDATA_FORMAT_STEAM",
+            VoiceDataFormatT::VoicedataFormatEngine => "VOICEDATA_FORMAT_ENGINE",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "VOICEDATA_FORMAT_STEAM" => Some(Self::VoicedataFormatSteam),
-            | "VOICEDATA_FORMAT_ENGINE" => Some(Self::VoicedataFormatEngine),
-            | _ => None,
+            "VOICEDATA_FORMAT_STEAM" => Some(Self::VoicedataFormatSteam),
+            "VOICEDATA_FORMAT_ENGINE" => Some(Self::VoicedataFormatEngine),
+            _ => None,
         }
     }
 }
@@ -3843,16 +3929,18 @@ impl ESplitScreenMessageType {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | ESplitScreenMessageType::MsgSplitscreenAdduser => "MSG_SPLITSCREEN_ADDUSER",
-            | ESplitScreenMessageType::MsgSplitscreenRemoveuser => "MSG_SPLITSCREEN_REMOVEUSER",
+            ESplitScreenMessageType::MsgSplitscreenAdduser => "MSG_SPLITSCREEN_ADDUSER",
+            ESplitScreenMessageType::MsgSplitscreenRemoveuser => {
+                "MSG_SPLITSCREEN_REMOVEUSER"
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "MSG_SPLITSCREEN_ADDUSER" => Some(Self::MsgSplitscreenAdduser),
-            | "MSG_SPLITSCREEN_REMOVEUSER" => Some(Self::MsgSplitscreenRemoveuser),
-            | _ => None,
+            "MSG_SPLITSCREEN_ADDUSER" => Some(Self::MsgSplitscreenAdduser),
+            "MSG_SPLITSCREEN_REMOVEUSER" => Some(Self::MsgSplitscreenRemoveuser),
+            _ => None,
         }
     }
 }
@@ -3896,70 +3984,70 @@ impl SvcMessages {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | SvcMessages::SvcServerInfo => "svc_ServerInfo",
-            | SvcMessages::SvcSendTable => "svc_SendTable",
-            | SvcMessages::SvcClassInfo => "svc_ClassInfo",
-            | SvcMessages::SvcSetPause => "svc_SetPause",
-            | SvcMessages::SvcCreateStringTable => "svc_CreateStringTable",
-            | SvcMessages::SvcUpdateStringTable => "svc_UpdateStringTable",
-            | SvcMessages::SvcVoiceInit => "svc_VoiceInit",
-            | SvcMessages::SvcVoiceData => "svc_VoiceData",
-            | SvcMessages::SvcPrint => "svc_Print",
-            | SvcMessages::SvcSounds => "svc_Sounds",
-            | SvcMessages::SvcSetView => "svc_SetView",
-            | SvcMessages::SvcFixAngle => "svc_FixAngle",
-            | SvcMessages::SvcCrosshairAngle => "svc_CrosshairAngle",
-            | SvcMessages::SvcBspDecal => "svc_BSPDecal",
-            | SvcMessages::SvcSplitScreen => "svc_SplitScreen",
-            | SvcMessages::SvcUserMessage => "svc_UserMessage",
-            | SvcMessages::SvcEntityMessage => "svc_EntityMessage",
-            | SvcMessages::SvcGameEvent => "svc_GameEvent",
-            | SvcMessages::SvcPacketEntities => "svc_PacketEntities",
-            | SvcMessages::SvcTempEntities => "svc_TempEntities",
-            | SvcMessages::SvcPrefetch => "svc_Prefetch",
-            | SvcMessages::SvcMenu => "svc_Menu",
-            | SvcMessages::SvcGameEventList => "svc_GameEventList",
-            | SvcMessages::SvcGetCvarValue => "svc_GetCvarValue",
-            | SvcMessages::SvcPaintmapData => "svc_PaintmapData",
-            | SvcMessages::SvcCmdKeyValues => "svc_CmdKeyValues",
-            | SvcMessages::SvcEncryptedData => "svc_EncryptedData",
-            | SvcMessages::SvcHltvReplay => "svc_HltvReplay",
-            | SvcMessages::SvcBroadcastCommand => "svc_Broadcast_Command",
+            SvcMessages::SvcServerInfo => "svc_ServerInfo",
+            SvcMessages::SvcSendTable => "svc_SendTable",
+            SvcMessages::SvcClassInfo => "svc_ClassInfo",
+            SvcMessages::SvcSetPause => "svc_SetPause",
+            SvcMessages::SvcCreateStringTable => "svc_CreateStringTable",
+            SvcMessages::SvcUpdateStringTable => "svc_UpdateStringTable",
+            SvcMessages::SvcVoiceInit => "svc_VoiceInit",
+            SvcMessages::SvcVoiceData => "svc_VoiceData",
+            SvcMessages::SvcPrint => "svc_Print",
+            SvcMessages::SvcSounds => "svc_Sounds",
+            SvcMessages::SvcSetView => "svc_SetView",
+            SvcMessages::SvcFixAngle => "svc_FixAngle",
+            SvcMessages::SvcCrosshairAngle => "svc_CrosshairAngle",
+            SvcMessages::SvcBspDecal => "svc_BSPDecal",
+            SvcMessages::SvcSplitScreen => "svc_SplitScreen",
+            SvcMessages::SvcUserMessage => "svc_UserMessage",
+            SvcMessages::SvcEntityMessage => "svc_EntityMessage",
+            SvcMessages::SvcGameEvent => "svc_GameEvent",
+            SvcMessages::SvcPacketEntities => "svc_PacketEntities",
+            SvcMessages::SvcTempEntities => "svc_TempEntities",
+            SvcMessages::SvcPrefetch => "svc_Prefetch",
+            SvcMessages::SvcMenu => "svc_Menu",
+            SvcMessages::SvcGameEventList => "svc_GameEventList",
+            SvcMessages::SvcGetCvarValue => "svc_GetCvarValue",
+            SvcMessages::SvcPaintmapData => "svc_PaintmapData",
+            SvcMessages::SvcCmdKeyValues => "svc_CmdKeyValues",
+            SvcMessages::SvcEncryptedData => "svc_EncryptedData",
+            SvcMessages::SvcHltvReplay => "svc_HltvReplay",
+            SvcMessages::SvcBroadcastCommand => "svc_Broadcast_Command",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "svc_ServerInfo" => Some(Self::SvcServerInfo),
-            | "svc_SendTable" => Some(Self::SvcSendTable),
-            | "svc_ClassInfo" => Some(Self::SvcClassInfo),
-            | "svc_SetPause" => Some(Self::SvcSetPause),
-            | "svc_CreateStringTable" => Some(Self::SvcCreateStringTable),
-            | "svc_UpdateStringTable" => Some(Self::SvcUpdateStringTable),
-            | "svc_VoiceInit" => Some(Self::SvcVoiceInit),
-            | "svc_VoiceData" => Some(Self::SvcVoiceData),
-            | "svc_Print" => Some(Self::SvcPrint),
-            | "svc_Sounds" => Some(Self::SvcSounds),
-            | "svc_SetView" => Some(Self::SvcSetView),
-            | "svc_FixAngle" => Some(Self::SvcFixAngle),
-            | "svc_CrosshairAngle" => Some(Self::SvcCrosshairAngle),
-            | "svc_BSPDecal" => Some(Self::SvcBspDecal),
-            | "svc_SplitScreen" => Some(Self::SvcSplitScreen),
-            | "svc_UserMessage" => Some(Self::SvcUserMessage),
-            | "svc_EntityMessage" => Some(Self::SvcEntityMessage),
-            | "svc_GameEvent" => Some(Self::SvcGameEvent),
-            | "svc_PacketEntities" => Some(Self::SvcPacketEntities),
-            | "svc_TempEntities" => Some(Self::SvcTempEntities),
-            | "svc_Prefetch" => Some(Self::SvcPrefetch),
-            | "svc_Menu" => Some(Self::SvcMenu),
-            | "svc_GameEventList" => Some(Self::SvcGameEventList),
-            | "svc_GetCvarValue" => Some(Self::SvcGetCvarValue),
-            | "svc_PaintmapData" => Some(Self::SvcPaintmapData),
-            | "svc_CmdKeyValues" => Some(Self::SvcCmdKeyValues),
-            | "svc_EncryptedData" => Some(Self::SvcEncryptedData),
-            | "svc_HltvReplay" => Some(Self::SvcHltvReplay),
-            | "svc_Broadcast_Command" => Some(Self::SvcBroadcastCommand),
-            | _ => None,
+            "svc_ServerInfo" => Some(Self::SvcServerInfo),
+            "svc_SendTable" => Some(Self::SvcSendTable),
+            "svc_ClassInfo" => Some(Self::SvcClassInfo),
+            "svc_SetPause" => Some(Self::SvcSetPause),
+            "svc_CreateStringTable" => Some(Self::SvcCreateStringTable),
+            "svc_UpdateStringTable" => Some(Self::SvcUpdateStringTable),
+            "svc_VoiceInit" => Some(Self::SvcVoiceInit),
+            "svc_VoiceData" => Some(Self::SvcVoiceData),
+            "svc_Print" => Some(Self::SvcPrint),
+            "svc_Sounds" => Some(Self::SvcSounds),
+            "svc_SetView" => Some(Self::SvcSetView),
+            "svc_FixAngle" => Some(Self::SvcFixAngle),
+            "svc_CrosshairAngle" => Some(Self::SvcCrosshairAngle),
+            "svc_BSPDecal" => Some(Self::SvcBspDecal),
+            "svc_SplitScreen" => Some(Self::SvcSplitScreen),
+            "svc_UserMessage" => Some(Self::SvcUserMessage),
+            "svc_EntityMessage" => Some(Self::SvcEntityMessage),
+            "svc_GameEvent" => Some(Self::SvcGameEvent),
+            "svc_PacketEntities" => Some(Self::SvcPacketEntities),
+            "svc_TempEntities" => Some(Self::SvcTempEntities),
+            "svc_Prefetch" => Some(Self::SvcPrefetch),
+            "svc_Menu" => Some(Self::SvcMenu),
+            "svc_GameEventList" => Some(Self::SvcGameEventList),
+            "svc_GetCvarValue" => Some(Self::SvcGetCvarValue),
+            "svc_PaintmapData" => Some(Self::SvcPaintmapData),
+            "svc_CmdKeyValues" => Some(Self::SvcCmdKeyValues),
+            "svc_EncryptedData" => Some(Self::SvcEncryptedData),
+            "svc_HltvReplay" => Some(Self::SvcHltvReplay),
+            "svc_Broadcast_Command" => Some(Self::SvcBroadcastCommand),
+            _ => None,
         }
     }
 }
@@ -3978,22 +4066,24 @@ impl ReplayEventTypeT {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | ReplayEventTypeT::ReplayEventCancel => "REPLAY_EVENT_CANCEL",
-            | ReplayEventTypeT::ReplayEventDeath => "REPLAY_EVENT_DEATH",
-            | ReplayEventTypeT::ReplayEventGeneric => "REPLAY_EVENT_GENERIC",
-            | ReplayEventTypeT::ReplayEventStuckNeedFullUpdate => {
+            ReplayEventTypeT::ReplayEventCancel => "REPLAY_EVENT_CANCEL",
+            ReplayEventTypeT::ReplayEventDeath => "REPLAY_EVENT_DEATH",
+            ReplayEventTypeT::ReplayEventGeneric => "REPLAY_EVENT_GENERIC",
+            ReplayEventTypeT::ReplayEventStuckNeedFullUpdate => {
                 "REPLAY_EVENT_STUCK_NEED_FULL_UPDATE"
-            },
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "REPLAY_EVENT_CANCEL" => Some(Self::ReplayEventCancel),
-            | "REPLAY_EVENT_DEATH" => Some(Self::ReplayEventDeath),
-            | "REPLAY_EVENT_GENERIC" => Some(Self::ReplayEventGeneric),
-            | "REPLAY_EVENT_STUCK_NEED_FULL_UPDATE" => Some(Self::ReplayEventStuckNeedFullUpdate),
-            | _ => None,
+            "REPLAY_EVENT_CANCEL" => Some(Self::ReplayEventCancel),
+            "REPLAY_EVENT_DEATH" => Some(Self::ReplayEventDeath),
+            "REPLAY_EVENT_GENERIC" => Some(Self::ReplayEventGeneric),
+            "REPLAY_EVENT_STUCK_NEED_FULL_UPDATE" => {
+                Some(Self::ReplayEventStuckNeedFullUpdate)
+            }
+            _ => None,
         }
     }
 }
@@ -4227,8 +4317,9 @@ pub struct CcsUsrMsgProcessSpottedEntityUpdate {
     #[prost(bool, optional, tag = "1")]
     pub new_update: ::core::option::Option<bool>,
     #[prost(message, repeated, tag = "2")]
-    pub entity_updates:
-        ::prost::alloc::vec::Vec<ccs_usr_msg_process_spotted_entity_update::SpottedEntityUpdate>,
+    pub entity_updates: ::prost::alloc::vec::Vec<
+        ccs_usr_msg_process_spotted_entity_update::SpottedEntityUpdate,
+    >,
 }
 /// Nested message and enum types in `CCSUsrMsg_ProcessSpottedEntityUpdate`.
 pub mod ccs_usr_msg_process_spotted_entity_update {
@@ -4530,7 +4621,9 @@ pub struct CcsUsrMsgSendLastKillerDamageToClient {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CcsUsrMsgServerRankUpdate {
     #[prost(message, repeated, tag = "1")]
-    pub rank_update: ::prost::alloc::vec::Vec<ccs_usr_msg_server_rank_update::RankUpdate>,
+    pub rank_update: ::prost::alloc::vec::Vec<
+        ccs_usr_msg_server_rank_update::RankUpdate,
+    >,
 }
 /// Nested message and enum types in `CCSUsrMsg_ServerRankUpdate`.
 pub mod ccs_usr_msg_server_rank_update {
@@ -4690,8 +4783,9 @@ pub mod ccs_usr_msg_survival_stats {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CcsUsrMsgEndOfMatchAllPlayersData {
     #[prost(message, repeated, tag = "1")]
-    pub allplayerdata:
-        ::prost::alloc::vec::Vec<ccs_usr_msg_end_of_match_all_players_data::PlayerData>,
+    pub allplayerdata: ::prost::alloc::vec::Vec<
+        ccs_usr_msg_end_of_match_all_players_data::PlayerData,
+    >,
     #[prost(int32, optional, tag = "2")]
     pub scene: ::core::option::Option<i32>,
 }
@@ -4732,10 +4826,13 @@ pub mod ccs_usr_msg_end_of_match_all_players_data {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CcsUsrMsgRoundImpactScoreData {
     #[prost(message, optional, tag = "1")]
-    pub init_conditions:
-        ::core::option::Option<ccs_usr_msg_round_impact_score_data::InitialConditions>,
+    pub init_conditions: ::core::option::Option<
+        ccs_usr_msg_round_impact_score_data::InitialConditions,
+    >,
     #[prost(message, repeated, tag = "2")]
-    pub all_ris_event_data: ::prost::alloc::vec::Vec<ccs_usr_msg_round_impact_score_data::RisEvent>,
+    pub all_ris_event_data: ::prost::alloc::vec::Vec<
+        ccs_usr_msg_round_impact_score_data::RisEvent,
+    >,
 }
 /// Nested message and enum types in `CCSUsrMsg_RoundImpactScoreData`.
 pub mod ccs_usr_msg_round_impact_score_data {
@@ -4869,7 +4966,9 @@ pub struct CcsUsrMsgServerRankRevealAll {
     #[prost(int32, optional, tag = "1")]
     pub seconds_till_shutdown: ::core::option::Option<i32>,
     #[prost(message, optional, tag = "2")]
-    pub reservation: ::core::option::Option<CMsgGccStrike15V2MatchmakingGc2ServerReserve>,
+    pub reservation: ::core::option::Option<
+        CMsgGccStrike15V2MatchmakingGc2ServerReserve,
+    >,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5013,172 +5112,194 @@ impl ECstrike15UserMessages {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | ECstrike15UserMessages::CsUmVguiMenu => "CS_UM_VGUIMenu",
-            | ECstrike15UserMessages::CsUmGeiger => "CS_UM_Geiger",
-            | ECstrike15UserMessages::CsUmTrain => "CS_UM_Train",
-            | ECstrike15UserMessages::CsUmHudText => "CS_UM_HudText",
-            | ECstrike15UserMessages::CsUmSayText => "CS_UM_SayText",
-            | ECstrike15UserMessages::CsUmSayText2 => "CS_UM_SayText2",
-            | ECstrike15UserMessages::CsUmTextMsg => "CS_UM_TextMsg",
-            | ECstrike15UserMessages::CsUmHudMsg => "CS_UM_HudMsg",
-            | ECstrike15UserMessages::CsUmResetHud => "CS_UM_ResetHud",
-            | ECstrike15UserMessages::CsUmGameTitle => "CS_UM_GameTitle",
-            | ECstrike15UserMessages::CsUmShake => "CS_UM_Shake",
-            | ECstrike15UserMessages::CsUmFade => "CS_UM_Fade",
-            | ECstrike15UserMessages::CsUmRumble => "CS_UM_Rumble",
-            | ECstrike15UserMessages::CsUmCloseCaption => "CS_UM_CloseCaption",
-            | ECstrike15UserMessages::CsUmCloseCaptionDirect => "CS_UM_CloseCaptionDirect",
-            | ECstrike15UserMessages::CsUmSendAudio => "CS_UM_SendAudio",
-            | ECstrike15UserMessages::CsUmRawAudio => "CS_UM_RawAudio",
-            | ECstrike15UserMessages::CsUmVoiceMask => "CS_UM_VoiceMask",
-            | ECstrike15UserMessages::CsUmRequestState => "CS_UM_RequestState",
-            | ECstrike15UserMessages::CsUmDamage => "CS_UM_Damage",
-            | ECstrike15UserMessages::CsUmRadioText => "CS_UM_RadioText",
-            | ECstrike15UserMessages::CsUmHintText => "CS_UM_HintText",
-            | ECstrike15UserMessages::CsUmKeyHintText => "CS_UM_KeyHintText",
-            | ECstrike15UserMessages::CsUmProcessSpottedEntityUpdate => {
+            ECstrike15UserMessages::CsUmVguiMenu => "CS_UM_VGUIMenu",
+            ECstrike15UserMessages::CsUmGeiger => "CS_UM_Geiger",
+            ECstrike15UserMessages::CsUmTrain => "CS_UM_Train",
+            ECstrike15UserMessages::CsUmHudText => "CS_UM_HudText",
+            ECstrike15UserMessages::CsUmSayText => "CS_UM_SayText",
+            ECstrike15UserMessages::CsUmSayText2 => "CS_UM_SayText2",
+            ECstrike15UserMessages::CsUmTextMsg => "CS_UM_TextMsg",
+            ECstrike15UserMessages::CsUmHudMsg => "CS_UM_HudMsg",
+            ECstrike15UserMessages::CsUmResetHud => "CS_UM_ResetHud",
+            ECstrike15UserMessages::CsUmGameTitle => "CS_UM_GameTitle",
+            ECstrike15UserMessages::CsUmShake => "CS_UM_Shake",
+            ECstrike15UserMessages::CsUmFade => "CS_UM_Fade",
+            ECstrike15UserMessages::CsUmRumble => "CS_UM_Rumble",
+            ECstrike15UserMessages::CsUmCloseCaption => "CS_UM_CloseCaption",
+            ECstrike15UserMessages::CsUmCloseCaptionDirect => "CS_UM_CloseCaptionDirect",
+            ECstrike15UserMessages::CsUmSendAudio => "CS_UM_SendAudio",
+            ECstrike15UserMessages::CsUmRawAudio => "CS_UM_RawAudio",
+            ECstrike15UserMessages::CsUmVoiceMask => "CS_UM_VoiceMask",
+            ECstrike15UserMessages::CsUmRequestState => "CS_UM_RequestState",
+            ECstrike15UserMessages::CsUmDamage => "CS_UM_Damage",
+            ECstrike15UserMessages::CsUmRadioText => "CS_UM_RadioText",
+            ECstrike15UserMessages::CsUmHintText => "CS_UM_HintText",
+            ECstrike15UserMessages::CsUmKeyHintText => "CS_UM_KeyHintText",
+            ECstrike15UserMessages::CsUmProcessSpottedEntityUpdate => {
                 "CS_UM_ProcessSpottedEntityUpdate"
-            },
-            | ECstrike15UserMessages::CsUmReloadEffect => "CS_UM_ReloadEffect",
-            | ECstrike15UserMessages::CsUmAdjustMoney => "CS_UM_AdjustMoney",
-            | ECstrike15UserMessages::CsUmUpdateTeamMoney => "CS_UM_UpdateTeamMoney",
-            | ECstrike15UserMessages::CsUmStopSpectatorMode => "CS_UM_StopSpectatorMode",
-            | ECstrike15UserMessages::CsUmKillCam => "CS_UM_KillCam",
-            | ECstrike15UserMessages::CsUmDesiredTimescale => "CS_UM_DesiredTimescale",
-            | ECstrike15UserMessages::CsUmCurrentTimescale => "CS_UM_CurrentTimescale",
-            | ECstrike15UserMessages::CsUmAchievementEvent => "CS_UM_AchievementEvent",
-            | ECstrike15UserMessages::CsUmMatchEndConditions => "CS_UM_MatchEndConditions",
-            | ECstrike15UserMessages::CsUmDisconnectToLobby => "CS_UM_DisconnectToLobby",
-            | ECstrike15UserMessages::CsUmPlayerStatsUpdate => "CS_UM_PlayerStatsUpdate",
-            | ECstrike15UserMessages::CsUmDisplayInventory => "CS_UM_DisplayInventory",
-            | ECstrike15UserMessages::CsUmWarmupHasEnded => "CS_UM_WarmupHasEnded",
-            | ECstrike15UserMessages::CsUmClientInfo => "CS_UM_ClientInfo",
-            | ECstrike15UserMessages::CsUmXRankGet => "CS_UM_XRankGet",
-            | ECstrike15UserMessages::CsUmXRankUpd => "CS_UM_XRankUpd",
-            | ECstrike15UserMessages::CsUmCallVoteFailed => "CS_UM_CallVoteFailed",
-            | ECstrike15UserMessages::CsUmVoteStart => "CS_UM_VoteStart",
-            | ECstrike15UserMessages::CsUmVotePass => "CS_UM_VotePass",
-            | ECstrike15UserMessages::CsUmVoteFailed => "CS_UM_VoteFailed",
-            | ECstrike15UserMessages::CsUmVoteSetup => "CS_UM_VoteSetup",
-            | ECstrike15UserMessages::CsUmServerRankRevealAll => "CS_UM_ServerRankRevealAll",
-            | ECstrike15UserMessages::CsUmSendLastKillerDamageToClient => {
+            }
+            ECstrike15UserMessages::CsUmReloadEffect => "CS_UM_ReloadEffect",
+            ECstrike15UserMessages::CsUmAdjustMoney => "CS_UM_AdjustMoney",
+            ECstrike15UserMessages::CsUmUpdateTeamMoney => "CS_UM_UpdateTeamMoney",
+            ECstrike15UserMessages::CsUmStopSpectatorMode => "CS_UM_StopSpectatorMode",
+            ECstrike15UserMessages::CsUmKillCam => "CS_UM_KillCam",
+            ECstrike15UserMessages::CsUmDesiredTimescale => "CS_UM_DesiredTimescale",
+            ECstrike15UserMessages::CsUmCurrentTimescale => "CS_UM_CurrentTimescale",
+            ECstrike15UserMessages::CsUmAchievementEvent => "CS_UM_AchievementEvent",
+            ECstrike15UserMessages::CsUmMatchEndConditions => "CS_UM_MatchEndConditions",
+            ECstrike15UserMessages::CsUmDisconnectToLobby => "CS_UM_DisconnectToLobby",
+            ECstrike15UserMessages::CsUmPlayerStatsUpdate => "CS_UM_PlayerStatsUpdate",
+            ECstrike15UserMessages::CsUmDisplayInventory => "CS_UM_DisplayInventory",
+            ECstrike15UserMessages::CsUmWarmupHasEnded => "CS_UM_WarmupHasEnded",
+            ECstrike15UserMessages::CsUmClientInfo => "CS_UM_ClientInfo",
+            ECstrike15UserMessages::CsUmXRankGet => "CS_UM_XRankGet",
+            ECstrike15UserMessages::CsUmXRankUpd => "CS_UM_XRankUpd",
+            ECstrike15UserMessages::CsUmCallVoteFailed => "CS_UM_CallVoteFailed",
+            ECstrike15UserMessages::CsUmVoteStart => "CS_UM_VoteStart",
+            ECstrike15UserMessages::CsUmVotePass => "CS_UM_VotePass",
+            ECstrike15UserMessages::CsUmVoteFailed => "CS_UM_VoteFailed",
+            ECstrike15UserMessages::CsUmVoteSetup => "CS_UM_VoteSetup",
+            ECstrike15UserMessages::CsUmServerRankRevealAll => {
+                "CS_UM_ServerRankRevealAll"
+            }
+            ECstrike15UserMessages::CsUmSendLastKillerDamageToClient => {
                 "CS_UM_SendLastKillerDamageToClient"
-            },
-            | ECstrike15UserMessages::CsUmServerRankUpdate => "CS_UM_ServerRankUpdate",
-            | ECstrike15UserMessages::CsUmItemPickup => "CS_UM_ItemPickup",
-            | ECstrike15UserMessages::CsUmShowMenu => "CS_UM_ShowMenu",
-            | ECstrike15UserMessages::CsUmBarTime => "CS_UM_BarTime",
-            | ECstrike15UserMessages::CsUmAmmoDenied => "CS_UM_AmmoDenied",
-            | ECstrike15UserMessages::CsUmMarkAchievement => "CS_UM_MarkAchievement",
-            | ECstrike15UserMessages::CsUmMatchStatsUpdate => "CS_UM_MatchStatsUpdate",
-            | ECstrike15UserMessages::CsUmItemDrop => "CS_UM_ItemDrop",
-            | ECstrike15UserMessages::CsUmGlowPropTurnOff => "CS_UM_GlowPropTurnOff",
-            | ECstrike15UserMessages::CsUmSendPlayerItemDrops => "CS_UM_SendPlayerItemDrops",
-            | ECstrike15UserMessages::CsUmRoundBackupFilenames => "CS_UM_RoundBackupFilenames",
-            | ECstrike15UserMessages::CsUmSendPlayerItemFound => "CS_UM_SendPlayerItemFound",
-            | ECstrike15UserMessages::CsUmReportHit => "CS_UM_ReportHit",
-            | ECstrike15UserMessages::CsUmXpUpdate => "CS_UM_XpUpdate",
-            | ECstrike15UserMessages::CsUmQuestProgress => "CS_UM_QuestProgress",
-            | ECstrike15UserMessages::CsUmScoreLeaderboardData => "CS_UM_ScoreLeaderboardData",
-            | ECstrike15UserMessages::CsUmPlayerDecalDigitalSignature => {
+            }
+            ECstrike15UserMessages::CsUmServerRankUpdate => "CS_UM_ServerRankUpdate",
+            ECstrike15UserMessages::CsUmItemPickup => "CS_UM_ItemPickup",
+            ECstrike15UserMessages::CsUmShowMenu => "CS_UM_ShowMenu",
+            ECstrike15UserMessages::CsUmBarTime => "CS_UM_BarTime",
+            ECstrike15UserMessages::CsUmAmmoDenied => "CS_UM_AmmoDenied",
+            ECstrike15UserMessages::CsUmMarkAchievement => "CS_UM_MarkAchievement",
+            ECstrike15UserMessages::CsUmMatchStatsUpdate => "CS_UM_MatchStatsUpdate",
+            ECstrike15UserMessages::CsUmItemDrop => "CS_UM_ItemDrop",
+            ECstrike15UserMessages::CsUmGlowPropTurnOff => "CS_UM_GlowPropTurnOff",
+            ECstrike15UserMessages::CsUmSendPlayerItemDrops => {
+                "CS_UM_SendPlayerItemDrops"
+            }
+            ECstrike15UserMessages::CsUmRoundBackupFilenames => {
+                "CS_UM_RoundBackupFilenames"
+            }
+            ECstrike15UserMessages::CsUmSendPlayerItemFound => {
+                "CS_UM_SendPlayerItemFound"
+            }
+            ECstrike15UserMessages::CsUmReportHit => "CS_UM_ReportHit",
+            ECstrike15UserMessages::CsUmXpUpdate => "CS_UM_XpUpdate",
+            ECstrike15UserMessages::CsUmQuestProgress => "CS_UM_QuestProgress",
+            ECstrike15UserMessages::CsUmScoreLeaderboardData => {
+                "CS_UM_ScoreLeaderboardData"
+            }
+            ECstrike15UserMessages::CsUmPlayerDecalDigitalSignature => {
                 "CS_UM_PlayerDecalDigitalSignature"
-            },
-            | ECstrike15UserMessages::CsUmWeaponSound => "CS_UM_WeaponSound",
-            | ECstrike15UserMessages::CsUmUpdateScreenHealthBar => "CS_UM_UpdateScreenHealthBar",
-            | ECstrike15UserMessages::CsUmEntityOutlineHighlight => "CS_UM_EntityOutlineHighlight",
-            | ECstrike15UserMessages::CsUmSsui => "CS_UM_SSUI",
-            | ECstrike15UserMessages::CsUmSurvivalStats => "CS_UM_SurvivalStats",
-            | ECstrike15UserMessages::CsUmDisconnectToLobby2 => "CS_UM_DisconnectToLobby2",
-            | ECstrike15UserMessages::CsUmEndOfMatchAllPlayersData => {
+            }
+            ECstrike15UserMessages::CsUmWeaponSound => "CS_UM_WeaponSound",
+            ECstrike15UserMessages::CsUmUpdateScreenHealthBar => {
+                "CS_UM_UpdateScreenHealthBar"
+            }
+            ECstrike15UserMessages::CsUmEntityOutlineHighlight => {
+                "CS_UM_EntityOutlineHighlight"
+            }
+            ECstrike15UserMessages::CsUmSsui => "CS_UM_SSUI",
+            ECstrike15UserMessages::CsUmSurvivalStats => "CS_UM_SurvivalStats",
+            ECstrike15UserMessages::CsUmDisconnectToLobby2 => "CS_UM_DisconnectToLobby2",
+            ECstrike15UserMessages::CsUmEndOfMatchAllPlayersData => {
                 "CS_UM_EndOfMatchAllPlayersData"
-            },
-            | ECstrike15UserMessages::CsUmRoundImpactScoreData => "CS_UM_RoundImpactScoreData",
-            | ECstrike15UserMessages::CsUmCurrentRoundOdds => "CS_UM_CurrentRoundOdds",
-            | ECstrike15UserMessages::CsUmDeepStats => "CS_UM_DeepStats",
-            | ECstrike15UserMessages::CsUmUtilMsg => "CS_UM_UtilMsg",
-            | ECstrike15UserMessages::CsUmUtilMsgResponse => "CS_UM_UtilMsg_Response",
+            }
+            ECstrike15UserMessages::CsUmRoundImpactScoreData => {
+                "CS_UM_RoundImpactScoreData"
+            }
+            ECstrike15UserMessages::CsUmCurrentRoundOdds => "CS_UM_CurrentRoundOdds",
+            ECstrike15UserMessages::CsUmDeepStats => "CS_UM_DeepStats",
+            ECstrike15UserMessages::CsUmUtilMsg => "CS_UM_UtilMsg",
+            ECstrike15UserMessages::CsUmUtilMsgResponse => "CS_UM_UtilMsg_Response",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "CS_UM_VGUIMenu" => Some(Self::CsUmVguiMenu),
-            | "CS_UM_Geiger" => Some(Self::CsUmGeiger),
-            | "CS_UM_Train" => Some(Self::CsUmTrain),
-            | "CS_UM_HudText" => Some(Self::CsUmHudText),
-            | "CS_UM_SayText" => Some(Self::CsUmSayText),
-            | "CS_UM_SayText2" => Some(Self::CsUmSayText2),
-            | "CS_UM_TextMsg" => Some(Self::CsUmTextMsg),
-            | "CS_UM_HudMsg" => Some(Self::CsUmHudMsg),
-            | "CS_UM_ResetHud" => Some(Self::CsUmResetHud),
-            | "CS_UM_GameTitle" => Some(Self::CsUmGameTitle),
-            | "CS_UM_Shake" => Some(Self::CsUmShake),
-            | "CS_UM_Fade" => Some(Self::CsUmFade),
-            | "CS_UM_Rumble" => Some(Self::CsUmRumble),
-            | "CS_UM_CloseCaption" => Some(Self::CsUmCloseCaption),
-            | "CS_UM_CloseCaptionDirect" => Some(Self::CsUmCloseCaptionDirect),
-            | "CS_UM_SendAudio" => Some(Self::CsUmSendAudio),
-            | "CS_UM_RawAudio" => Some(Self::CsUmRawAudio),
-            | "CS_UM_VoiceMask" => Some(Self::CsUmVoiceMask),
-            | "CS_UM_RequestState" => Some(Self::CsUmRequestState),
-            | "CS_UM_Damage" => Some(Self::CsUmDamage),
-            | "CS_UM_RadioText" => Some(Self::CsUmRadioText),
-            | "CS_UM_HintText" => Some(Self::CsUmHintText),
-            | "CS_UM_KeyHintText" => Some(Self::CsUmKeyHintText),
-            | "CS_UM_ProcessSpottedEntityUpdate" => Some(Self::CsUmProcessSpottedEntityUpdate),
-            | "CS_UM_ReloadEffect" => Some(Self::CsUmReloadEffect),
-            | "CS_UM_AdjustMoney" => Some(Self::CsUmAdjustMoney),
-            | "CS_UM_UpdateTeamMoney" => Some(Self::CsUmUpdateTeamMoney),
-            | "CS_UM_StopSpectatorMode" => Some(Self::CsUmStopSpectatorMode),
-            | "CS_UM_KillCam" => Some(Self::CsUmKillCam),
-            | "CS_UM_DesiredTimescale" => Some(Self::CsUmDesiredTimescale),
-            | "CS_UM_CurrentTimescale" => Some(Self::CsUmCurrentTimescale),
-            | "CS_UM_AchievementEvent" => Some(Self::CsUmAchievementEvent),
-            | "CS_UM_MatchEndConditions" => Some(Self::CsUmMatchEndConditions),
-            | "CS_UM_DisconnectToLobby" => Some(Self::CsUmDisconnectToLobby),
-            | "CS_UM_PlayerStatsUpdate" => Some(Self::CsUmPlayerStatsUpdate),
-            | "CS_UM_DisplayInventory" => Some(Self::CsUmDisplayInventory),
-            | "CS_UM_WarmupHasEnded" => Some(Self::CsUmWarmupHasEnded),
-            | "CS_UM_ClientInfo" => Some(Self::CsUmClientInfo),
-            | "CS_UM_XRankGet" => Some(Self::CsUmXRankGet),
-            | "CS_UM_XRankUpd" => Some(Self::CsUmXRankUpd),
-            | "CS_UM_CallVoteFailed" => Some(Self::CsUmCallVoteFailed),
-            | "CS_UM_VoteStart" => Some(Self::CsUmVoteStart),
-            | "CS_UM_VotePass" => Some(Self::CsUmVotePass),
-            | "CS_UM_VoteFailed" => Some(Self::CsUmVoteFailed),
-            | "CS_UM_VoteSetup" => Some(Self::CsUmVoteSetup),
-            | "CS_UM_ServerRankRevealAll" => Some(Self::CsUmServerRankRevealAll),
-            | "CS_UM_SendLastKillerDamageToClient" => Some(Self::CsUmSendLastKillerDamageToClient),
-            | "CS_UM_ServerRankUpdate" => Some(Self::CsUmServerRankUpdate),
-            | "CS_UM_ItemPickup" => Some(Self::CsUmItemPickup),
-            | "CS_UM_ShowMenu" => Some(Self::CsUmShowMenu),
-            | "CS_UM_BarTime" => Some(Self::CsUmBarTime),
-            | "CS_UM_AmmoDenied" => Some(Self::CsUmAmmoDenied),
-            | "CS_UM_MarkAchievement" => Some(Self::CsUmMarkAchievement),
-            | "CS_UM_MatchStatsUpdate" => Some(Self::CsUmMatchStatsUpdate),
-            | "CS_UM_ItemDrop" => Some(Self::CsUmItemDrop),
-            | "CS_UM_GlowPropTurnOff" => Some(Self::CsUmGlowPropTurnOff),
-            | "CS_UM_SendPlayerItemDrops" => Some(Self::CsUmSendPlayerItemDrops),
-            | "CS_UM_RoundBackupFilenames" => Some(Self::CsUmRoundBackupFilenames),
-            | "CS_UM_SendPlayerItemFound" => Some(Self::CsUmSendPlayerItemFound),
-            | "CS_UM_ReportHit" => Some(Self::CsUmReportHit),
-            | "CS_UM_XpUpdate" => Some(Self::CsUmXpUpdate),
-            | "CS_UM_QuestProgress" => Some(Self::CsUmQuestProgress),
-            | "CS_UM_ScoreLeaderboardData" => Some(Self::CsUmScoreLeaderboardData),
-            | "CS_UM_PlayerDecalDigitalSignature" => Some(Self::CsUmPlayerDecalDigitalSignature),
-            | "CS_UM_WeaponSound" => Some(Self::CsUmWeaponSound),
-            | "CS_UM_UpdateScreenHealthBar" => Some(Self::CsUmUpdateScreenHealthBar),
-            | "CS_UM_EntityOutlineHighlight" => Some(Self::CsUmEntityOutlineHighlight),
-            | "CS_UM_SSUI" => Some(Self::CsUmSsui),
-            | "CS_UM_SurvivalStats" => Some(Self::CsUmSurvivalStats),
-            | "CS_UM_DisconnectToLobby2" => Some(Self::CsUmDisconnectToLobby2),
-            | "CS_UM_EndOfMatchAllPlayersData" => Some(Self::CsUmEndOfMatchAllPlayersData),
-            | "CS_UM_RoundImpactScoreData" => Some(Self::CsUmRoundImpactScoreData),
-            | "CS_UM_CurrentRoundOdds" => Some(Self::CsUmCurrentRoundOdds),
-            | "CS_UM_DeepStats" => Some(Self::CsUmDeepStats),
-            | "CS_UM_UtilMsg" => Some(Self::CsUmUtilMsg),
-            | "CS_UM_UtilMsg_Response" => Some(Self::CsUmUtilMsgResponse),
-            | _ => None,
+            "CS_UM_VGUIMenu" => Some(Self::CsUmVguiMenu),
+            "CS_UM_Geiger" => Some(Self::CsUmGeiger),
+            "CS_UM_Train" => Some(Self::CsUmTrain),
+            "CS_UM_HudText" => Some(Self::CsUmHudText),
+            "CS_UM_SayText" => Some(Self::CsUmSayText),
+            "CS_UM_SayText2" => Some(Self::CsUmSayText2),
+            "CS_UM_TextMsg" => Some(Self::CsUmTextMsg),
+            "CS_UM_HudMsg" => Some(Self::CsUmHudMsg),
+            "CS_UM_ResetHud" => Some(Self::CsUmResetHud),
+            "CS_UM_GameTitle" => Some(Self::CsUmGameTitle),
+            "CS_UM_Shake" => Some(Self::CsUmShake),
+            "CS_UM_Fade" => Some(Self::CsUmFade),
+            "CS_UM_Rumble" => Some(Self::CsUmRumble),
+            "CS_UM_CloseCaption" => Some(Self::CsUmCloseCaption),
+            "CS_UM_CloseCaptionDirect" => Some(Self::CsUmCloseCaptionDirect),
+            "CS_UM_SendAudio" => Some(Self::CsUmSendAudio),
+            "CS_UM_RawAudio" => Some(Self::CsUmRawAudio),
+            "CS_UM_VoiceMask" => Some(Self::CsUmVoiceMask),
+            "CS_UM_RequestState" => Some(Self::CsUmRequestState),
+            "CS_UM_Damage" => Some(Self::CsUmDamage),
+            "CS_UM_RadioText" => Some(Self::CsUmRadioText),
+            "CS_UM_HintText" => Some(Self::CsUmHintText),
+            "CS_UM_KeyHintText" => Some(Self::CsUmKeyHintText),
+            "CS_UM_ProcessSpottedEntityUpdate" => {
+                Some(Self::CsUmProcessSpottedEntityUpdate)
+            }
+            "CS_UM_ReloadEffect" => Some(Self::CsUmReloadEffect),
+            "CS_UM_AdjustMoney" => Some(Self::CsUmAdjustMoney),
+            "CS_UM_UpdateTeamMoney" => Some(Self::CsUmUpdateTeamMoney),
+            "CS_UM_StopSpectatorMode" => Some(Self::CsUmStopSpectatorMode),
+            "CS_UM_KillCam" => Some(Self::CsUmKillCam),
+            "CS_UM_DesiredTimescale" => Some(Self::CsUmDesiredTimescale),
+            "CS_UM_CurrentTimescale" => Some(Self::CsUmCurrentTimescale),
+            "CS_UM_AchievementEvent" => Some(Self::CsUmAchievementEvent),
+            "CS_UM_MatchEndConditions" => Some(Self::CsUmMatchEndConditions),
+            "CS_UM_DisconnectToLobby" => Some(Self::CsUmDisconnectToLobby),
+            "CS_UM_PlayerStatsUpdate" => Some(Self::CsUmPlayerStatsUpdate),
+            "CS_UM_DisplayInventory" => Some(Self::CsUmDisplayInventory),
+            "CS_UM_WarmupHasEnded" => Some(Self::CsUmWarmupHasEnded),
+            "CS_UM_ClientInfo" => Some(Self::CsUmClientInfo),
+            "CS_UM_XRankGet" => Some(Self::CsUmXRankGet),
+            "CS_UM_XRankUpd" => Some(Self::CsUmXRankUpd),
+            "CS_UM_CallVoteFailed" => Some(Self::CsUmCallVoteFailed),
+            "CS_UM_VoteStart" => Some(Self::CsUmVoteStart),
+            "CS_UM_VotePass" => Some(Self::CsUmVotePass),
+            "CS_UM_VoteFailed" => Some(Self::CsUmVoteFailed),
+            "CS_UM_VoteSetup" => Some(Self::CsUmVoteSetup),
+            "CS_UM_ServerRankRevealAll" => Some(Self::CsUmServerRankRevealAll),
+            "CS_UM_SendLastKillerDamageToClient" => {
+                Some(Self::CsUmSendLastKillerDamageToClient)
+            }
+            "CS_UM_ServerRankUpdate" => Some(Self::CsUmServerRankUpdate),
+            "CS_UM_ItemPickup" => Some(Self::CsUmItemPickup),
+            "CS_UM_ShowMenu" => Some(Self::CsUmShowMenu),
+            "CS_UM_BarTime" => Some(Self::CsUmBarTime),
+            "CS_UM_AmmoDenied" => Some(Self::CsUmAmmoDenied),
+            "CS_UM_MarkAchievement" => Some(Self::CsUmMarkAchievement),
+            "CS_UM_MatchStatsUpdate" => Some(Self::CsUmMatchStatsUpdate),
+            "CS_UM_ItemDrop" => Some(Self::CsUmItemDrop),
+            "CS_UM_GlowPropTurnOff" => Some(Self::CsUmGlowPropTurnOff),
+            "CS_UM_SendPlayerItemDrops" => Some(Self::CsUmSendPlayerItemDrops),
+            "CS_UM_RoundBackupFilenames" => Some(Self::CsUmRoundBackupFilenames),
+            "CS_UM_SendPlayerItemFound" => Some(Self::CsUmSendPlayerItemFound),
+            "CS_UM_ReportHit" => Some(Self::CsUmReportHit),
+            "CS_UM_XpUpdate" => Some(Self::CsUmXpUpdate),
+            "CS_UM_QuestProgress" => Some(Self::CsUmQuestProgress),
+            "CS_UM_ScoreLeaderboardData" => Some(Self::CsUmScoreLeaderboardData),
+            "CS_UM_PlayerDecalDigitalSignature" => {
+                Some(Self::CsUmPlayerDecalDigitalSignature)
+            }
+            "CS_UM_WeaponSound" => Some(Self::CsUmWeaponSound),
+            "CS_UM_UpdateScreenHealthBar" => Some(Self::CsUmUpdateScreenHealthBar),
+            "CS_UM_EntityOutlineHighlight" => Some(Self::CsUmEntityOutlineHighlight),
+            "CS_UM_SSUI" => Some(Self::CsUmSsui),
+            "CS_UM_SurvivalStats" => Some(Self::CsUmSurvivalStats),
+            "CS_UM_DisconnectToLobby2" => Some(Self::CsUmDisconnectToLobby2),
+            "CS_UM_EndOfMatchAllPlayersData" => Some(Self::CsUmEndOfMatchAllPlayersData),
+            "CS_UM_RoundImpactScoreData" => Some(Self::CsUmRoundImpactScoreData),
+            "CS_UM_CurrentRoundOdds" => Some(Self::CsUmCurrentRoundOdds),
+            "CS_UM_DeepStats" => Some(Self::CsUmDeepStats),
+            "CS_UM_UtilMsg" => Some(Self::CsUmUtilMsg),
+            "CS_UM_UtilMsg_Response" => Some(Self::CsUmUtilMsgResponse),
+            _ => None,
         }
     }
 }
@@ -5195,24 +5316,24 @@ impl EcsUsrMsgDisconnectToLobbyAction {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            | EcsUsrMsgDisconnectToLobbyAction::KEcsUsrMsgDisconnectToLobbyActionDefault => {
+            EcsUsrMsgDisconnectToLobbyAction::KEcsUsrMsgDisconnectToLobbyActionDefault => {
                 "k_ECSUsrMsg_DisconnectToLobby_Action_Default"
-            },
-            | EcsUsrMsgDisconnectToLobbyAction::KEcsUsrMsgDisconnectToLobbyActionGoQueue => {
+            }
+            EcsUsrMsgDisconnectToLobbyAction::KEcsUsrMsgDisconnectToLobbyActionGoQueue => {
                 "k_ECSUsrMsg_DisconnectToLobby_Action_GoQueue"
-            },
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            | "k_ECSUsrMsg_DisconnectToLobby_Action_Default" => {
+            "k_ECSUsrMsg_DisconnectToLobby_Action_Default" => {
                 Some(Self::KEcsUsrMsgDisconnectToLobbyActionDefault)
-            },
-            | "k_ECSUsrMsg_DisconnectToLobby_Action_GoQueue" => {
+            }
+            "k_ECSUsrMsg_DisconnectToLobby_Action_GoQueue" => {
                 Some(Self::KEcsUsrMsgDisconnectToLobbyActionGoQueue)
-            },
-            | _ => None,
+            }
+            _ => None,
         }
     }
 }

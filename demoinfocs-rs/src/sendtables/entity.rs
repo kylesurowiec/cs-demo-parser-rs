@@ -3,6 +3,7 @@ use crate::bitreader::BitReader;
 use crate::sendtables::propdecoder::PropertyDecoder;
 use std::collections::HashMap;
 use std::io::Read;
+use std::sync::Arc;
 
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct Vector {
@@ -67,7 +68,7 @@ pub struct Entity {
     pub props: Vec<Property>,
 }
 
-pub type ServerClassRef = std::rc::Rc<super::serverclass::ServerClass>;
+pub type ServerClassRef = Arc<super::serverclass::ServerClass>;
 
 impl Entity {
     pub fn server_class(&self) -> ServerClassRef {

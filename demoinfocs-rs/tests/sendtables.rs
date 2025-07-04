@@ -4,7 +4,7 @@ use demoinfocs_rs::sendtables::propdecoder::{
     PROP_TYPE_INT, PROP_TYPE_INT64, PropertyDecoder, SendPropertyFlags, SendTableProperty,
 };
 use demoinfocs_rs::sendtables::serverclass::ServerClass;
-use std::rc::Rc;
+use std::sync::Arc;
 
 #[test]
 fn test_server_class_getters() {
@@ -117,7 +117,7 @@ fn test_server_class_string() {
 #[test]
 fn test_entity_properties() {
     let ent = Entity {
-        server_class: Rc::new(ServerClass::default()),
+        server_class: Arc::new(ServerClass::default()),
         id: 0,
         serial_num: 0,
         props: vec![Property {
@@ -145,7 +145,7 @@ fn test_entity_properties() {
 
 #[test]
 fn test_entity_property_value() {
-    let sc = Rc::new(ServerClass {
+    let sc = Arc::new(ServerClass {
         flattened_props: vec![
             FlattenedPropEntry {
                 name: "myProp".into(),

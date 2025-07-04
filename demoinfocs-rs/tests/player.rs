@@ -3,10 +3,10 @@ use demoinfocs_rs::sendtables::entity::{Entity, FlattenedPropEntry, Property, Pr
 use demoinfocs_rs::sendtables::propdecoder::SendTableProperty;
 use demoinfocs_rs::sendtables::serverclass::ServerClass;
 use std::collections::HashMap;
-use std::rc::Rc;
+use std::sync::Arc;
 
 fn make_entity(props: Vec<(&str, i32)>) -> Entity {
-    let sc = Rc::new(ServerClass::default());
+    let sc = Arc::new(ServerClass::default());
     let props_vec = props
         .iter()
         .map(|(name, val)| Property {

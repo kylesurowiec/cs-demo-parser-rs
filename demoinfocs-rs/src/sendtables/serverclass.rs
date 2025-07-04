@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::fmt;
 use std::io::Read;
+use std::sync::Arc;
 
 use super::entity::FlattenedPropEntry;
 use crate::bitreader::BitReader;
@@ -67,7 +68,6 @@ impl ServerClass {
         serial_num: i32,
     ) -> super::entity::Entity {
         use super::entity::{Entity, Property, PropertyValue};
-        use std::rc::Rc;
 
         let props = self
             .flattened_props
@@ -80,7 +80,7 @@ impl ServerClass {
             .collect::<Vec<_>>();
 
         let mut ent = Entity {
-            server_class: Rc::new(self.clone()),
+            server_class: Arc::new(self.clone()),
             id: entity_id,
             serial_num,
             props,
