@@ -71,4 +71,63 @@ impl<'a> Reader<'a> {
         }
         ret
     }
+
+    pub fn read_boolean(&mut self) -> bool {
+        self.read_bits(1) == 1
+    }
+
+    pub fn read_var_int32(&mut self) -> i32 {
+        let ux = self.read_var_uint32();
+        let mut x = (ux >> 1) as i32;
+        if ux & 1 != 0 {
+            x = !x;
+        }
+        x
+    }
+
+    pub fn read_var_uint64(&mut self) -> u64 {
+        let mut x = 0u64;
+        let mut s = 0u32;
+        for i in 0..10 {
+            let b = self.read_byte() as u64;
+            if b < 0x80 {
+                if i == 9 && b > 1 {
+                    panic!("read overflow: varint overflows u64");
+                }
+                return x | (b << s);
+            }
+            x |= (b & 0x7f) << s;
+            s += 7;
+        }
+        x
+    }
+
+    pub fn read_var_int64(&mut self) -> i64 {
+        let ux = self.read_var_uint64();
+        let mut x = (ux >> 1) as i64;
+        if ux & 1 != 0 {
+            x = !x;
+        }
+        x
+    }
+
+    pub fn read_ubit_var_fp(&mut self) -> u32 {
+        if self.read_boolean() {
+            return self.read_bits(2);
+        }
+        if self.read_boolean() {
+            return self.read_bits(4);
+        }
+        if self.read_boolean() {
+            return self.read_bits(10);
+        }
+        if self.read_boolean() {
+            return self.read_bits(17);
+        }
+        self.read_bits(31)
+    }
+
+    pub fn read_ubit_var_field_path(&mut self) -> usize {
+        self.read_ubit_var_fp() as usize
+    }
 }

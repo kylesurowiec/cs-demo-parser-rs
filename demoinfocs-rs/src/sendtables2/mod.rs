@@ -5,6 +5,7 @@ use std::collections::HashMap;
 mod class;
 mod entity;
 mod field;
+mod field_path;
 mod field_type;
 mod huffman;
 pub mod proto;
@@ -14,6 +15,7 @@ mod serializer;
 pub use class::Class;
 pub use entity::Entity;
 pub use field::Field;
+pub use field_path::FieldPath;
 pub use field_type::FieldType;
 pub use serializer::Serializer;
 

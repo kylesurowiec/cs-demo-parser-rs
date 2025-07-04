@@ -131,6 +131,7 @@ impl fmt::Display for ServerClass {
             self.data_table_id,
             self.data_table_name,
             base,
+            props
             props,
         )
     }
