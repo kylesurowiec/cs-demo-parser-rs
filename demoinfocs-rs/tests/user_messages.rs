@@ -115,3 +115,85 @@ fn user_message_server_rank_update() {
     assert_eq!(got.rank_update[0].account_id.unwrap(), 123);
     assert_eq!(got.rank_update[1].rank_new.unwrap(), 3);
 }
+
+#[test]
+fn user_message_text_msg() {
+    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let captured: Arc<Mutex<Option<CcsUsrMsgTextMsg>>> = Arc::new(Mutex::new(None));
+    let cap = captured.clone();
+    parser.register_user_message_handler::<CcsUsrMsgTextMsg, _>(move |m| {
+        *cap.lock().unwrap() = Some(m.clone());
+    });
+
+    let msg = CcsUsrMsgTextMsg {
+        msg_dst: Some(1),
+        params: vec!["hello".into(), "world".into()],
+    };
+    let mut buf = Vec::new();
+    msg.encode(&mut buf).unwrap();
+    let um = CsvcMsgUserMessage {
+        msg_type: Some(msg::ECstrike15UserMessages::CsUmTextMsg as i32),
+        msg_data: Some(buf),
+        passthrough: None,
+    };
+    parser.handle_user_message(&um);
+    std::thread::sleep(std::time::Duration::from_millis(10));
+
+    let got = captured.lock().unwrap().clone().unwrap();
+    assert_eq!(got.msg_dst.unwrap(), 1);
+    assert_eq!(got.params, vec!["hello", "world"]);
+}
+
+#[test]
+fn user_message_hint_text() {
+    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let captured: Arc<Mutex<Option<CcsUsrMsgHintText>>> = Arc::new(Mutex::new(None));
+    let cap = captured.clone();
+    parser.register_user_message_handler::<CcsUsrMsgHintText, _>(move |m| {
+        *cap.lock().unwrap() = Some(m.clone());
+    });
+
+    let msg = CcsUsrMsgHintText {
+        text: Some("hint".into()),
+    };
+    let mut buf = Vec::new();
+    msg.encode(&mut buf).unwrap();
+    let um = CsvcMsgUserMessage {
+        msg_type: Some(msg::ECstrike15UserMessages::CsUmHintText as i32),
+        msg_data: Some(buf),
+        passthrough: None,
+    };
+    parser.handle_user_message(&um);
+    std::thread::sleep(std::time::Duration::from_millis(10));
+
+    let got = captured.lock().unwrap().clone().unwrap();
+    assert_eq!(got.text.unwrap(), "hint");
+}
+
+#[test]
+fn user_message_round_impact_score_data() {
+    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let captured: Arc<Mutex<Option<CcsUsrMsgRoundImpactScoreData>>> = Arc::new(Mutex::new(None));
+    let cap = captured.clone();
+    parser.register_user_message_handler::<CcsUsrMsgRoundImpactScoreData, _>(move |m| {
+        *cap.lock().unwrap() = Some(m.clone());
+    });
+
+    let msg = CcsUsrMsgRoundImpactScoreData {
+        init_conditions: None,
+        all_ris_event_data: Vec::new(),
+    };
+    let mut buf = Vec::new();
+    msg.encode(&mut buf).unwrap();
+    let um = CsvcMsgUserMessage {
+        msg_type: Some(msg::ECstrike15UserMessages::CsUmRoundImpactScoreData as i32),
+        msg_data: Some(buf),
+        passthrough: None,
+    };
+    parser.handle_user_message(&um);
+    std::thread::sleep(std::time::Duration::from_millis(10));
+
+    let got = captured.lock().unwrap().clone().unwrap();
+    assert!(got.init_conditions.is_none());
+    assert!(got.all_ris_event_data.is_empty());
+}
