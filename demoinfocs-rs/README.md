@@ -27,6 +27,17 @@ Several small examples are available under `examples/`. To run one of them, supp
 cargo run --example print_events -- -demo /path/to/demo.dem
 ```
 
+You can adjust queue sizes or provide decryption keys via `ParserConfig`:
+
+```rust
+use demoinfocs_rs::parser::{Parser, ParserConfig};
+use std::fs::File;
+
+let file = File::open("demo.dem")?;
+let config = ParserConfig { decryption_key: Some(b"0123456789ABCDEF".to_vec()), ..Default::default() };
+let mut parser = Parser::with_config(file, config);
+```
+
 ## Tests
 
 Run the unit tests from the repository root with:

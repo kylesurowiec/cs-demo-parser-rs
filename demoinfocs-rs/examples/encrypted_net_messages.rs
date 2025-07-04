@@ -1,5 +1,5 @@
 use demoinfocs_rs::matchinfo::match_info_decryption_key;
-use demoinfocs_rs::parser::Parser;
+use demoinfocs_rs::parser::{Parser, ParserConfig};
 use std::env;
 use std::fs;
 use std::fs::File;
@@ -25,7 +25,11 @@ fn main() {
     println!("decryption key: {}", String::from_utf8_lossy(&key));
 
     let file = File::open(&demo_path).expect("failed to open demo file");
-    let mut parser = Parser::new(file);
+    let config = ParserConfig {
+        decryption_key: Some(key),
+        ..Default::default()
+    };
+    let mut parser = Parser::with_config(file, config);
     if let Err(e) = parser.parse_to_end() {
         eprintln!("error while parsing demo: {:?}", e);
     }
