@@ -164,6 +164,24 @@ pub struct AnnouncementFinalRound;
 pub struct AnnouncementWinPanelMatch;
 
 #[derive(Clone, Debug)]
+pub struct RoundAnnounceFinal;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceLastRoundHalf;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceMatchPoint;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceMatchStart;
+
+#[derive(Clone, Debug)]
+pub struct RoundAnnounceWarmup;
+
+#[derive(Clone, Debug)]
+pub struct RoundEndUploadStats;
+
+#[derive(Clone, Debug)]
 pub struct Footstep {
     pub player: Option<Player>,
 }

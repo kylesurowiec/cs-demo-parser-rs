@@ -59,6 +59,24 @@ impl GameEventHandler {
                 winner_state: None,
                 loser_state: None,
             }),
+            | "round_announce_final" => parser.dispatch_event(events::RoundAnnounceFinal),
+            | "round_announce_last_round_half" => {
+                parser.dispatch_event(events::RoundAnnounceLastRoundHalf)
+            },
+            | "round_announce_match_point" => {
+                parser.dispatch_event(events::RoundAnnounceMatchPoint)
+            },
+            | "round_announce_match_start" => {
+                parser.dispatch_event(events::RoundAnnounceMatchStart)
+            },
+            | "round_announce_warmup" => parser.dispatch_event(events::RoundAnnounceWarmup),
+            | "round_end_upload_stats" => parser.dispatch_event(events::RoundEndUploadStats),
+            | "round_mvp" => parser.dispatch_event(events::RoundMVPAnnouncement {
+                player: None,
+                reason: events::RoundMVPReason::MostEliminations,
+            }),
+            | "round_freeze_end" => parser.dispatch_event(events::RoundFreezetimeEnd),
+            | "round_officially_ended" => parser.dispatch_event(events::RoundEndOfficial),
             | _ => {},
         }
     }
