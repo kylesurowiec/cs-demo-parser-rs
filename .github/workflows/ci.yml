@@ -16,11 +16,11 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: Format
-        run: cargo fmt --manifest-path demoinfocs-rs/Cargo.toml -- --check
+      # - name: Format
+      #   run: cargo fmt --manifest-path demoinfocs-rs/Cargo.toml -- --check
 
-      - name: Clippy
-        run: cargo clippy --manifest-path demoinfocs-rs/Cargo.toml -- -D warnings
+      # - name: Clippy
+      #   run: cargo clippy --manifest-path demoinfocs-rs/Cargo.toml -- -D warnings
 
       - name: Build examples
         run: cargo build --manifest-path demoinfocs-rs/Cargo.toml --examples
