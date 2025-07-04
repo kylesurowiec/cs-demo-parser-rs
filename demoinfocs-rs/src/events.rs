@@ -355,6 +355,11 @@ pub struct BombPickup {
 }
 
 #[derive(Clone, Debug)]
+pub struct BombBeep {
+    pub inner: BombEvent,
+}
+
+#[derive(Clone, Debug)]
 pub struct HostageRescued {
     pub player: Option<Player>,
     pub hostage: Option<Hostage>,
