@@ -6,6 +6,7 @@ use crate::sendtables2;
 
 pub mod datatable;
 
+use prost::Message;
 use std::collections::HashMap;
 use std::io::Read;
 use std::sync::Arc;
@@ -475,27 +476,28 @@ impl<R: Read> Parser<R> {
         if let (Some(t), Some(data)) = (um.msg_type, &um.msg_data) {
             if let Ok(kind) = proto_msg::ECstrike15UserMessages::try_from(t) {
                 match kind {
-                    proto_msg::ECstrike15UserMessages::CsUmSayText => {
+                    | proto_msg::ECstrike15UserMessages::CsUmSayText => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgSayText::decode(&data[..]) {
                             self.dispatch_user_message(msg);
                         }
-                    }
-                    proto_msg::ECstrike15UserMessages::CsUmSayText2 => {
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmSayText2 => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgSayText2::decode(&data[..]) {
                             self.dispatch_user_message(msg);
                         }
-                    }
-                    proto_msg::ECstrike15UserMessages::CsUmServerRankUpdate => {
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmServerRankUpdate => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgServerRankUpdate::decode(&data[..]) {
                             self.dispatch_user_message(msg);
                         }
-                    }
-                    proto_msg::ECstrike15UserMessages::CsUmRoundImpactScoreData => {
-                        if let Ok(msg) = proto_msg::CcsUsrMsgRoundImpactScoreData::decode(&data[..]) {
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmRoundImpactScoreData => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgRoundImpactScoreData::decode(&data[..])
+                        {
                             self.dispatch_user_message(msg);
                         }
-                    }
-                    _ => {}
+                    },
+                    | _ => {},
                 }
             }
         }

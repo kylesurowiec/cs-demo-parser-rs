@@ -30,6 +30,13 @@ Otherwise the build script falls back to common system locations such as
 `/usr/include` or `/usr/local/include`. Installing `libprotobuf-dev` on
 Debian/Ubuntu provides the descriptor in `/usr/include`.
 
+### Message definitions
+
+The build script compiles two collections of protobuf files.
+`proto/msg` holds the legacy Source&nbsp;1 (CS:GO) messages, whereas
+`proto/msgs2` contains the Source&nbsp;2 definitions used by CS2 demos.
+Both are emitted into `src/proto` as `msg` and `msgs2` modules.
+
 ### Demo files
 
 The test suite expects a collection of Counter-Strike demo files located in the
