@@ -1,18 +1,5 @@
 # Examples
 
-Here you can find a overview of examples on how to use demoinfocs-rs.
+The previous Go examples have been removed. For working examples written in Rust see [`demoinfocs-rs/examples`](../demoinfocs-rs/examples).
 
-:information_source: Example code may not be production ready - specifically error handling and such is done in a simplified way and should not be used in critical systems as-is.
-
-|Example|Description
-|-|-|
-|[heatmap](heatmap)|Creating a heatmap from positions where players fired shots from|
-|[nade-trajectories](nade-trajectories)|Map overview with grenade trajectories|
-|[voice-capture](voice-capture)|Capture voice data from players|
-|[entities](entities)|Using unhandled data from entities (`Parser.ServerClasses()`)|
-|[net-messages](../demoinfocs-rs/examples/net_messages.rs)|Parsing and handling custom net-messages|
-|[encrypted-net-messages](encrypted-net-messages)|Parsing and handling encrypted net-messages (e.g. text chat in MM demos)|
-|[print-events](print-events)|Printing kills, scores & chat messages|
-|[mocking](mocking)|Using the `fake` package to write unit tests for your code|
-|[web-assembly](web-assembly)|Using the library from JavaScript (browser/node) with [WebAssembly](https://webassembly.org/)|
-|[more examples](https://github.com/markus-wa/demoinfocs-golang/wiki/Additional-Examples-(Gists))|A collection of unpolished GitHub Gists based on past requests|
+:information_source: Example code may not be production ready—error handling is simplified and should not be used in critical systems as-is.
