@@ -624,3 +624,30 @@ pub struct TeamClanNameUpdated {
     pub new_name: String,
     pub team_state: Option<TeamState>,
 }
+
+#[derive(Clone, Debug)]
+pub struct AmmoPickup;
+
+#[derive(Clone, Debug)]
+pub struct ItemEquip;
+
+#[derive(Clone, Debug)]
+pub struct ItemPickup;
+
+#[derive(Clone, Debug)]
+pub struct ItemPickupSlerp;
+
+#[derive(Clone, Debug)]
+pub struct ItemRemove;
+
+#[derive(Clone, Debug)]
+pub struct InspectWeapon;
+
+#[derive(Clone, Debug)]
+pub struct ServerCvar;
+
+#[derive(Clone, Debug)]
+pub struct VoteCast;
+
+#[derive(Clone, Debug)]
+pub struct TournamentReward;

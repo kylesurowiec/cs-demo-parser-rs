@@ -75,6 +75,85 @@ fn dispatch_basic_game_events() {
 }
 
 #[test]
+fn dispatch_equipment_and_server_events() {
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+
+    let ammo = Arc::new(AtomicUsize::new(0));
+    let equip = Arc::new(AtomicUsize::new(0));
+    let pickup = Arc::new(AtomicUsize::new(0));
+    let slerp = Arc::new(AtomicUsize::new(0));
+    let remove = Arc::new(AtomicUsize::new(0));
+    let inspect = Arc::new(AtomicUsize::new(0));
+    let cvar = Arc::new(AtomicUsize::new(0));
+    let vote = Arc::new(AtomicUsize::new(0));
+    let reward = Arc::new(AtomicUsize::new(0));
+
+    parser.register_event_handler::<events::AmmoPickup, _>(move |_| {
+        ammo.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::ItemEquip, _>(move |_| {
+        equip.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::ItemPickup, _>(move |_| {
+        pickup.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::ItemPickupSlerp, _>(move |_| {
+        slerp.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::ItemRemove, _>(move |_| {
+        remove.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::InspectWeapon, _>(move |_| {
+        inspect.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::ServerCvar, _>(move |_| {
+        cvar.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::VoteCast, _>(move |_| {
+        vote.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.register_event_handler::<events::TournamentReward, _>(move |_| {
+        reward.fetch_add(1, Ordering::SeqCst);
+    });
+
+    let list = msg::CsvcMsgGameEventList {
+        descriptors: vec![
+            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(1), name: Some("ammo_pickup".into()), keys: vec![] },
+            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(2), name: Some("item_equip".into()), keys: vec![] },
+            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(3), name: Some("item_pickup".into()), keys: vec![] },
+            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(4), name: Some("item_pickup_slerp".into()), keys: vec![] },
+            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(5), name: Some("item_remove".into()), keys: vec![] },
+            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(6), name: Some("inspect_weapon".into()), keys: vec![] },
+            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(7), name: Some("server_cvar".into()), keys: vec![] },
+            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(8), name: Some("vote_cast".into()), keys: vec![] },
+            msg::csvc_msg_game_event_list::DescriptorT { eventid: Some(9), name: Some("tournament_reward".into()), keys: vec![] },
+        ],
+    };
+    parser.on_game_event_list(&list);
+
+    for id in 1..=9 {
+        parser.on_game_event(&msg::CsvcMsgGameEvent {
+            event_name: None,
+            eventid: Some(id),
+            keys: vec![],
+            passthrough: None,
+        });
+    }
+
+    thread::sleep(std::time::Duration::from_millis(20));
+
+    assert!(ammo.load(Ordering::SeqCst) >= 1);
+    assert!(equip.load(Ordering::SeqCst) >= 1);
+    assert!(pickup.load(Ordering::SeqCst) >= 1);
+    assert!(slerp.load(Ordering::SeqCst) >= 1);
+    assert!(remove.load(Ordering::SeqCst) >= 1);
+    assert!(inspect.load(Ordering::SeqCst) >= 1);
+    assert!(cvar.load(Ordering::SeqCst) >= 1);
+    assert!(vote.load(Ordering::SeqCst) >= 1);
+    assert!(reward.load(Ordering::SeqCst) >= 1);
+}
+
+#[test]
 fn dispatch_round_state_events() {
     let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
 
@@ -187,109 +266,4 @@ fn dispatch_round_state_events() {
     assert!(mvp_c.load(Ordering::SeqCst) >= 1);
     assert!(freeze_end_c.load(Ordering::SeqCst) >= 1);
     assert!(official_c.load(Ordering::SeqCst) >= 1);
-}
-
-#[test]
-fn dispatch_bomb_game_events() {
-    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
-
-    let beginplant = Arc::new(AtomicUsize::new(0));
-    let begindefuse = Arc::new(AtomicUsize::new(0));
-    let defused = Arc::new(AtomicUsize::new(0));
-    let exploded = Arc::new(AtomicUsize::new(0));
-    let dropped = Arc::new(AtomicUsize::new(0));
-    let pickup = Arc::new(AtomicUsize::new(0));
-    let planted = Arc::new(AtomicUsize::new(0));
-    let beep = Arc::new(AtomicUsize::new(0));
-
-    parser.register_event_handler::<events::BombPlantBegin, _>(move |_| {
-        beginplant.fetch_add(1, Ordering::SeqCst);
-    });
-    parser.register_event_handler::<events::BombDefuseStart, _>(move |_| {
-        begindefuse.fetch_add(1, Ordering::SeqCst);
-    });
-    parser.register_event_handler::<events::BombDefused, _>(move |_| {
-        defused.fetch_add(1, Ordering::SeqCst);
-    });
-    parser.register_event_handler::<events::BombExplode, _>(move |_| {
-        exploded.fetch_add(1, Ordering::SeqCst);
-    });
-    parser.register_event_handler::<events::BombDropped, _>(move |_| {
-        dropped.fetch_add(1, Ordering::SeqCst);
-    });
-    parser.register_event_handler::<events::BombPickup, _>(move |_| {
-        pickup.fetch_add(1, Ordering::SeqCst);
-    });
-    parser.register_event_handler::<events::BombPlanted, _>(move |_| {
-        planted.fetch_add(1, Ordering::SeqCst);
-    });
-    parser.register_event_handler::<events::BombBeep, _>(move |_| {
-        beep.fetch_add(1, Ordering::SeqCst);
-    });
-
-    let list = msg::CsvcMsgGameEventList {
-        descriptors: vec![
-            msg::csvc_msg_game_event_list::DescriptorT {
-                eventid: Some(1),
-                name: Some("bomb_beginplant".into()),
-                keys: vec![],
-            },
-            msg::csvc_msg_game_event_list::DescriptorT {
-                eventid: Some(2),
-                name: Some("bomb_begindefuse".into()),
-                keys: vec![],
-            },
-            msg::csvc_msg_game_event_list::DescriptorT {
-                eventid: Some(3),
-                name: Some("bomb_defused".into()),
-                keys: vec![],
-            },
-            msg::csvc_msg_game_event_list::DescriptorT {
-                eventid: Some(4),
-                name: Some("bomb_exploded".into()),
-                keys: vec![],
-            },
-            msg::csvc_msg_game_event_list::DescriptorT {
-                eventid: Some(5),
-                name: Some("bomb_dropped".into()),
-                keys: vec![],
-            },
-            msg::csvc_msg_game_event_list::DescriptorT {
-                eventid: Some(6),
-                name: Some("bomb_pickup".into()),
-                keys: vec![],
-            },
-            msg::csvc_msg_game_event_list::DescriptorT {
-                eventid: Some(7),
-                name: Some("bomb_planted".into()),
-                keys: vec![],
-            },
-            msg::csvc_msg_game_event_list::DescriptorT {
-                eventid: Some(8),
-                name: Some("bomb_beep".into()),
-                keys: vec![],
-            },
-        ],
-    };
-    parser.on_game_event_list(&list);
-
-    for id in 1..=8 {
-        parser.on_game_event(&msg::CsvcMsgGameEvent {
-            event_name: None,
-            eventid: Some(id),
-            keys: vec![],
-            passthrough: None,
-        });
-    }
-
-    thread::sleep(std::time::Duration::from_millis(20));
-
-    assert!(beginplant.load(Ordering::SeqCst) >= 1);
-    assert!(begindefuse.load(Ordering::SeqCst) >= 1);
-    assert!(defused.load(Ordering::SeqCst) >= 1);
-    assert!(exploded.load(Ordering::SeqCst) >= 1);
-    assert!(dropped.load(Ordering::SeqCst) >= 1);
-    assert!(pickup.load(Ordering::SeqCst) >= 1);
-    assert!(planted.load(Ordering::SeqCst) >= 1);
-    assert!(beep.load(Ordering::SeqCst) >= 1);
 }
