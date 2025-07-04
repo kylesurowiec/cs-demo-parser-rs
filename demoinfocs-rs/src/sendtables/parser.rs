@@ -1,6 +1,5 @@
 use prost::Message as _;
 
-use crate::proto::msgs2::CsvcMsgSendTable;
 use crate::bitreader::BitReader;
 use crate::proto::msg::cs_demo_parser_rs as proto_msg;
 use crate::proto::msg::cs_demo_parser_rs::CsvcMsgSendTable;

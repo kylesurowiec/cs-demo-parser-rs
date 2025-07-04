@@ -1,5 +1,5 @@
 use demoinfocs_rs::parser::Parser;
-use demoinfocs_rs::proto::msg::all::*;
+use demoinfocs_rs::proto::msg::cs_demo_parser_rs::*;
 use demoinfocs_rs::proto::msg::{self};
 use prost::Message;
 use std::io::Cursor;

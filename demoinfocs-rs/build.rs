@@ -55,7 +55,8 @@ fn compile(input: &str, output: &str) -> Result<(), Box<dyn std::error::Error>> 
         }
     });
     // Only generate a minimal mod.rs for the consolidated protobuf module
-    let mod_rs = r#"pub mod cs_demo_parser_rs;
+    let mod_rs = r#"#[path = "cs_demo_parser_rs.rs"]
+pub mod cs_demo_parser_rs;
 pub use cs_demo_parser_rs::*;
 "#;
     std::fs::write(out_dir.join("mod.rs"), mod_rs)?;
@@ -74,6 +75,13 @@ pub use cs_demo_parser_rs::*;
         }
     }
     config.compile_protos(&protos, &includes)?;
+    // Older prost versions generate a file named `_.rs`. Rename it for
+    // consistency so the module is always `cs_demo_parser_rs`.
+    let generated = out_dir.join("_.rs");
+    if generated.exists() {
+        let target = out_dir.join("cs_demo_parser_rs.rs");
+        std::fs::rename(generated, target)?;
+    }
     Ok(())
 }
 
@@ -316,8 +324,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("cargo:warning=Build script starting...");
 
     //if std::env::var_os("DEMOINFOCS_SKIP_PROTO").is_none() {
-        compile("proto/msg", "msg")?;
-        compile("proto/msgs2", "msgs2")?;
+    compile("proto/msg", "msg")?;
+    compile("proto/msgs2", "msgs2")?;
     //}
 
     // Setup demos (non-critical - don't fail build if it fails)
