@@ -176,7 +176,12 @@ fn test_class_info_and_entities() {
         delta_from: Some(0),
         entity_data: Some(data),
     };
-    let created = p.parse_packet_entities(&pe_msg);
-    assert_eq!(created.len(), 1);
+    let events = p.parse_packet_entities(&pe_msg);
+    assert_eq!(events.len(), 1);
+    assert!(
+        events[0]
+            .1
+            .contains(demoinfocs_rs::sendtables::EntityOp::CREATED)
+    );
     assert!(p.entity(0).is_some());
 }
