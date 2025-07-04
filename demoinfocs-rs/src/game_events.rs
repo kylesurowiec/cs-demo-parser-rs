@@ -59,6 +59,7 @@ impl GameEventHandler {
                 winner_state: None,
                 loser_state: None,
             }),
+            // Grenade events
             | "flashbang_detonate" => parser.dispatch_event(events::FlashExplode {
                 inner: events::GrenadeEvent::default(),
             }),
@@ -82,6 +83,46 @@ impl GameEventHandler {
             }),
             | "inferno_expire" => parser.dispatch_event(events::FireGrenadeExpired {
                 inner: events::GrenadeEvent::default(),
+            }),
+            // Bomb events
+            | "bomb_beginplant" => parser.dispatch_event(events::BombPlantBegin {
+                inner: events::BombEvent {
+                    player: None,
+                    site: events::Bombsite::Unknown,
+                },
+            }),
+            | "bomb_begindefuse" => parser.dispatch_event(events::BombDefuseStart {
+                player: None,
+                has_kit: false,
+            }),
+            | "bomb_defused" => parser.dispatch_event(events::BombDefused {
+                inner: events::BombEvent {
+                    player: None,
+                    site: events::Bombsite::Unknown,
+                },
+            }),
+            | "bomb_exploded" => parser.dispatch_event(events::BombExplode {
+                inner: events::BombEvent {
+                    player: None,
+                    site: events::Bombsite::Unknown,
+                },
+            }),
+            | "bomb_dropped" => parser.dispatch_event(events::BombDropped {
+                player: None,
+                entity_id: 0,
+            }),
+            | "bomb_pickup" => parser.dispatch_event(events::BombPickup { player: None }),
+            | "bomb_planted" => parser.dispatch_event(events::BombPlanted {
+                inner: events::BombEvent {
+                    player: None,
+                    site: events::Bombsite::Unknown,
+                },
+            }),
+            | "bomb_beep" => parser.dispatch_event(events::BombBeep {
+                inner: events::BombEvent {
+                    player: None,
+                    site: events::Bombsite::Unknown,
+                },
             }),
             | _ => {},
         }
