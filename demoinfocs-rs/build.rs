@@ -18,7 +18,7 @@ fn collect_proto_files(dir: &Path) -> Result<Vec<PathBuf>, std::io::Error> {
             let path = entry.path();
             if path.is_dir() {
                 files.extend(collect_proto_files(&path)?);
-            } else if path.extension().map_or(false, |ext| ext == "proto") {
+            } else if path.extension().is_some_and(|ext| ext == "proto") {
                 files.push(path);
             }
         }
@@ -95,6 +95,7 @@ pub use cs_demo_parser_rs::*;
 /// - `DEMOINFOCS_SKIP_DEMOS` - Skip demo setup entirely
 /// - `FETCH_LATEST_DEMOS` - Download any missing demo archives if set to "1"
 /// - `SYNC_LATEST_DEMOS` - Force re-download of all demo archives if set to "1"
+#[allow(dead_code)]
 fn setup_demos() -> Result<(), Box<dyn std::error::Error>> {
     println!("cargo:warning=setup_demos() starting...");
 
@@ -117,9 +118,9 @@ fn setup_demos() -> Result<(), Box<dyn std::error::Error>> {
         std::fs::create_dir_all(demos_external)?;
     }
 
-    let fetch_latest = std::env::var("FETCH_LATEST_DEMOS").ok().as_deref() == Some("1");
-    let sync_latest = std::env::var("SYNC_LATEST_DEMOS").ok().as_deref() == Some("1");
-    let demo_archives = [
+    let _fetch_latest = std::env::var("FETCH_LATEST_DEMOS").ok().as_deref() == Some("1");
+    let _sync_latest = std::env::var("SYNC_LATEST_DEMOS").ok().as_deref() == Some("1");
+    let _demo_archives = [
         "default.7z",
         "broken.7z",
         "overtime-demos.7z",
@@ -222,6 +223,7 @@ fn setup_demos() -> Result<(), Box<dyn std::error::Error>> {
 /// Downloads the real .7z file from GitLab if the file is a small LFS pointer.
 ///
 /// This is needed because sometimes only a pointer file is present instead of the actual archive.
+#[allow(dead_code)]
 fn download_real_7z_if_pointer(path: &Path) -> Result<(), Box<dyn std::error::Error>> {
     let filename = path.file_name().unwrap_or_default().to_string_lossy();
     let size = path.metadata()?.len();
@@ -261,6 +263,7 @@ fn download_real_7z_if_pointer(path: &Path) -> Result<(), Box<dyn std::error::Er
 ///
 /// Ensures the output directory exists, checks for .7z files, and attempts to download
 /// the real archive if only a pointer is present. Uses sevenz_rust for extraction.
+#[allow(dead_code)]
 fn extract_demos() -> Result<(), Box<dyn std::error::Error>> {
     println!("cargo:warning=extract_demos() starting...");
     let demos_dir = Path::new("demos");
