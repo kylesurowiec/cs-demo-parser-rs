@@ -6,8 +6,7 @@ pub mod serverclass;
 
 pub use entity::{Entity, Property, PropertyValue};
 pub use entity_op::EntityOp;
-pub use parser::Parser as TablesParser;
-pub use parser::Parser as SendTableParser;
+pub use parser::{Parser as TablesParser, Parser as SendTableParser};
 pub use serverclass::{PropertyEntry, ServerClass};
 
 pub type ServerClasses = Vec<ServerClass>;

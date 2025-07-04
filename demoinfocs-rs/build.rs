@@ -189,7 +189,9 @@ fn setup_demos() -> Result<(), Box<dyn std::error::Error>> {
     */
     if !has_7z {
         println!(
-            "cargo:warning=No .7z files found in demos-external. Set FETCH_LATEST_DEMOS=1 to fetch missing or SYNC_LATEST_DEMOS=1 to re-download all demos. No downloads will occur unless a flag is set."
+            "cargo:warning=No .7z files found in demos-external. Set FETCH_LATEST_DEMOS=1 to \
+             fetch missing or SYNC_LATEST_DEMOS=1 to re-download all demos. No downloads will \
+             occur unless a flag is set."
         );
     }
     //}

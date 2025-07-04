@@ -1,8 +1,7 @@
 use demoinfocs_rs::matchinfo::match_info_decryption_key;
 use demoinfocs_rs::parser::{Parser, ParserConfig};
-use std::env;
-use std::fs;
 use std::fs::File;
+use std::{env, fs};
 
 fn args() -> (String, String) {
     let mut args = env::args().skip(1);

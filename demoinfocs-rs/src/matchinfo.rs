@@ -1,7 +1,7 @@
 use prost::Message;
 use std::error::Error;
 
-use crate::proto::msg::{CDataGccStrike15V2MatchInfo, WatchableMatchInfo};
+use crate::proto::msg::CDataGccStrike15V2MatchInfo;
 
 /// Extracts the net-message decryption key stored in `match730_*.dem.info` files.
 /// Pass the whole contents of the `.dem.info` file to this function to get the key.

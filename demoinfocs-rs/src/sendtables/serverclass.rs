@@ -66,8 +66,7 @@ impl ServerClass {
         entity_id: i32,
         serial_num: i32,
     ) -> super::entity::Entity {
-        use super::entity::PropertyValue;
-        use super::entity::{Entity, Property};
+        use super::entity::{Entity, Property, PropertyValue};
         use std::rc::Rc;
 
         let props = self
@@ -126,7 +125,9 @@ impl fmt::Display for ServerClass {
         };
         write!(
             f,
-            "serverClass: id={} name={}\n\tdataTableId={}\n\tdataTableName={}\n\tbaseClasses:\n\t\t{}\n\tproperties:\n\t\t{}",
+            "serverClass: id={} \
+             name={}\n\tdataTableId={}\n\tdataTableName={}\n\tbaseClasses:\n\t\t{}\n\tproperties:\\
+             n\t\t{}",
             self.id, self.name, self.data_table_id, self.data_table_name, base, props
         )
     }

@@ -21,7 +21,7 @@ impl<'a> Reader<'a> {
         b
     }
 
-    pub fn read_bits(&mut self, mut n: u32) -> u32 {
+    pub fn read_bits(&mut self, n: u32) -> u32 {
         while n > self.bit_count {
             self.bit_val |= (self.next_byte() as u64) << self.bit_count;
             self.bit_count += 8;

@@ -1,7 +1,6 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
 use crate::game_state::GameState;
-use crate::sendtables::EntityOp;
 use crate::sendtables::TablesParser;
 use crate::sendtables2;
 
@@ -467,7 +466,7 @@ impl<R: Read> Parser<R> {
     }
 
     pub fn on_game_event(&mut self, msg: &crate::proto::msg::all::CsvcMsgGameEvent) {
-        let mut handler = std::mem::take(&mut self.game_events);
+        let handler = std::mem::take(&mut self.game_events);
         handler.handle_game_event(self, msg);
         self.game_events = handler;
     }
