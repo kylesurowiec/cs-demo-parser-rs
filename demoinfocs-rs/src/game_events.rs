@@ -59,6 +59,30 @@ impl GameEventHandler {
                 winner_state: None,
                 loser_state: None,
             }),
+            | "flashbang_detonate" => parser.dispatch_event(events::FlashExplode {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "hegrenade_detonate" => parser.dispatch_event(events::HeExplode {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "decoy_started" => parser.dispatch_event(events::DecoyStart {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "decoy_detonate" => parser.dispatch_event(events::DecoyExpired {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "smokegrenade_detonate" => parser.dispatch_event(events::SmokeStart {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "smokegrenade_expired" => parser.dispatch_event(events::SmokeExpired {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "inferno_startburn" => parser.dispatch_event(events::FireGrenadeStart {
+                inner: events::GrenadeEvent::default(),
+            }),
+            | "inferno_expire" => parser.dispatch_event(events::FireGrenadeExpired {
+                inner: events::GrenadeEvent::default(),
+            }),
             | _ => {},
         }
     }
