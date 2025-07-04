@@ -625,7 +625,98 @@ pub struct TeamClanNameUpdated {
     pub team_state: Option<TeamState>,
 }
 
+pub struct AnnouncePhaseEnd;
+
 #[derive(Clone, Debug)]
+pub struct BuytimeEnded;
+
+#[derive(Clone, Debug)]
+pub struct ChoppersIncomingWarning;
+
+#[derive(Clone, Debug)]
+pub struct CsIntermission;
+
+#[derive(Clone, Debug)]
+pub struct CsMatchEndRestart;
+
+#[derive(Clone, Debug)]
+pub struct CsPreRestart;
+
+#[derive(Clone, Debug)]
+pub struct CsRoundFinalBeep;
+
+#[derive(Clone, Debug)]
+pub struct CsRoundStartBeep;
+
+#[derive(Clone, Debug)]
+pub struct CsWinPanelMatch;
+
+#[derive(Clone, Debug)]
+pub struct CsWinPanelRound;
+
+#[derive(Clone, Debug)]
+pub struct EnterBombzone;
+
+#[derive(Clone, Debug)]
+pub struct ExitBombzone;
+
+#[derive(Clone, Debug)]
+pub struct EnterBuyzone;
+
+#[derive(Clone, Debug)]
+pub struct ExitBuyzone;
+
+#[derive(Clone, Debug)]
+pub struct EntityVisible;
+
+#[derive(Clone, Debug)]
+pub struct FirstBombsIncomingWarning;
+
+#[derive(Clone, Debug)]
+pub struct HltvChase;
+
+#[derive(Clone, Debug)]
+pub struct HltvFixed;
+
+#[derive(Clone, Debug)]
+pub struct HltvMessage;
+
+#[derive(Clone, Debug)]
+pub struct HltvStatus;
+
+#[derive(Clone, Debug)]
+pub struct HostageFollows;
+
+#[derive(Clone, Debug)]
+pub struct HostnameChanged;
+
+#[derive(Clone, Debug)]
+pub struct JoinTeamFailed;
+
+#[derive(Clone, Debug)]
+pub struct OtherDeath;
+
+#[derive(Clone, Debug)]
+pub struct PlayerBlind;
+
+#[derive(Clone, Debug)]
+pub struct ShowSurvivalRespawnStatus;
+
+#[derive(Clone, Debug)]
+pub struct SurvivalParadropSpawn;
+
+#[derive(Clone, Debug)]
+pub struct SwitchTeam;
+
+#[derive(Clone, Debug)]
+pub struct WeaponFireOnEmpty;
+
+#[derive(Clone, Debug)]
+pub struct WeaponZoom;
+
+#[derive(Clone, Debug)]
+pub struct WeaponZoomRifle;
+=======
 pub struct AmmoPickup;
 
 #[derive(Clone, Debug)]
