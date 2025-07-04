@@ -48,6 +48,42 @@ pub struct EntityCreated {
     pub entity: crate::sendtables2::Entity,
 }
 
+/// Configuration options for [`Parser`].
+#[derive(Debug, Clone)]
+pub struct ParserConfig {
+    /// Size of the internal message queue. `None` uses the default buffer
+    /// size which is automatically determined from the demo header.
+    pub msg_queue_size: Option<usize>,
+
+    /// Decryption key for encrypted net-messages.
+    pub decryption_key: Option<Vec<u8>>,
+
+    /// Ignore errors about missing bombsite indices in game events.
+    pub ignore_bombsite_index_not_found: bool,
+
+    /// Disable mimicking Source 1 game events when parsing Source 2 demos.
+    pub disable_mimic_source1_events: bool,
+
+    /// Fallback protobuf for game event lists in Source 2 demos.
+    pub source2_fallback_game_event_list_bin: Option<Vec<u8>>,
+
+    /// Ignore PacketEntities parsing panics.
+    pub ignore_packet_entities_panic: bool,
+}
+
+impl Default for ParserConfig {
+    fn default() -> Self {
+        Self {
+            msg_queue_size: None,
+            decryption_key: None,
+            ignore_bombsite_index_not_found: false,
+            disable_mimic_source1_events: false,
+            source2_fallback_game_event_list_bin: None,
+            ignore_packet_entities_panic: false,
+        }
+    }
+}
+
 /// Parser for CS:GO / CS2 demo files.
 pub struct Parser<R: Read> {
     bit_reader: BitReader<R>,
@@ -63,11 +99,17 @@ pub struct Parser<R: Read> {
     cancelled: bool,
     game_events: crate::game_events::GameEventHandler,
     header: Option<DemoHeader>,
+    config: ParserConfig,
 }
 
 impl<R: Read> Parser<R> {
-    /// Creates a new [`Parser`] from the given reader.
+    /// Creates a new [`Parser`] from the given reader using [`ParserConfig::default`].
     pub fn new(reader: R) -> Self {
+        Self::with_config(reader, ParserConfig::default())
+    }
+
+    /// Creates a new [`Parser`] from the given reader and configuration.
+    pub fn with_config(reader: R, config: ParserConfig) -> Self {
         Self {
             bit_reader: BitReader::new_large(reader),
             event_dispatcher: EventDispatcher::new(),
@@ -82,6 +124,7 @@ impl<R: Read> Parser<R> {
             cancelled: false,
             game_events: crate::game_events::GameEventHandler::new(),
             header: None,
+            config,
         }
     }
 

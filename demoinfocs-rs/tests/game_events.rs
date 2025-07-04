@@ -123,6 +123,41 @@ fn dispatch_equipment_and_server_events() {
     let reward_c = reward.clone();
     parser.register_event_handler::<events::TournamentReward, _>(move |_| {
         reward_c.fetch_add(1, Ordering::SeqCst);
+    let c = ammo.clone();
+    parser.register_event_handler::<events::AmmoPickup, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = equip.clone();
+    parser.register_event_handler::<events::ItemEquip, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = pickup.clone();
+    parser.register_event_handler::<events::ItemPickup, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = slerp.clone();
+    parser.register_event_handler::<events::ItemPickupSlerp, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = remove.clone();
+    parser.register_event_handler::<events::ItemRemove, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = inspect.clone();
+    parser.register_event_handler::<events::InspectWeapon, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = cvar.clone();
+    parser.register_event_handler::<events::ServerCvar, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = vote.clone();
+    parser.register_event_handler::<events::VoteCast, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = reward.clone();
+    parser.register_event_handler::<events::TournamentReward, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
     });
 
     let list = msg::CsvcMsgGameEventList {
@@ -247,6 +282,41 @@ fn dispatch_round_state_events() {
     let official_c_c = official_c.clone();
     parser.register_event_handler::<events::RoundEndOfficial, _>(move |_| {
         official_c_c.fetch_add(1, Ordering::SeqCst);
+    let c = final_c.clone();
+    parser.register_event_handler::<events::RoundAnnounceFinal, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = last_half_c.clone();
+    parser.register_event_handler::<events::RoundAnnounceLastRoundHalf, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = match_point_c.clone();
+    parser.register_event_handler::<events::RoundAnnounceMatchPoint, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = match_start_c.clone();
+    parser.register_event_handler::<events::RoundAnnounceMatchStart, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = warmup_c.clone();
+    parser.register_event_handler::<events::RoundAnnounceWarmup, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = upload_stats_c.clone();
+    parser.register_event_handler::<events::RoundEndUploadStats, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = mvp_c.clone();
+    parser.register_event_handler::<events::RoundMVPAnnouncement, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = freeze_end_c.clone();
+    parser.register_event_handler::<events::RoundFreezetimeEnd, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+    let c = official_c.clone();
+    parser.register_event_handler::<events::RoundEndOfficial, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
     });
 
     let list = msg::CsvcMsgGameEventList {

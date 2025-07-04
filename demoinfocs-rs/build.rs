@@ -69,6 +69,14 @@ fn compile(input: &str, output: &str) -> Result<(), Box<dyn std::error::Error>> 
     let mut includes: Vec<PathBuf> = vec![in_dir.clone()];
     if let Ok(protoc_include) = std::env::var("PROTOC_INCLUDE") {
         includes.push(PathBuf::from(protoc_include));
+    } else {
+        for fallback in ["/usr/include", "/usr/local/include"] {
+            let candidate = Path::new(fallback).join("google/protobuf/descriptor.proto");
+            if candidate.exists() {
+                includes.push(PathBuf::from(fallback));
+                break;
+            }
+        }
     }
     config.compile_protos(&protos, &includes)?;
     Ok(())

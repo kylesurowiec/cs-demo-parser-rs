@@ -19,12 +19,28 @@ buffer definitions. Install it via your package manager, e.g. on Debian/Ubuntu:
 sudo apt-get install protobuf-compiler
 ```
 
+If the build script cannot locate `google/protobuf/descriptor.proto`, install
+`libprotobuf-dev` and set the `PROTOC_INCLUDE` environment variable to the
+directory containing that file. When using the system packages on
+Debian/Ubuntu, this is `/usr/include` and no environment variable is needed.
+
 ## Examples
 
 Several small examples are available under `examples/`. To run one of them, supply the demo path via the `-demo` flag. For example:
 
 ```bash
 cargo run --example print_events -- -demo /path/to/demo.dem
+```
+
+You can adjust queue sizes or provide decryption keys via `ParserConfig`:
+
+```rust
+use demoinfocs_rs::parser::{Parser, ParserConfig};
+use std::fs::File;
+
+let file = File::open("demo.dem")?;
+let config = ParserConfig { decryption_key: Some(b"0123456789ABCDEF".to_vec()), ..Default::default() };
+let mut parser = Parser::with_config(file, config);
 ```
 
 ## Tests

@@ -17,10 +17,9 @@ Functions that do not have an equivalent yet will be added over time. The overal
 
 Several parts of the Go API are not yet implemented in Rust:
 
-* **Parser configuration** – the Go package exposes `ParserConfig` to tune
-  queue sizes, supply decryption keys or ignore certain errors. The Rust
-  crate currently always uses built‑in defaults and offers no configuration
-  API.
+* **Parser configuration** – use `Parser::with_config` together with
+  `ParserConfig` to customize queue sizes, supply decryption keys or ignore
+  certain errors.
 * **Entity callbacks** – Go allows registering `OnEntity`/`OnEntityCreated`
   handlers to observe property changes. Rust only exposes a small `GameState`
   snapshot and does not emit entity events yet.
