@@ -136,8 +136,18 @@ impl GameState {
         &self.grenade_projectiles
     }
 
+    /// Returns all currently active grenade projectiles.
+    pub fn active_grenades(&self) -> Vec<&GrenadeProjectile> {
+        self.grenade_projectiles.values().collect()
+    }
+
     pub fn infernos(&self) -> &HashMap<i32, Inferno> {
         &self.infernos
+    }
+
+    /// Returns all currently active infernos.
+    pub fn active_infernos(&self) -> Vec<&Inferno> {
+        self.infernos.values().collect()
     }
 
     pub fn weapons(&self) -> &HashMap<i32, Equipment> {
@@ -208,6 +218,16 @@ impl GameState {
         let name = ent.class.name.as_str();
         if name.contains("Projectile") {
             self.projectile_owners.entry(ent.index).or_insert(0);
+            self.grenade_projectiles.entry(ent.index).or_insert_with(|| {
+                let mut g = crate::common::new_grenade_projectile();
+                g.entity = Some(ent.clone());
+                g
+            });
+        } else if name.contains("Inferno") {
+            self.infernos.entry(ent.index).or_insert_with(|| crate::common::Inferno {
+                entity: Some(ent.clone()),
+                ..Default::default()
+            });
         } else if name.contains("DroppedWeapon") || name.contains("Dropped") {
             self.dropped_weapons.entry(ent.index).or_insert_with(|| name.to_string());
         }
@@ -238,6 +258,8 @@ impl GameState {
                 self.remove_entity(ev.entity.index);
                 self.projectile_owners.remove(&ev.entity.index);
                 self.dropped_weapons.remove(&ev.entity.index);
+                self.grenade_projectiles.remove(&ev.entity.index);
+                self.infernos.remove(&ev.entity.index);
             } else if ev.op.contains(EntityOp::CREATED) {
                 self.add_entity(ev.entity.clone());
                 self.update_special_entities(&ev.entity);
