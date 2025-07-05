@@ -66,6 +66,9 @@ pub struct ParserConfig {
     /// Ignore malformed encrypted net-messages.
     pub ignore_bad_encrypted_data: bool,
 
+    /// Ignore encrypted net-message warnings when no decryption key is set.
+    pub ignore_missing_decryption_key: bool,
+
     /// Ignore errors about missing bombsite indices in game events.
     pub ignore_bombsite_index_not_found: bool,
 
@@ -92,6 +95,7 @@ impl Default for ParserConfig {
             source2_fallback_game_event_list_bin: None,
             ignore_packet_entities_panic: false,
             ignore_bad_encrypted_data: false,
+            ignore_missing_decryption_key: false,
             tick_rate_override: None,
         }
     }
@@ -555,8 +559,8 @@ impl<R: Read> Parser<R> {
                     });
                 }
             },
-            | _ => {
-                if !self.config.ignore_bad_encrypted_data {
+            | (None, Some(_)) => {
+                if !self.config.ignore_missing_decryption_key {
                     self.dispatch_event(crate::events::ParserWarn {
                         message: "received encrypted net-message but no decryption key is set"
                             .into(),
@@ -564,6 +568,7 @@ impl<R: Read> Parser<R> {
                     });
                 }
             },
+            | _ => {},
         }
     }
 

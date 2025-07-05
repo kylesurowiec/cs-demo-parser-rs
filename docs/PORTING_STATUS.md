@@ -8,6 +8,7 @@ The legacy Go library under `pkg/` exposed a large API surface. The current `dem
 - [ ] **Net message handling** – map all message types from `net_messages.go` and expose registration callbacks.
 - [x] **Encrypted net messages** – initial decryption helpers and error handling implemented.
 - [x] **Parser configuration** – complete all options found in the Go `ParserConfig`.
+  New options include skipping warnings for missing decryption keys and overriding the tick rate.
 - [ ] **Mock parser** – reimplement the `fake` package for unit testing.
 
 ## Game State and Entities
