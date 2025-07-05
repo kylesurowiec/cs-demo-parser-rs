@@ -1,16 +1,15 @@
 # cs-demo-parser
 
 This repository contains a Counter‑Strike demo parser written in Rust.
-An older Go implementation has been removed in favor of the `demoinfocs-rs` crate,
-which includes example programs under `demoinfocs-rs/examples`.
+The old Go implementation has been removed and the Rust crate now lives at the repository root.
+Example programs can be found under `examples`.
 
 ## Building
 
-Build the crate using `cargo` from the repository root and pointing to the
-crate's manifest:
+Build the crate using `cargo` from the repository root:
 
 ```bash
-cargo build --manifest-path demoinfocs-rs/Cargo.toml
+cargo build
 ```
 
 This builds the library and all examples.
@@ -56,15 +55,12 @@ also understands `FETCH_LATEST_DEMOS=1` to download any missing archives.
 Run the tests with:
 
 ```bash
-cargo test --manifest-path demoinfocs-rs/Cargo.toml
+cargo test
 ```
-
-Running `cargo test` from the repository root fails because there is no
-`Cargo.toml` at that location.
 
 ## Examples
 
-Several short examples live under `demoinfocs-rs/examples`. Execute any of them
+Several short examples live under `examples`. Execute any of them
 by passing the demo path with the `-demo` flag:
 
 ```bash
