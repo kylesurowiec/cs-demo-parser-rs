@@ -7,7 +7,7 @@ The legacy Go library under `pkg/` exposed a large API surface. The current `dem
 - [x] **String tables** – decode `svc_CreateStringTable` and `svc_UpdateStringTable` messages and expose APIs for consumers. Use `parser.string_table(name)` to access tables and `parser.register_on_string_table` for update callbacks.
 - [ ] **Net message handling** – map all message types from `net_messages.go` and expose registration callbacks.
 - [x] **Encrypted net messages** – initial decryption helpers and error handling implemented.
-- [ ] **Parser configuration** – complete all options found in the Go `ParserConfig`.
+- [x] **Parser configuration** – complete all options found in the Go `ParserConfig`.
 - [ ] **Mock parser** – reimplement the `fake` package for unit testing.
 
 ## Game State and Entities

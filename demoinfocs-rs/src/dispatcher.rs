@@ -1,4 +1,4 @@
-use crossbeam_channel::{Receiver, Sender, unbounded};
+use crossbeam_channel::{Receiver, Sender, bounded, unbounded};
 use std::any::{Any, TypeId};
 use std::collections::HashMap;
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -34,7 +34,14 @@ pub struct EventDispatcher {
 
 impl EventDispatcher {
     pub fn new() -> Arc<Self> {
-        let (tx, rx) = unbounded();
+        Self::with_capacity(None)
+    }
+
+    pub fn with_capacity(capacity: Option<usize>) -> Arc<Self> {
+        let (tx, rx) = match capacity {
+            Some(cap) => bounded(cap),
+            None => unbounded(),
+        };
         let disp = Arc::new(Self {
             handlers: RwLock::new(HashMap::new()),
             tx,
