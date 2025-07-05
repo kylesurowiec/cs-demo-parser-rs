@@ -9,7 +9,9 @@ pub mod matchinfo;
 pub mod parser;
 pub mod proto;
 pub mod sendtables;
+pub mod sendtables1;
 pub mod sendtables2;
+pub mod stringtables;
 pub mod utils;
 
 pub fn add(left: u64, right: u64) -> u64 {
