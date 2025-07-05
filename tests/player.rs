@@ -132,7 +132,10 @@ fn extra_helpers() {
         ("m_bInBuyZone", 1),
         ("m_bIsWalking", 1),
         ("m_bIsGrabbingHostage", 0),
-        ("m_hGroundEntity", -1),
+        (
+            "m_hGroundEntity",
+            demoinfocs_rs::constants::INVALID_ENTITY_HANDLE as i32,
+        ),
     ]);
     let p = Player {
         entity: Some(ent),

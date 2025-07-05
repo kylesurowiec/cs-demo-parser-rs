@@ -4,11 +4,13 @@ This example shows how to use unhandled data of entities by registering entity-c
 
 ## Finding interesting server-classes & entity-properties
 
-You can use the build tag `debugdemoinfocs` and the set `debugServerClasses=YES` with ldflags to find interesting server-classes and their properties.
+Run the `entities` example to list all server-classes contained in a demo:
 
-Example: `cargo run --example myprogram -- -tags debugdemoinfocs -ldflags '-X github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs.debugServerClasses=YES' | grep ServerClass`
+```bash
+cargo run --example entities -- -demo /path/to/demo
+```
 
-This gives you a list of all server-classes from any demo that was parsed in `myprogram.rs`.
+This prints the ID and name of every server class encountered while parsing the demo.
 
 <details>
 <summary>Sample output</summary>
@@ -806,34 +808,11 @@ ServerClass: id=202 name=CWeaponAWP
 Registering the entity-creation handlers needs to be done after the DataTablesParsedEvent has been dispatched.
 Before that the server-classes won't be available in `Parser.ServerClasses()`.
 
-Property-update handlers that are registered in a entity-creation handler will be triggered with the initial value.
-
-This example prints the life-cycle of all AWPs during the game - i.e. who picked up whose AWP:
-
-```go
-p.RegisterEventHandler(func(events.DataTablesParsed) {
-	p.ServerClasses().FindByName("CWeaponAWP").OnEntityCreated(func(ent st.Entity) {
-		ent.Property("m_hOwnerEntity").OnUpdate(func(val st.PropertyValue) {
-			x := p.GameState().Participants().FindByHandle(val.IntVal)
-			if x != nil {
-				var prev string
-				prevHandle := ent.Property("m_hPrevOwner").Value().IntVal
-				prevPlayer := p.GameState().Participants().FindByHandle(prevHandle)
-				if prevPlayer != nil {
-					if prevHandle != val.IntVal {
-						prev = prevPlayer.Name + "'s"
-					} else {
-						prev = "his dropped"
-					}
-				} else {
-					prev = "a brand new"
-				}
-				fmt.Printf("%s picked up %s AWP (#%d)\n", x.Name, prev, ent.ID())
-			}
-		})
-	})
-})
-```
+Property-update callbacks are not yet available in the Rust API.
+The current example simply lists every server class and prints basic
+information about newly created entities. See
+[`examples/entities.rs`](../../../examples/entities.rs) for the complete
+source code.
 
 ## Running the example
 
