@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::common::{EquipmentType, map_equipment};
-use crate::sendtables::serverclass::ServerClass;
+use crate::sendtables1::serverclass::ServerClass;
 
 /// Build a mapping from server class names to [`EquipmentType`].
 pub fn build_equipment_mapping(classes: &[ServerClass]) -> HashMap<String, EquipmentType> {

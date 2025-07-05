@@ -1,8 +1,9 @@
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
 use crate::game_state::GameState;
-use crate::sendtables::TablesParser;
+use crate::sendtables1::TablesParser;
 use crate::sendtables2;
+use crate::stringtables;
 
 pub mod datatable;
 
@@ -91,6 +92,7 @@ pub struct Parser<R: Read> {
     user_msg_dispatcher: Arc<EventDispatcher>,
     s2_tables: sendtables2::Parser,
     s1_tables: TablesParser,
+    string_tables: stringtables::StringTables,
     server_classes: Vec<crate::sendtables::ServerClass>,
     equipment_mapping: HashMap<String, crate::common::EquipmentType>,
     game_state: GameState,
@@ -116,6 +118,7 @@ impl<R: Read> Parser<R> {
             user_msg_dispatcher: EventDispatcher::new(),
             s2_tables: sendtables2::Parser::new(),
             s1_tables: TablesParser::new(),
+            string_tables: stringtables::StringTables::new(),
             server_classes: Vec::new(),
             equipment_mapping: HashMap::new(),
             game_state: GameState::default(),
@@ -348,11 +351,20 @@ impl<R: Read> Parser<R> {
         match cmd {
             | 3 => Ok(true),  // synctick
             | 7 => Ok(false), // stop
-            | 4 | 9 | 8 => {
+            | 4 | 9 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
+                Ok(true)
+            },
+            | 8 => {
+                let len = self.bit_reader.read_signed_int(32) as usize;
+                let mut data = Vec::with_capacity(len);
+                for _ in 0..len {
+                    data.push(self.bit_reader.read_int(8) as u8);
+                }
+                self.parse_stringtable_packet(&data);
                 Ok(true)
             },
             | 6 => {
@@ -402,6 +414,10 @@ impl<R: Read> Parser<R> {
             }
             res
         })
+    }
+
+    fn parse_stringtable_packet(&mut self, data: &[u8]) {
+        self.string_tables.parse_packet(data);
     }
 
     fn parse_frame_s2(&mut self) -> Result<bool, ParserError> {
