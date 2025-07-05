@@ -74,6 +74,16 @@ pub use cs_demo_parser_rs::*;
             }
         }
     }
+    // Ensure descriptor.proto exists in one of the include directories
+    let descriptor_found = includes
+        .iter()
+        .map(|p| p.join("google/protobuf/descriptor.proto"))
+        .any(|p| p.exists());
+    if !descriptor_found {
+        return Err(
+            "google/protobuf/descriptor.proto not found. Install libprotobuf-dev or set PROTOC_INCLUDE".into(),
+        );
+    }
     config.compile_protos(&protos, &includes)?;
     // Older prost versions generate a file named `_.rs`. Rename it for
     // consistency so the module is always `cs_demo_parser_rs`.

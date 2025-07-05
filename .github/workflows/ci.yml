@@ -16,6 +16,9 @@ jobs:
           override: true
           components: rustfmt, clippy
 
+      - name: Install protobuf dependencies
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler libprotobuf-dev
+
       # - name: Format
       #   run: cargo fmt --manifest-path demoinfocs-rs/Cargo.toml -- --check
 
