@@ -631,6 +631,8 @@ impl<R: Read> Parser<R> {
             match kind {
                 | proto_msg::SvcMessages::SvcServerInfo => {
                     if let Ok(msg) = proto_msg::CsvcMsgServerInfo::decode(&buf[..]) {
+                        self.s2_tables.on_server_info(&msg);
+                        self.game_state.match_info.map = msg.map_name.clone();
                         self.dispatch_net_message(msg);
                     }
                 },
