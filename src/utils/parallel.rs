@@ -1,3 +1,5 @@
+#![cfg(not(target_arch = "wasm32"))]
+
 use rayon::prelude::*;
 use std::fs::File;
 use std::path::{Path, PathBuf};

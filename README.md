@@ -23,6 +23,11 @@ Install the protobuf compiler before building. On Debian/Ubuntu systems:
 sudo apt-get install protobuf-compiler libprotobuf-dev
 ```
 
+The file `google/protobuf/descriptor.proto` is needed for code generation. It is
+usually provided by the `libprotobuf-dev` package. If you installed protobuf to
+a custom location, set the `PROTOC_INCLUDE` environment variable to the
+directory containing this file.
+
 If `PROTOC_INCLUDE` is set, the build script will use it to locate
 `google/protobuf/descriptor.proto`. When `prost-build` is built with its
 bundled `protoc`, this variable is provided automatically.

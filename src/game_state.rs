@@ -139,6 +139,19 @@ impl GameState {
         self.grenade_projectiles.values().collect()
     }
 
+    /// Records the current position of a grenade projectile.
+    pub fn track_grenade_position(
+        &mut self,
+        entity_id: i32,
+        position: crate::sendtables::entity::Vector,
+        frame: i32,
+        time: std::time::Duration,
+    ) {
+        if let Some(g) = self.grenade_projectiles.get_mut(&entity_id) {
+            g.track_position(position, frame, time);
+        }
+    }
+
     pub fn infernos(&self) -> &HashMap<i32, Inferno> {
         &self.infernos
     }
@@ -346,6 +359,15 @@ impl GameState {
             || any.is::<proto_msg::CsvcMsgEncryptedData>()
             || any.is::<proto_msg::CsvcMsgHltvReplay>()
             || any.is::<proto_msg::CsvcMsgBroadcastCommand>()
+            || any.is::<proto_msg::CnetMsgNop>()
+            || any.is::<proto_msg::CnetMsgDisconnect>()
+            || any.is::<proto_msg::CnetMsgFile>()
+            || any.is::<proto_msg::CnetMsgSplitScreenUser>()
+            || any.is::<proto_msg::CnetMsgTick>()
+            || any.is::<proto_msg::CnetMsgStringCmd>()
+            || any.is::<proto_msg::CnetMsgSetConVar>()
+            || any.is::<proto_msg::CnetMsgSignonState>()
+            || any.is::<proto_msg::CnetMsgPlayerAvatarData>()
         {
             // currently no game state updates implemented
         }
