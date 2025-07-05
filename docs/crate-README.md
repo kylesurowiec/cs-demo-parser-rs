@@ -62,3 +62,11 @@ Tests make use of demo files provided through the `demos-external` submodule.
 Fetch them with `git submodule update --init` or set
 `DEMOINFOCS_SKIP_DEMOS=1` to skip demo setup.
 
+## Match information and game rules
+
+`GameState` stores match configuration that is parsed from the demo. The
+`match_settings` method exposes all convars seen via `net_SetConVar` messages.
+Convenience helpers return the round, freeze and bomb timers. The current map
+name can be accessed through `map_name()` once the `svc_ServerInfo` message has
+been processed.
+
