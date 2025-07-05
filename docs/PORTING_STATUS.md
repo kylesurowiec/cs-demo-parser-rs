@@ -25,7 +25,8 @@ The legacy Go library under `pkg/` exposed a large API surface. The current `dem
 - [ ] **Round backup and restore** – support messages such as `CS_UM_RoundBackupFilenames` and `CS_UM_RoundImpactScoreData` with full data models.
 
 ## Examples and Utilities
-- [ ] **Voice capture example** – finish the example in `examples/voice-capture` once voice data parsing is implemented.
+- [x] **Voice capture example** – implemented using `Parser::register_net_message_handler`.
+  Run `cargo run --example voice_capture -- -demo <demo> -out voice.raw` to dump the raw audio stream.
 - [ ] **WebAssembly bindings** – port the old WASM example and ensure the crate builds for `wasm32-unknown-unknown`.
 - [ ] **Parallel processing** – reintroduce the parallel parsing utilities for batch processing multiple demos.
 - [ ] **Command helpers** – port the `s2_commands.go` helpers for crafting demo commands.
