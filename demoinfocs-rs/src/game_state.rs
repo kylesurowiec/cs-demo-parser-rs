@@ -88,6 +88,8 @@ pub struct GameState {
     pub weapons: HashMap<i32, Equipment>,
     pub hostages: HashMap<i32, Hostage>,
     pub entities: HashMap<i32, Entity>,
+    pub projectile_owners: HashMap<i32, i32>,
+    pub dropped_weapons: HashMap<i32, String>,
     pub bomb: Bomb,
 
     pub current_defuser: Option<Player>,
@@ -142,6 +144,14 @@ impl GameState {
         &self.weapons
     }
 
+    pub fn projectile_owners(&self) -> &HashMap<i32, i32> {
+        &self.projectile_owners
+    }
+
+    pub fn dropped_weapons(&self) -> &HashMap<i32, String> {
+        &self.dropped_weapons
+    }
+
     pub fn entities(&self) -> &HashMap<i32, Entity> {
         &self.entities
     }
@@ -194,6 +204,15 @@ impl GameState {
         self.entities.remove(&id);
     }
 
+    fn update_special_entities(&mut self, ent: &Entity) {
+        let name = ent.class.name.as_str();
+        if name.contains("Projectile") {
+            self.projectile_owners.entry(ent.index).or_insert(0);
+        } else if name.contains("DroppedWeapon") || name.contains("Dropped") {
+            self.dropped_weapons.entry(ent.index).or_insert_with(|| name.to_string());
+        }
+    }
+
     pub fn handle_event<E: 'static>(&mut self, event: &E) {
         let any = event as &dyn std::any::Any;
         if let Some(cv) = any.downcast_ref::<crate::events::ConVarsUpdated>() {
@@ -217,10 +236,14 @@ impl GameState {
             use crate::sendtables::EntityOp;
             if ev.op.contains(EntityOp::DELETED) {
                 self.remove_entity(ev.entity.index);
+                self.projectile_owners.remove(&ev.entity.index);
+                self.dropped_weapons.remove(&ev.entity.index);
             } else if ev.op.contains(EntityOp::CREATED) {
                 self.add_entity(ev.entity.clone());
+                self.update_special_entities(&ev.entity);
             } else if ev.op.contains(EntityOp::UPDATED) {
                 self.add_entity(ev.entity.clone());
+                self.update_special_entities(&ev.entity);
             }
         } else if any.is::<crate::events::FrameDone>() {
             if let Some(fb) = self.flying_flashbangs.first() {
