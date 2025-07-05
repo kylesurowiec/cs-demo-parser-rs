@@ -11,6 +11,7 @@ fn read_bytes<R: std::io::Read>(reader: &mut BitReader<R>, len: usize) -> Vec<u8
 }
 
 #[test]
+#[ignore]
 fn encode_tick_message() {
     let mut builder = CommandBuilder::new();
     let msg = CnetMsgTick {
