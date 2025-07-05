@@ -3,6 +3,11 @@ participant Consumer
 participant Parser
 participant Queue
 
+note over Consumer, Parser
+Multiple demos can be processed concurrently using
+`utils::parallel::run` together with Rayon.
+end note
+
 Consumer ++
 Consumer -> Parser ++: ParseToEnd
 par

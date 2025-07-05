@@ -197,3 +197,35 @@ fn user_message_round_impact_score_data() {
     assert!(got.init_conditions.is_none());
     assert!(got.all_ris_event_data.is_empty());
 }
+
+#[test]
+fn user_message_round_backup_filenames() {
+    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let captured: Arc<Mutex<Option<CcsUsrMsgRoundBackupFilenames>>> = Arc::new(Mutex::new(None));
+    let cap = captured.clone();
+    parser.register_user_message_handler::<CcsUsrMsgRoundBackupFilenames, _>(move |m| {
+        *cap.lock().unwrap() = Some(m.clone());
+    });
+
+    let msg = CcsUsrMsgRoundBackupFilenames {
+        count: Some(3),
+        index: Some(2),
+        filename: Some("backup_02.dem".into()),
+        nicename: Some("backup round 2".into()),
+    };
+    let mut buf = Vec::new();
+    msg.encode(&mut buf).unwrap();
+    let um = CsvcMsgUserMessage {
+        msg_type: Some(msg::ECstrike15UserMessages::CsUmRoundBackupFilenames as i32),
+        msg_data: Some(buf),
+        passthrough: None,
+    };
+    parser.handle_user_message(&um);
+    std::thread::sleep(std::time::Duration::from_millis(10));
+
+    let got = captured.lock().unwrap().clone().unwrap();
+    assert_eq!(got.count.unwrap(), 3);
+    assert_eq!(got.index.unwrap(), 2);
+    assert_eq!(got.filename.unwrap(), "backup_02.dem");
+    assert_eq!(got.nicename.unwrap(), "backup round 2");
+}

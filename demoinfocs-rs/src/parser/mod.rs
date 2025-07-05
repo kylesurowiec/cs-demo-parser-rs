@@ -512,6 +512,25 @@ impl<R: Read> Parser<R> {
                             self.dispatch_user_message(msg);
                         }
                     },
+                    | proto_msg::ECstrike15UserMessages::CsUmVguiMenu => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgVguiMenu::decode(&data[..]) {
+                            let keys = msg
+                                .subkeys
+                                .iter()
+                                .map(|k| {
+                                    (
+                                        k.name.clone().unwrap_or_default(),
+                                        k.str.clone().unwrap_or_default(),
+                                    )
+                                })
+                                .collect();
+                            self.dispatch_user_message(crate::events::VguiMenu {
+                                name: msg.name.unwrap_or_default(),
+                                show: msg.show.unwrap_or(false),
+                                keys,
+                            });
+                        }
+                    },
                     | proto_msg::ECstrike15UserMessages::CsUmSayText2 => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgSayText2::decode(&data[..]) {
                             self.dispatch_user_message(msg);
@@ -519,6 +538,12 @@ impl<R: Read> Parser<R> {
                     },
                     | proto_msg::ECstrike15UserMessages::CsUmServerRankUpdate => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgServerRankUpdate::decode(&data[..]) {
+                            self.dispatch_user_message(msg);
+                        }
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmRoundBackupFilenames => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgRoundBackupFilenames::decode(&data[..])
+                        {
                             self.dispatch_user_message(msg);
                         }
                     },
@@ -536,6 +561,33 @@ impl<R: Read> Parser<R> {
                     | proto_msg::ECstrike15UserMessages::CsUmHintText => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgHintText::decode(&data[..]) {
                             self.dispatch_user_message(msg);
+                        }
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmShowMenu => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgShowMenu::decode(&data[..]) {
+                            self.dispatch_user_message(crate::events::ShowMenu {
+                                bits_valid_slots: msg.bits_valid_slots.unwrap_or_default(),
+                                display_time: msg.display_time.unwrap_or_default(),
+                                menu_string: msg.menu_string.unwrap_or_default(),
+                            });
+                        }
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmBarTime => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgBarTime::decode(&data[..]) {
+                            self.dispatch_user_message(crate::events::BarTime {
+                                time: msg.time.unwrap_or_default(),
+                            });
+                        }
+                    },
+                    | proto_msg::ECstrike15UserMessages::CsUmRoundBackupFilenames => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgRoundBackupFilenames::decode(&data[..])
+                        {
+                            self.dispatch_user_message(crate::events::RoundBackupFilenames {
+                                count: msg.count.unwrap_or_default(),
+                                index: msg.index.unwrap_or_default(),
+                                filename: msg.filename.unwrap_or_default(),
+                                nicename: msg.nicename.unwrap_or_default(),
+                            });
                         }
                     },
                     | _ => {},

@@ -599,6 +599,11 @@ pub struct RoundImpactScoreData {
 }
 
 #[derive(Clone, Debug)]
+pub struct RoundBackupFilenames {
+    pub raw_message: Option<crate::proto::msg::cs_demo_parser_rs::CcsUsrMsgRoundBackupFilenames>,
+}
+
+#[derive(Clone, Debug)]
 pub struct PlayerInfo {
     pub index: i32,
     pub info: PlayerInfoData,
@@ -614,6 +619,33 @@ pub struct OvertimeNumberChanged {
 pub struct ItemRefund {
     pub player: Option<Player>,
     pub weapon: Option<Equipment>,
+}
+
+#[derive(Clone, Debug)]
+pub struct VguiMenu {
+    pub name: String,
+    pub show: bool,
+    pub keys: Vec<(String, String)>,
+}
+
+#[derive(Clone, Debug)]
+pub struct ShowMenu {
+    pub bits_valid_slots: i32,
+    pub display_time: i32,
+    pub menu_string: String,
+}
+
+#[derive(Clone, Debug)]
+pub struct BarTime {
+    pub time: String,
+}
+
+#[derive(Clone, Debug)]
+pub struct RoundBackupFilenames {
+    pub count: i32,
+    pub index: i32,
+    pub filename: String,
+    pub nicename: String,
 }
 
 #[derive(Clone, Debug)]

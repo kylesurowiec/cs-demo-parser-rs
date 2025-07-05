@@ -1,12 +1,15 @@
 # Capturing Voice Data
 
-## CS2
+This example extracts the in‑game voice chat from a demo and saves the raw audio
+payloads to disk. Run it from the repository root:
 
-See https://github.com/DandrewsDev/CS2VoiceData
+```bash
+cargo run --example voice_capture -- -demo <path/to/demo.dem> -out voice.raw
+```
 
-## CS:GO
+The written file contains the encoded voice stream. Converting the audio to a
+playable format depends on the game and may require external tools. More details
+can be found in the following projects:
 
-This example shows how to use the library to capture voice audio from demos.
-
-Since the build process is somewhat different from the library itself (due to usage of CGO), the example has it's own repository which you can find here:
-https://github.com/saiko-tech/csgo-demo-voice-capture-example
+- CS2: <https://github.com/DandrewsDev/CS2VoiceData>
+- CS:GO: <https://github.com/saiko-tech/csgo-demo-voice-capture-example>
