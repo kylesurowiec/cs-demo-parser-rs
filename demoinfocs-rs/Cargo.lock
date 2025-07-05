@@ -347,6 +347,7 @@ dependencies = [
  "bitstream-io",
  "criterion",
  "crossbeam-channel",
+ "ice-crypt",
  "once_cell",
  "prost",
  "prost-build",
@@ -734,6 +735,12 @@ dependencies = [
  "tracing",
  "windows-registry",
 ]
+
+[[package]]
+name = "ice-crypt"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1b6d41f352eae61a4b8358b7ea22a5324dd4501329310a9172f27375e3e5c089"
 
 [[package]]
 name = "icu_collections"
