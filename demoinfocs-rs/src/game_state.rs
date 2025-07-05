@@ -49,6 +49,7 @@ impl<'a> Participants<'a> {
 #[derive(Clone, Default)]
 pub struct GameRules {
     pub con_vars: HashMap<String, String>,
+    pub entity: Option<Entity>,
 }
 
 #[derive(Default)]
@@ -198,6 +199,34 @@ impl GameState {
         &self.rules
     }
 
+    pub fn match_settings(&self) -> &std::collections::HashMap<String, String> {
+        &self.rules.con_vars
+    }
+
+    pub fn round_time(&self) -> Option<std::time::Duration> {
+        self.rules
+            .con_vars
+            .get("mp_roundtime")
+            .and_then(|v| v.parse::<u64>().ok())
+            .map(std::time::Duration::from_secs)
+    }
+
+    pub fn freeze_time(&self) -> Option<std::time::Duration> {
+        self.rules
+            .con_vars
+            .get("mp_freezetime")
+            .and_then(|v| v.parse::<u64>().ok())
+            .map(std::time::Duration::from_secs)
+    }
+
+    pub fn bomb_time(&self) -> Option<std::time::Duration> {
+        self.rules
+            .con_vars
+            .get("mp_c4timer")
+            .and_then(|v| v.parse::<u64>().ok())
+            .map(std::time::Duration::from_secs)
+    }
+
     pub fn ingame_tick(&self) -> i32 {
         self.ingame_tick
     }
@@ -229,7 +258,11 @@ impl GameState {
                 ..Default::default()
             });
         } else if name.contains("DroppedWeapon") || name.contains("Dropped") {
-            self.dropped_weapons.entry(ent.index).or_insert_with(|| name.to_string());
+            self.dropped_weapons
+                .entry(ent.index)
+                .or_insert_with(|| name.to_string());
+        } else if name.contains("GameRules") {
+            self.rules.entity = Some(ent.clone());
         }
     }
 

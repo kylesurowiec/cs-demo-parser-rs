@@ -5,6 +5,7 @@ pub mod dispatcher;
 pub mod events;
 pub mod game_events;
 pub mod game_state;
+pub mod gamerules;
 pub mod matchinfo;
 pub mod parser;
 pub mod proto;

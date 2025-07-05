@@ -573,172 +573,197 @@ impl<R: Read> Parser<R> {
     }
 
     fn handle_svc_message(&mut self, msg_type: u32, buf: &[u8]) {
-        match std::convert::TryFrom::try_from(msg_type as i32).ok() {
-            | Some(proto_msg::SvcMessages::SvcServerInfo) => {
-                if let Ok(msg) = proto_msg::CsvcMsgServerInfo::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcSendTable) => {
-                if let Ok(msg) = proto_msg::CsvcMsgSendTable::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcClassInfo) => {
-                if let Ok(msg) = proto_msg::CsvcMsgClassInfo::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcSetPause) => {
-                if let Ok(msg) = proto_msg::CsvcMsgSetPause::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcCreateStringTable) => {
-                if let Ok(msg) = proto_msg::CsvcMsgCreateStringTable::decode(&buf[..]) {
-                    if let Some(t) = self.string_tables.on_create_string_table(&msg) {
-                        self.dispatch_event(StringTableUpdated { table: t });
+        if let Ok(kind) = proto_msg::SvcMessages::try_from(msg_type as i32) {
+            match kind {
+                | proto_msg::SvcMessages::SvcServerInfo => {
+                    if let Ok(msg) = proto_msg::CsvcMsgServerInfo::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
                     }
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcUpdateStringTable) => {
-                if let Ok(msg) = proto_msg::CsvcMsgUpdateStringTable::decode(&buf[..]) {
-                    if let Some(t) = self.string_tables.on_update_string_table(&msg) {
-                        self.dispatch_event(StringTableUpdated { table: t });
+                },
+                | proto_msg::SvcMessages::SvcSendTable => {
+                    if let Ok(msg) = proto_msg::CsvcMsgSendTable::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
                     }
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcVoiceInit) => {
-                if let Ok(msg) = proto_msg::CsvcMsgVoiceInit::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcVoiceData) => {
-                if let Ok(msg) = proto_msg::CsvcMsgVoiceData::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcPrint) => {
-                if let Ok(msg) = proto_msg::CsvcMsgPrint::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcSounds) => {
-                if let Ok(msg) = proto_msg::CsvcMsgSounds::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcSetView) => {
-                if let Ok(msg) = proto_msg::CsvcMsgSetView::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcFixAngle) => {
-                if let Ok(msg) = proto_msg::CsvcMsgFixAngle::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcCrosshairAngle) => {
-                if let Ok(msg) = proto_msg::CsvcMsgCrosshairAngle::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcBspDecal) => {
-                if let Ok(msg) = proto_msg::CsvcMsgBspDecal::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcSplitScreen) => {
-                if let Ok(msg) = proto_msg::CsvcMsgSplitScreen::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcUserMessage) => {
-                if let Ok(msg) = proto_msg::CsvcMsgUserMessage::decode(&buf[..]) {
-                    self.handle_user_message(&msg);
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcEntityMessage) => {
-                if let Ok(msg) = proto_msg::CsvcMsgEntityMsg::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcGameEvent) => {
-                if let Ok(msg) = proto_msg::CsvcMsgGameEvent::decode(&buf[..]) {
-                    self.on_game_event(&msg);
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcPacketEntities) => {
-                if let Ok(msg) = proto_msg::CsvcMsgPacketEntities::decode(&buf[..]) {
-                    for (ent, op) in self.s2_tables.parse_packet_entities(&msg) {
-                        let ev = EntityEvent {
-                            entity: ent.clone(),
-                            op,
-                        };
-                        self.dispatch_event(ev.clone());
-                        if op.contains(crate::sendtables::EntityOp::CREATED) {
-                            self.dispatch_event(EntityCreated { entity: ent });
+                },
+                | proto_msg::SvcMessages::SvcClassInfo => {
+                    if let Ok(msg) = proto_msg::CsvcMsgClassInfo::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcSetPause => {
+                    if let Ok(msg) = proto_msg::CsvcMsgSetPause::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcCreateStringTable => {
+                    if let Ok(msg) = proto_msg::CsvcMsgCreateStringTable::decode(&buf[..]) {
+                        if let Some(t) = self.string_tables.on_create_string_table(&msg) {
+                            self.dispatch_event(StringTableUpdated { table: t });
                         }
+                        self.dispatch_net_message(msg);
                     }
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcTempEntities) => {
-                if let Ok(msg) = proto_msg::CsvcMsgTempEntities::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcPrefetch) => {
-                if let Ok(msg) = proto_msg::CsvcMsgPrefetch::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcMenu) => {
-                if let Ok(msg) = proto_msg::CsvcMsgMenu::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcGameEventList) => {
-                if let Ok(msg) = proto_msg::CsvcMsgGameEventList::decode(&buf[..]) {
-                    self.on_game_event_list(&msg);
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcGetCvarValue) => {
-                if let Ok(msg) = proto_msg::CsvcMsgGetCvarValue::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcPaintmapData) => {
-                if let Ok(msg) = proto_msg::CsvcMsgPaintmapData::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcCmdKeyValues) => {
-                if let Ok(msg) = proto_msg::CsvcMsgCmdKeyValues::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcEncryptedData) => {
-                if let Ok(msg) = proto_msg::CsvcMsgEncryptedData::decode(&buf[..]) {
-                    self.handle_encrypted_data(&msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcHltvReplay) => {
-                if let Ok(msg) = proto_msg::CsvcMsgHltvReplay::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | Some(proto_msg::SvcMessages::SvcBroadcastCommand) => {
-                if let Ok(msg) = proto_msg::CsvcMsgBroadcastCommand::decode(&buf[..]) {
-                    self.dispatch_net_message(msg);
-                }
-            },
-            | _ => {},
+                },
+                | proto_msg::SvcMessages::SvcUpdateStringTable => {
+                    if let Ok(msg) = proto_msg::CsvcMsgUpdateStringTable::decode(&buf[..]) {
+                        if let Some(t) = self.string_tables.on_update_string_table(&msg) {
+                            self.dispatch_event(StringTableUpdated { table: t });
+                        }
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcVoiceInit => {
+                    if let Ok(msg) = proto_msg::CsvcMsgVoiceInit::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcVoiceData => {
+                    if let Ok(msg) = proto_msg::CsvcMsgVoiceData::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcPrint => {
+                    if let Ok(msg) = proto_msg::CsvcMsgPrint::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcSounds => {
+                    if let Ok(msg) = proto_msg::CsvcMsgSounds::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcSetView => {
+                    if let Ok(msg) = proto_msg::CsvcMsgSetView::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcFixAngle => {
+                    if let Ok(msg) = proto_msg::CsvcMsgFixAngle::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcCrosshairAngle => {
+                    if let Ok(msg) = proto_msg::CsvcMsgCrosshairAngle::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcBspDecal => {
+                    if let Ok(msg) = proto_msg::CsvcMsgBspDecal::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcSplitScreen => {
+                    if let Ok(msg) = proto_msg::CsvcMsgSplitScreen::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcUserMessage => {
+                    if let Ok(msg) = proto_msg::CsvcMsgUserMessage::decode(&buf[..]) {
+                        self.handle_user_message(&msg);
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcEntityMessage => {
+                    if let Ok(msg) = proto_msg::CsvcMsgEntityMsg::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcGameEvent => {
+                    if let Ok(msg) = proto_msg::CsvcMsgGameEvent::decode(&buf[..]) {
+                        self.on_game_event(&msg);
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcPacketEntities => {
+                    if let Ok(msg) = proto_msg::CsvcMsgPacketEntities::decode(&buf[..]) {
+                        for (ent, op) in self.s2_tables.parse_packet_entities(&msg) {
+                            let ev = EntityEvent {
+                                entity: ent.clone(),
+                                op,
+                            };
+                            self.dispatch_event(ev.clone());
+                            if op.contains(crate::sendtables::EntityOp::CREATED) {
+                                self.dispatch_event(EntityCreated { entity: ent });
+                            }
+                        }
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcTempEntities => {
+                    if let Ok(msg) = proto_msg::CsvcMsgTempEntities::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcPrefetch => {
+                    if let Ok(msg) = proto_msg::CsvcMsgPrefetch::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcMenu => {
+                    if let Ok(msg) = proto_msg::CsvcMsgMenu::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcGameEventList => {
+                    if let Ok(msg) = proto_msg::CsvcMsgGameEventList::decode(&buf[..]) {
+                        self.on_game_event_list(&msg);
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcGetCvarValue => {
+                    if let Ok(msg) = proto_msg::CsvcMsgGetCvarValue::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcPaintmapData => {
+                    if let Ok(msg) = proto_msg::CsvcMsgPaintmapData::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcCmdKeyValues => {
+                    if let Ok(msg) = proto_msg::CsvcMsgCmdKeyValues::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcEncryptedData => {
+                    if let Ok(msg) = proto_msg::CsvcMsgEncryptedData::decode(&buf[..]) {
+                        self.handle_encrypted_data(&msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcHltvReplay => {
+                    if let Ok(msg) = proto_msg::CsvcMsgHltvReplay::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::SvcMessages::SvcBroadcastCommand => {
+                    if let Ok(msg) = proto_msg::CsvcMsgBroadcastCommand::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+            }
+        } else if let Ok(net) = proto_msg::NetMessages::try_from(msg_type as i32) {
+            match net {
+                | proto_msg::NetMessages::NetSetConVar => {
+                    if let Ok(msg) = proto_msg::CnetMsgSetConVar::decode(&buf[..]) {
+                        if let Some(ref cvars) = msg.convars {
+                            let mut map = HashMap::new();
+                            for cv in &cvars.cvars {
+                                if let (Some(name), Some(value)) =
+                                    (cv.name.clone(), cv.value.clone())
+                                {
+                                    map.insert(name, value);
+                                }
+                            }
+                            if !map.is_empty() {
+                                self.dispatch_event(crate::events::ConVarsUpdated {
+                                    updated_con_vars: map.clone(),
+                                });
+                            }
+                        }
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | _ => {},
+            }
         }
     }
 }

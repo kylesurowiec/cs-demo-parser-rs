@@ -1,3 +1,4 @@
+pub use crate::gamerules::GamePhase;
 use crate::proto::msgs2::csvc_msg_game_event;
 use crate::sendtables::entity::Vector;
 
@@ -28,7 +29,6 @@ pub struct PlayerInfoData;
 pub type EquipmentType = u32;
 pub type Team = u8;
 pub type HostageState = u32;
-pub type GamePhase = u8;
 
 #[derive(Copy, Clone, Debug)]
 #[repr(u8)]
