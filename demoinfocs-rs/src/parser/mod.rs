@@ -77,6 +77,9 @@ pub struct ParserConfig {
 
     /// Ignore PacketEntities parsing panics.
     pub ignore_packet_entities_panic: bool,
+
+    /// Override the tick rate in Hz when no information is available in the demo.
+    pub tick_rate_override: Option<f64>,
 }
 
 impl Default for ParserConfig {
@@ -89,6 +92,7 @@ impl Default for ParserConfig {
             source2_fallback_game_event_list_bin: None,
             ignore_packet_entities_panic: false,
             ignore_bad_encrypted_data: false,
+            tick_rate_override: None,
         }
     }
 }
@@ -122,9 +126,9 @@ impl<R: Read> Parser<R> {
     pub fn with_config(reader: R, config: ParserConfig) -> Self {
         Self {
             bit_reader: BitReader::new_large(reader),
-            event_dispatcher: EventDispatcher::new(),
-            msg_dispatcher: EventDispatcher::new(),
-            user_msg_dispatcher: EventDispatcher::new(),
+            event_dispatcher: EventDispatcher::with_capacity(config.msg_queue_size),
+            msg_dispatcher: EventDispatcher::with_capacity(config.msg_queue_size),
+            user_msg_dispatcher: EventDispatcher::with_capacity(config.msg_queue_size),
             s2_tables: sendtables2::Parser::new(),
             s1_tables: TablesParser::new(),
             string_tables: stringtables::StringTables::new(),
@@ -255,6 +259,9 @@ impl<R: Read> Parser<R> {
     }
 
     pub fn tick_rate(&self) -> f64 {
+        if let Some(rate) = self.config.tick_rate_override {
+            return rate;
+        }
         self.header
             .as_ref()
             .and_then(|h| {
