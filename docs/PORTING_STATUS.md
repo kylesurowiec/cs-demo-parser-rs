@@ -30,6 +30,6 @@ The legacy Go library under `pkg/` exposed a large API surface. The current `dem
   Run `cargo run --example voice_capture -- -demo <demo> -out voice.raw` to dump the raw audio stream.
 - [ ] **WebAssembly bindings** – port the old WASM example and ensure the crate builds for `wasm32-unknown-unknown`.
 - [x] **Parallel processing** – reintroduce the parallel parsing utilities for batch processing multiple demos.
-- [ ] **Command helpers** – port the `s2_commands.go` helpers for crafting demo commands.
+- [x] **Command helpers** – port the `s2_commands.go` helpers for crafting demo commands.
 
 This checklist is meant as guidance for achieving feature parity with the old Go library. As functionality is added, update this document to track remaining work.

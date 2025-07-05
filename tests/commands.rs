@@ -26,8 +26,26 @@ fn encode_tick_message() {
     let mut reader = BitReader::new_large(Cursor::new(&data[..]));
     let msg_type = reader.read_ubit_int();
     assert_eq!(msg_type, NetMessages::NetTick as u32);
+    reader.read_int(2); // padding bits
     let size = reader.read_varint32() as usize;
     let bytes = read_bytes(&mut reader, size);
     let decoded = CnetMsgTick::decode(&bytes[..]).unwrap();
     assert_eq!(decoded.tick, Some(5));
+}
+
+#[test]
+fn raw_bytes_builder() {
+    let msg = CnetMsgTick {
+        tick: Some(7),
+        ..Default::default()
+    };
+    let encoded = msg.encode_to_vec();
+
+    let mut raw = CommandBuilder::new();
+    raw.push_raw_net_message(NetMessages::NetTick, &encoded)
+        .unwrap();
+    let mut typed = CommandBuilder::new();
+    typed.push_net_message(NetMessages::NetTick, &msg).unwrap();
+
+    assert_eq!(raw.into_bytes(), typed.into_bytes());
 }
