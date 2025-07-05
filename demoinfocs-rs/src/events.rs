@@ -599,7 +599,7 @@ pub struct RoundImpactScoreData {
 }
 
 #[derive(Clone, Debug)]
-pub struct RoundBackupFilenames {
+pub struct RawRoundBackupFilenames {
     pub raw_message: Option<crate::proto::msg::cs_demo_parser_rs::CcsUsrMsgRoundBackupFilenames>,
 }
 
