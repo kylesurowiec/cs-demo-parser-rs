@@ -266,11 +266,14 @@ fn user_message_round_impact_score_data() {
 #[test]
 fn user_message_round_backup_filenames() {
     let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
-    let captured: Arc<Mutex<Option<CcsUsrMsgRoundBackupFilenames>>> = Arc::new(Mutex::new(None));
+    let captured: Arc<Mutex<Option<demoinfocs_rs::events::RoundBackupFilenames>>> =
+        Arc::new(Mutex::new(None));
     let cap = captured.clone();
-    parser.register_user_message_handler::<CcsUsrMsgRoundBackupFilenames, _>(move |m| {
-        *cap.lock().unwrap() = Some(m.clone());
-    });
+    parser.register_user_message_handler::<demoinfocs_rs::events::RoundBackupFilenames, _>(
+        move |m| {
+            *cap.lock().unwrap() = Some(m.clone());
+        },
+    );
 
     let msg = CcsUsrMsgRoundBackupFilenames {
         count: Some(3),
@@ -289,15 +292,15 @@ fn user_message_round_backup_filenames() {
     std::thread::sleep(std::time::Duration::from_millis(10));
 
     let got = captured.lock().unwrap().clone().unwrap();
-    assert_eq!(got.count.unwrap(), 3);
-    assert_eq!(got.index.unwrap(), 2);
-    assert_eq!(got.filename.unwrap(), "backup_02.dem");
-    assert_eq!(got.nicename.unwrap(), "backup round 2");
+    assert_eq!(got.count, 3);
+    assert_eq!(got.index, 2);
+    assert_eq!(got.filename, "backup_02.dem");
+    assert_eq!(got.nicename, "backup round 2");
 }
 
 #[test]
 fn user_message_vgui_menu() {
-    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let captured: Arc<Mutex<Option<demoinfocs_rs::events::VguiMenu>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
     parser.register_user_message_handler::<demoinfocs_rs::events::VguiMenu, _>(move |m| {
@@ -338,7 +341,7 @@ fn user_message_vgui_menu() {
 
 #[test]
 fn user_message_show_menu() {
-    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let captured: Arc<Mutex<Option<demoinfocs_rs::events::ShowMenu>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
     parser.register_user_message_handler::<demoinfocs_rs::events::ShowMenu, _>(move |m| {
@@ -368,7 +371,7 @@ fn user_message_show_menu() {
 
 #[test]
 fn user_message_bar_time() {
-    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let captured: Arc<Mutex<Option<demoinfocs_rs::events::BarTime>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
     parser.register_user_message_handler::<demoinfocs_rs::events::BarTime, _>(move |m| {
