@@ -18,6 +18,12 @@ impl Inferno {
         self.hull = convex_hull(&self.flames);
     }
 
+    /// Adds a new flame origin and recomputes the convex hull.
+    pub fn add_flame(&mut self, pos: Vector) {
+        self.flames.push(pos);
+        self.update_hull();
+    }
+
     /// Returns the precalculated convex hull points.
     pub fn hull(&self) -> &[Vector] {
         &self.hull

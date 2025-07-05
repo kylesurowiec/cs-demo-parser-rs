@@ -294,3 +294,100 @@ fn user_message_round_backup_filenames() {
     assert_eq!(got.filename.unwrap(), "backup_02.dem");
     assert_eq!(got.nicename.unwrap(), "backup round 2");
 }
+
+#[test]
+fn user_message_vgui_menu() {
+    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let captured: Arc<Mutex<Option<demoinfocs_rs::events::VguiMenu>>> = Arc::new(Mutex::new(None));
+    let cap = captured.clone();
+    parser.register_user_message_handler::<demoinfocs_rs::events::VguiMenu, _>(move |m| {
+        *cap.lock().unwrap() = Some(m.clone());
+    });
+
+    let msg = CcsUsrMsgVguiMenu {
+        name: Some("main".into()),
+        show: Some(true),
+        subkeys: vec![
+            ccs_usr_msg_vgui_menu::Subkey {
+                name: Some("a".into()),
+                str: Some("1".into()),
+            },
+            ccs_usr_msg_vgui_menu::Subkey {
+                name: Some("b".into()),
+                str: Some("2".into()),
+            },
+        ],
+    };
+    let mut buf = Vec::new();
+    msg.encode(&mut buf).unwrap();
+    let um = CsvcMsgUserMessage {
+        msg_type: Some(msg::ECstrike15UserMessages::CsUmVguiMenu as i32),
+        msg_data: Some(buf),
+        passthrough: None,
+    };
+    parser.handle_user_message(&um);
+    std::thread::sleep(std::time::Duration::from_millis(10));
+
+    let got = captured.lock().unwrap().clone().unwrap();
+    assert_eq!(got.name, "main");
+    assert!(got.show);
+    assert_eq!(got.keys.len(), 2);
+    assert_eq!(got.keys[0], ("a".into(), "1".into()));
+    assert_eq!(got.keys[1], ("b".into(), "2".into()));
+}
+
+#[test]
+fn user_message_show_menu() {
+    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let captured: Arc<Mutex<Option<demoinfocs_rs::events::ShowMenu>>> = Arc::new(Mutex::new(None));
+    let cap = captured.clone();
+    parser.register_user_message_handler::<demoinfocs_rs::events::ShowMenu, _>(move |m| {
+        *cap.lock().unwrap() = Some(m.clone());
+    });
+
+    let msg = CcsUsrMsgShowMenu {
+        bits_valid_slots: Some(7),
+        display_time: Some(5),
+        menu_string: Some("menu".into()),
+    };
+    let mut buf = Vec::new();
+    msg.encode(&mut buf).unwrap();
+    let um = CsvcMsgUserMessage {
+        msg_type: Some(msg::ECstrike15UserMessages::CsUmShowMenu as i32),
+        msg_data: Some(buf),
+        passthrough: None,
+    };
+    parser.handle_user_message(&um);
+    std::thread::sleep(std::time::Duration::from_millis(10));
+
+    let got = captured.lock().unwrap().clone().unwrap();
+    assert_eq!(got.bits_valid_slots, 7);
+    assert_eq!(got.display_time, 5);
+    assert_eq!(got.menu_string, "menu");
+}
+
+#[test]
+fn user_message_bar_time() {
+    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let captured: Arc<Mutex<Option<demoinfocs_rs::events::BarTime>>> = Arc::new(Mutex::new(None));
+    let cap = captured.clone();
+    parser.register_user_message_handler::<demoinfocs_rs::events::BarTime, _>(move |m| {
+        *cap.lock().unwrap() = Some(m.clone());
+    });
+
+    let msg = CcsUsrMsgBarTime {
+        time: Some("3".into()),
+    };
+    let mut buf = Vec::new();
+    msg.encode(&mut buf).unwrap();
+    let um = CsvcMsgUserMessage {
+        msg_type: Some(msg::ECstrike15UserMessages::CsUmBarTime as i32),
+        msg_data: Some(buf),
+        passthrough: None,
+    };
+    parser.handle_user_message(&um);
+    std::thread::sleep(std::time::Duration::from_millis(10));
+
+    let got = captured.lock().unwrap().clone().unwrap();
+    assert_eq!(got.time, "3");
+}

@@ -565,7 +565,12 @@ impl<R: Read> Parser<R> {
                     | proto_msg::ECstrike15UserMessages::CsUmRoundBackupFilenames => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgRoundBackupFilenames::decode(&data[..])
                         {
-                            self.dispatch_user_message(msg);
+                            self.dispatch_user_message(crate::events::RoundBackupFilenames {
+                                count: msg.count.unwrap_or_default(),
+                                index: msg.index.unwrap_or_default(),
+                                filename: msg.filename.unwrap_or_default(),
+                                nicename: msg.nicename.unwrap_or_default(),
+                            });
                         }
                     },
                     | proto_msg::ECstrike15UserMessages::CsUmRoundImpactScoreData => {
@@ -597,17 +602,6 @@ impl<R: Read> Parser<R> {
                         if let Ok(msg) = proto_msg::CcsUsrMsgBarTime::decode(&data[..]) {
                             self.dispatch_user_message(crate::events::BarTime {
                                 time: msg.time.unwrap_or_default(),
-                            });
-                        }
-                    },
-                    | proto_msg::ECstrike15UserMessages::CsUmRoundBackupFilenames => {
-                        if let Ok(msg) = proto_msg::CcsUsrMsgRoundBackupFilenames::decode(&data[..])
-                        {
-                            self.dispatch_user_message(crate::events::RoundBackupFilenames {
-                                count: msg.count.unwrap_or_default(),
-                                index: msg.index.unwrap_or_default(),
-                                filename: msg.filename.unwrap_or_default(),
-                                nicename: msg.nicename.unwrap_or_default(),
                             });
                         }
                     },
@@ -652,6 +646,8 @@ impl<R: Read> Parser<R> {
             match kind {
                 | proto_msg::SvcMessages::SvcServerInfo => {
                     if let Ok(msg) = proto_msg::CsvcMsgServerInfo::decode(&buf[..]) {
+                        self.s2_tables.on_server_info(&msg);
+                        self.game_state.match_info.map = msg.map_name.clone();
                         self.dispatch_net_message(msg);
                     }
                 },
@@ -820,6 +816,36 @@ impl<R: Read> Parser<R> {
             }
         } else if let Ok(net) = proto_msg::NetMessages::try_from(msg_type as i32) {
             match net {
+                | proto_msg::NetMessages::NetNop => {
+                    if let Ok(msg) = proto_msg::CnetMsgNop::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::NetMessages::NetDisconnect => {
+                    if let Ok(msg) = proto_msg::CnetMsgDisconnect::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::NetMessages::NetFile => {
+                    if let Ok(msg) = proto_msg::CnetMsgFile::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::NetMessages::NetSplitScreenUser => {
+                    if let Ok(msg) = proto_msg::CnetMsgSplitScreenUser::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::NetMessages::NetTick => {
+                    if let Ok(msg) = proto_msg::CnetMsgTick::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::NetMessages::NetStringCmd => {
+                    if let Ok(msg) = proto_msg::CnetMsgStringCmd::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
                 | proto_msg::NetMessages::NetSetConVar => {
                     if let Ok(msg) = proto_msg::CnetMsgSetConVar::decode(&buf[..]) {
                         if let Some(ref cvars) = msg.convars {
@@ -840,7 +866,16 @@ impl<R: Read> Parser<R> {
                         self.dispatch_net_message(msg);
                     }
                 },
-                | _ => {},
+                | proto_msg::NetMessages::NetSignonState => {
+                    if let Ok(msg) = proto_msg::CnetMsgSignonState::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
+                | proto_msg::NetMessages::NetPlayerAvatarData => {
+                    if let Ok(msg) = proto_msg::CnetMsgPlayerAvatarData::decode(&buf[..]) {
+                        self.dispatch_net_message(msg);
+                    }
+                },
             }
         }
     }
