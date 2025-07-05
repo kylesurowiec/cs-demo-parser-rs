@@ -48,6 +48,11 @@ pub struct EntityCreated {
     pub entity: crate::sendtables2::Entity,
 }
 
+#[derive(Clone, Debug)]
+pub struct StringTableUpdated {
+    pub table: crate::stringtables::StringTable,
+}
+
 /// Configuration options for [`Parser`].
 #[derive(Debug, Clone)]
 pub struct ParserConfig {
@@ -174,8 +179,20 @@ impl<R: Read> Parser<R> {
             })
     }
 
+    pub fn register_on_string_table<F>(&self, handler: F) -> HandlerIdentifier
+    where
+        F: Fn(&crate::stringtables::StringTable) + Send + Sync + 'static,
+    {
+        self.event_dispatcher
+            .register_handler::<StringTableUpdated, _>(move |ev| handler(&ev.table))
+    }
+
     pub fn game_state(&self) -> &GameState {
         &self.game_state
+    }
+
+    pub fn string_table(&self, name: &str) -> Option<&crate::stringtables::StringTable> {
+        self.string_tables.get(name)
     }
 
     fn game_state_mut(&mut self) -> &mut GameState {
@@ -417,7 +434,10 @@ impl<R: Read> Parser<R> {
     }
 
     fn parse_stringtable_packet(&mut self, data: &[u8]) {
-        self.string_tables.parse_packet(data);
+        let updates = self.string_tables.parse_packet(data);
+        for t in updates {
+            self.dispatch_event(StringTableUpdated { table: t });
+        }
     }
 
     fn parse_frame_s2(&mut self) -> Result<bool, ParserError> {
