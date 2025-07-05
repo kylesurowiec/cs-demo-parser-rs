@@ -228,7 +228,10 @@ impl GameEventHandler {
             | "item_equip" => parser.dispatch_event(events::ItemEquip),
             | "item_pickup" => parser.dispatch_event(events::ItemPickup),
             | "item_pickup_slerp" => parser.dispatch_event(events::ItemPickupSlerp),
-            | "item_remove" => parser.dispatch_event(events::ItemRemove),
+            | "item_remove" => parser.dispatch_event(events::ItemDrop {
+                player: None,
+                weapon: None,
+            }),
             | "inspect_weapon" => parser.dispatch_event(events::InspectWeapon),
             | "server_cvar" => parser.dispatch_event(events::ServerCvar),
             | "vote_cast" => parser.dispatch_event(events::VoteCast),

@@ -525,6 +525,13 @@ pub struct SayText2 {
 }
 
 #[derive(Clone, Debug)]
+pub struct ChatMessage {
+    pub sender: Option<Player>,
+    pub text: String,
+    pub is_chat_all: bool,
+}
+
+#[derive(Clone, Debug)]
 pub struct TickRateInfoAvailable {
     pub tick_rate: f64,
     pub tick_time: Duration,
@@ -616,6 +623,16 @@ pub struct OvertimeNumberChanged {
 }
 
 #[derive(Clone, Debug)]
+pub struct RankUpdate {
+    pub steam_id32: i32,
+    pub rank_change: f32,
+    pub rank_old: i32,
+    pub rank_new: i32,
+    pub win_count: i32,
+    pub player: Option<Player>,
+}
+
+#[derive(Clone, Debug)]
 pub struct ItemRefund {
     pub player: Option<Player>,
     pub weapon: Option<Equipment>,
@@ -650,6 +667,11 @@ pub struct RoundBackupFilenames {
 
 #[derive(Clone, Debug)]
 pub struct DataTablesParsed;
+
+#[derive(Clone, Debug)]
+pub struct StringTableCreated {
+    pub table_name: String,
+}
 
 pub struct TeamClanNameUpdated {
     pub old_name: String,
@@ -762,7 +784,10 @@ pub struct ItemPickup;
 pub struct ItemPickupSlerp;
 
 #[derive(Clone, Debug)]
-pub struct ItemRemove;
+pub struct ItemDrop {
+    pub player: Option<Player>,
+    pub weapon: Option<Equipment>,
+}
 
 #[derive(Clone, Debug)]
 pub struct InspectWeapon;

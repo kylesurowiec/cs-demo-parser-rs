@@ -502,14 +502,19 @@ impl<R: Read> Parser<R> {
         self.game_events = handler;
     }
 
-    pub fn handle_user_message(&self, um: &proto_msg::CsvcMsgUserMessage) {
+    pub fn handle_user_message(&mut self, um: &proto_msg::CsvcMsgUserMessage) {
         use crate::proto::msg::{self as proto_msg};
         if let (Some(t), Some(data)) = (um.msg_type, &um.msg_data) {
             if let Ok(kind) = proto_msg::ECstrike15UserMessages::try_from(t) {
                 match kind {
                     | proto_msg::ECstrike15UserMessages::CsUmSayText => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgSayText::decode(&data[..]) {
-                            self.dispatch_user_message(msg);
+                            self.dispatch_user_message(msg.clone());
+                            self.dispatch_event(crate::events::ChatMessage {
+                                sender: None,
+                                text: msg.text.clone().unwrap_or_default(),
+                                is_chat_all: msg.textallchat.unwrap_or_default(),
+                            });
                         }
                     },
                     | proto_msg::ECstrike15UserMessages::CsUmVguiMenu => {
@@ -533,11 +538,27 @@ impl<R: Read> Parser<R> {
                     },
                     | proto_msg::ECstrike15UserMessages::CsUmSayText2 => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgSayText2::decode(&data[..]) {
-                            self.dispatch_user_message(msg);
+                            self.dispatch_user_message(msg.clone());
+                            let text = msg.params.get(1).cloned().unwrap_or_default();
+                            self.dispatch_event(crate::events::ChatMessage {
+                                sender: None,
+                                text,
+                                is_chat_all: msg.textallchat.unwrap_or_default(),
+                            });
                         }
                     },
                     | proto_msg::ECstrike15UserMessages::CsUmServerRankUpdate => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgServerRankUpdate::decode(&data[..]) {
+                            for ru in &msg.rank_update {
+                                self.dispatch_event(crate::events::RankUpdate {
+                                    steam_id32: ru.account_id.unwrap_or_default(),
+                                    rank_change: ru.rank_change.unwrap_or_default(),
+                                    rank_old: ru.rank_old.unwrap_or_default(),
+                                    rank_new: ru.rank_new.unwrap_or_default(),
+                                    win_count: ru.num_wins.unwrap_or_default(),
+                                    player: None,
+                                });
+                            }
                             self.dispatch_user_message(msg);
                         }
                     },
@@ -648,6 +669,9 @@ impl<R: Read> Parser<R> {
                 | proto_msg::SvcMessages::SvcCreateStringTable => {
                     if let Ok(msg) = proto_msg::CsvcMsgCreateStringTable::decode(&buf[..]) {
                         if let Some(t) = self.string_tables.on_create_string_table(&msg) {
+                            self.dispatch_event(crate::events::StringTableCreated {
+                                table_name: t.name.clone(),
+                            });
                             self.dispatch_event(StringTableUpdated { table: t });
                         }
                         self.dispatch_net_message(msg);

@@ -3,11 +3,14 @@ use demoinfocs_rs::proto::msg::cs_demo_parser_rs::*;
 use demoinfocs_rs::proto::msg::{self};
 use prost::Message;
 use std::io::Cursor;
-use std::sync::{Arc, Mutex};
+use std::sync::{
+    Arc, Mutex,
+    atomic::{AtomicUsize, Ordering},
+};
 
 #[test]
 fn user_message_saytext() {
-    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let captured: Arc<Mutex<Option<CcsUsrMsgSayText>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
     parser.register_user_message_handler::<CcsUsrMsgSayText, _>(move |m| {
@@ -39,7 +42,7 @@ fn user_message_saytext() {
 
 #[test]
 fn user_message_saytext2_generic() {
-    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let captured: Arc<Mutex<Option<CcsUsrMsgSayText2>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
     parser.register_user_message_handler::<CcsUsrMsgSayText2, _>(move |m| {
@@ -72,8 +75,38 @@ fn user_message_saytext2_generic() {
 }
 
 #[test]
+fn chat_message_event() {
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let cnt = Arc::new(AtomicUsize::new(0));
+    let c = cnt.clone();
+    parser.register_event_handler::<demoinfocs_rs::events::ChatMessage, _>(move |e| {
+        if e.text == "hello" {
+            c.fetch_add(1, Ordering::SeqCst);
+        }
+    });
+
+    let msg = CcsUsrMsgSayText {
+        ent_idx: Some(1),
+        text: Some("hello".into()),
+        chat: Some(true),
+        textallchat: Some(true),
+    };
+    let mut buf = Vec::new();
+    msg.encode(&mut buf).unwrap();
+    let um = CsvcMsgUserMessage {
+        msg_type: Some(msg::ECstrike15UserMessages::CsUmSayText as i32),
+        msg_data: Some(buf),
+        passthrough: None,
+    };
+    parser.handle_user_message(&um);
+    std::thread::sleep(std::time::Duration::from_millis(10));
+
+    assert_eq!(1, cnt.load(Ordering::SeqCst));
+}
+
+#[test]
 fn user_message_server_rank_update() {
-    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let captured: Arc<Mutex<Option<CcsUsrMsgServerRankUpdate>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
     parser.register_user_message_handler::<CcsUsrMsgServerRankUpdate, _>(move |m| {
@@ -117,8 +150,40 @@ fn user_message_server_rank_update() {
 }
 
 #[test]
+fn rank_update_event() {
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let cnt = Arc::new(AtomicUsize::new(0));
+    let c = cnt.clone();
+    parser.register_event_handler::<demoinfocs_rs::events::RankUpdate, _>(move |_| {
+        c.fetch_add(1, Ordering::SeqCst);
+    });
+
+    let update = CcsUsrMsgServerRankUpdate {
+        rank_update: vec![ccs_usr_msg_server_rank_update::RankUpdate {
+            account_id: Some(1),
+            rank_old: Some(0),
+            rank_new: Some(1),
+            num_wins: Some(1),
+            rank_change: Some(1.0),
+            rank_type_id: None,
+        }],
+    };
+    let mut buf = Vec::new();
+    update.encode(&mut buf).unwrap();
+    let um = CsvcMsgUserMessage {
+        msg_type: Some(msg::ECstrike15UserMessages::CsUmServerRankUpdate as i32),
+        msg_data: Some(buf),
+        passthrough: None,
+    };
+    parser.handle_user_message(&um);
+    std::thread::sleep(std::time::Duration::from_millis(10));
+
+    assert_eq!(1, cnt.load(Ordering::SeqCst));
+}
+
+#[test]
 fn user_message_text_msg() {
-    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let captured: Arc<Mutex<Option<CcsUsrMsgTextMsg>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
     parser.register_user_message_handler::<CcsUsrMsgTextMsg, _>(move |m| {
@@ -146,7 +211,7 @@ fn user_message_text_msg() {
 
 #[test]
 fn user_message_hint_text() {
-    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let captured: Arc<Mutex<Option<CcsUsrMsgHintText>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
     parser.register_user_message_handler::<CcsUsrMsgHintText, _>(move |m| {
@@ -172,7 +237,7 @@ fn user_message_hint_text() {
 
 #[test]
 fn user_message_round_impact_score_data() {
-    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let captured: Arc<Mutex<Option<CcsUsrMsgRoundImpactScoreData>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
     parser.register_user_message_handler::<CcsUsrMsgRoundImpactScoreData, _>(move |m| {
@@ -200,7 +265,7 @@ fn user_message_round_impact_score_data() {
 
 #[test]
 fn user_message_round_backup_filenames() {
-    let parser = Parser::new(Cursor::new(Vec::<u8>::new()));
+    let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let captured: Arc<Mutex<Option<CcsUsrMsgRoundBackupFilenames>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
     parser.register_user_message_handler::<CcsUsrMsgRoundBackupFilenames, _>(move |m| {

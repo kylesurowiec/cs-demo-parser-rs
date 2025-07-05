@@ -107,7 +107,7 @@ fn dispatch_equipment_and_server_events() {
         slerp_c.fetch_add(1, Ordering::SeqCst);
     });
     let remove_c = remove.clone();
-    parser.register_event_handler::<events::ItemRemove, _>(move |_| {
+    parser.register_event_handler::<events::ItemDrop, _>(move |_| {
         remove_c.fetch_add(1, Ordering::SeqCst);
     });
     let inspect_c = inspect.clone();
@@ -143,7 +143,7 @@ fn dispatch_equipment_and_server_events() {
         c.fetch_add(1, Ordering::SeqCst);
     });
     let c = remove.clone();
-    parser.register_event_handler::<events::ItemRemove, _>(move |_| {
+    parser.register_event_handler::<events::ItemDrop, _>(move |_| {
         c.fetch_add(1, Ordering::SeqCst);
     });
     let c = inspect.clone();

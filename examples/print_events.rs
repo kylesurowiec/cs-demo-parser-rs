@@ -1,3 +1,4 @@
+use demoinfocs_rs::events;
 use demoinfocs_rs::parser::Parser;
 use std::env;
 use std::fs::File;
@@ -21,6 +22,9 @@ fn main() {
 
     parser.register_event_handler::<u8, _>(|ev| {
         println!("event: {}", ev);
+    });
+    parser.register_event_handler::<events::ChatMessage, _>(|m| {
+        println!("chat: {}", m.text);
     });
 
     if let Err(e) = parser.parse_to_end() {
