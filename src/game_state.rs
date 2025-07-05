@@ -2,6 +2,8 @@ use std::any::Any;
 use std::collections::HashMap;
 
 use crate::common::{Bomb, Equipment, GrenadeProjectile, Hostage, Inferno, Player, Team};
+use crate::game_rules::GameRules;
+use crate::match_info::MatchInfo;
 use crate::proto::msg::cs_demo_parser_rs as proto_msg;
 use crate::sendtables2::Entity;
 
@@ -44,12 +46,6 @@ impl<'a> Participants<'a> {
             .filter(|p| p.team == team)
             .collect()
     }
-}
-
-#[derive(Clone, Default)]
-pub struct GameRules {
-    pub con_vars: HashMap<String, String>,
-    pub entity: Option<Entity>,
 }
 
 #[derive(Default)]
@@ -103,6 +99,7 @@ pub struct GameState {
     pub equipment_mapping: HashMap<String, crate::common::EquipmentType>,
 
     pub rules: GameRules,
+    pub match_info: MatchInfo,
 }
 
 impl GameState {
@@ -199,32 +196,36 @@ impl GameState {
         &self.rules
     }
 
+    pub fn match_info(&self) -> &MatchInfo {
+        &self.match_info
+    }
+
+    pub fn map_name(&self) -> Option<&str> {
+        self.match_info.map.as_deref()
+    }
+
+    pub fn match_id(&self) -> Option<u64> {
+        self.match_info.match_id
+    }
+
+    pub fn server_version(&self) -> Option<u32> {
+        self.match_info.server_version
+    }
+
     pub fn match_settings(&self) -> &std::collections::HashMap<String, String> {
         &self.rules.con_vars
     }
 
     pub fn round_time(&self) -> Option<std::time::Duration> {
-        self.rules
-            .con_vars
-            .get("mp_roundtime")
-            .and_then(|v| v.parse::<u64>().ok())
-            .map(std::time::Duration::from_secs)
+        self.rules.round_time()
     }
 
     pub fn freeze_time(&self) -> Option<std::time::Duration> {
-        self.rules
-            .con_vars
-            .get("mp_freezetime")
-            .and_then(|v| v.parse::<u64>().ok())
-            .map(std::time::Duration::from_secs)
+        self.rules.freeze_time()
     }
 
     pub fn bomb_time(&self) -> Option<std::time::Duration> {
-        self.rules
-            .con_vars
-            .get("mp_c4timer")
-            .and_then(|v| v.parse::<u64>().ok())
-            .map(std::time::Duration::from_secs)
+        self.rules.bomb_time()
     }
 
     pub fn ingame_tick(&self) -> i32 {
@@ -315,8 +316,9 @@ impl GameState {
 
     pub fn handle_net_message<M: 'static>(&mut self, msg: &M) {
         let any = msg as &dyn Any;
-        if any.is::<proto_msg::CsvcMsgServerInfo>()
-            || any.is::<proto_msg::CsvcMsgSendTable>()
+        if let Some(info) = any.downcast_ref::<proto_msg::CsvcMsgServerInfo>() {
+            self.match_info.map = info.map_name.clone();
+        } else if any.is::<proto_msg::CsvcMsgSendTable>()
             || any.is::<proto_msg::CsvcMsgClassInfo>()
             || any.is::<proto_msg::CsvcMsgSetPause>()
             || any.is::<proto_msg::CsvcMsgCreateStringTable>()

@@ -16,7 +16,7 @@ The legacy Go library under `pkg/` exposed a large API surface. The current `dem
 - [ ] **Full `Player` API** – port remaining helper methods (`IsInBombZone`, `IsDucking`, `IsScoped`, `IsSpottedBy`, etc.).
 
 - [ ] **Inferno and grenade helpers** – replicate convex hull calculations and trajectory tracking from `inferno.go` and `grenade.go`.
-- [ ] **Game rules and match info** – implement the structures and callbacks from `gamerules.go` and `matchinfo.go`.
+- [x] **Game rules and match info** – implement the structures and callbacks from `gamerules.go` and `matchinfo.go`.
 - [x] **String table based equipment mapping** – parse item definitions for accurate equipment types.
 
 ## Events and Messages
