@@ -573,7 +573,7 @@ impl<R: Read> Parser<R> {
     }
 
     fn handle_svc_message(&mut self, msg_type: u32, buf: &[u8]) {
-        match proto_msg::SvcMessages::from_i32(msg_type as i32) {
+        match std::convert::TryFrom::try_from(msg_type as i32).ok() {
             | Some(proto_msg::SvcMessages::SvcServerInfo) => {
                 if let Ok(msg) = proto_msg::CsvcMsgServerInfo::decode(&buf[..]) {
                     self.dispatch_net_message(msg);
