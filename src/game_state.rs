@@ -344,6 +344,15 @@ impl GameState {
             || any.is::<proto_msg::CsvcMsgEncryptedData>()
             || any.is::<proto_msg::CsvcMsgHltvReplay>()
             || any.is::<proto_msg::CsvcMsgBroadcastCommand>()
+            || any.is::<proto_msg::CnetMsgNop>()
+            || any.is::<proto_msg::CnetMsgDisconnect>()
+            || any.is::<proto_msg::CnetMsgFile>()
+            || any.is::<proto_msg::CnetMsgSplitScreenUser>()
+            || any.is::<proto_msg::CnetMsgTick>()
+            || any.is::<proto_msg::CnetMsgStringCmd>()
+            || any.is::<proto_msg::CnetMsgSetConVar>()
+            || any.is::<proto_msg::CnetMsgSignonState>()
+            || any.is::<proto_msg::CnetMsgPlayerAvatarData>()
         {
             // currently no game state updates implemented
         }
