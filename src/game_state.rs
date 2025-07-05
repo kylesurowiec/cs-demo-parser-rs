@@ -142,6 +142,19 @@ impl GameState {
         self.grenade_projectiles.values().collect()
     }
 
+    /// Records the current position of a grenade projectile.
+    pub fn track_grenade_position(
+        &mut self,
+        entity_id: i32,
+        position: crate::sendtables::entity::Vector,
+        frame: i32,
+        time: std::time::Duration,
+    ) {
+        if let Some(g) = self.grenade_projectiles.get_mut(&entity_id) {
+            g.track_position(position, frame, time);
+        }
+    }
+
     pub fn infernos(&self) -> &HashMap<i32, Inferno> {
         &self.infernos
     }
