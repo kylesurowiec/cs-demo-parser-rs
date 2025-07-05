@@ -11,3 +11,12 @@ fn tick_rate_override_is_used() {
     assert_eq!(parser.tick_rate(), 64.0);
     assert_eq!(parser.tick_time(), std::time::Duration::from_secs_f64(1.0 / 64.0));
 }
+
+#[test]
+fn ignore_missing_decryption_key_flag() {
+    let cfg = ParserConfig {
+        ignore_missing_decryption_key: true,
+        ..Default::default()
+    };
+    assert!(cfg.ignore_missing_decryption_key);
+}

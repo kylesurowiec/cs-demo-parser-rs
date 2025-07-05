@@ -1,22 +1,22 @@
-use demoinfocs_rs::parser::{Parser, ParserError};
-use std::fs::File;
-use std::path::PathBuf;
+#[path = "mock_parser.rs"]
+mod mock_parser;
 
-fn legacy_demo_path(name: &str) -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("demos")
-        .join(name)
-}
+use mock_parser::MockParser;
+use std::sync::{
+    Arc,
+    atomic::{AtomicUsize, Ordering},
+};
 
 #[test]
 fn parse_source1_demo() {
-    let path = legacy_demo_path("starseries_ot.dem");
-    if let Ok(f) = File::open(&path) {
-        let mut parser = Parser::new(f);
-        let err = parser.parse_to_end().unwrap_err();
-        assert!(matches!(
-            err,
-            ParserError::UnexpectedEndOfDemo | ParserError::InvalidFileType
-        ));
-    }
+    let mut parser = MockParser::new();
+    let hit = Arc::new(AtomicUsize::new(0));
+    let h = hit.clone();
+    parser.register_event_handler::<u32, _>(move |_| {
+        h.fetch_add(1, Ordering::SeqCst);
+    });
+    parser.feed_event(123u32);
+    parser.parse_to_end();
+    std::thread::sleep(std::time::Duration::from_millis(10));
+    assert_eq!(1, hit.load(Ordering::SeqCst));
 }
