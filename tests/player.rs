@@ -91,3 +91,57 @@ fn gear_alt_property_names() {
     assert!(p.has_defuse_kit());
     assert!(p.has_helmet());
 }
+
+#[test]
+fn bomb_zone_duck_scoped() {
+    let ent = make_entity(vec![
+        ("m_bInBombZone", 1),
+        ("m_bDucking", 1),
+        ("m_bIsScoped", 0),
+    ]);
+    let p = Player {
+        entity: Some(ent),
+        ..Default::default()
+    };
+    assert!(p.is_in_bomb_zone());
+    assert!(p.is_ducking());
+    assert!(!p.is_scoped());
+}
+
+#[test]
+fn spotted_helpers() {
+    let target_ent = make_entity(vec![("m_bSpottedByMask.000", 2)]);
+    let spotter_ent = make_entity(vec![]);
+    let target = Player {
+        entity: Some(target_ent),
+        entity_id: 1,
+        ..Default::default()
+    };
+    let spotter = Player {
+        entity: Some(spotter_ent),
+        entity_id: 1,
+        ..Default::default()
+    };
+    assert!(target.is_spotted_by(&spotter));
+    assert!(spotter.has_spotted(&target));
+}
+
+#[test]
+fn extra_helpers() {
+    let ent = make_entity(vec![
+        ("m_bInBuyZone", 1),
+        ("m_bIsWalking", 1),
+        ("m_bIsGrabbingHostage", 0),
+        ("m_hGroundEntity", -1),
+    ]);
+    let p = Player {
+        entity: Some(ent),
+        flash_duration: 1.0,
+        ..Default::default()
+    };
+    assert!(p.is_in_buy_zone());
+    assert!(p.is_walking());
+    assert!(!p.is_grabbing_hostage());
+    assert!(p.is_airborne());
+    assert!(p.is_blinded());
+}
