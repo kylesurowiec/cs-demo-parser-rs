@@ -21,7 +21,7 @@ The legacy Go library under `pkg/` exposed a large API surface. The current `dem
 
 ## Events and Messages
 - [ ] **All game events** – many event structs exist but not every event from `game_events.go` is decoded. Ensure every event descriptor is represented and dispatched.
-- [ ] **All user messages** – only a handful of `Cstrike15UserMessages` variants are currently handled. Implement decoding for the remaining messages generated from the protobuf definitions.
+- [x] **All user messages** – only a handful of `Cstrike15UserMessages` variants were originally handled. The parser now decodes every message generated from the protobuf definitions.
 - Additional messages (`CS_UM_VGUIMenu`, `CS_UM_ShowMenu`, `CS_UM_BarTime`, `CS_UM_RoundBackupFilenames`) are now decoded.
 - [x] **Round backup and restore** – support messages such as `CS_UM_RoundBackupFilenames` and `CS_UM_RoundImpactScoreData` with full data models.
 
