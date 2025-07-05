@@ -22,10 +22,12 @@ The legacy Go library under `pkg/` exposed a large API surface. The current `dem
 ## Events and Messages
 - [ ] **All game events** – many event structs exist but not every event from `game_events.go` is decoded. Ensure every event descriptor is represented and dispatched.
 - [ ] **All user messages** – only a handful of `Cstrike15UserMessages` variants are currently handled. Implement decoding for the remaining messages generated from the protobuf definitions.
+- Additional messages (`CS_UM_VGUIMenu`, `CS_UM_ShowMenu`, `CS_UM_BarTime`, `CS_UM_RoundBackupFilenames`) are now decoded.
 - [x] **Round backup and restore** – support messages such as `CS_UM_RoundBackupFilenames` and `CS_UM_RoundImpactScoreData` with full data models.
 
 ## Examples and Utilities
-- [ ] **Voice capture example** – finish the example in `examples/voice-capture` once voice data parsing is implemented.
+- [x] **Voice capture example** – implemented using `Parser::register_net_message_handler`.
+  Run `cargo run --example voice_capture -- -demo <demo> -out voice.raw` to dump the raw audio stream.
 - [ ] **WebAssembly bindings** – port the old WASM example and ensure the crate builds for `wasm32-unknown-unknown`.
 - [ ] **Parallel processing** – reintroduce the parallel parsing utilities for batch processing multiple demos.
 - [ ] **Command helpers** – port the `s2_commands.go` helpers for crafting demo commands.
