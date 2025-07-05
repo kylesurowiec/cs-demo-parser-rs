@@ -522,6 +522,12 @@ impl<R: Read> Parser<R> {
                             self.dispatch_user_message(msg);
                         }
                     },
+                    | proto_msg::ECstrike15UserMessages::CsUmRoundBackupFilenames => {
+                        if let Ok(msg) = proto_msg::CcsUsrMsgRoundBackupFilenames::decode(&data[..])
+                        {
+                            self.dispatch_user_message(msg);
+                        }
+                    },
                     | proto_msg::ECstrike15UserMessages::CsUmRoundImpactScoreData => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgRoundImpactScoreData::decode(&data[..])
                         {
