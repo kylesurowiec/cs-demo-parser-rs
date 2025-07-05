@@ -26,6 +26,25 @@ fn collect_proto_files(dir: &Path) -> Result<Vec<PathBuf>, std::io::Error> {
     Ok(files)
 }
 
+fn ensure_descriptor_proto(vendor_dir: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    let descriptor_path = vendor_dir.join("google/protobuf/descriptor.proto");
+    if descriptor_path.exists() {
+        return Ok(());
+    }
+    // Download descriptor.proto from the official protobuf repo
+    let url = "https://raw.githubusercontent.com/protocolbuffers/protobuf/main/src/google/protobuf/descriptor.proto";
+    println!("cargo:warning=Downloading descriptor.proto from {}...", url);
+    let resp = reqwest::blocking::get(url)?;
+    if !resp.status().is_success() {
+        return Err(format!("Failed to download descriptor.proto: HTTP {}", resp.status()).into());
+    }
+    std::fs::create_dir_all(descriptor_path.parent().unwrap())?;
+    let mut file = std::fs::File::create(&descriptor_path)?;
+    file.write_all(&resp.bytes()?)?;
+    println!("cargo:warning=Downloaded descriptor.proto to {}", descriptor_path.display());
+    Ok(())
+}
+
 /// Compiles protocol buffer files from the input directory to Rust code in the output directory.
 ///
 /// # Arguments
@@ -39,6 +58,8 @@ fn compile(input: &str, output: &str) -> Result<(), Box<dyn std::error::Error>> 
     let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
     let in_dir = manifest_dir.join(input);
     let out_dir = manifest_dir.join("src").join("proto").join(output);
+    let vendor_dir = manifest_dir.join("third_party");
+    ensure_descriptor_proto(&vendor_dir)?;
     std::fs::create_dir_all(&out_dir)?;
     let mut protos = collect_proto_files(&in_dir)?;
     // `base_gcmessages_csgo.proto` duplicates several definitions from
@@ -62,28 +83,11 @@ pub use cs_demo_parser_rs::*;
     std::fs::write(out_dir.join("mod.rs"), mod_rs)?;
     let mut config = prost_build::Config::new();
     config.out_dir(&out_dir);
-    let mut includes: Vec<PathBuf> = vec![in_dir.clone()];
+    let mut includes: Vec<PathBuf> = vec![in_dir.clone(), vendor_dir.clone()];
     if let Ok(protoc_include) = std::env::var("PROTOC_INCLUDE") {
         includes.push(PathBuf::from(protoc_include));
-    } else {
-        for fallback in ["/usr/include", "/usr/local/include"] {
-            let candidate = Path::new(fallback).join("google/protobuf/descriptor.proto");
-            if candidate.exists() {
-                includes.push(PathBuf::from(fallback));
-                break;
-            }
-        }
     }
-    // Ensure descriptor.proto exists in one of the include directories
-    let descriptor_found = includes
-        .iter()
-        .map(|p| p.join("google/protobuf/descriptor.proto"))
-        .any(|p| p.exists());
-    if !descriptor_found {
-        return Err(
-            "google/protobuf/descriptor.proto not found. Install libprotobuf-dev or set PROTOC_INCLUDE".into(),
-        );
-    }
+    // Remove the check for system descriptor.proto, since we now vendor it
     config.compile_protos(&protos, &includes)?;
     // Older prost versions generate a file named `_.rs`. Rename it for
     // consistency so the module is always `cs_demo_parser_rs`.

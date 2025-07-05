@@ -544,7 +544,12 @@ impl<R: Read> Parser<R> {
                     | proto_msg::ECstrike15UserMessages::CsUmRoundBackupFilenames => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgRoundBackupFilenames::decode(&data[..])
                         {
-                            self.dispatch_user_message(msg);
+                            self.dispatch_user_message(crate::events::RoundBackupFilenames {
+                                count: msg.count.unwrap_or_default(),
+                                index: msg.index.unwrap_or_default(),
+                                filename: msg.filename.unwrap_or_default(),
+                                nicename: msg.nicename.unwrap_or_default(),
+                            });
                         }
                     },
                     | proto_msg::ECstrike15UserMessages::CsUmRoundImpactScoreData => {
@@ -576,17 +581,6 @@ impl<R: Read> Parser<R> {
                         if let Ok(msg) = proto_msg::CcsUsrMsgBarTime::decode(&data[..]) {
                             self.dispatch_user_message(crate::events::BarTime {
                                 time: msg.time.unwrap_or_default(),
-                            });
-                        }
-                    },
-                    | proto_msg::ECstrike15UserMessages::CsUmRoundBackupFilenames => {
-                        if let Ok(msg) = proto_msg::CcsUsrMsgRoundBackupFilenames::decode(&data[..])
-                        {
-                            self.dispatch_user_message(crate::events::RoundBackupFilenames {
-                                count: msg.count.unwrap_or_default(),
-                                index: msg.index.unwrap_or_default(),
-                                filename: msg.filename.unwrap_or_default(),
-                                nicename: msg.nicename.unwrap_or_default(),
                             });
                         }
                     },
@@ -858,7 +852,6 @@ impl<R: Read> Parser<R> {
                         self.dispatch_net_message(msg);
                     }
                 },
-                | _ => {},
             }
         }
     }

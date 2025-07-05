@@ -68,17 +68,16 @@ impl CommandBuilder {
     /// Append a raw encoded net message.
     pub fn push_raw_net_message(&mut self, ty: NetMessages, bytes: &[u8]) -> std::io::Result<()> {
         write_ubit_int(&mut self.writer, ty as u32)?;
-        let buf = msg.encode_to_vec();
-        write_varint32(&mut self.writer, buf.len() as u32)?;
-        for b in buf {
-            self.writer.write(8, b as u32)?;
+        write_varint32(&mut self.writer, bytes.len() as u32)?;
+        for b in bytes {
+            self.writer.write(8, *b as u32)?;
         }
         Ok(())
     }
 
     /// Finish building and return the [`CDemoPacket`].
     pub fn into_packet(mut self) -> CDemoPacket {
-        self.writer.byte_align();
+        let _ = self.writer.byte_align();
         CDemoPacket {
             data: Some(self.writer.into_writer()),
         }
@@ -86,7 +85,7 @@ impl CommandBuilder {
 
     /// Finish building and return the encoded bytes without wrapping in a [`CDemoPacket`].
     pub fn into_bytes(mut self) -> Vec<u8> {
-        self.writer.byte_align();
+        let _ = self.writer.byte_align();
         self.writer.into_writer()
     }
 }

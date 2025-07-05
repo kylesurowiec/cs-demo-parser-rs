@@ -45,19 +45,19 @@ struct FieldPathOp {
 static FIELD_PATH_TABLE: &[FieldPathOp] = &[
     FieldPathOp {
         weight: 36271,
-        op: |r, fp| fp.path[fp.last] += 1,
+        op: |_, fp| fp.path[fp.last] += 1,
     },
     FieldPathOp {
         weight: 10334,
-        op: |r, fp| fp.path[fp.last] += 2,
+        op: |_, fp| fp.path[fp.last] += 2,
     },
     FieldPathOp {
         weight: 1375,
-        op: |r, fp| fp.path[fp.last] += 3,
+        op: |_, fp| fp.path[fp.last] += 3,
     },
     FieldPathOp {
         weight: 646,
-        op: |r, fp| fp.path[fp.last] += 4,
+        op: |_, fp| fp.path[fp.last] += 4,
     },
     FieldPathOp {
         weight: 4128,
@@ -65,7 +65,7 @@ static FIELD_PATH_TABLE: &[FieldPathOp] = &[
     },
     FieldPathOp {
         weight: 35,
-        op: |r, fp| {
+        op: |_, fp| {
             fp.last += 1;
             fp.path[fp.last] = 0;
         },
@@ -79,7 +79,7 @@ static FIELD_PATH_TABLE: &[FieldPathOp] = &[
     },
     FieldPathOp {
         weight: 521,
-        op: |r, fp| {
+        op: |_, fp| {
             fp.path[fp.last] += 1;
             fp.last += 1;
             fp.path[fp.last] = 0;
