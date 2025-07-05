@@ -8,6 +8,7 @@ pub mod game_state;
 pub mod gamerules;
 pub mod matchinfo;
 pub mod parser;
+pub mod commands;
 pub mod proto;
 pub mod sendtables;
 pub mod sendtables1;
