@@ -11,5 +11,5 @@ pub fn match_info_decryption_key(bytes: &[u8]) -> Result<Vec<u8>, Box<dyn Error>
         .watchablematchinfo
         .and_then(|w| w.cl_decryptdata_key_pub)
         .ok_or("missing decrypt key")?;
-    Ok(format!("{:016X}", key).into_bytes())
+    Ok(format!("{key:016X}").into_bytes())
 }

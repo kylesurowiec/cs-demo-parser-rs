@@ -1,8 +1,9 @@
 use crate::sendtables::entity::{Entity, Vector};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 #[repr(i32)]
 pub enum EquipmentClass {
+    #[default]
     Unknown = 0,
     Pistols = 1,
     Smg = 2,
@@ -12,15 +13,11 @@ pub enum EquipmentClass {
     Grenade = 6,
 }
 
-impl Default for EquipmentClass {
-    fn default() -> Self {
-        EquipmentClass::Unknown
-    }
-}
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(i32)]
+#[derive(Default)]
 pub enum EquipmentType {
+    #[default]
     Unknown = 0,
     // Pistols
     P2000 = 1,
@@ -91,17 +88,12 @@ pub enum EquipmentType {
     He = 506,
 }
 
-impl Default for EquipmentType {
-    fn default() -> Self {
-        EquipmentType::Unknown
-    }
-}
 
 impl EquipmentType {
     pub fn class(self) -> EquipmentClass {
         let val = self as i32;
         let class_denominator = 100;
-        EquipmentClass::from(((val + class_denominator - 1) / class_denominator) as i32)
+        EquipmentClass::from((((val + class_denominator - 1) / class_denominator)))
     }
 
     pub fn as_str(self) -> &'static str {

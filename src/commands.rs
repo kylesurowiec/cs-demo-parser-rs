@@ -48,6 +48,12 @@ pub struct CommandBuilder {
     writer: BitWriter<Vec<u8>, LittleEndian>,
 }
 
+impl Default for CommandBuilder {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CommandBuilder {
     /// Create a new empty builder.
     pub fn new() -> Self {

@@ -14,14 +14,13 @@ impl FieldType {
             name = &name[..name.len() - 1];
         }
         let mut count = 0;
-        if let Some(idx) = name.rfind('[') {
-            if name.ends_with(']') {
+        if let Some(idx) = name.rfind('[')
+            && name.ends_with(']') {
                 if let Ok(n) = name[idx + 1..name.len() - 1].parse() {
                     count = n;
                 }
                 name = &name[..idx];
             }
-        }
         let generic_type = if let Some(start) = name.find('<') {
             if let Some(end) = name.rfind('>') {
                 let inner = &name[start + 1..end];

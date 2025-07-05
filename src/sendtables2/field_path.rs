@@ -10,6 +10,12 @@ pub struct FieldPath {
     pub done: bool,
 }
 
+impl Default for FieldPath {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl FieldPath {
     pub fn new() -> Self {
         FieldPath {
