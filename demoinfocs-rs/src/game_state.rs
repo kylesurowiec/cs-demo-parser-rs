@@ -1,6 +1,8 @@
+use std::any::Any;
 use std::collections::HashMap;
 
 use crate::common::{Bomb, Equipment, GrenadeProjectile, Hostage, Inferno, Player, Team};
+use crate::proto::msg::cs_demo_parser_rs as proto_msg;
 use crate::sendtables2::Entity;
 
 /// Very small placeholder for a team state.
@@ -229,5 +231,39 @@ impl GameState {
         }
     }
 
-    pub fn handle_net_message<M>(&mut self, _msg: &M) {}
+    pub fn handle_net_message<M: 'static>(&mut self, msg: &M) {
+        let any = msg as &dyn Any;
+        if any.is::<proto_msg::CsvcMsgServerInfo>()
+            || any.is::<proto_msg::CsvcMsgSendTable>()
+            || any.is::<proto_msg::CsvcMsgClassInfo>()
+            || any.is::<proto_msg::CsvcMsgSetPause>()
+            || any.is::<proto_msg::CsvcMsgCreateStringTable>()
+            || any.is::<proto_msg::CsvcMsgUpdateStringTable>()
+            || any.is::<proto_msg::CsvcMsgVoiceInit>()
+            || any.is::<proto_msg::CsvcMsgVoiceData>()
+            || any.is::<proto_msg::CsvcMsgPrint>()
+            || any.is::<proto_msg::CsvcMsgSounds>()
+            || any.is::<proto_msg::CsvcMsgSetView>()
+            || any.is::<proto_msg::CsvcMsgFixAngle>()
+            || any.is::<proto_msg::CsvcMsgCrosshairAngle>()
+            || any.is::<proto_msg::CsvcMsgBspDecal>()
+            || any.is::<proto_msg::CsvcMsgSplitScreen>()
+            || any.is::<proto_msg::CsvcMsgUserMessage>()
+            || any.is::<proto_msg::CsvcMsgEntityMsg>()
+            || any.is::<proto_msg::CsvcMsgGameEvent>()
+            || any.is::<proto_msg::CsvcMsgPacketEntities>()
+            || any.is::<proto_msg::CsvcMsgTempEntities>()
+            || any.is::<proto_msg::CsvcMsgPrefetch>()
+            || any.is::<proto_msg::CsvcMsgMenu>()
+            || any.is::<proto_msg::CsvcMsgGameEventList>()
+            || any.is::<proto_msg::CsvcMsgGetCvarValue>()
+            || any.is::<proto_msg::CsvcMsgPaintmapData>()
+            || any.is::<proto_msg::CsvcMsgCmdKeyValues>()
+            || any.is::<proto_msg::CsvcMsgEncryptedData>()
+            || any.is::<proto_msg::CsvcMsgHltvReplay>()
+            || any.is::<proto_msg::CsvcMsgBroadcastCommand>()
+        {
+            // currently no game state updates implemented
+        }
+    }
 }
