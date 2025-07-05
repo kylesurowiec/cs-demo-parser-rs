@@ -52,20 +52,30 @@ impl EventDispatcher {
     }
 
     fn spawn_runner(this: Arc<Self>, rx: Receiver<Arc<dyn Any + Send + Sync>>) {
-        thread::spawn(move || {
-            for event in rx.iter() {
-                let t = (&*event).type_id();
-                let handlers = {
-                    let map = this.handlers.read().unwrap();
-                    map.get(&t).cloned()
-                };
-                if let Some(list) = handlers {
-                    for h in &list {
-                        (h.callback)(&event);
+        #[cfg(not(target_arch = "wasm32"))]
+        {
+            thread::spawn(move || {
+                for event in rx.iter() {
+                    let t = (&*event).type_id();
+                    let handlers = {
+                        let map = this.handlers.read().unwrap();
+                        map.get(&t).cloned()
+                    };
+                    if let Some(list) = handlers {
+                        for h in &list {
+                            (h.callback)(&event);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+
+        #[cfg(target_arch = "wasm32")]
+        {
+            // WebAssembly does not support spawning threads. Events will not be
+            // dispatched asynchronously when targeting wasm.
+            drop(rx);
+        }
     }
 }
 

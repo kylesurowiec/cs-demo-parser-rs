@@ -51,3 +51,13 @@ for p in players.values() {
     println!("{}: {}", p.user_id, p.name);
 }
 ```
+
+## Building the WASM example
+
+The crate can be compiled for WebAssembly using the `wasm32-unknown-unknown`
+target. Install the target and build the example:
+
+```bash
+rustup target add wasm32-unknown-unknown
+cargo build --target wasm32-unknown-unknown --example web_assembly
+```
