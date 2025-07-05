@@ -172,4 +172,44 @@ impl Player {
             .map(|v| v.bool_val())
             .unwrap_or(false)
     }
+
+    pub fn is_in_bomb_zone(&self) -> bool {
+        self.entity
+            .as_ref()
+            .and_then(|e| e.property_value("m_bInBombZone"))
+            .map(|v| v.bool_val())
+            .unwrap_or(false)
+    }
+
+    pub fn is_ducking(&self) -> bool {
+        self.entity
+            .as_ref()
+            .and_then(|e| e.property_value("m_bDucking"))
+            .map(|v| v.bool_val())
+            .unwrap_or(false)
+    }
+
+    pub fn is_scoped(&self) -> bool {
+        self.entity
+            .as_ref()
+            .and_then(|e| e.property_value("m_bIsScoped"))
+            .map(|v| v.bool_val())
+            .unwrap_or(false)
+    }
+
+    pub fn is_spotted_by(&self, other: &Player) -> bool {
+        let spotter_idx = other.entity_id as usize;
+        self.entity
+            .as_ref()
+            .and_then(|e| {
+                let idx = spotter_idx / 32;
+                let prop = format!("m_bSpottedByMask.{:03}", idx);
+                e.property_value(&prop)
+            })
+            .map(|v| {
+                let mask = v.int_val as u32;
+                (mask & (1 << (spotter_idx % 32))) != 0
+            })
+            .unwrap_or(false)
+    }
 }

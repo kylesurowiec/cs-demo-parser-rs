@@ -25,4 +25,17 @@ fn main() {
     for class in parser.server_classes() {
         println!("ServerClass: id={} name={}", class.id(), class.name());
     }
+
+    parser.parse_to_end().expect("parse error");
+
+    println!("\nPlayers:");
+    for player in parser.game_state().participants().connected() {
+        println!(
+            "{} scoped={} ducking={} bomb_zone={}",
+            player.name,
+            player.is_scoped(),
+            player.is_ducking(),
+            player.is_in_bomb_zone()
+        );
+    }
 }

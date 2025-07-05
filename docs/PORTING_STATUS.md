@@ -12,7 +12,7 @@ The legacy Go library under `pkg/` exposed a large API surface. The current `dem
 
 ## Game State and Entities
 - [ ] **Complete entity tracking** – add Source 1 entity tables and finish the Source 2 implementation (projectile ownership, dropped weapons, etc.).
-- [ ] **Full `Player` API** – port remaining helper methods (`IsInBombZone`, `IsDucking`, `IsScoped`, `IsSpottedBy`, etc.).
+ - [ ] **Full `Player` API** – basic helpers like `is_in_bomb_zone`, `is_ducking`, `is_scoped` and `is_spotted_by` implemented; more functions pending.
 - [ ] **Inferno and grenade helpers** – replicate convex hull calculations and trajectory tracking from `inferno.go` and `grenade.go`.
 - [ ] **Game rules and match info** – implement the structures and callbacks from `gamerules.go` and `matchinfo.go`.
 - [ ] **String table based equipment mapping** – parse item definitions for accurate equipment types.
