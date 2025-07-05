@@ -212,7 +212,9 @@ impl<R: Read> Parser<R> {
     }
 
     fn update_equipment_mapping_from_classes(&mut self) {
-        self.equipment_mapping = datatable::build_equipment_mapping(&self.server_classes);
+        let item_defs = self.string_tables.get("ItemDefinitions");
+        self.equipment_mapping =
+            datatable::build_equipment_mapping(&self.server_classes, item_defs);
         self.game_state.equipment_mapping = self.equipment_mapping.clone();
     }
 
