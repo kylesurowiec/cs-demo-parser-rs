@@ -743,3 +743,30 @@ pub struct VoteCast;
 
 #[derive(Clone, Debug)]
 pub struct TournamentReward;
+
+#[derive(Clone, Debug)]
+pub struct EndmatchCmmStartRevealItems;
+
+#[derive(Clone, Debug)]
+pub struct EntityKilled;
+
+#[derive(Clone, Debug)]
+pub struct GrenadeThrown;
+
+#[derive(Clone, Debug)]
+pub struct HltvTitle;
+
+#[derive(Clone, Debug)]
+pub struct HltvVersionInfo;
+
+#[derive(Clone, Debug)]
+pub struct PlayerActivate;
+
+#[derive(Clone, Debug)]
+pub struct RoundPoststart;
+
+#[derive(Clone, Debug)]
+pub struct RoundPrestart;
+
+#[derive(Clone, Debug)]
+pub struct RoundTimeWarning;
