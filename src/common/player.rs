@@ -212,4 +212,43 @@ impl Player {
             })
             .unwrap_or(false)
     }
+    pub fn has_spotted(&self, other: &Player) -> bool {
+        other.is_spotted_by(self)
+    }
+
+    pub fn is_in_buy_zone(&self) -> bool {
+        self.entity
+            .as_ref()
+            .and_then(|e| e.property_value("m_bInBuyZone"))
+            .map(|v| v.bool_val())
+            .unwrap_or(false)
+    }
+
+    pub fn is_walking(&self) -> bool {
+        self.entity
+            .as_ref()
+            .and_then(|e| e.property_value("m_bIsWalking"))
+            .map(|v| v.bool_val())
+            .unwrap_or(false)
+    }
+
+    pub fn is_grabbing_hostage(&self) -> bool {
+        self.entity
+            .as_ref()
+            .and_then(|e| e.property_value("m_bIsGrabbingHostage"))
+            .map(|v| v.bool_val())
+            .unwrap_or(false)
+    }
+
+    pub fn is_airborne(&self) -> bool {
+        self.entity
+            .as_ref()
+            .and_then(|e| e.property_value("m_hGroundEntity"))
+            .map(|v| v.int_val as u32 == constants::INVALID_ENTITY_HANDLE)
+            .unwrap_or(false)
+    }
+
+    pub fn is_blinded(&self) -> bool {
+        self.flash_duration > 0.0
+    }
 }
