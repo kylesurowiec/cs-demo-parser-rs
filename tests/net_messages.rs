@@ -58,6 +58,6 @@ net_msg_test!(net_file, msg::CnetMsgFile);
 net_msg_test!(net_split_screen_user, msg::CnetMsgSplitScreenUser);
 net_msg_test!(net_tick, msg::CnetMsgTick);
 net_msg_test!(net_string_cmd, msg::CnetMsgStringCmd);
-net_msg_test!(net_set_convar, msg::CnetMsgSetConVar);
+net_msg_test!(net_set_con_var, msg::CnetMsgSetConVar);
 net_msg_test!(net_signon_state, msg::CnetMsgSignonState);
 net_msg_test!(net_player_avatar_data, msg::CnetMsgPlayerAvatarData);

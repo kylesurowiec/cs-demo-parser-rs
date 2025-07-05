@@ -856,6 +856,7 @@ impl<R: Read> Parser<R> {
                         self.dispatch_net_message(msg);
                     }
                 },
+                | _ => {},
             }
         }
     }
