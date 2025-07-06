@@ -1,6 +1,6 @@
-use cs_demo_parser::parser::{EntityEvent, Parser};
-use cs_demo_parser::sendtables::EntityOp;
-use cs_demo_parser::sendtables2::{Class, Entity};
+use demoinfocs_rs::parser::{EntityEvent, Parser};
+use demoinfocs_rs::sendtables::EntityOp;
+use demoinfocs_rs::sendtables2::{Class, Entity};
 use std::io::Cursor;
 
 #[test]
@@ -54,11 +54,11 @@ fn track_active_grenades_and_infernos() {
 
 #[test]
 fn track_grenade_trajectory() {
-    use cs_demo_parser::common::new_grenade_projectile;
-    use cs_demo_parser::sendtables::entity::Vector;
+    use demoinfocs_rs::common::new_grenade_projectile;
+    use demoinfocs_rs::sendtables::entity::Vector;
     use std::time::Duration;
 
-    let mut gs = cs_demo_parser::game_state::GameState::default();
+    let mut gs = demoinfocs_rs::game_state::GameState::default();
     let g = new_grenade_projectile();
     gs.grenade_projectiles.insert(1, g);
 

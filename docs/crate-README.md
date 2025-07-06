@@ -36,7 +36,7 @@ You can adjust queue sizes or provide decryption keys via `ParserConfig`.
 When a key is set the parser automatically decrypts `svc_EncryptedData` messages:
 
 ```rust
-use cs_demo_parser::parser::{Parser, ParserConfig};
+use demoinfocs_rs::parser::{Parser, ParserConfig};
 use std::fs::File;
 
 let file = File::open("demo.dem")?;

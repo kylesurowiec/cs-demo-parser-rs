@@ -1,4 +1,4 @@
-use cs_demo_parser::{
+use demoinfocs_rs::{
     bitreader::BitReader,
     commands::CommandBuilder,
     proto::msgs2::{CnetMsgTick, NetMessages},

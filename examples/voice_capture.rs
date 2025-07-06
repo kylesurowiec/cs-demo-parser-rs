@@ -1,5 +1,5 @@
-use cs_demo_parser::parser::Parser;
-use cs_demo_parser::proto::{msg, msgs2};
+use demoinfocs_rs::parser::Parser;
+use demoinfocs_rs::proto::{msg, msgs2};
 use std::env;
 use std::fs::File;
 use std::io::{BufWriter, Write};

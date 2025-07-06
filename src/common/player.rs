@@ -5,21 +5,22 @@ use std::collections::HashMap;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
-#[derive(Default)]
 pub enum Team {
-    #[default]
     Unassigned = 0,
     Spectators = 1,
     Terrorists = 2,
     CounterTerrorists = 3,
 }
 
+impl Default for Team {
+    fn default() -> Self {
+        Team::Unassigned
+    }
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(i32)]
-#[derive(Default)]
 pub enum Color {
-    #[default]
     Grey = -1,
     Yellow = 0,
     Purple = 1,
@@ -28,6 +29,11 @@ pub enum Color {
     Orange = 4,
 }
 
+impl Default for Color {
+    fn default() -> Self {
+        Color::Grey
+    }
+}
 
 #[derive(Debug, Clone, Default)]
 pub struct Player {
@@ -54,7 +60,8 @@ pub struct Player {
 impl Player {
     pub fn position(&self) -> Vector {
         self.entity
-            .as_ref().map(|_| self.last_alive_position.clone())
+            .as_ref()
+            .and_then(|_| Some(self.last_alive_position.clone()))
             .unwrap_or_else(|| self.last_alive_position.clone())
     }
 
@@ -196,7 +203,7 @@ impl Player {
             .as_ref()
             .and_then(|e| {
                 let idx = spotter_idx / 32;
-                let prop = format!("m_bSpottedByMask.{idx:03}");
+                let prop = format!("m_bSpottedByMask.{:03}", idx);
                 e.property_value(&prop)
             })
             .map(|v| {

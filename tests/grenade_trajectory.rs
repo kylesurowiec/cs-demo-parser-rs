@@ -1,5 +1,5 @@
-use cs_demo_parser::common::{new_grenade_projectile};
-use cs_demo_parser::sendtables::entity::Vector;
+use demoinfocs_rs::common::{GrenadeProjectile, new_grenade_projectile};
+use demoinfocs_rs::sendtables::entity::Vector;
 use std::time::Duration;
 
 #[test]

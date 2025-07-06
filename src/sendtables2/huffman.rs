@@ -7,9 +7,7 @@ pub enum Node {
     Branch {
         weight: i32,
         value: usize,
-        #[allow(dead_code)]
         left: Box<Node>,
-        #[allow(dead_code)]
         right: Box<Node>,
     },
 }
@@ -27,18 +25,15 @@ impl Node {
             | Node::Branch { value, .. } => *value,
         }
     }
-    #[allow(dead_code)]
     pub fn is_leaf(&self) -> bool {
         matches!(self, Node::Leaf { .. })
     }
-    #[allow(dead_code)]
     pub fn left(&self) -> &Node {
         match self {
             | Node::Branch { left, .. } => left,
             | _ => panic!("no left"),
         }
     }
-    #[allow(dead_code)]
     pub fn right(&self) -> &Node {
         match self {
             | Node::Branch { right, .. } => right,

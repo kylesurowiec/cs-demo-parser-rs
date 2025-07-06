@@ -1,19 +1,16 @@
-use std::collections::HashMap;
-use std::io::Read;
-use std::sync::Arc;
-
-use prost::Message;
-
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
 use crate::game_state::GameState;
-use crate::proto::msg::cs_demo_parser_rs as proto_msg;
 use crate::sendtables1::TablesParser;
 use crate::sendtables2;
 use crate::stringtables;
 
 pub mod datatable;
-pub mod header;
+
+use prost::Message;
+use std::collections::HashMap;
+use std::io::Read;
+use std::sync::Arc;
 
 /// Error type returned by [`Parser`] operations.
 #[derive(Debug)]
@@ -22,27 +19,7 @@ pub enum ParserError {
     UnexpectedEndOfDemo,
     /// The input does not look like a valid demo file.
     InvalidFileType,
-    /// BitReader error.
-    BitReaderError(crate::bitreader::BitReaderError),
 }
-
-impl From<crate::bitreader::BitReaderError> for ParserError {
-    fn from(err: crate::bitreader::BitReaderError) -> Self {
-        ParserError::BitReaderError(err)
-    }
-}
-
-impl std::fmt::Display for ParserError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ParserError::UnexpectedEndOfDemo => write!(f, "Unexpected end of demo"),
-            ParserError::InvalidFileType => write!(f, "Invalid file type"),
-            ParserError::BitReaderError(err) => write!(f, "BitReader error: {}", err),
-        }
-    }
-}
-
-impl std::error::Error for ParserError {}
 
 /// Information parsed from a demo's header.
 #[derive(Default, Debug, Clone)]
@@ -78,7 +55,6 @@ pub struct StringTableUpdated {
 
 /// Configuration options for [`Parser`].
 #[derive(Debug, Clone)]
-#[derive(Default)]
 pub struct ParserConfig {
     /// Size of the internal message queue. `None` uses the default buffer
     /// size which is automatically determined from the demo header.
@@ -109,6 +85,21 @@ pub struct ParserConfig {
     pub tick_rate_override: Option<f64>,
 }
 
+impl Default for ParserConfig {
+    fn default() -> Self {
+        Self {
+            msg_queue_size: None,
+            decryption_key: None,
+            ignore_bombsite_index_not_found: false,
+            disable_mimic_source1_events: false,
+            source2_fallback_game_event_list_bin: None,
+            ignore_packet_entities_panic: false,
+            ignore_bad_encrypted_data: false,
+            ignore_missing_decryption_key: false,
+            tick_rate_override: None,
+        }
+    }
+}
 
 /// Parser for CS:GO / CS2 demo files.
 pub struct Parser<R: Read> {
@@ -301,10 +292,11 @@ impl<R: Read> Parser<R> {
     }
 
     pub fn progress(&self) -> f32 {
-        if let Some(h) = &self.header
-            && h.playback_frames > 0 {
+        if let Some(h) = &self.header {
+            if h.playback_frames > 0 {
                 return self.current_frame as f32 / h.playback_frames as f32;
             }
+        }
         0.0
     }
 
@@ -359,17 +351,19 @@ impl<R: Read> Parser<R> {
             self.parse_header()?;
         }
 
-        // Remove the panic catching - we now handle errors properly
-        match self
-            .header
-            .as_ref()
-            .map(|h| h.filestamp.as_str())
-            .unwrap_or("")
-        {
-            | "HL2DEMO" => self.parse_frame_s1(),
-            | "PBDEMS2" => self.parse_frame_s2(),
-            | _ => Ok(false),
-        }
+        std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            match self
+                .header
+                .as_ref()
+                .map(|h| h.filestamp.as_str())
+                .unwrap_or("")
+            {
+                | "HL2DEMO" => self.parse_frame_s1(),
+                | "PBDEMS2" => self.parse_frame_s2(),
+                | _ => Ok(false),
+            }
+        }))
+        .unwrap_or(Err(ParserError::UnexpectedEndOfDemo))
     }
 
     /// Parses the demo until the end.
@@ -383,17 +377,7 @@ impl<R: Read> Parser<R> {
     }
 
     fn parse_frame_s1(&mut self) -> Result<bool, ParserError> {
-        // Use the backward-compatible methods for now, but check for errors
         let cmd = self.bit_reader.read_int(8) as u8;
-        if cmd == 0 {
-            // Check if this is a real 0 or an error
-            let test = self.bit_reader.read_int(1);
-            if test == 0 {
-                // Likely hit EOF
-                return Err(ParserError::UnexpectedEndOfDemo);
-            }
-        }
-        
         let tick = self.bit_reader.read_signed_int(32);
         self.game_state.set_ingame_tick(tick);
         self.bit_reader.read_int(8); // player slot
@@ -402,49 +386,30 @@ impl<R: Read> Parser<R> {
             | 3 => Ok(true),  // synctick
             | 7 => Ok(false), // stop
             | 4 | 9 => {
-                let len = self.bit_reader.read_signed_int(32);
-                if len < 0 || len > 100_000_000 {
-                    // Sanity check
-                    return Err(ParserError::BitReaderError(crate::bitreader::BitReaderError::InvalidData(format!("Invalid length: {}", len))));
-                }
+                let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
             },
             | 8 => {
-                let len = self.bit_reader.read_signed_int(32);
-                if len < 0 || len > 10_000_000 {
-                    // Sanity check for string table size
-                    return Err(ParserError::BitReaderError(crate::bitreader::BitReaderError::InvalidData(format!("Invalid string table length: {}", len))));
-                }
-                let mut data = Vec::with_capacity(len as usize);
+                let len = self.bit_reader.read_signed_int(32) as usize;
+                let mut data = Vec::with_capacity(len);
                 for _ in 0..len {
-                    let byte = self.bit_reader.read_int(8) as u8;
-                    if byte == 0 && data.is_empty() {
-                        // Hit EOF
-                        return Err(ParserError::UnexpectedEndOfDemo);
-                    }
-                    data.push(byte);
+                    data.push(self.bit_reader.read_int(8) as u8);
                 }
                 self.parse_stringtable_packet(&data);
                 Ok(true)
             },
             | 6 => {
-                let len = self.bit_reader.read_signed_int(32);
-                if len < 0 || len > 10_000_000 {
-                    // Sanity check for datatables size
-                    return Err(ParserError::BitReaderError(crate::bitreader::BitReaderError::Other(format!("Invalid datatables length: {}", len))));
-                }
-                let mut data = Vec::with_capacity(len as usize);
+                let len = self.bit_reader.read_signed_int(32) as usize;
+                let mut data = Vec::with_capacity(len);
                 for _ in 0..len {
-                    let byte = self.bit_reader.read_int(8) as u8;
-                    if byte == 0 && data.is_empty() {
-                        // Hit EOF
-                        return Err(ParserError::UnexpectedEndOfDemo);
-                    }
-                    data.push(byte);
+                    data.push(self.bit_reader.read_int(8) as u8);
                 }
+
+                let _ = self.s1_tables.parse_packet(&data);
+                self.dispatch_event(crate::events::DataTablesParsed);
 
                 if self.s1_tables.parse_packet(&data).is_ok() {
                     self.server_classes = self.s1_tables.server_classes().to_vec();
@@ -456,43 +421,32 @@ impl<R: Read> Parser<R> {
             },
             | 5 => {
                 self.bit_reader.read_int(32); // unknown
-                let len = self.bit_reader.read_signed_int(32);
-                if len < 0 || len > 100_000_000 {
-                    return Err(ParserError::BitReaderError(format!("Invalid usercmd length: {}", len)));
-                }
+                let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
             },
             | 1 | 2 => {
-                // packet/signon
+                // packet
                 const SKIP_BITS: u32 = (152 + 4 + 4) * 8;
                 for _ in 0..SKIP_BITS {
                     self.bit_reader.read_bit();
                 }
-                let size = self.bit_reader.read_signed_int(32);
-                if size < 0 || size > 100_000_000 {
-                    return Err(ParserError::BitReaderError(format!("Invalid packet size: {}", size)));
-                }
-                
-                // Instead of reading byte by byte, we could skip if the reader supported it
+                let size = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..size {
-                    let byte = self.bit_reader.read_int(8);
-                    if byte == 0 && size > 1000 {
-                        // Might have hit EOF in a large packet
-                        return Err(ParserError::UnexpectedEndOfDemo);
-                    }
+                    self.bit_reader.read_int(8);
                 }
                 Ok(true)
             },
             | _ => Ok(true),
         }
-        .inspect(|&res| {
+        .map(|res| {
             if res {
                 self.current_frame += 1;
                 self.dispatch_event(crate::events::FrameDone);
             }
+            res
         })
     }
 
@@ -505,32 +459,15 @@ impl<R: Read> Parser<R> {
 
     fn parse_frame_s2(&mut self) -> Result<bool, ParserError> {
         let cmd = self.bit_reader.read_varint32();
-        if cmd == 0 {
-            // Check if this is a real 0 or an error
-            let test = self.bit_reader.read_int(1);
-            if test == 0 {
-                return Err(ParserError::UnexpectedEndOfDemo);
-            }
-        }
-        
         let msg_type = cmd & !64;
         let compressed = (cmd & 64) != 0;
         let tick = self.bit_reader.read_varint32();
         self.game_state.set_ingame_tick(tick as i32);
         let size = self.bit_reader.read_varint32();
 
-        if size > 100_000_000 {
-            return Err(ParserError::BitReaderError(crate::bitreader::BitReaderError::InvalidData(format!("Invalid frame size: {}", size))));
-        }
-
         let mut buf = Vec::with_capacity(size as usize);
         for _ in 0..size {
-            let byte = self.bit_reader.read_int(8) as u8;
-            if byte == 0 && buf.is_empty() && size > 0 {
-                // Hit EOF
-                return Err(ParserError::UnexpectedEndOfDemo);
-            }
-            buf.push(byte);
+            buf.push(self.bit_reader.read_int(8) as u8);
         }
 
         if compressed {
@@ -567,8 +504,8 @@ impl<R: Read> Parser<R> {
 
     pub fn handle_user_message(&mut self, um: &proto_msg::CsvcMsgUserMessage) {
         use crate::proto::msg::{self as proto_msg};
-        if let (Some(t), Some(data)) = (um.msg_type, &um.msg_data)
-            && let Ok(kind) = proto_msg::ECstrike15UserMessages::try_from(t) {
+        if let (Some(t), Some(data)) = (um.msg_type, &um.msg_data) {
+            if let Ok(kind) = proto_msg::ECstrike15UserMessages::try_from(t) {
                 match kind {
                     | proto_msg::ECstrike15UserMessages::CsUmSayText => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgSayText::decode(&data[..]) {
@@ -671,6 +608,7 @@ impl<R: Read> Parser<R> {
                     | _ => {},
                 }
             }
+        }
     }
 
     fn handle_encrypted_data(&mut self, msg: &proto_msg::CsvcMsgEncryptedData) {
@@ -707,29 +645,29 @@ impl<R: Read> Parser<R> {
         if let Ok(kind) = proto_msg::SvcMessages::try_from(msg_type as i32) {
             match kind {
                 | proto_msg::SvcMessages::SvcServerInfo => {
-                    if let Ok(msg) = proto_msg::CsvcMsgServerInfo::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgServerInfo::decode(&buf[..]) {
                         self.s2_tables.on_server_info(&msg);
                         self.game_state.match_info.map = msg.map_name.clone();
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcSendTable => {
-                    if let Ok(msg) = proto_msg::CsvcMsgSendTable::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgSendTable::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcClassInfo => {
-                    if let Ok(msg) = proto_msg::CsvcMsgClassInfo::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgClassInfo::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcSetPause => {
-                    if let Ok(msg) = proto_msg::CsvcMsgSetPause::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgSetPause::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcCreateStringTable => {
-                    if let Ok(msg) = proto_msg::CsvcMsgCreateStringTable::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgCreateStringTable::decode(&buf[..]) {
                         if let Some(t) = self.string_tables.on_create_string_table(&msg) {
                             self.dispatch_event(crate::events::StringTableCreated {
                                 table_name: t.name.clone(),
@@ -740,7 +678,7 @@ impl<R: Read> Parser<R> {
                     }
                 },
                 | proto_msg::SvcMessages::SvcUpdateStringTable => {
-                    if let Ok(msg) = proto_msg::CsvcMsgUpdateStringTable::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgUpdateStringTable::decode(&buf[..]) {
                         if let Some(t) = self.string_tables.on_update_string_table(&msg) {
                             self.dispatch_event(StringTableUpdated { table: t });
                         }
@@ -748,69 +686,69 @@ impl<R: Read> Parser<R> {
                     }
                 },
                 | proto_msg::SvcMessages::SvcVoiceInit => {
-                    if let Ok(msg) = proto_msg::CsvcMsgVoiceInit::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgVoiceInit::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcVoiceData => {
-                    if let Ok(msg) = proto_msg::CsvcMsgVoiceData::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgVoiceData::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcPrint => {
-                    if let Ok(msg) = proto_msg::CsvcMsgPrint::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgPrint::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcSounds => {
-                    if let Ok(msg) = proto_msg::CsvcMsgSounds::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgSounds::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcSetView => {
-                    if let Ok(msg) = proto_msg::CsvcMsgSetView::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgSetView::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcFixAngle => {
-                    if let Ok(msg) = proto_msg::CsvcMsgFixAngle::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgFixAngle::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcCrosshairAngle => {
-                    if let Ok(msg) = proto_msg::CsvcMsgCrosshairAngle::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgCrosshairAngle::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcBspDecal => {
-                    if let Ok(msg) = proto_msg::CsvcMsgBspDecal::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgBspDecal::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcSplitScreen => {
-                    if let Ok(msg) = proto_msg::CsvcMsgSplitScreen::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgSplitScreen::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcUserMessage => {
-                    if let Ok(msg) = proto_msg::CsvcMsgUserMessage::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgUserMessage::decode(&buf[..]) {
                         self.handle_user_message(&msg);
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcEntityMessage => {
-                    if let Ok(msg) = proto_msg::CsvcMsgEntityMsg::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgEntityMsg::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcGameEvent => {
-                    if let Ok(msg) = proto_msg::CsvcMsgGameEvent::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgGameEvent::decode(&buf[..]) {
                         self.on_game_event(&msg);
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcPacketEntities => {
-                    if let Ok(msg) = proto_msg::CsvcMsgPacketEntities::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgPacketEntities::decode(&buf[..]) {
                         for (ent, op) in self.s2_tables.parse_packet_entities(&msg) {
                             let ev = EntityEvent {
                                 entity: ent.clone(),
@@ -825,53 +763,53 @@ impl<R: Read> Parser<R> {
                     }
                 },
                 | proto_msg::SvcMessages::SvcTempEntities => {
-                    if let Ok(msg) = proto_msg::CsvcMsgTempEntities::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgTempEntities::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcPrefetch => {
-                    if let Ok(msg) = proto_msg::CsvcMsgPrefetch::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgPrefetch::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcMenu => {
-                    if let Ok(msg) = proto_msg::CsvcMsgMenu::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgMenu::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcGameEventList => {
-                    if let Ok(msg) = proto_msg::CsvcMsgGameEventList::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgGameEventList::decode(&buf[..]) {
                         self.on_game_event_list(&msg);
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcGetCvarValue => {
-                    if let Ok(msg) = proto_msg::CsvcMsgGetCvarValue::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgGetCvarValue::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcPaintmapData => {
-                    if let Ok(msg) = proto_msg::CsvcMsgPaintmapData::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgPaintmapData::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcCmdKeyValues => {
-                    if let Ok(msg) = proto_msg::CsvcMsgCmdKeyValues::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgCmdKeyValues::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcEncryptedData => {
-                    if let Ok(msg) = proto_msg::CsvcMsgEncryptedData::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgEncryptedData::decode(&buf[..]) {
                         self.handle_encrypted_data(&msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcHltvReplay => {
-                    if let Ok(msg) = proto_msg::CsvcMsgHltvReplay::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgHltvReplay::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::SvcMessages::SvcBroadcastCommand => {
-                    if let Ok(msg) = proto_msg::CsvcMsgBroadcastCommand::decode(buf) {
+                    if let Ok(msg) = proto_msg::CsvcMsgBroadcastCommand::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
@@ -879,37 +817,37 @@ impl<R: Read> Parser<R> {
         } else if let Ok(net) = proto_msg::NetMessages::try_from(msg_type as i32) {
             match net {
                 | proto_msg::NetMessages::NetNop => {
-                    if let Ok(msg) = proto_msg::CnetMsgNop::decode(buf) {
+                    if let Ok(msg) = proto_msg::CnetMsgNop::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::NetMessages::NetDisconnect => {
-                    if let Ok(msg) = proto_msg::CnetMsgDisconnect::decode(buf) {
+                    if let Ok(msg) = proto_msg::CnetMsgDisconnect::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::NetMessages::NetFile => {
-                    if let Ok(msg) = proto_msg::CnetMsgFile::decode(buf) {
+                    if let Ok(msg) = proto_msg::CnetMsgFile::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::NetMessages::NetSplitScreenUser => {
-                    if let Ok(msg) = proto_msg::CnetMsgSplitScreenUser::decode(buf) {
+                    if let Ok(msg) = proto_msg::CnetMsgSplitScreenUser::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::NetMessages::NetTick => {
-                    if let Ok(msg) = proto_msg::CnetMsgTick::decode(buf) {
+                    if let Ok(msg) = proto_msg::CnetMsgTick::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::NetMessages::NetStringCmd => {
-                    if let Ok(msg) = proto_msg::CnetMsgStringCmd::decode(buf) {
+                    if let Ok(msg) = proto_msg::CnetMsgStringCmd::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::NetMessages::NetSetConVar => {
-                    if let Ok(msg) = proto_msg::CnetMsgSetConVar::decode(buf) {
+                    if let Ok(msg) = proto_msg::CnetMsgSetConVar::decode(&buf[..]) {
                         if let Some(ref cvars) = msg.convars {
                             let mut map = HashMap::new();
                             for cv in &cvars.cvars {
@@ -929,12 +867,12 @@ impl<R: Read> Parser<R> {
                     }
                 },
                 | proto_msg::NetMessages::NetSignonState => {
-                    if let Ok(msg) = proto_msg::CnetMsgSignonState::decode(buf) {
+                    if let Ok(msg) = proto_msg::CnetMsgSignonState::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
                 | proto_msg::NetMessages::NetPlayerAvatarData => {
-                    if let Ok(msg) = proto_msg::CnetMsgPlayerAvatarData::decode(buf) {
+                    if let Ok(msg) = proto_msg::CnetMsgPlayerAvatarData::decode(&buf[..]) {
                         self.dispatch_net_message(msg);
                     }
                 },
@@ -942,3 +880,5 @@ impl<R: Read> Parser<R> {
         }
     }
 }
+
+use crate::proto::msg::cs_demo_parser_rs as proto_msg;

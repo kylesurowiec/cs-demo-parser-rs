@@ -318,11 +318,13 @@ impl GameState {
                 self.add_entity(ev.entity.clone());
                 self.update_special_entities(&ev.entity);
             }
-        } else if any.is::<crate::events::FrameDone>()
-            && let Some(fb) = self.flying_flashbangs.first()
-                && fb.exploded_frame > 0 && fb.exploded_frame < self.ingame_tick {
+        } else if any.is::<crate::events::FrameDone>() {
+            if let Some(fb) = self.flying_flashbangs.first() {
+                if fb.exploded_frame > 0 && fb.exploded_frame < self.ingame_tick {
                     self.flying_flashbangs.remove(0);
                 }
+            }
+        }
     }
 
     pub fn handle_net_message<M: 'static>(&mut self, msg: &M) {

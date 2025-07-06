@@ -1,7 +1,7 @@
-use cs_demo_parser::common::{Equipment, EquipmentType, Player};
-use cs_demo_parser::sendtables::entity::{Entity, FlattenedPropEntry, Property, PropertyValue};
-use cs_demo_parser::sendtables::propdecoder::SendTableProperty;
-use cs_demo_parser::sendtables::serverclass::ServerClass;
+use demoinfocs_rs::common::{Equipment, EquipmentType, Player};
+use demoinfocs_rs::sendtables::entity::{Entity, FlattenedPropEntry, Property, PropertyValue};
+use demoinfocs_rs::sendtables::propdecoder::SendTableProperty;
+use demoinfocs_rs::sendtables::serverclass::ServerClass;
 use std::collections::HashMap;
 use std::sync::Arc;
 
@@ -134,7 +134,7 @@ fn extra_helpers() {
         ("m_bIsGrabbingHostage", 0),
         (
             "m_hGroundEntity",
-            cs_demo_parser::constants::INVALID_ENTITY_HANDLE as i32,
+            demoinfocs_rs::constants::INVALID_ENTITY_HANDLE as i32,
         ),
     ]);
     let p = Player {

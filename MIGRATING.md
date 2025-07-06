@@ -2,7 +2,7 @@
 
 This repository originally provided a Go library for demo parsing. The new Rust crate exposes a similar API. The following table lists common calls in the Go library and their equivalents in Rust.
 
-| Go API (package `demoinfocs`) | Rust API (`cs_demo_parser`) |
+| Go API (package `demoinfocs`) | Rust API (`demoinfocs_rs`) |
 | ----------------------------- | -------------------------- |
 | `demoinfocs.NewParser(r)` | `Parser::new(r)` |
 | `Parser.ParseHeader()` | `parser.parse_header()` |
@@ -32,7 +32,7 @@ Below are short snippets demonstrating common tasks with the Rust API.
 Register a handler for all game events and parse the demo to the end:
 
 ```rust
-use cs_demo_parser::{events::GenericGameEvent, parser::Parser};
+use demoinfocs_rs::{events::GenericGameEvent, parser::Parser};
 use std::fs::File;
 
 let file = File::open("demo.dem")?;

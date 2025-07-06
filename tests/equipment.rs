@@ -1,7 +1,7 @@
-use cs_demo_parser::common::{EquipmentType, map_equipment};
-use cs_demo_parser::parser::datatable::build_equipment_mapping;
-use cs_demo_parser::sendtables::serverclass::ServerClass;
-use cs_demo_parser::stringtables::{StringTable, StringTableEntry};
+use demoinfocs_rs::common::{EquipmentType, map_equipment};
+use demoinfocs_rs::parser::datatable::build_equipment_mapping;
+use demoinfocs_rs::sendtables::serverclass::ServerClass;
+use demoinfocs_rs::stringtables::{StringTable, StringTableEntry};
 
 #[test]
 fn test_map_equipment_basic() {
