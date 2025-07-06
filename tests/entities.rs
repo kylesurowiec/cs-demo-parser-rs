@@ -1,7 +1,9 @@
-use demoinfocs_rs::bitreader::BitReader;
-use demoinfocs_rs::sendtables::entity::{FlattenedPropEntry, PropertyValue};
-use demoinfocs_rs::sendtables::propdecoder::{PROP_TYPE_INT, SendPropertyFlags, SendTableProperty};
-use demoinfocs_rs::sendtables::serverclass::ServerClass;
+use cs_demo_parser::bitreader::BitReader;
+use cs_demo_parser::sendtables::entity::{FlattenedPropEntry, PropertyValue};
+use cs_demo_parser::sendtables::propdecoder::{
+    PROP_TYPE_INT, SendPropertyFlags, SendTableProperty,
+};
+use cs_demo_parser::sendtables::serverclass::ServerClass;
 
 #[test]
 #[ignore]

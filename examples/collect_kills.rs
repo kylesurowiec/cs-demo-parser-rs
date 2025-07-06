@@ -1,12 +1,12 @@
-use demoinfocs_rs::events::Kill;
-use demoinfocs_rs::parser::Parser;
+use cs_demo_parser::events::Kill;
+use cs_demo_parser::parser::Parser;
 use std::env;
 use std::fs::File;
 
 /// Collects all kill events of the provided parser.
 fn collect_kills(
     parser: &mut Parser<File>,
-) -> Result<Vec<Kill>, demoinfocs_rs::parser::ParserError> {
+) -> Result<Vec<Kill>, cs_demo_parser::parser::ParserError> {
     use std::sync::{Arc, Mutex};
 
     let kills = Arc::new(Mutex::new(Vec::new()));

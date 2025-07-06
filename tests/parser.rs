@@ -1,4 +1,4 @@
-use demoinfocs_rs::parser::Parser;
+use cs_demo_parser::parser::Parser;
 use std::io::Cursor;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};

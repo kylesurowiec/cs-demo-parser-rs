@@ -1,6 +1,6 @@
-# demoinfocs-rs
+# cs-demo-parser
 
-`demoinfocs-rs` is an experimental Rust crate for parsing Counter-Strike demo files. It is located at the repository root and is not yet published on crates.io.
+`cs-demo-parser` is an experimental Rust crate for parsing Counter-Strike demo files. It is located at the repository root and is not yet published on crates.io.
 
 ## Building
 
@@ -36,7 +36,7 @@ You can adjust queue sizes or provide decryption keys via `ParserConfig`.
 When a key is set the parser automatically decrypts `svc_EncryptedData` messages:
 
 ```rust
-use demoinfocs_rs::parser::{Parser, ParserConfig};
+use cs_demo_parser::parser::{Parser, ParserConfig};
 use std::fs::File;
 
 let file = File::open("demo.dem")?;

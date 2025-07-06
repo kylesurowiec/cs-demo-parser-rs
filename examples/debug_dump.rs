@@ -1,4 +1,4 @@
-use demoinfocs_rs::parser::Parser;
+use cs_demo_parser::parser::Parser;
 use std::fs::File;
 use std::io::{Read, Seek, SeekFrom};
 

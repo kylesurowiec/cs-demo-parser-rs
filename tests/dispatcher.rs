@@ -1,4 +1,4 @@
-use demoinfocs_rs::dispatcher::{Dispatcher, EventDispatcher};
+use cs_demo_parser::dispatcher::{Dispatcher, EventDispatcher};
 use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::thread;

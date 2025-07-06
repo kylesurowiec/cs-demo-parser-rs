@@ -1,7 +1,7 @@
 #[path = "mock_parser.rs"]
 mod mock_parser;
 
-use demoinfocs_rs::parser::{Parser, ParserError};
+use cs_demo_parser::parser::{Parser, ParserError};
 use mock_parser::MockParser;
 use std::io::Cursor;
 use std::sync::{

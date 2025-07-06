@@ -1,7 +1,7 @@
 // This creates a wrapper around the demo file that logs all read operations
 // Save this as examples/debug_parse.rs
 
-use demoinfocs_rs::parser::Parser;
+use cs_demo_parser::parser::Parser;
 use std::fs::File;
 use std::io::{Read, Result};
 
