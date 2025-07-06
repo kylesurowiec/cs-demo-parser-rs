@@ -19,6 +19,8 @@ pub enum ParserError {
     UnexpectedEndOfDemo,
     /// The input does not look like a valid demo file.
     InvalidFileType,
+    /// The file appears to be a Git LFS pointer rather than a demo.
+    GitLfsPointer,
 }
 
 /// Information parsed from a demo's header.
@@ -326,6 +328,7 @@ impl<R: Read> Parser<R> {
         header.filestamp = self.bit_reader.read_c_string(8);
         match header.filestamp.as_str() {
             | "HL2DEMO" | "PBDEMS2" => {},
+            | "version" | "version " => return Err(ParserError::GitLfsPointer),
             | _ => return Err(ParserError::InvalidFileType),
         }
 
