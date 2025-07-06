@@ -4,7 +4,7 @@
 Run all Rust tests from the repository root:
 
 ```bash
-cargo test --manifest-path demoinfocs-rs/Cargo.toml
+cargo test
 ```
 
 ## Style Checks
@@ -16,7 +16,7 @@ cargo clippy
 ```
 
 ## Deprecated Go Code
-The old Go implementation inside `pkg/` and various example folders is no longer maintained. Only modify the Rust crate in `demoinfocs-rs`.
+The old Go implementation inside `pkg/` and various example folders is no longer maintained. Only modify the Rust crate.
 
 ## Continuous Integration
 CI builds the crate, checks formatting, runs clippy and tests. It also expects the examples under `demoinfocs-rs/examples` to compile.
