@@ -66,15 +66,17 @@ impl<R: Read> BitReader<R> {
     }
 
     fn read_string_limited(&mut self, limit: usize, end_on_newline: bool) -> String {
-        let mut result = Vec::with_capacity(256);
+        let mut buf = Vec::with_capacity(limit);
         for _ in 0..limit {
-            let b = self.read_single_byte();
-            if b == 0 || (end_on_newline && b == b'\n') {
-                break;
-            }
-            result.push(b);
+            buf.push(self.read_single_byte());
         }
-        String::from_utf8(result).unwrap_or_default()
+
+        let end = buf
+            .iter()
+            .position(|&b| b == 0 || (end_on_newline && b == b'\n'))
+            .unwrap_or(limit);
+
+        String::from_utf8(buf[..end].to_vec()).unwrap_or_default()
     }
 
     pub fn read_varint32(&mut self) -> u32 {
