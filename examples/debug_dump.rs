@@ -1,6 +1,39 @@
 use cs_demo_parser::parser::Parser;
 use std::fs::File;
 use std::io::{Read, Seek, SeekFrom};
+use std::sync::{
+    Arc,
+    atomic::{AtomicU64, Ordering},
+};
+
+/// Wrapper that tracks how many bytes have been read from the underlying file.
+struct DebugReader {
+    inner: File,
+    pos: Arc<AtomicU64>,
+}
+
+impl DebugReader {
+    fn new(file: File, pos: Arc<AtomicU64>) -> Self {
+        Self { inner: file, pos }
+    }
+}
+
+impl Read for DebugReader {
+    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+        let n = self.inner.read(buf)?;
+        let p = self.pos.load(Ordering::SeqCst);
+        self.pos.store(p + n as u64, Ordering::SeqCst);
+        Ok(n)
+    }
+}
+
+impl Seek for DebugReader {
+    fn seek(&mut self, pos: SeekFrom) -> std::io::Result<u64> {
+        let new = self.inner.seek(pos)?;
+        self.pos.store(new, Ordering::SeqCst);
+        Ok(new)
+    }
+}
 
 fn main() {
     let path = std::env::args()
@@ -32,7 +65,9 @@ fn main() {
 
     // Reset reader for parser
     file.seek(SeekFrom::Start(0)).expect("seek back");
-    let mut parser = Parser::new(file);
+    let pos = Arc::new(AtomicU64::new(0));
+    let reader = DebugReader::new(file, pos.clone());
+    let mut parser = Parser::new(reader);
 
     println!("\nParsing with library...");
     if let Err(e) = parser.parse_header() {
@@ -44,9 +79,10 @@ fn main() {
         match parser.parse_next_frame() {
             | Ok(true) => {
                 println!(
-                    "Frame {} parsed at tick {}",
+                    "Frame {} parsed at tick {} (offset {} bytes)",
                     i,
-                    parser.game_state().ingame_tick()
+                    parser.game_state().ingame_tick(),
+                    pos.load(Ordering::SeqCst)
                 );
             },
             | Ok(false) => {
@@ -57,13 +93,13 @@ fn main() {
                 eprintln!("Error on frame {}: {:?}", i, e);
                 let progress = parser.progress();
                 println!("Progress: {:.2}%", progress * 100.0);
+                let pos_bytes = pos.load(Ordering::SeqCst) as i64;
                 if let Ok(mut f) = File::open(&path) {
-                    let pos = (size as f32 * progress) as i64;
-                    let start = if pos > 16 { pos - 16 } else { 0 };
+                    let start = if pos_bytes > 16 { pos_bytes - 16 } else { 0 };
                     if f.seek(SeekFrom::Start(start as u64)).is_ok() {
                         let mut buf = [0u8; 32];
                         if let Ok(n) = f.read(&mut buf) {
-                            print!("Bytes around position {}:", pos);
+                            print!("Bytes around position {}:", pos_bytes);
                             for b in &buf[..n] {
                                 print!(" {:02x}", b);
                             }
