@@ -386,25 +386,20 @@ impl<R: Read> Parser<R> {
         self.bit_reader.read_int(8); // player slot
 
         match cmd {
-            | 3 => Ok(true),  // synctick
-            | 7 => Ok(false), // stop
-            | 4 | 9 => {
+            // SyncTick
+            3 => Ok(true),
+            // Stop
+            0 => Ok(false),
+            // Console command
+            9 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
-            },
-            | 8 => {
-                let len = self.bit_reader.read_signed_int(32) as usize;
-                let mut data = Vec::with_capacity(len);
-                for _ in 0..len {
-                    data.push(self.bit_reader.read_int(8) as u8);
-                }
-                self.parse_stringtable_packet(&data);
-                Ok(true)
-            },
-            | 6 => {
+            }
+            // Send tables
+            4 => {
                 let len = self.bit_reader.read_signed_int(32) as usize;
                 let mut data = Vec::with_capacity(len);
                 for _ in 0..len {
@@ -421,17 +416,28 @@ impl<R: Read> Parser<R> {
                 }
 
                 Ok(true)
-            },
-            | 5 => {
-                self.bit_reader.read_int(32); // unknown
+            }
+            // String tables
+            6 => {
+                let len = self.bit_reader.read_signed_int(32) as usize;
+                let mut data = Vec::with_capacity(len);
+                for _ in 0..len {
+                    data.push(self.bit_reader.read_int(8) as u8);
+                }
+                self.parse_stringtable_packet(&data);
+                Ok(true)
+            }
+            // User command
+            12 => {
+                self.bit_reader.read_int(32); // command number
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
-            },
-            | 1 | 2 => {
-                // packet
+            }
+            // Packets (normal, signon or full)
+            7 | 8 | 13 => {
                 const SKIP_BITS: u32 = (152 + 4 + 4) * 8;
                 for _ in 0..SKIP_BITS {
                     self.bit_reader.read_bit();
@@ -441,8 +447,16 @@ impl<R: Read> Parser<R> {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
-            },
-            | _ => Ok(true),
+            }
+            // Unhandled but length-prefixed commands
+            1 | 2 | 5 | 10 | 11 | 14 | 15 | 16 | 17 | 18 => {
+                let len = self.bit_reader.read_signed_int(32) as u32;
+                for _ in 0..len {
+                    self.bit_reader.read_int(8);
+                }
+                Ok(true)
+            }
+            _ => Ok(true),
         }
         .map(|res| {
             if res {
