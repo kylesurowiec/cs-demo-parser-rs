@@ -5,23 +5,11 @@ use crate::sendtables::entity::Vector;
 use std::collections::HashMap;
 use std::time::Duration;
 
-#[derive(Clone, Debug, Default)]
-pub struct Player;
-
-#[derive(Clone, Debug, Default)]
-pub struct Equipment;
+// Use the actual types from common module instead of placeholders
+pub use crate::common::{Player, Equipment, GrenadeProjectile, Hostage, Inferno};
 
 #[derive(Clone, Debug, Default)]
 pub struct TeamState;
-
-#[derive(Clone, Debug, Default)]
-pub struct GrenadeProjectile;
-
-#[derive(Clone, Debug, Default)]
-pub struct Hostage;
-
-#[derive(Clone, Debug, Default)]
-pub struct Inferno;
 
 #[derive(Clone, Debug, Default)]
 pub struct PlayerInfoData;

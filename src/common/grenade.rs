@@ -1,16 +1,18 @@
+use std::sync::atomic::{AtomicI64, Ordering};
+use std::time::Duration;
+
 use super::{Equipment, Player};
 use crate::sendtables::entity::Vector;
 use crate::sendtables2::Entity;
-use std::time::Duration;
 
-#[derive(Default)]
+#[derive(Clone, Debug, Default)]
 pub struct TrajectoryEntry {
     pub position: Vector,
     pub frame_id: i32,
     pub time: Duration,
 }
 
-#[derive(Default)]
+#[derive(Clone, Debug, Default)]
 pub struct GrenadeProjectile {
     pub entity: Option<Entity>,
     pub weapon_instance: Option<Equipment>,
@@ -20,8 +22,6 @@ pub struct GrenadeProjectile {
     pub trajectory2: Vec<TrajectoryEntry>,
     pub unique_id: i64,
 }
-
-use std::sync::atomic::{AtomicI64, Ordering};
 
 static NEXT_ID: AtomicI64 = AtomicI64::new(1);
 

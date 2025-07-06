@@ -13,7 +13,7 @@ pub enum HostageState {
     Dead = 7,
 }
 
-#[derive(Default)]
+#[derive(Clone, Debug, Default)]
 pub struct Hostage {
     pub entity: Option<Entity>,
 }

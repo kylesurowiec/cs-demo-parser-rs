@@ -43,11 +43,13 @@ impl FieldPath {
     }
 }
 
+#[allow(dead_code)]
 struct FieldPathOp {
     weight: i32,
     op: fn(&mut Reader, &mut FieldPath),
 }
 
+#[allow(dead_code)]
 static FIELD_PATH_TABLE: &[FieldPathOp] = &[
     FieldPathOp {
         weight: 36271,
@@ -387,11 +389,13 @@ static FIELD_PATH_TABLE: &[FieldPathOp] = &[
     },
 ];
 
+#[allow(dead_code)]
 static HUFFMAN_TREE: Lazy<Node> = Lazy::new(|| {
     let freqs: Vec<i32> = FIELD_PATH_TABLE.iter().map(|op| op.weight).collect();
     build_huffman_tree(&freqs)
 });
 
+#[allow(dead_code)]
 pub fn read_field_paths(r: &mut Reader, paths: &mut Vec<FieldPath>) -> usize {
     let mut fp = FieldPath::new();
     let mut node = &*HUFFMAN_TREE;

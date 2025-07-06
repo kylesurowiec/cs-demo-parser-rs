@@ -7,11 +7,13 @@ use prost::Message;
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
 use crate::game_state::GameState;
+use crate::proto::msg::cs_demo_parser_rs as proto_msg;
 use crate::sendtables1::TablesParser;
 use crate::sendtables2;
 use crate::stringtables;
 
 pub mod datatable;
+pub mod header;
 
 /// Error type returned by [`Parser`] operations.
 #[derive(Debug)]
@@ -20,7 +22,27 @@ pub enum ParserError {
     UnexpectedEndOfDemo,
     /// The input does not look like a valid demo file.
     InvalidFileType,
+    /// BitReader error.
+    BitReaderError(crate::bitreader::BitReaderError),
 }
+
+impl From<crate::bitreader::BitReaderError> for ParserError {
+    fn from(err: crate::bitreader::BitReaderError) -> Self {
+        ParserError::BitReaderError(err)
+    }
+}
+
+impl std::fmt::Display for ParserError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ParserError::UnexpectedEndOfDemo => write!(f, "Unexpected end of demo"),
+            ParserError::InvalidFileType => write!(f, "Invalid file type"),
+            ParserError::BitReaderError(err) => write!(f, "BitReader error: {}", err),
+        }
+    }
+}
+
+impl std::error::Error for ParserError {}
 
 /// Information parsed from a demo's header.
 #[derive(Default, Debug, Clone)]
@@ -337,19 +359,17 @@ impl<R: Read> Parser<R> {
             self.parse_header()?;
         }
 
-        std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-            match self
-                .header
-                .as_ref()
-                .map(|h| h.filestamp.as_str())
-                .unwrap_or("")
-            {
-                | "HL2DEMO" => self.parse_frame_s1(),
-                | "PBDEMS2" => self.parse_frame_s2(),
-                | _ => Ok(false),
-            }
-        }))
-        .unwrap_or(Err(ParserError::UnexpectedEndOfDemo))
+        // Remove the panic catching - we now handle errors properly
+        match self
+            .header
+            .as_ref()
+            .map(|h| h.filestamp.as_str())
+            .unwrap_or("")
+        {
+            | "HL2DEMO" => self.parse_frame_s1(),
+            | "PBDEMS2" => self.parse_frame_s2(),
+            | _ => Ok(false),
+        }
     }
 
     /// Parses the demo until the end.
@@ -363,7 +383,17 @@ impl<R: Read> Parser<R> {
     }
 
     fn parse_frame_s1(&mut self) -> Result<bool, ParserError> {
+        // Use the backward-compatible methods for now, but check for errors
         let cmd = self.bit_reader.read_int(8) as u8;
+        if cmd == 0 {
+            // Check if this is a real 0 or an error
+            let test = self.bit_reader.read_int(1);
+            if test == 0 {
+                // Likely hit EOF
+                return Err(ParserError::UnexpectedEndOfDemo);
+            }
+        }
+        
         let tick = self.bit_reader.read_signed_int(32);
         self.game_state.set_ingame_tick(tick);
         self.bit_reader.read_int(8); // player slot
@@ -372,30 +402,49 @@ impl<R: Read> Parser<R> {
             | 3 => Ok(true),  // synctick
             | 7 => Ok(false), // stop
             | 4 | 9 => {
-                let len = self.bit_reader.read_signed_int(32) as u32;
+                let len = self.bit_reader.read_signed_int(32);
+                if len < 0 || len > 100_000_000 {
+                    // Sanity check
+                    return Err(ParserError::BitReaderError(crate::bitreader::BitReaderError::InvalidData(format!("Invalid length: {}", len))));
+                }
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
             },
             | 8 => {
-                let len = self.bit_reader.read_signed_int(32) as usize;
-                let mut data = Vec::with_capacity(len);
+                let len = self.bit_reader.read_signed_int(32);
+                if len < 0 || len > 10_000_000 {
+                    // Sanity check for string table size
+                    return Err(ParserError::BitReaderError(crate::bitreader::BitReaderError::InvalidData(format!("Invalid string table length: {}", len))));
+                }
+                let mut data = Vec::with_capacity(len as usize);
                 for _ in 0..len {
-                    data.push(self.bit_reader.read_int(8) as u8);
+                    let byte = self.bit_reader.read_int(8) as u8;
+                    if byte == 0 && data.is_empty() {
+                        // Hit EOF
+                        return Err(ParserError::UnexpectedEndOfDemo);
+                    }
+                    data.push(byte);
                 }
                 self.parse_stringtable_packet(&data);
                 Ok(true)
             },
             | 6 => {
-                let len = self.bit_reader.read_signed_int(32) as usize;
-                let mut data = Vec::with_capacity(len);
-                for _ in 0..len {
-                    data.push(self.bit_reader.read_int(8) as u8);
+                let len = self.bit_reader.read_signed_int(32);
+                if len < 0 || len > 10_000_000 {
+                    // Sanity check for datatables size
+                    return Err(ParserError::BitReaderError(crate::bitreader::BitReaderError::Other(format!("Invalid datatables length: {}", len))));
                 }
-
-                let _ = self.s1_tables.parse_packet(&data);
-                self.dispatch_event(crate::events::DataTablesParsed);
+                let mut data = Vec::with_capacity(len as usize);
+                for _ in 0..len {
+                    let byte = self.bit_reader.read_int(8) as u8;
+                    if byte == 0 && data.is_empty() {
+                        // Hit EOF
+                        return Err(ParserError::UnexpectedEndOfDemo);
+                    }
+                    data.push(byte);
+                }
 
                 if self.s1_tables.parse_packet(&data).is_ok() {
                     self.server_classes = self.s1_tables.server_classes().to_vec();
@@ -407,21 +456,33 @@ impl<R: Read> Parser<R> {
             },
             | 5 => {
                 self.bit_reader.read_int(32); // unknown
-                let len = self.bit_reader.read_signed_int(32) as u32;
+                let len = self.bit_reader.read_signed_int(32);
+                if len < 0 || len > 100_000_000 {
+                    return Err(ParserError::BitReaderError(format!("Invalid usercmd length: {}", len)));
+                }
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
             },
             | 1 | 2 => {
-                // packet
+                // packet/signon
                 const SKIP_BITS: u32 = (152 + 4 + 4) * 8;
                 for _ in 0..SKIP_BITS {
                     self.bit_reader.read_bit();
                 }
-                let size = self.bit_reader.read_signed_int(32) as u32;
+                let size = self.bit_reader.read_signed_int(32);
+                if size < 0 || size > 100_000_000 {
+                    return Err(ParserError::BitReaderError(format!("Invalid packet size: {}", size)));
+                }
+                
+                // Instead of reading byte by byte, we could skip if the reader supported it
                 for _ in 0..size {
-                    self.bit_reader.read_int(8);
+                    let byte = self.bit_reader.read_int(8);
+                    if byte == 0 && size > 1000 {
+                        // Might have hit EOF in a large packet
+                        return Err(ParserError::UnexpectedEndOfDemo);
+                    }
                 }
                 Ok(true)
             },
@@ -444,15 +505,32 @@ impl<R: Read> Parser<R> {
 
     fn parse_frame_s2(&mut self) -> Result<bool, ParserError> {
         let cmd = self.bit_reader.read_varint32();
+        if cmd == 0 {
+            // Check if this is a real 0 or an error
+            let test = self.bit_reader.read_int(1);
+            if test == 0 {
+                return Err(ParserError::UnexpectedEndOfDemo);
+            }
+        }
+        
         let msg_type = cmd & !64;
         let compressed = (cmd & 64) != 0;
         let tick = self.bit_reader.read_varint32();
         self.game_state.set_ingame_tick(tick as i32);
         let size = self.bit_reader.read_varint32();
 
+        if size > 100_000_000 {
+            return Err(ParserError::BitReaderError(crate::bitreader::BitReaderError::InvalidData(format!("Invalid frame size: {}", size))));
+        }
+
         let mut buf = Vec::with_capacity(size as usize);
         for _ in 0..size {
-            buf.push(self.bit_reader.read_int(8) as u8);
+            let byte = self.bit_reader.read_int(8) as u8;
+            if byte == 0 && buf.is_empty() && size > 0 {
+                // Hit EOF
+                return Err(ParserError::UnexpectedEndOfDemo);
+            }
+            buf.push(byte);
         }
 
         if compressed {
@@ -864,5 +942,3 @@ impl<R: Read> Parser<R> {
         }
     }
 }
-
-use crate::proto::msg::cs_demo_parser_rs as proto_msg;

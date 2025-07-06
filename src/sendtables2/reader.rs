@@ -72,10 +72,12 @@ impl<'a> Reader<'a> {
         ret
     }
 
+    #[allow(dead_code)]
     pub fn read_boolean(&mut self) -> bool {
         self.read_bits(1) == 1
     }
 
+    #[allow(dead_code)]
     pub fn read_var_int32(&mut self) -> i32 {
         let ux = self.read_var_uint32();
         let mut x = (ux >> 1) as i32;
@@ -85,6 +87,7 @@ impl<'a> Reader<'a> {
         x
     }
 
+    #[allow(dead_code)]
     pub fn read_var_uint64(&mut self) -> u64 {
         let mut x = 0u64;
         let mut s = 0u32;
@@ -102,6 +105,7 @@ impl<'a> Reader<'a> {
         x
     }
 
+    #[allow(dead_code)]
     pub fn read_var_int64(&mut self) -> i64 {
         let ux = self.read_var_uint64();
         let mut x = (ux >> 1) as i64;
@@ -111,6 +115,7 @@ impl<'a> Reader<'a> {
         x
     }
 
+    #[allow(dead_code)]
     pub fn read_ubit_var_fp(&mut self) -> u32 {
         if self.read_boolean() {
             return self.read_bits(2);
@@ -127,6 +132,7 @@ impl<'a> Reader<'a> {
         self.read_bits(31)
     }
 
+    #[allow(dead_code)]
     pub fn read_ubit_var_field_path(&mut self) -> usize {
         self.read_ubit_var_fp() as usize
     }

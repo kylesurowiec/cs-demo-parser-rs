@@ -2,7 +2,7 @@ use crate::sendtables::entity::Vector;
 use crate::sendtables2::Entity;
 
 /// Representation of an active inferno (molotov/incendiary flames).
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone)]
 pub struct Inferno {
     /// Underlying entity for the inferno if available.
     pub entity: Option<Entity>,
