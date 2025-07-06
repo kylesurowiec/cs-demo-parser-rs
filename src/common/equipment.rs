@@ -88,12 +88,11 @@ pub enum EquipmentType {
     He = 506,
 }
 
-
 impl EquipmentType {
     pub fn class(self) -> EquipmentClass {
         let val = self as i32;
         let class_denominator = 100;
-        EquipmentClass::from((((val + class_denominator - 1) / class_denominator)))
+        EquipmentClass::from((val + class_denominator - 1) / class_denominator)
     }
 
     pub fn as_str(self) -> &'static str {

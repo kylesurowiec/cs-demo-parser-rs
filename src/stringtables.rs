@@ -1,7 +1,8 @@
 use std::collections::HashMap;
 
-use crate::proto::msg::cs_demo_parser_rs as msg;
 use prost::Message;
+
+use crate::proto::msg::cs_demo_parser_rs as msg;
 
 #[derive(Debug, Default, Clone)]
 pub struct StringTableEntry {
@@ -53,7 +54,7 @@ impl StringTables {
                 if let Some(data) = &msg.string_data {
                     let entry = StringTableEntry {
                         value: String::from_utf8_lossy(data).into_owned(),
-                        user_data: data.clone(),
+                        user_data: data.to_vec(),
                     };
                     let idx = table.entries.len() as i32;
                     table.entries.insert(idx, entry);

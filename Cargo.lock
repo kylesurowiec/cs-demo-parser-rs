@@ -350,17 +350,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "demoinfocs-proto"
-version = "0.1.0"
-dependencies = [
- "prost",
- "prost-build",
- "reqwest",
- "sevenz-rust",
-]
-
-[[package]]
-name = "demoinfocs-rs"
+name = "cs-demo-parser"
 version = "0.1.0"
 dependencies = [
  "bitflags",
@@ -368,7 +358,7 @@ dependencies = [
  "console_error_panic_hook",
  "criterion",
  "crossbeam-channel",
- "demoinfocs-proto",
+ "cs-demo-parser-proto",
  "ice-crypt",
  "once_cell",
  "prost",
@@ -377,6 +367,16 @@ dependencies = [
  "serde-wasm-bindgen",
  "snap",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "cs-demo-parser-proto"
+version = "0.1.0"
+dependencies = [
+ "prost",
+ "prost-build",
+ "reqwest",
+ "sevenz-rust",
 ]
 
 [[package]]

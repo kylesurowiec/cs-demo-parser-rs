@@ -1,3 +1,9 @@
+use std::collections::HashMap;
+use std::io::Read;
+use std::sync::Arc;
+
+use prost::Message;
+
 use crate::bitreader::BitReader;
 use crate::dispatcher::{Dispatcher, EventDispatcher, HandlerIdentifier};
 use crate::game_state::GameState;
@@ -6,11 +12,6 @@ use crate::sendtables2;
 use crate::stringtables;
 
 pub mod datatable;
-
-use prost::Message;
-use std::collections::HashMap;
-use std::io::Read;
-use std::sync::Arc;
 
 /// Error type returned by [`Parser`] operations.
 #[derive(Debug)]

@@ -1,5 +1,6 @@
-use prost::Message;
 use std::error::Error;
+
+use prost::Message;
 
 use crate::proto::msgs2::CDataGccStrike15V2MatchInfo;
 
@@ -11,5 +12,6 @@ pub fn match_info_decryption_key(bytes: &[u8]) -> Result<Vec<u8>, Box<dyn Error>
         .watchablematchinfo
         .and_then(|w| w.cl_decryptdata_key_pub)
         .ok_or("missing decrypt key")?;
+
     Ok(format!("{key:016X}").into_bytes())
 }

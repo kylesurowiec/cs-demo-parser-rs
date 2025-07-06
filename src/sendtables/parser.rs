@@ -1,16 +1,16 @@
-use prost::Message as _;
+use std::collections::HashMap;
+use std::io::Read;
+
+use prost::Message;
 
 use crate::bitreader::BitReader;
 use crate::proto::msg::cs_demo_parser_rs as proto_msg;
 use crate::proto::msg::cs_demo_parser_rs::CsvcMsgSendTable;
-
 use super::entity::FlattenedPropEntry;
 use super::propdecoder::{
     PROP_TYPE_ARRAY, PROP_TYPE_DATATABLE, SendPropertyFlags, SendTableProperty,
 };
 use super::serverclass::ServerClass;
-use std::collections::HashMap;
-use std::io::Read;
 
 #[derive(Default)]
 pub struct Parser {

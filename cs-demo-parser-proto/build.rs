@@ -113,8 +113,8 @@ pub use cs_demo_parser_rs::*;
 fn setup_demos() -> Result<(), Box<dyn std::error::Error>> {
     println!("cargo:warning=setup_demos() starting...");
 
-    if std::env::var_os("DEMOINFOCS_SKIP_DEMOS").is_some() {
-        println!("cargo:warning=DEMOINFOCS_SKIP_DEMOS is set, skipping demo setup");
+    if std::env::var_os("CS_DEMO_PARSER_SKIP_DEMOS").is_some() {
+        println!("cargo:warning=CS_DEMO_PARSER_SKIP_DEMOS is set, skipping demo setup");
         return Ok(());
     }
 
@@ -335,15 +335,15 @@ fn extract_demos() -> Result<(), Box<dyn std::error::Error>> {
 /// Build script main function that compiles proto files and sets up demo files.
 ///
 /// # Environment Variables
-/// - `DEMOINFOCS_SKIP_PROTO` - Skip protocol buffer compilation
-/// - `DEMOINFOCS_SKIP_DEMOS` - Skip demo file setup
+/// - `CS_DEMO_PARSER_SKIP_PROTO` - Skip protocol buffer compilation
+/// - `CS_DEMO_PARSER_SKIP_DEMOS` - Skip demo file setup
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("cargo:warning=Build script starting...");
 
-    //if std::env::var_os("DEMOINFOCS_SKIP_PROTO").is_none() {
+    // if std::env::var_os("CS_DEMO_PARSER_SKIP_PROTO").is_none() {
     compile("proto/msg", "msg")?;
     compile("proto/msgs2", "msgs2")?;
-    //}
+    // }
 
     // Setup demos (non-critical - don't fail build if it fails)
 
