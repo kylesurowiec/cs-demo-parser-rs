@@ -56,7 +56,7 @@ impl EventDispatcher {
         {
             thread::spawn(move || {
                 for event in rx.iter() {
-                    let t = (*event).type_id();
+                    let t = (&*event).type_id();
                     let handlers = {
                         let map = this.handlers.read().unwrap();
                         map.get(&t).cloned()
@@ -90,7 +90,7 @@ impl Dispatcher for Arc<EventDispatcher> {
         let entry = map.entry(TypeId::of::<E>()).or_default();
         let cb: Arc<dyn Fn(&Arc<dyn Any + Send + Sync>) + Send + Sync> =
             Arc::new(move |ev: &Arc<dyn Any + Send + Sync>| {
-                if let Ok(e) = ev.clone().downcast::<E>() {
+                if let Some(e) = ev.clone().downcast::<E>().ok() {
                     handler(&e);
                 }
             });

@@ -1,9 +1,9 @@
-use cs_demo_parser::bitreader::BitReader;
-use cs_demo_parser::sendtables::entity::{Entity, FlattenedPropEntry, Property, PropertyValue};
-use cs_demo_parser::sendtables::propdecoder::{
+use demoinfocs_rs::bitreader::BitReader;
+use demoinfocs_rs::sendtables::entity::{Entity, FlattenedPropEntry, Property, PropertyValue};
+use demoinfocs_rs::sendtables::propdecoder::{
     PROP_TYPE_INT, PROP_TYPE_INT64, PropertyDecoder, SendPropertyFlags, SendTableProperty,
 };
-use cs_demo_parser::sendtables::serverclass::ServerClass;
+use demoinfocs_rs::sendtables::serverclass::ServerClass;
 use std::sync::Arc;
 
 #[test]

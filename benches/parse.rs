@@ -1,5 +1,5 @@
 use criterion::{Criterion, criterion_group, criterion_main};
-use cs_demo_parser::parser::Parser;
+use demoinfocs_rs::parser::Parser;
 use std::fs::File;
 use std::io::{Cursor, Read};
 use std::path::PathBuf;

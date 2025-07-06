@@ -1,22 +1,5 @@
 use bitstream_io::{BitRead, BitReader as StreamBitReader, LittleEndian};
-use std::io::{BufReader, Read, Seek};
-
-#[derive(Debug)]
-pub enum BitReaderError {
-    UnexpectedEndOfData,
-    InvalidData,
-}
-
-impl std::fmt::Display for BitReaderError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            BitReaderError::UnexpectedEndOfData => write!(f, "Unexpected end of data"),
-            BitReaderError::InvalidData => write!(f, "Invalid data"),
-        }
-    }
-}
-
-impl std::error::Error for BitReaderError {}
+use std::io::{BufReader, Read};
 
 const SMALL_BUFFER: usize = 512;
 const LARGE_BUFFER: usize = 1024 * 128;
@@ -141,41 +124,7 @@ impl<R: Read> BitReader<R> {
         res
     }
 
-    // FIXED: This is the corrected method that handles fixed-width string fields
     pub fn read_c_string(&mut self, length: usize) -> String {
-        let mut result = Vec::new();
-        let mut bytes_read = 0;
-        
-        // Read exactly 'length' bytes, stopping at null terminator if found
-        while bytes_read < length {
-            let byte = self.read_single_byte();
-            bytes_read += 1;
-            
-            if byte == 0 {
-                // Found null terminator, consume remaining bytes in this field
-                while bytes_read < length {
-                    self.read_single_byte(); // consume padding bytes
-                    bytes_read += 1;
-                }
-                break;
-            }
-            
-            result.push(byte);
-        }
-        
-        String::from_utf8(result).unwrap_or_default()
-    }
-}
-
-impl<R: Read + Seek> BitReader<R> {
-    pub fn get_inner_mut(&mut self) -> &mut R {
-        // SAFETY: This is a workaround since bitstream_io does not expose a direct mutable reference to the inner reader.
-        // We temporarily take out the BufReader, get a mutable reference to the inner R, and put it back.
-        use std::mem;
-        let inner_ptr = &mut self.inner as *mut StreamBitReader<BufReader<R>, LittleEndian>;
-        unsafe {
-            let reader_ptr = &mut (*inner_ptr).reader as *mut BufReader<R>;
-            &mut *(*reader_ptr).get_mut()
-        }
+        self.read_string_limited(length, false)
     }
 }

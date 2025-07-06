@@ -1,4 +1,4 @@
-use cs_demo_parser::bitreader::BitReader;
+use demoinfocs_rs::bitreader::BitReader;
 
 fn encode_varint(mut value: u64) -> Vec<u8> {
     let mut out = Vec::new();

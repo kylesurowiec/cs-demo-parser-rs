@@ -1,4 +1,4 @@
-use cs_demo_parser::{events::ConVarsUpdated, parser::Parser, proto::msg::cs_demo_parser_rs as msg};
+use demoinfocs_rs::{events::ConVarsUpdated, parser::Parser, proto::msg::cs_demo_parser_rs as msg};
 use std::collections::HashMap;
 use std::io::Cursor;
 

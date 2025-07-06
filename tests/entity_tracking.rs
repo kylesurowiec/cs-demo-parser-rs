@@ -1,6 +1,6 @@
-use cs_demo_parser::parser::{EntityEvent, Parser};
-use cs_demo_parser::sendtables::EntityOp;
-use cs_demo_parser::sendtables2::{Class, Entity};
+use demoinfocs_rs::parser::{EntityEvent, Parser};
+use demoinfocs_rs::sendtables::EntityOp;
+use demoinfocs_rs::sendtables2::{Class, Entity};
 use std::io::Cursor;
 
 #[test]

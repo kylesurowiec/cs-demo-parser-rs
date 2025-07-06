@@ -1,8 +1,7 @@
 use std::collections::HashMap;
 
-use prost::Message;
-
 use crate::proto::msg::cs_demo_parser_rs as msg;
+use prost::Message;
 
 #[derive(Debug, Default, Clone)]
 pub struct StringTableEntry {
@@ -49,18 +48,19 @@ impl StringTables {
         &mut self,
         msg: &msg::CsvcMsgUpdateStringTable,
     ) -> Option<StringTable> {
-        if let Some(id) = msg.table_id
-            && let Some(table) = self.tables.get_mut(&id) {
+        if let Some(id) = msg.table_id {
+            if let Some(table) = self.tables.get_mut(&id) {
                 if let Some(data) = &msg.string_data {
                     let entry = StringTableEntry {
                         value: String::from_utf8_lossy(data).into_owned(),
-                        user_data: data.to_vec(),
+                        user_data: data.clone(),
                     };
                     let idx = table.entries.len() as i32;
                     table.entries.insert(idx, entry);
                 }
                 return Some(table.clone());
             }
+        }
         None
     }
 
@@ -107,10 +107,11 @@ impl StringTables {
             }
             let (msg_buf, rest) = slice.split_at(size);
             slice = rest;
-            if let Ok(t) = msg::SvcMessages::try_from(msg_id as i32)
-                && let Some(tbl) = self.parse_svc_message(t, msg_buf) {
+            if let Ok(t) = msg::SvcMessages::try_from(msg_id as i32) {
+                if let Some(tbl) = self.parse_svc_message(t, msg_buf) {
                     updates.push(tbl);
                 }
+            }
         }
         updates
     }

@@ -1,6 +1,6 @@
-use cs_demo_parser::common::Inferno;
-use cs_demo_parser::common::convex_hull;
-use cs_demo_parser::sendtables::entity::Vector;
+use demoinfocs_rs::common::Inferno;
+use demoinfocs_rs::common::convex_hull;
+use demoinfocs_rs::sendtables::entity::Vector;
 
 #[test]
 fn convex_hull_basic() {

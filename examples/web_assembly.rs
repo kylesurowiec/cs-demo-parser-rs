@@ -1,5 +1,5 @@
 use console_error_panic_hook;
-use cs_demo_parser::parser::Parser;
+use demoinfocs_rs::parser::Parser;
 use serde::Serialize;
 use std::io::Cursor;
 use wasm_bindgen::prelude::*;

@@ -1,5 +1,5 @@
-use cs_demo_parser::matchinfo::match_info_decryption_key;
-use cs_demo_parser::parser::{Parser, ParserConfig};
+use demoinfocs_rs::matchinfo::match_info_decryption_key;
+use demoinfocs_rs::parser::{Parser, ParserConfig};
 use std::fs::File;
 use std::{env, fs};
 

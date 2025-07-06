@@ -1,9 +1,9 @@
 
 [workspace]
-members = [".", "cs-demo-parser-proto"]
+members = [".", "demoinfocs-proto"]
 
 [package]
-name = "cs-demo-parser"
+name = "demoinfocs-rs"
 version = "0.1.0"
 edition = "2024"
 
@@ -11,7 +11,7 @@ edition = "2024"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-cs-demo-parser-proto = { path = "cs-demo-parser-proto" }
+demoinfocs-proto = { path = "demoinfocs-proto" }
 prost = "0.12"
 bitstream-io = "1.0"
 snap = "1.1"

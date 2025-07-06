@@ -115,12 +115,12 @@ impl PropertyDecoder {
             if prop.flags.contains(SendPropertyFlags::UNSIGNED) {
                 return reader.read_varint32() as i32;
             }
-            return reader.read_signed_varint32();
+            return reader.read_signed_varint32() as i32;
         }
         if prop.flags.contains(SendPropertyFlags::UNSIGNED) {
             reader.read_int(prop.number_of_bits) as i32
         } else {
-            reader.read_signed_int(prop.number_of_bits)
+            reader.read_signed_int(prop.number_of_bits) as i32
         }
     }
 

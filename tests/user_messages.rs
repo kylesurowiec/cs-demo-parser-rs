@@ -1,6 +1,6 @@
-use cs_demo_parser::parser::Parser;
-use cs_demo_parser::proto::msg::cs_demo_parser_rs::*;
-use cs_demo_parser::proto::msg::{self};
+use demoinfocs_rs::parser::Parser;
+use demoinfocs_rs::proto::msg::cs_demo_parser_rs::*;
+use demoinfocs_rs::proto::msg::{self};
 use prost::Message;
 use std::io::Cursor;
 use std::sync::{
@@ -79,7 +79,7 @@ fn chat_message_event() {
     let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let cnt = Arc::new(AtomicUsize::new(0));
     let c = cnt.clone();
-    parser.register_event_handler::<cs_demo_parser::events::ChatMessage, _>(move |e| {
+    parser.register_event_handler::<demoinfocs_rs::events::ChatMessage, _>(move |e| {
         if e.text == "hello" {
             c.fetch_add(1, Ordering::SeqCst);
         }
@@ -154,7 +154,7 @@ fn rank_update_event() {
     let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
     let cnt = Arc::new(AtomicUsize::new(0));
     let c = cnt.clone();
-    parser.register_event_handler::<cs_demo_parser::events::RankUpdate, _>(move |_| {
+    parser.register_event_handler::<demoinfocs_rs::events::RankUpdate, _>(move |_| {
         c.fetch_add(1, Ordering::SeqCst);
     });
 
@@ -266,9 +266,10 @@ fn user_message_round_impact_score_data() {
 #[test]
 fn user_message_round_backup_filenames() {
     let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
-    let captured: Arc<Mutex<Option<cs_demo_parser::events::RoundBackupFilenames>>> = Arc::new(Mutex::new(None));
+    let captured: Arc<Mutex<Option<demoinfocs_rs::events::RoundBackupFilenames>>> =
+        Arc::new(Mutex::new(None));
     let cap = captured.clone();
-    parser.register_user_message_handler::<cs_demo_parser::events::RoundBackupFilenames, _>(
+    parser.register_user_message_handler::<demoinfocs_rs::events::RoundBackupFilenames, _>(
         move |m| {
             *cap.lock().unwrap() = Some(m.clone());
         },
@@ -300,9 +301,9 @@ fn user_message_round_backup_filenames() {
 #[test]
 fn user_message_vgui_menu() {
     let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
-    let captured: Arc<Mutex<Option<cs_demo_parser::events::VguiMenu>>> = Arc::new(Mutex::new(None));
+    let captured: Arc<Mutex<Option<demoinfocs_rs::events::VguiMenu>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
-    parser.register_user_message_handler::<cs_demo_parser::events::VguiMenu, _>(move |m| {
+    parser.register_user_message_handler::<demoinfocs_rs::events::VguiMenu, _>(move |m| {
         *cap.lock().unwrap() = Some(m.clone());
     });
 
@@ -341,9 +342,9 @@ fn user_message_vgui_menu() {
 #[test]
 fn user_message_show_menu() {
     let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
-    let captured: Arc<Mutex<Option<cs_demo_parser::events::ShowMenu>>> = Arc::new(Mutex::new(None));
+    let captured: Arc<Mutex<Option<demoinfocs_rs::events::ShowMenu>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
-    parser.register_user_message_handler::<cs_demo_parser::events::ShowMenu, _>(move |m| {
+    parser.register_user_message_handler::<demoinfocs_rs::events::ShowMenu, _>(move |m| {
         *cap.lock().unwrap() = Some(m.clone());
     });
 
@@ -371,9 +372,9 @@ fn user_message_show_menu() {
 #[test]
 fn user_message_bar_time() {
     let mut parser = Parser::new(Cursor::new(Vec::<u8>::new()));
-    let captured: Arc<Mutex<Option<cs_demo_parser::events::BarTime>>> = Arc::new(Mutex::new(None));
+    let captured: Arc<Mutex<Option<demoinfocs_rs::events::BarTime>>> = Arc::new(Mutex::new(None));
     let cap = captured.clone();
-    parser.register_user_message_handler::<cs_demo_parser::events::BarTime, _>(move |m| {
+    parser.register_user_message_handler::<demoinfocs_rs::events::BarTime, _>(move |m| {
         *cap.lock().unwrap() = Some(m.clone());
     });
 
