@@ -11,10 +11,11 @@ fn collect_kills(
 
     let kills = Arc::new(Mutex::new(Vec::new()));
     let handler_kills = Arc::clone(&kills);
-    parser.register_event_handler::<Kill, _>(move |k| {
+    let handler_id = parser.register_event_handler::<Kill, _>(move |k| {
         handler_kills.lock().unwrap().push(k.clone());
     });
     parser.parse_to_end()?;
+    parser.unregister_event_handler(handler_id);
     Ok(Arc::try_unwrap(kills).unwrap().into_inner().unwrap())
 }
 
