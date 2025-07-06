@@ -54,8 +54,7 @@ pub struct StringTableUpdated {
 }
 
 /// Configuration options for [`Parser`].
-#[derive(Debug, Clone)]
-#[derive(Default)]
+#[derive(Debug, Clone, Default)]
 pub struct ParserConfig {
     /// Size of the internal message queue. `None` uses the default buffer
     /// size which is automatically determined from the demo header.
@@ -85,7 +84,6 @@ pub struct ParserConfig {
     /// Override the tick rate in Hz when no information is available in the demo.
     pub tick_rate_override: Option<f64>,
 }
-
 
 /// Parser for CS:GO / CS2 demo files.
 pub struct Parser<R: Read> {
@@ -278,10 +276,11 @@ impl<R: Read> Parser<R> {
     }
 
     pub fn progress(&self) -> f32 {
-        if let Some(h) = &self.header
-            && h.playback_frames > 0 {
+        if let Some(h) = &self.header {
+            if h.playback_frames > 0 {
                 return self.current_frame as f32 / h.playback_frames as f32;
             }
+        }
         0.0
     }
 
@@ -289,9 +288,8 @@ impl<R: Read> Parser<R> {
         self.cancelled = true;
     }
 
-    pub fn close(&mut self) -> Result<(), ()> {
+    pub fn close(&mut self) {
         self.cancelled = true;
-        Ok(())
     }
 
     pub fn dispatch_user_message<M>(&self, msg: M)
@@ -307,23 +305,24 @@ impl<R: Read> Parser<R> {
             return Ok(h.clone());
         }
 
-        let mut header = DemoHeader::default();
-        header.filestamp = self.bit_reader.read_c_string(8);
-        match header.filestamp.as_str() {
+        let filestamp = self.bit_reader.read_c_string(8);
+        match filestamp.as_str() {
             | "HL2DEMO" | "PBDEMS2" => {},
             | _ => return Err(ParserError::InvalidFileType),
         }
-
-        header.protocol = self.bit_reader.read_signed_int(32);
-        header.network_protocol = self.bit_reader.read_signed_int(32);
-        header.server_name = self.bit_reader.read_c_string(260);
-        header.client_name = self.bit_reader.read_c_string(260);
-        header.map_name = self.bit_reader.read_c_string(260);
-        header.game_directory = self.bit_reader.read_c_string(260);
-        header.playback_time = self.bit_reader.read_float();
-        header.playback_ticks = self.bit_reader.read_signed_int(32);
-        header.playback_frames = self.bit_reader.read_signed_int(32);
-        header.signon_length = self.bit_reader.read_signed_int(32);
+        let header = DemoHeader {
+            filestamp,
+            protocol: self.bit_reader.read_signed_int(32),
+            network_protocol: self.bit_reader.read_signed_int(32),
+            server_name: self.bit_reader.read_c_string(260),
+            client_name: self.bit_reader.read_c_string(260),
+            map_name: self.bit_reader.read_c_string(260),
+            game_directory: self.bit_reader.read_c_string(260),
+            playback_time: self.bit_reader.read_float(),
+            playback_ticks: self.bit_reader.read_signed_int(32),
+            playback_frames: self.bit_reader.read_signed_int(32),
+            signon_length: self.bit_reader.read_signed_int(32),
+        };
 
         self.header = Some(header.clone());
         Ok(header)
@@ -488,8 +487,8 @@ impl<R: Read> Parser<R> {
 
     pub fn handle_user_message(&mut self, um: &proto_msg::CsvcMsgUserMessage) {
         use crate::proto::msg::{self as proto_msg};
-        if let (Some(t), Some(data)) = (um.msg_type, &um.msg_data)
-            && let Ok(kind) = proto_msg::ECstrike15UserMessages::try_from(t) {
+        if let (Some(t), Some(data)) = (um.msg_type, &um.msg_data) {
+            if let Ok(kind) = proto_msg::ECstrike15UserMessages::try_from(t) {
                 match kind {
                     | proto_msg::ECstrike15UserMessages::CsUmSayText => {
                         if let Ok(msg) = proto_msg::CcsUsrMsgSayText::decode(&data[..]) {
@@ -592,6 +591,7 @@ impl<R: Read> Parser<R> {
                     | _ => {},
                 }
             }
+        }
     }
 
     fn handle_encrypted_data(&mut self, msg: &proto_msg::CsvcMsgEncryptedData) {

@@ -72,17 +72,17 @@ pub fn build_equipment_mapping(
             out.insert(name, EquipmentType::Knife);
             continue;
         }
-        if name.starts_with("CWeapon") {
-            let eq = map_equipment(&name[7..]);
+        if let Some(stripped) = name.strip_prefix("CWeapon") {
+            let eq = map_equipment(stripped);
             out.insert(name, eq);
             continue;
         }
         let dt = sc.data_table_name.as_str();
-        if dt.starts_with("DT_Weapon") {
-            let eq = map_equipment(&dt[9..]);
+        if let Some(stripped) = dt.strip_prefix("DT_Weapon") {
+            let eq = map_equipment(stripped);
             out.insert(name, eq);
-        } else if dt.starts_with("DT_") {
-            let eq = map_equipment(&dt[3..]);
+        } else if let Some(stripped) = dt.strip_prefix("DT_") {
+            let eq = map_equipment(stripped);
             if eq != EquipmentType::Unknown {
                 out.insert(name, eq);
             }

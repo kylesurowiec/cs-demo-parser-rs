@@ -311,18 +311,17 @@ impl GameState {
                 self.dropped_weapons.remove(&ev.entity.index);
                 self.grenade_projectiles.remove(&ev.entity.index);
                 self.infernos.remove(&ev.entity.index);
-            } else if ev.op.contains(EntityOp::CREATED) {
-                self.add_entity(ev.entity.clone());
-                self.update_special_entities(&ev.entity);
-            } else if ev.op.contains(EntityOp::UPDATED) {
+            } else if ev.op.contains(EntityOp::CREATED) || ev.op.contains(EntityOp::UPDATED) {
                 self.add_entity(ev.entity.clone());
                 self.update_special_entities(&ev.entity);
             }
-        } else if any.is::<crate::events::FrameDone>()
-            && let Some(fb) = self.flying_flashbangs.first()
-                && fb.exploded_frame > 0 && fb.exploded_frame < self.ingame_tick {
+        } else if any.is::<crate::events::FrameDone>() {
+            if let Some(fb) = self.flying_flashbangs.first() {
+                if fb.exploded_frame > 0 && fb.exploded_frame < self.ingame_tick {
                     self.flying_flashbangs.remove(0);
                 }
+            }
+        }
     }
 
     pub fn handle_net_message<M: 'static>(&mut self, msg: &M) {

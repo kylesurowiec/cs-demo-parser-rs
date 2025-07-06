@@ -48,8 +48,8 @@ impl StringTables {
         &mut self,
         msg: &msg::CsvcMsgUpdateStringTable,
     ) -> Option<StringTable> {
-        if let Some(id) = msg.table_id
-            && let Some(table) = self.tables.get_mut(&id) {
+        if let Some(id) = msg.table_id {
+            if let Some(table) = self.tables.get_mut(&id) {
                 if let Some(data) = &msg.string_data {
                     let entry = StringTableEntry {
                         value: String::from_utf8_lossy(data).into_owned(),
@@ -60,6 +60,7 @@ impl StringTables {
                 }
                 return Some(table.clone());
             }
+        }
         None
     }
 
@@ -106,10 +107,11 @@ impl StringTables {
             }
             let (msg_buf, rest) = slice.split_at(size);
             slice = rest;
-            if let Ok(t) = msg::SvcMessages::try_from(msg_id as i32)
-                && let Some(tbl) = self.parse_svc_message(t, msg_buf) {
+            if let Ok(t) = msg::SvcMessages::try_from(msg_id as i32) {
+                if let Some(tbl) = self.parse_svc_message(t, msg_buf) {
                     updates.push(tbl);
                 }
+            }
         }
         updates
     }

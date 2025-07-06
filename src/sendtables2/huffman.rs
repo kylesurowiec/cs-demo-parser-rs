@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 #[derive(Clone)]
 pub enum Node {
     Leaf {

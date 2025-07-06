@@ -178,10 +178,11 @@ impl Parser {
                     } else if let Some(ent) = self.entities.get(&index).cloned() {
                         events.push((ent, EntityOp::UPDATED));
                     }
-                } else if cmd & 0x02 != 0
-                    && let Some(ent) = self.entities.remove(&index) {
+                } else if cmd & 0x02 != 0 {
+                    if let Some(ent) = self.entities.remove(&index) {
                         events.push((ent, EntityOp::DELETED | EntityOp::LEFT));
                     }
+                }
                 updates -= 1;
             }
         }

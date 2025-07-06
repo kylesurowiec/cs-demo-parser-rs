@@ -20,10 +20,12 @@ pub trait Dispatcher: Send + Sync {
     fn unregister_handler(&self, id: HandlerIdentifier);
 }
 
+type Callback = Arc<dyn Fn(&Arc<dyn Any + Send + Sync>) + Send + Sync>;
+
 #[derive(Clone)]
 struct HandlerEntry {
     id: HandlerIdentifier,
-    callback: Arc<dyn Fn(&Arc<dyn Any + Send + Sync>) + Send + Sync>,
+    callback: Callback,
 }
 
 pub struct EventDispatcher {
@@ -88,12 +90,11 @@ impl Dispatcher for Arc<EventDispatcher> {
         let id = self.next_id.fetch_add(1, Ordering::SeqCst);
         let mut map = self.handlers.write().unwrap();
         let entry = map.entry(TypeId::of::<E>()).or_default();
-        let cb: Arc<dyn Fn(&Arc<dyn Any + Send + Sync>) + Send + Sync> =
-            Arc::new(move |ev: &Arc<dyn Any + Send + Sync>| {
-                if let Ok(e) = ev.clone().downcast::<E>() {
-                    handler(&e);
-                }
-            });
+        let cb: Callback = Arc::new(move |ev: &Arc<dyn Any + Send + Sync>| {
+            if let Ok(e) = ev.clone().downcast::<E>() {
+                handler(&e);
+            }
+        });
         entry.push(HandlerEntry { id, callback: cb });
         id
     }
