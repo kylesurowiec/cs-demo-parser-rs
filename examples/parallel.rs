@@ -1,4 +1,4 @@
-use demoinfocs_rs::utils::parallel;
+use cs_demo_parser::utils::parallel;
 use std::env;
 use std::fs;
 use std::path::PathBuf;

@@ -1,6 +1,6 @@
 # Remaining Work for Rust Port
 
-The legacy Go library under `pkg/` exposed a large API surface. The current `demoinfocs-rs` crate only implements a subset. This document lists missing features and modules that still need to be implemented to achieve feature parity.
+The legacy Go library under `pkg/` exposed a large API surface. The current `cs-demo-parser` crate only implements a subset. This document lists missing features and modules that still need to be implemented to achieve feature parity.
 
 ## Core Parser
 - [x] **Source 1 demo support** – implement datatable and string table parsing similar to `pkg/demoinfocs/datatables.go` and `stringtables.go`.

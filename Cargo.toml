@@ -3,7 +3,7 @@
 members = [".", "demoinfocs-proto"]
 
 [package]
-name = "demoinfocs-rs"
+name = "cs-demo-parser"
 version = "0.1.0"
 edition = "2024"
 

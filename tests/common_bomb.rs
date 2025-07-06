@@ -1,5 +1,5 @@
-use demoinfocs_rs::common::{Bomb, Player};
-use demoinfocs_rs::sendtables::entity::Vector;
+use cs_demo_parser::common::{Bomb, Player};
+use cs_demo_parser::sendtables::entity::Vector;
 
 #[test]
 fn bomb_position() {

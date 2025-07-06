@@ -1,5 +1,5 @@
-use demoinfocs_rs::parser::Parser;
-use demoinfocs_rs::proto::msg::cs_demo_parser_rs as msg;
+use cs_demo_parser::parser::Parser;
+use cs_demo_parser::proto::msg::cs_demo_parser_rs as msg;
 use std::io::Cursor;
 use std::sync::{
     Arc,

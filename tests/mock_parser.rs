@@ -1,6 +1,6 @@
-use demoinfocs_rs::dispatcher::HandlerIdentifier;
-use demoinfocs_rs::events::FrameDone;
-use demoinfocs_rs::parser::Parser;
+use cs_demo_parser::dispatcher::HandlerIdentifier;
+use cs_demo_parser::events::FrameDone;
+use cs_demo_parser::parser::Parser;
 use std::collections::VecDeque;
 use std::io::Cursor;
 
@@ -71,7 +71,7 @@ impl MockParser {
         self.parser.unregister_net_message_handler(id);
     }
 
-    pub fn game_state(&self) -> &demoinfocs_rs::game_state::GameState {
+    pub fn game_state(&self) -> &cs_demo_parser::game_state::GameState {
         self.parser.game_state()
     }
 }
