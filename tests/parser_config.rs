@@ -1,4 +1,4 @@
-use demoinfocs_rs::parser::{Parser, ParserConfig};
+use cs_demo_parser::parser::{Parser, ParserConfig};
 use std::io::Cursor;
 
 #[test]

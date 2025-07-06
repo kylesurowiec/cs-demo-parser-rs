@@ -1,7 +1,7 @@
-use demoinfocs_rs::proto::msg::csvc_msg_class_info::ClassT;
-use demoinfocs_rs::proto::msg::{CsvcMsgClassInfo, CsvcMsgPacketEntities};
-use demoinfocs_rs::sendtables2::Parser;
-use demoinfocs_rs::sendtables2::proto::{
+use cs_demo_parser::proto::msg::csvc_msg_class_info::ClassT;
+use cs_demo_parser::proto::msg::{CsvcMsgClassInfo, CsvcMsgPacketEntities};
+use cs_demo_parser::sendtables2::Parser;
+use cs_demo_parser::sendtables2::proto::{
     CsvcMsgFlattenedSerializer, ProtoFlattenedSerializerFieldT, ProtoFlattenedSerializerT,
 };
 use prost::Message;
@@ -75,7 +75,7 @@ impl BitWriter {
 #[test]
 fn test_on_server_info() {
     let mut p = Parser::new();
-    let msg = demoinfocs_rs::proto::msg::CsvcMsgServerInfo {
+    let msg = cs_demo_parser::proto::msg::CsvcMsgServerInfo {
         max_classes: Some(255),
         ..Default::default()
     };
@@ -123,7 +123,7 @@ fn test_parse_flattened_serializer() {
 #[test]
 fn test_class_info_and_entities() {
     let mut p = Parser::new();
-    p.on_server_info(&demoinfocs_rs::proto::msg::CsvcMsgServerInfo {
+    p.on_server_info(&cs_demo_parser::proto::msg::CsvcMsgServerInfo {
         max_classes: Some(1),
         ..Default::default()
     });
@@ -181,7 +181,7 @@ fn test_class_info_and_entities() {
     assert!(
         events[0]
             .1
-            .contains(demoinfocs_rs::sendtables::EntityOp::CREATED)
+            .contains(cs_demo_parser::sendtables::EntityOp::CREATED)
     );
     assert!(p.entity(0).is_some());
 }

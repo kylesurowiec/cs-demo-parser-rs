@@ -1,4 +1,4 @@
-use demoinfocs_rs::utils::{
+use cs_demo_parser::utils::{
     convert_steam_id_txt_to_32, convert_steam_id32_to_64, convert_steam_id64_to_32,
 };
 
