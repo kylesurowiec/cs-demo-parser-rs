@@ -39,6 +39,14 @@ fn invalid_file_type() {
 }
 
 #[test]
+fn git_lfs_pointer() {
+    let data = b"version https://git-lfs.github.com/spec/v1\n".to_vec();
+    let mut parser = Parser::new(Cursor::new(data));
+    let err = parser.parse_header().expect_err("expected error");
+    matches!(err, ParserError::GitLfsPointer);
+}
+
+#[test]
 fn example_print_events_runs() {
     let mut parser = MockParser::new();
     let called = Arc::new(AtomicUsize::new(0));
