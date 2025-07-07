@@ -26,6 +26,18 @@ impl<R: Read> BitReader<R> {
         Self::with_capacity(reader, LARGE_BUFFER)
     }
 
+    /// Skips the specified number of bits.
+    pub fn skip_bits(&mut self, bits: u32) {
+        let bytes = bits / 8;
+        let rem = bits % 8;
+        for _ in 0..bytes {
+            self.read_int(8);
+        }
+        for _ in 0..rem {
+            self.read_bit();
+        }
+    }
+
     pub fn read_int(&mut self, bits: u32) -> u32 {
         self.inner.read(bits).unwrap()
     }
