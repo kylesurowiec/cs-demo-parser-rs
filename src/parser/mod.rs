@@ -349,12 +349,11 @@ impl<R: Read> Parser<R> {
         header.playback_ticks = self.bit_reader.read_signed_int(32);
         header.playback_frames = self.bit_reader.read_signed_int(32);
         header.signon_length = self.bit_reader.read_signed_int(32);
-        if let Some(info) = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader) {
-            self.lump_size = info.data_size;
-        }
-
+      
+        self.lump_size = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader).data_size;
         self.reading_signon = header.filestamp == "HL2DEMO" && header.signon_length > 0;
         self.header = Some(header.clone());
+      
         Ok(header)
     }
 

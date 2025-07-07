@@ -1,19 +1,24 @@
 use crate::bitreader::BitReader;
 
+/// Information about lump data found in a demo.
 #[derive(Debug, Default)]
 pub struct LumpInfo {
+    /// The total size of all lump data following the lump table.
     pub data_size: u64,
 }
 
 impl LumpInfo {
-    pub fn parse<R: std::io::Read>(reader: &mut BitReader<R>) -> Option<Self> {
-        // Peek the next 4 bytes to check for the expected magic.
-        let magic = reader.read_int(32) as u32;
-        if magic != 0xba80b001 {
-            // Not a lump table, rewind.
-            return None;
-        }
-        let count = reader.read_int(32) as u32;
+    /// Parses the lump table that follows the demo header and returns the
+    /// combined size of all lumps. The reader is left positioned at the first
+    /// byte after the table.
+    pub fn parse<R: std::io::Read>(reader: &mut BitReader<R>) -> Self {
+        // Magic identifying a lump table.
+        const LUMP_MAGIC: u32 = 0xba80b001;
+
+        let magic = reader.read_int(32);
+        debug_assert_eq!(magic, LUMP_MAGIC, "unexpected lump table magic");
+
+        let count = reader.read_int(32);
         // Skip two unknown fields
         reader.read_int(32);
         reader.read_int(32);
@@ -21,7 +26,7 @@ impl LumpInfo {
         for _ in 0..count {
             let mut vals = [0u32; 8];
             for v in &mut vals {
-                *v = reader.read_int(32) as u32;
+                *v = reader.read_int(32);
             }
             for pair in (0..8).step_by(2) {
                 let end = vals[pair] as u64 + vals[pair + 1] as u64;
@@ -30,6 +35,7 @@ impl LumpInfo {
                 }
             }
         }
-        Some(Self { data_size: max_end })
+
+        Self { data_size: max_end }
     }
 }
