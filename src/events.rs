@@ -107,21 +107,11 @@ pub struct POVRecordingPlayerDetected {
 #[derive(Clone, Debug)]
 pub struct MatchStart;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct RoundStart {
     pub time_limit: i32,
     pub frag_limit: i32,
     pub objective: String,
-}
-
-impl Default for RoundStart {
-    fn default() -> Self {
-        Self {
-            time_limit: 0,
-            frag_limit: 0,
-            objective: String::new(),
-        }
-    }
 }
 
 #[derive(Clone, Debug)]
@@ -240,25 +230,13 @@ pub struct WeaponReload {
     pub player: Option<Player>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct GrenadeEvent {
     pub grenade_type: EquipmentType,
     pub grenade: Option<Equipment>,
     pub position: Vector,
     pub thrower: Option<Player>,
     pub grenade_entity_id: i32,
-}
-
-impl Default for GrenadeEvent {
-    fn default() -> Self {
-        Self {
-            grenade_type: 0,
-            grenade: None,
-            position: Vector::default(),
-            thrower: None,
-            grenade_entity_id: 0,
-        }
-    }
 }
 
 #[derive(Clone, Debug)]

@@ -1,6 +1,7 @@
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Default)]
 #[repr(u8)]
 pub enum GamePhase {
+    #[default]
     Init = 0,
     Pregame = 1,
     StartGamePhase = 2,
@@ -9,12 +10,6 @@ pub enum GamePhase {
     GameEnded = 5,
     StaleMate = 6,
     GameOver = 7,
-}
-
-impl Default for GamePhase {
-    fn default() -> Self {
-        GamePhase::Init
-    }
 }
 
 impl std::fmt::Display for GamePhase {

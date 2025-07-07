@@ -96,7 +96,7 @@ impl ServerClass {
         }
 
         // Only apply updates if baseline data contains any bits
-        if self.instance_baseline.len() > 0 || self.preprocessed_baseline.len() > 0 {
+        if !self.instance_baseline.is_empty() || !self.preprocessed_baseline.is_empty() {
             ent.apply_update(reader);
         }
         ent

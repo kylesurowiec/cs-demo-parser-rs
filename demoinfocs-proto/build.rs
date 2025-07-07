@@ -36,12 +36,19 @@ fn ensure_descriptor_proto(vendor_dir: &Path) -> Result<(), Box<dyn std::error::
     println!("cargo:warning=Downloading descriptor.proto from {}...", url);
     let resp = reqwest::blocking::get(url)?;
     if !resp.status().is_success() {
-        return Err(format!("Failed to download descriptor.proto: HTTP {}", resp.status()).into());
+        return Err(format!(
+            "Failed to download descriptor.proto: HTTP {}",
+            resp.status()
+        )
+        .into());
     }
     std::fs::create_dir_all(descriptor_path.parent().unwrap())?;
     let mut file = std::fs::File::create(&descriptor_path)?;
     file.write_all(&resp.bytes()?)?;
-    println!("cargo:warning=Downloaded descriptor.proto to {}", descriptor_path.display());
+    println!(
+        "cargo:warning=Downloaded descriptor.proto to {}",
+        descriptor_path.display()
+    );
     Ok(())
 }
 

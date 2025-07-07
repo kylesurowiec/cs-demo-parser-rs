@@ -73,7 +73,7 @@ pub fn build_equipment_mapping(
             continue;
         }
         if name.starts_with("CWeapon") {
-            let eq = map_equipment(&name[7..]);
+            let eq = map_equipment(name.trim_start_matches("CWeapon"));
             out.insert(name, eq);
             continue;
         }

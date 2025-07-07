@@ -89,3 +89,9 @@ impl CommandBuilder {
         self.writer.into_writer()
     }
 }
+
+impl Default for CommandBuilder {
+    fn default() -> Self {
+        Self::new()
+    }
+}

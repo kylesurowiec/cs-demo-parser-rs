@@ -56,7 +56,7 @@ impl EventDispatcher {
         {
             thread::spawn(move || {
                 for event in rx.iter() {
-                    let t = (&*event).type_id();
+                    let t = event.as_ref().type_id();
                     let handlers = {
                         let map = this.handlers.read().unwrap();
                         map.get(&t).cloned()
