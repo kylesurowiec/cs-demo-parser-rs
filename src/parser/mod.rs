@@ -121,6 +121,7 @@ pub struct Parser<R: Read> {
     header: Option<DemoHeader>,
     config: ParserConfig,
     reading_signon: bool,
+    signon_skipped: bool,
 }
 
 impl<R: Read> Parser<R> {
@@ -148,6 +149,7 @@ impl<R: Read> Parser<R> {
             header: None,
             config,
             reading_signon: false,
+            signon_skipped: false,
         }
     }
 
