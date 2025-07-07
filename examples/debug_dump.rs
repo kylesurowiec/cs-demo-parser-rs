@@ -10,11 +10,16 @@ use std::sync::{
 struct DebugReader {
     inner: File,
     pos: Arc<AtomicU64>,
+    reads: Arc<AtomicU64>,
 }
 
 impl DebugReader {
-    fn new(file: File, pos: Arc<AtomicU64>) -> Self {
-        Self { inner: file, pos }
+    fn new(file: File, pos: Arc<AtomicU64>, reads: Arc<AtomicU64>) -> Self {
+        Self {
+            inner: file,
+            pos,
+            reads,
+        }
     }
 }
 
@@ -23,6 +28,27 @@ impl Read for DebugReader {
         let n = self.inner.read(buf)?;
         let p = self.pos.load(Ordering::SeqCst);
         self.pos.store(p + n as u64, Ordering::SeqCst);
+
+        let rc = self.reads.fetch_add(1, Ordering::SeqCst) + 1;
+        if rc <= 10 || n == 0 {
+            println!(
+                "Read #{}: requested {} bytes, got {} bytes (offset {})",
+                rc,
+                buf.len(),
+                n,
+                self.pos.load(Ordering::SeqCst)
+            );
+            if n > 0 && n <= 32 {
+                print!("  Data:");
+                for b in &buf[..n] {
+                    print!(" {:02x}", b);
+                }
+                println!();
+            }
+            if n == 0 {
+                println!("  EOF reached!");
+            }
+        }
         Ok(n)
     }
 }
@@ -63,26 +89,92 @@ fn main() {
     ]);
     println!("  Playback frames: {}", playback_frames);
 
+    // Parse lump table for extra insight
+    let mut lump_file = File::open(&path).expect("Failed to reopen for lumps");
+    lump_file.seek(SeekFrom::Start(1072)).expect("seek lumps");
+    let mut lump_reader = cs_demo_parser::bitreader::BitReader::new_small(lump_file);
+    const LUMP_MAGIC: u32 = 0xba80b001;
+    let magic = lump_reader.read_int(32);
+    let count = lump_reader.read_int(32);
+    let _unknown1 = lump_reader.read_int(32);
+    let _unknown2 = lump_reader.read_int(32);
+    let mut max_end = 0u64;
+    for _ in 0..count {
+        let mut vals = [0u32; 8];
+        for v in &mut vals {
+            *v = lump_reader.read_int(32);
+        }
+        for pair in (0..8).step_by(2) {
+            let end = vals[pair] as u64 + vals[pair + 1] as u64;
+            if end > max_end {
+                max_end = end;
+            }
+        }
+    }
+    println!("  Lump magic: 0x{:08x}", magic);
+    println!("  Lump count: {}", count);
+    println!("  Lump data size: {} bytes", max_end);
+
     // Reset reader for parser
     file.seek(SeekFrom::Start(0)).expect("seek back");
     let pos = Arc::new(AtomicU64::new(0));
-    let reader = DebugReader::new(file, pos.clone());
+    let reads = Arc::new(AtomicU64::new(0));
+    let reader = DebugReader::new(file, pos.clone(), reads.clone());
     let mut parser = Parser::new(reader);
 
     println!("\nParsing with library...");
-    if let Err(e) = parser.parse_header() {
-        eprintln!("Header error: {:?}", e);
-        return;
-    }
+    let header = match parser.parse_header() {
+        | Ok(h) => h,
+        | Err(e) => {
+            eprintln!("Header error: {:?}", e);
+            return;
+        },
+    };
+    println!("\nParsed header:");
+    println!("  Protocol: {}", header.protocol);
+    println!("  Network protocol: {}", header.network_protocol);
+    println!("  Server: {}", header.server_name);
+    println!("  Client: {}", header.client_name);
+    println!("  Map: {}", header.map_name);
+    println!("  Game dir: {}", header.game_directory);
+    println!("  Playback ticks: {}", header.playback_ticks);
+    println!("  Playback time: {}", header.playback_time);
+    println!("  Signon length: {}", header.signon_length);
 
     for i in 0..200 {
+        let frame_start = pos.load(Ordering::SeqCst);
         match parser.parse_next_frame() {
             | Ok(true) => {
+                let frame_end = pos.load(Ordering::SeqCst);
+                let mut cmd_byte = [0u8; 1];
+                if let Ok(mut pf) = File::open(&path) {
+                    if pf.seek(SeekFrom::Start(frame_start)).is_ok() {
+                        let _ = pf.read_exact(&mut cmd_byte);
+                    }
+                }
+                let cmd_name = match cmd_byte[0] {
+                    | 0 => "Signon",
+                    | 1 => "Packet",
+                    | 2 => "SyncTick",
+                    | 3 => "ConsoleCmd",
+                    | 4 => "UserCmd",
+                    | 5 => "DataTables",
+                    | 6 => "Stop",
+                    | 7 => "CustomData",
+                    | 8 => "StringTables",
+                    | _ => "Other",
+                };
                 println!(
-                    "Frame {} parsed at tick {} (offset {} bytes)",
+                    "Frame {} parsed at tick {} ({}-{} len {} bytes) cmd {} ({}) progress {:.2}% reads {}",
                     i,
                     parser.game_state().ingame_tick(),
-                    pos.load(Ordering::SeqCst)
+                    frame_start,
+                    frame_end,
+                    frame_end - frame_start,
+                    cmd_byte[0],
+                    cmd_name,
+                    parser.progress() * 100.0,
+                    reads.load(Ordering::SeqCst)
                 );
             },
             | Ok(false) => {
@@ -93,6 +185,7 @@ fn main() {
                 eprintln!("Error on frame {}: {:?}", i, e);
                 let progress = parser.progress();
                 println!("Progress: {:.2}%", progress * 100.0);
+                println!("Total reads: {}", reads.load(Ordering::SeqCst));
                 let pos_bytes = pos.load(Ordering::SeqCst) as i64;
                 if let Ok(mut f) = File::open(&path) {
                     let start = if pos_bytes > 16 { pos_bytes - 16 } else { 0 };
