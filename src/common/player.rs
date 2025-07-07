@@ -3,36 +3,26 @@ use crate::constants;
 use crate::sendtables::entity::{Entity, Vector};
 use std::collections::HashMap;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 #[repr(u8)]
 pub enum Team {
+    #[default]
     Unassigned = 0,
     Spectators = 1,
     Terrorists = 2,
     CounterTerrorists = 3,
 }
 
-impl Default for Team {
-    fn default() -> Self {
-        Team::Unassigned
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 #[repr(i32)]
 pub enum Color {
+    #[default]
     Grey = -1,
     Yellow = 0,
     Purple = 1,
     Green = 2,
     Blue = 3,
     Orange = 4,
-}
-
-impl Default for Color {
-    fn default() -> Self {
-        Color::Grey
-    }
 }
 
 #[derive(Debug, Clone, Default)]
@@ -61,7 +51,7 @@ impl Player {
     pub fn position(&self) -> Vector {
         self.entity
             .as_ref()
-            .and_then(|_| Some(self.last_alive_position.clone()))
+            .map(|_| self.last_alive_position.clone())
             .unwrap_or_else(|| self.last_alive_position.clone())
     }
 

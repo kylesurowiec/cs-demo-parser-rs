@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use once_cell::sync::Lazy;
 
 use super::huffman::{Node, build_huffman_tree};
@@ -34,6 +36,12 @@ impl FieldPath {
             last: self.last,
             done: self.done,
         }
+    }
+}
+
+impl Default for FieldPath {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

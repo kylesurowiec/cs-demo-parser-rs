@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 pub struct Reader<'a> {
     buf: &'a [u8],
     pos: usize,
