@@ -120,7 +120,7 @@ pub struct Parser<R: Read> {
     game_events: crate::game_events::GameEventHandler,
     header: Option<DemoHeader>,
     config: ParserConfig,
-    signon_skipped: bool,
+    reading_signon: bool,
 }
 
 impl<R: Read> Parser<R> {
@@ -147,7 +147,7 @@ impl<R: Read> Parser<R> {
             game_events: crate::game_events::GameEventHandler::new(),
             header: None,
             config,
-            signon_skipped: false,
+            reading_signon: false,
         }
     }
 
@@ -345,6 +345,7 @@ impl<R: Read> Parser<R> {
         header.playback_frames = self.bit_reader.read_signed_int(32);
         header.signon_length = self.bit_reader.read_signed_int(32);
 
+        self.reading_signon = header.filestamp == "HL2DEMO" && header.signon_length > 0;
         self.header = Some(header.clone());
         Ok(header)
     }
@@ -399,12 +400,31 @@ impl<R: Read> Parser<R> {
         self.bit_reader.read_int(8); // player slot
 
         match cmd {
+            // Signon or packet
+            | 0 | 1 => {
+                const SKIP_BITS: u32 = (152 + 4 + 4) * 8;
+                for _ in 0..SKIP_BITS {
+                    self.bit_reader.read_bit();
+                }
+                let size = self.bit_reader.read_signed_int(32) as u32;
+                for _ in 0..size {
+                    self.bit_reader.read_int(8);
+                }
+                Ok(true)
+            },
             // SyncTick
-            | 3 => Ok(true),
-            // Stop
-            | 0 => Ok(false),
+            | 2 => Ok(true),
             // Console command
-            | 9 => {
+            | 3 => {
+                let len = self.bit_reader.read_signed_int(32) as u32;
+                for _ in 0..len {
+                    self.bit_reader.read_int(8);
+                }
+                Ok(true)
+            },
+            // User command
+            | 4 => {
+                self.bit_reader.read_int(32); // command number
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
@@ -412,7 +432,7 @@ impl<R: Read> Parser<R> {
                 Ok(true)
             },
             // Send tables
-            | 4 => {
+            | 5 => {
                 let len = self.bit_reader.read_signed_int(32) as usize;
                 let mut data = Vec::with_capacity(len);
                 for _ in 0..len {
@@ -431,7 +451,7 @@ impl<R: Read> Parser<R> {
                 Ok(true)
             },
             // String tables
-            | 6 => {
+            | 8 => {
                 let len = self.bit_reader.read_signed_int(32) as usize;
                 let mut data = Vec::with_capacity(len);
                 for _ in 0..len {
@@ -440,29 +460,25 @@ impl<R: Read> Parser<R> {
                 self.parse_stringtable_packet(&data);
                 Ok(true)
             },
-            // User command
-            | 12 => {
-                self.bit_reader.read_int(32); // command number
+            // Custom data
+            | 7 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
             },
-            // Packets (normal, signon or full)
-            | 7 | 8 | 13 => {
-                const SKIP_BITS: u32 = (152 + 4 + 4) * 8;
-                for _ in 0..SKIP_BITS {
-                    self.bit_reader.read_bit();
+            // Stop
+            | 6 => {
+                if self.reading_signon {
+                    self.reading_signon = false;
+                    Ok(true)
+                } else {
+                    Ok(false)
                 }
-                let size = self.bit_reader.read_signed_int(32) as u32;
-                for _ in 0..size {
-                    self.bit_reader.read_int(8);
-                }
-                Ok(true)
             },
             // Unhandled but length-prefixed commands
-            | 1 | 2 | 5 | 10 | 11 | 14 | 15 | 16 | 17 | 18 => {
+            | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
