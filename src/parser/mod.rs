@@ -357,6 +357,17 @@ impl<R: Read> Parser<R> {
             self.parse_header()?;
         }
 
+        if !self.signon_skipped {
+            if let Some(h) = &self.header {
+                if h.filestamp == "HL2DEMO" && h.signon_length > 0 {
+                    for _ in 0..h.signon_length {
+                        self.bit_reader.read_int(8);
+                    }
+                }
+            }
+            self.signon_skipped = true;
+        }
+
         std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
             match self
                 .header
