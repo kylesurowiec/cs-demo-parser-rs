@@ -140,6 +140,7 @@ fn main() {
     println!("  Playback ticks: {}", header.playback_ticks);
     println!("  Playback time: {}", header.playback_time);
     println!("  Signon length: {}", header.signon_length);
+    println!("  Lump skip size: {}", parser.lump_size());
 
     for i in 0..200 {
         let frame_start = pos.load(Ordering::SeqCst);
