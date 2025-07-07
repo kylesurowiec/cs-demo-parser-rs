@@ -376,10 +376,11 @@ impl<R: Read> Parser<R> {
 
         if !self.signon_skipped {
             if let Some(h) = &self.header {
-                if h.filestamp == "HL2DEMO" && h.signon_length > 0 {
-                    for _ in 0..h.signon_length {
-                        self.bit_reader.read_int(8);
-                    }
+                // Source 1 demos include the signon data directly after the
+                // header and must not be skipped. Source 2 demos store extra
+                // lump data after the header which should be skipped before
+                // parsing frames.
+                if h.filestamp == "PBDEMS2" && self.lump_size > 0 {
                     for _ in 0..self.lump_size {
                         self.bit_reader.read_int(8);
                     }
