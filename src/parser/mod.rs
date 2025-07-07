@@ -6,6 +6,7 @@ use crate::sendtables2;
 use crate::stringtables;
 
 pub mod datatable;
+pub mod lumps;
 
 use prost::Message;
 use std::collections::HashMap;
@@ -122,6 +123,7 @@ pub struct Parser<R: Read> {
     config: ParserConfig,
     reading_signon: bool,
     signon_skipped: bool,
+    lump_size: u64,
 }
 
 impl<R: Read> Parser<R> {
@@ -150,6 +152,7 @@ impl<R: Read> Parser<R> {
             config,
             reading_signon: false,
             signon_skipped: false,
+            lump_size: 0,
         }
     }
 
@@ -346,6 +349,9 @@ impl<R: Read> Parser<R> {
         header.playback_ticks = self.bit_reader.read_signed_int(32);
         header.playback_frames = self.bit_reader.read_signed_int(32);
         header.signon_length = self.bit_reader.read_signed_int(32);
+        if let Some(info) = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader) {
+            self.lump_size = info.data_size;
+        }
 
         self.reading_signon = header.filestamp == "HL2DEMO" && header.signon_length > 0;
         self.header = Some(header.clone());
@@ -363,6 +369,9 @@ impl<R: Read> Parser<R> {
             if let Some(h) = &self.header {
                 if h.filestamp == "HL2DEMO" && h.signon_length > 0 {
                     for _ in 0..h.signon_length {
+                        self.bit_reader.read_int(8);
+                    }
+                    for _ in 0..self.lump_size {
                         self.bit_reader.read_int(8);
                     }
                 }
