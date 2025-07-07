@@ -120,6 +120,7 @@ pub struct Parser<R: Read> {
     game_events: crate::game_events::GameEventHandler,
     header: Option<DemoHeader>,
     config: ParserConfig,
+    signon_skipped: bool,
 }
 
 impl<R: Read> Parser<R> {
@@ -146,6 +147,7 @@ impl<R: Read> Parser<R> {
             game_events: crate::game_events::GameEventHandler::new(),
             header: None,
             config,
+            signon_skipped: false,
         }
     }
 
@@ -354,6 +356,17 @@ impl<R: Read> Parser<R> {
             self.parse_header()?;
         }
 
+        if !self.signon_skipped {
+            if let Some(h) = &self.header {
+                if h.filestamp == "HL2DEMO" && h.signon_length > 0 {
+                    for _ in 0..h.signon_length {
+                        self.bit_reader.read_int(8);
+                    }
+                }
+            }
+            self.signon_skipped = true;
+        }
+
         std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
             match self
                 .header
@@ -387,19 +400,19 @@ impl<R: Read> Parser<R> {
 
         match cmd {
             // SyncTick
-            3 => Ok(true),
+            | 3 => Ok(true),
             // Stop
-            0 => Ok(false),
+            | 0 => Ok(false),
             // Console command
-            9 => {
+            | 9 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
-            }
+            },
             // Send tables
-            4 => {
+            | 4 => {
                 let len = self.bit_reader.read_signed_int(32) as usize;
                 let mut data = Vec::with_capacity(len);
                 for _ in 0..len {
@@ -416,9 +429,9 @@ impl<R: Read> Parser<R> {
                 }
 
                 Ok(true)
-            }
+            },
             // String tables
-            6 => {
+            | 6 => {
                 let len = self.bit_reader.read_signed_int(32) as usize;
                 let mut data = Vec::with_capacity(len);
                 for _ in 0..len {
@@ -426,18 +439,18 @@ impl<R: Read> Parser<R> {
                 }
                 self.parse_stringtable_packet(&data);
                 Ok(true)
-            }
+            },
             // User command
-            12 => {
+            | 12 => {
                 self.bit_reader.read_int(32); // command number
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
-            }
+            },
             // Packets (normal, signon or full)
-            7 | 8 | 13 => {
+            | 7 | 8 | 13 => {
                 const SKIP_BITS: u32 = (152 + 4 + 4) * 8;
                 for _ in 0..SKIP_BITS {
                     self.bit_reader.read_bit();
@@ -447,16 +460,16 @@ impl<R: Read> Parser<R> {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
-            }
+            },
             // Unhandled but length-prefixed commands
-            1 | 2 | 5 | 10 | 11 | 14 | 15 | 16 | 17 | 18 => {
+            | 1 | 2 | 5 | 10 | 11 | 14 | 15 | 16 | 17 | 18 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
                 }
                 Ok(true)
-            }
-            _ => Ok(true),
+            },
+            | _ => Ok(true),
         }
         .map(|res| {
             if res {
