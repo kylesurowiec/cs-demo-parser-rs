@@ -227,6 +227,11 @@ impl<R: Read> Parser<R> {
         self.game_state.equipment_mapping = self.equipment_mapping.clone();
     }
 
+    /// Size in bytes of lump data skipped after the signon.
+    pub fn lump_size(&self) -> u64 {
+        self.lump_size
+    }
+
     pub fn dispatch_event<E>(&mut self, event: E)
     where
         E: Send + Sync + 'static,
@@ -349,11 +354,16 @@ impl<R: Read> Parser<R> {
         header.playback_ticks = self.bit_reader.read_signed_int(32);
         header.playback_frames = self.bit_reader.read_signed_int(32);
         header.signon_length = self.bit_reader.read_signed_int(32);
-      
-        self.lump_size = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader).data_size;
+
+        let lump_info = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader);
+        self.lump_size = if header.filestamp == "PBDEMS2" {
+            lump_info.data_size
+        } else {
+            0
+        };
         self.reading_signon = header.filestamp == "HL2DEMO" && header.signon_length > 0;
         self.header = Some(header.clone());
-      
+
         Ok(header)
     }
 
