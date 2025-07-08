@@ -358,6 +358,9 @@ impl<R: Read> Parser<R> {
         if header.filestamp == "PBDEMS2" {
             let lump_info = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader);
             self.lump_size = lump_info.data_size;
+        } else if self.bit_reader.peek_u32() == Some(crate::parser::lumps::LUMP_MAGIC) {
+            let lump_info = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader);
+            self.lump_size = lump_info.data_size;
         } else {
             self.lump_size = 0;
         }

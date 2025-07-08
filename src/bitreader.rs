@@ -26,6 +26,24 @@ impl<R: Read> BitReader<R> {
         Self::with_capacity(reader, LARGE_BUFFER)
     }
 
+    /// Peeks the next 4 bytes without advancing the reader if the reader is
+    /// byte aligned. Returns `None` if fewer than 4 bytes are available or the
+    /// reader is not byte aligned.
+    pub fn peek_u32(&mut self) -> Option<u32>
+    where
+        R: Read,
+    {
+        use std::io::BufRead;
+        if let Some(reader) = self.inner.reader() {
+            if let Ok(buf) = reader.fill_buf() {
+                if buf.len() >= 4 {
+                    return Some(u32::from_le_bytes([buf[0], buf[1], buf[2], buf[3]]));
+                }
+            }
+        }
+        None
+    }
+
     /// Skips the specified number of bits.
     pub fn skip_bits(&mut self, bits: u32) {
         let bytes = bits / 8;
