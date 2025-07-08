@@ -1,5 +1,8 @@
 use crate::bitreader::BitReader;
 
+/// Magic identifying a lump table following the demo header.
+pub const LUMP_MAGIC: u32 = 0xba80b001;
+
 /// Information about lump data found in a demo.
 #[derive(Debug, Default)]
 pub struct LumpInfo {
@@ -13,7 +16,6 @@ impl LumpInfo {
     /// byte after the table.
     pub fn parse<R: std::io::Read>(reader: &mut BitReader<R>) -> Self {
         // Magic identifying a lump table.
-        const LUMP_MAGIC: u32 = 0xba80b001;
 
         let magic = reader.read_int(32);
         debug_assert_eq!(magic, LUMP_MAGIC, "unexpected lump table magic");
