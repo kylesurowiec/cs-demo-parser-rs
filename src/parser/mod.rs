@@ -358,9 +358,6 @@ impl<R: Read> Parser<R> {
         if header.filestamp == "PBDEMS2" {
             let lump_info = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader);
             self.lump_size = lump_info.data_size;
-        } else if self.bit_reader.peek_u32() == Some(crate::parser::lumps::LUMP_MAGIC) {
-            let lump_info = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader);
-            self.lump_size = lump_info.data_size;
         } else {
             self.lump_size = 0;
         }
@@ -425,7 +422,7 @@ impl<R: Read> Parser<R> {
 
         match cmd {
             // Signon or packet
-            | 0 | 1 => {
+            | 1 | 2 => {
                 const SKIP_BITS: u32 = (152 + 4 + 4) * 8;
                 for _ in 0..SKIP_BITS {
                     self.bit_reader.read_bit();
@@ -437,9 +434,9 @@ impl<R: Read> Parser<R> {
                 Ok(true)
             },
             // SyncTick
-            | 2 => Ok(true),
+            | 3 => Ok(true),
             // Console command
-            | 3 => {
+            | 4 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
@@ -447,7 +444,7 @@ impl<R: Read> Parser<R> {
                 Ok(true)
             },
             // User command
-            | 4 => {
+            | 5 => {
                 self.bit_reader.read_int(32); // command number
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
@@ -456,7 +453,7 @@ impl<R: Read> Parser<R> {
                 Ok(true)
             },
             // Send tables
-            | 5 => {
+            | 6 => {
                 let len = self.bit_reader.read_signed_int(32) as usize;
                 let mut data = Vec::with_capacity(len);
                 for _ in 0..len {
@@ -475,7 +472,7 @@ impl<R: Read> Parser<R> {
                 Ok(true)
             },
             // String tables
-            | 8 => {
+            | 9 => {
                 let len = self.bit_reader.read_signed_int(32) as usize;
                 let mut data = Vec::with_capacity(len);
                 for _ in 0..len {
@@ -485,7 +482,7 @@ impl<R: Read> Parser<R> {
                 Ok(true)
             },
             // Custom data
-            | 7 => {
+            | 8 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
@@ -493,7 +490,7 @@ impl<R: Read> Parser<R> {
                 Ok(true)
             },
             // Stop
-            | 6 => {
+            | 7 => {
                 if self.reading_signon {
                     self.reading_signon = false;
                     Ok(true)
@@ -502,7 +499,7 @@ impl<R: Read> Parser<R> {
                 }
             },
             // Unhandled but length-prefixed commands
-            | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 => {
+            | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;
                 for _ in 0..len {
                     self.bit_reader.read_int(8);
