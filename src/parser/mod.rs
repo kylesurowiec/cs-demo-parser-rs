@@ -437,14 +437,7 @@ impl<R: Read> Parser<R> {
         match cmd {
             // Signon or packet
             | 1 | 2 => {
-                const SKIP_BITS: u32 = (152 + 4 + 4) * 8;
-                for _ in 0..SKIP_BITS {
-                    self.bit_reader.read_bit();
-                }
-                let size = self.bit_reader.read_signed_int(32) as u32;
-                for _ in 0..size {
-                    self.bit_reader.read_int(8);
-                }
+                self.parse_packet_s1()?;
                 Ok(true)
             },
             // SyncTick
@@ -529,6 +522,48 @@ impl<R: Read> Parser<R> {
         for t in updates {
             self.dispatch_event(StringTableUpdated { table: t });
         }
+    }
+
+    fn parse_packet_s1(&mut self) -> Result<(), ParserError> {
+        const HEADER_BITS: u32 = (152 + 4 + 4) * 8;
+        self.bit_reader.skip_bits(HEADER_BITS);
+        let size = self.bit_reader.read_signed_int(32) as usize;
+
+        let mut data = Vec::with_capacity(size);
+        for _ in 0..size {
+            data.push(self.bit_reader.read_int(8) as u8);
+        }
+
+        use std::io::{Cursor, Read};
+
+        let mut cur = Cursor::new(&data);
+        while (cur.position() as usize) < size {
+            let cmd = Self::read_varint32_cursor(&mut cur)?;
+            let msg_size = Self::read_varint32_cursor(&mut cur)? as usize;
+            let mut msg_buf = vec![0u8; msg_size];
+            cur.read_exact(&mut msg_buf)
+                .map_err(|_| ParserError::UnexpectedEndOfDemo)?;
+            self.handle_svc_message(cmd, &msg_buf);
+        }
+
+        Ok(())
+    }
+
+    fn read_varint32_cursor<T: Read>(cur: &mut T) -> Result<u32, ParserError> {
+        let mut result = 0u32;
+        let mut shift = 0;
+        loop {
+            let mut buf = [0u8; 1];
+            cur.read_exact(&mut buf)
+                .map_err(|_| ParserError::UnexpectedEndOfDemo)?;
+            let b = buf[0];
+            result |= ((b & 0x7f) as u32) << shift;
+            if b & 0x80 == 0 {
+                break;
+            }
+            shift += 7;
+        }
+        Ok(result)
     }
 
     fn parse_frame_s2(&mut self) -> Result<bool, ParserError> {
