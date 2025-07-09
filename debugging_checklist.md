@@ -3,22 +3,25 @@
 **Latest panic stack trace**
 
 ```
-thread 'main' panicked at /workspace/cs-demo-parser-rs/src/bitreader.rs:60:31: called `Result::unwrap()` on an `Err` value: Error { kind: UnexpectedEof, message: "failed to fill whole buffer" }
+thread 'main' panicked at src/sendtables2/mod.rs:161:28:
+attempt to add with overflow
 stack backtrace:
-   0: <std::sys::backtrace::BacktraceLock::print::DisplayBacktrace as core::fmt::Display>::fmt
-   1: core::fmt::write
-   2: std::io::Write::write_fmt
-   3: std::sys::backtrace::BacktraceLock::print
-   4: std::panicking::default_hook::{{closure}}
-   5: std::panicking::default_hook
-   6: std::panicking::rust_panic_with_hook
-   7: std::panicking::begin_panic_handler::{{closure}}
-   8: std::sys::backtrace::__rust_end_short_backtrace
-   9: __rustc::rust_begin_unwind
-  10: core::panicking::panic_fmt
-  11: core::result::unwrap_failed
-  12: cs_demo_parser::parser::Parser::<R>::parse_to_end
-  13: print_events::main
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::panicking::panic_const::panic_const_add_overflow
+   3: cs_demo_parser::sendtables2::Parser::parse_packet_entities
+   4: cs_demo_parser::parser::Parser::<R>::handle_svc_message
+   5: cs_demo_parser::parser::Parser::<R>::parse_packet_s1
+   6: cs_demo_parser::parser::Parser::<R>::parse_frame_s1
+   7: cs_demo_parser::parser::Parser::<R>::parse_next_frame::{{closure}}
+   8: core::ops::function::FnOnce::call_once
+   9: <core::panic::unwind_safe::AssertUnwindSafe<F> as core::ops::function::FnOnce<()>>::call_once
+  10: std::panicking::try::do_call
+  11: __rust_try
+  12: std::panicking::try
+  13: std::panic::catch_unwind
+  14: cs_demo_parser::parser::Parser::<R>::parse_next_frame
+  15: debug_dump::main
 ```
 
 The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when reading the demo file. The following checklist outlines investigation steps to resolve the issue.
@@ -52,3 +55,4 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
   - Removed `reading_signon` state so the final DEM_Stop command ends parsing.
 
 - [ ] Implement Source 1 packet parsing in `parse_frame_s1` to handle game events like `player_death`. Current implementation skips packet contents, so no kill events are dispatched.
+  - New panic in `parse_packet_entities` after implementing initial packet reading. Likely due to incorrect netmessage decoding. Review demoinfocs-golang for proper S1 packet structure.
