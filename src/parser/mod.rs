@@ -373,10 +373,7 @@ impl<R: Read> Parser<R> {
                 self.lump_size = 0;
             }
             if header.filestamp == "HL2DEMO" && header.signon_length > 0 {
-                for _ in 0..header.signon_length {
-                    self.bit_reader.read_int(8);
-                }
-                self.reading_signon = false;
+                self.reading_signon = true;
             } else {
                 self.reading_signon = false;
             }
