@@ -71,6 +71,28 @@ fn main() {
     let size = file.metadata().map(|m| m.len()).unwrap_or(0);
     println!("File size: {} bytes", size);
 
+    // Peek the filestamp to detect Git LFS pointer files early
+    let mut filestamp_buf = [0u8; 8];
+    if let Err(e) = file.read_exact(&mut filestamp_buf) {
+        eprintln!("Failed to read filestamp: {}", e);
+        return;
+    }
+    let filestamp_str = std::str::from_utf8(&filestamp_buf).unwrap_or("<invalid>");
+    if filestamp_str.trim_start() == "version" {
+        eprintln!(
+            "Input looks like a Git LFS pointer. Run `git lfs pull` to fetch the actual demo file."
+        );
+        return;
+    }
+    // Rewind and attempt to read the full header
+    file.seek(SeekFrom::Start(0)).expect("seek back to start");
+    if size < 1072 {
+        eprintln!(
+            "File is too small to contain a complete header ({} < 1072 bytes)",
+            size
+        );
+    }
+
     // Read raw header bytes for inspection
     let mut header_bytes = vec![0u8; 1072];
     if let Err(e) = file.read_exact(&mut header_bytes) {
