@@ -9,7 +9,11 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
 - [x] Investigate whether the demo file is truncated or corrupted by checking its size against the header values (playback frames, signon length, lump table sizes).
 - The demo files in `demos/` are only ~130 bytes and start with the text "version". They are Git LFS pointer files, so the real demos were not downloaded. Run `git lfs pull` to fetch them before continuing.
   - `git lfs pull` fails because no remote is configured. Need to copy real demo files manually for future runs.
-- [ ] Examine the lump table parsing in `debug_dump.rs` and compare with the official Valve demo specification to ensure offsets are computed correctly.
+- [x] Examine the lump table parsing in `debug_dump.rs` and compare with the official Valve demo specification to ensure offsets are computed correctly.
+  - Source 1 demos include a lump table but each entry is only four `u32` values.
+    The previous code assumed eight values and consumed too many bytes, offsetting
+    subsequent frame reads. Updated both `lumps.rs` and `debug_dump.rs` to read
+    the correct format and only parse lumps for PBDEMS2 demos.
 - [x] Remove premature skipping of `signon_length` bytes in `Parser::parse_header` and set `reading_signon` accordingly.
   - Header parsing no longer consumes signon data, preventing misaligned frame reads.
 - [ ] Add logging around `Parser::parse_next_frame` to identify which frame causes the EOF and what command was expected.

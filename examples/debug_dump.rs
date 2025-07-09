@@ -115,27 +115,10 @@ fn main() {
     let mut lump_file = File::open(&path).expect("Failed to reopen for lumps");
     lump_file.seek(SeekFrom::Start(1072)).expect("seek lumps");
     let mut lump_reader = cs_demo_parser::bitreader::BitReader::new_small(lump_file);
-    const LUMP_MAGIC: u32 = 0xba80b001;
     let magic = lump_reader.read_int(32);
-    let count = lump_reader.read_int(32);
-    let _unknown1 = lump_reader.read_int(32);
-    let _unknown2 = lump_reader.read_int(32);
-    let mut max_end = 0u64;
-    for _ in 0..count {
-        let mut vals = [0u32; 8];
-        for v in &mut vals {
-            *v = lump_reader.read_int(32);
-        }
-        for pair in (0..8).step_by(2) {
-            let end = vals[pair] as u64 + vals[pair + 1] as u64;
-            if end > max_end {
-                max_end = end;
-            }
-        }
-    }
+    let lump_info = cs_demo_parser::parser::lumps::LumpInfo::parse(&mut lump_reader);
     println!("  Lump magic: 0x{:08x}", magic);
-    println!("  Lump count: {}", count);
-    println!("  Lump data size: {} bytes", max_end);
+    println!("  Lump data size: {} bytes", lump_info.data_size);
 
     // Reset reader for parser
     file.seek(SeekFrom::Start(0)).expect("seek back");
