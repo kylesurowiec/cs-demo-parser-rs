@@ -51,3 +51,4 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
   Need to inspect frame reading logic in `parse_frame_s1` for late-demo cases.
   - Removed `reading_signon` state so the final DEM_Stop command ends parsing.
 
+- [ ] Implement Source 1 packet parsing in `parse_frame_s1` to handle game events like `player_death`. Current implementation skips packet contents, so no kill events are dispatched.
