@@ -121,7 +121,6 @@ pub struct Parser<R: Read> {
     game_events: crate::game_events::GameEventHandler,
     header: Option<DemoHeader>,
     config: ParserConfig,
-    reading_signon: bool,
     signon_skipped: bool,
     lump_size: u64,
 }
@@ -150,7 +149,6 @@ impl<R: Read> Parser<R> {
             game_events: crate::game_events::GameEventHandler::new(),
             header: None,
             config,
-            reading_signon: false,
             signon_skipped: false,
             lump_size: 0,
         }
@@ -369,11 +367,6 @@ impl<R: Read> Parser<R> {
                 // to parse one.
                 self.lump_size = 0;
             }
-            if header.filestamp == "HL2DEMO" && header.signon_length > 0 {
-                self.reading_signon = true;
-            } else {
-                self.reading_signon = false;
-            }
             self.header = Some(header.clone());
 
             Ok(header)
@@ -511,14 +504,7 @@ impl<R: Read> Parser<R> {
                 Ok(true)
             },
             // Stop
-            | 7 => {
-                if self.reading_signon {
-                    self.reading_signon = false;
-                    Ok(true)
-                } else {
-                    Ok(false)
-                }
-            },
+            | 7 => Ok(false),
             // Unhandled but length-prefixed commands
             | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 => {
                 let len = self.bit_reader.read_signed_int(32) as u32;

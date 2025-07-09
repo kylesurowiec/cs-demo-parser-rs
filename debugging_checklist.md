@@ -49,4 +49,5 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
 - [ ] Research upstream libraries or documentation (e.g., `demoinfocs-golang`) for known quirks in parsing this specific demo format.
 - Observed `print_events` example failing with `UnexpectedEndOfDemo` after ~74k frames.
   Need to inspect frame reading logic in `parse_frame_s1` for late-demo cases.
+  - Removed `reading_signon` state so the final DEM_Stop command ends parsing.
 
