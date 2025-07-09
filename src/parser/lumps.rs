@@ -24,17 +24,19 @@ impl LumpInfo {
         // Skip two unknown fields
         reader.read_int(32);
         reader.read_int(32);
+
         let mut max_end = 0u64;
         for _ in 0..count {
-            let mut vals = [0u32; 8];
-            for v in &mut vals {
-                *v = reader.read_int(32);
-            }
-            for pair in (0..8).step_by(2) {
-                let end = vals[pair] as u64 + vals[pair + 1] as u64;
-                if end > max_end {
-                    max_end = end;
-                }
+            let offset = reader.read_int(32) as u64;
+            let length = reader.read_int(32) as u64;
+            // version
+            reader.read_int(32);
+            // fourcc / flags
+            reader.read_int(32);
+
+            let end = offset + length;
+            if end > max_end {
+                max_end = end;
             }
         }
 
