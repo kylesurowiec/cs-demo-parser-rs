@@ -112,13 +112,22 @@ fn main() {
     println!("  Playback frames: {}", playback_frames);
 
     // Parse lump table for extra insight
-    let mut lump_file = File::open(&path).expect("Failed to reopen for lumps");
-    lump_file.seek(SeekFrom::Start(1072)).expect("seek lumps");
-    let mut lump_reader = cs_demo_parser::bitreader::BitReader::new_small(lump_file);
-    let magic = lump_reader.read_int(32);
-    let lump_info = cs_demo_parser::parser::lumps::LumpInfo::parse(&mut lump_reader);
-    println!("  Lump magic: 0x{:08x}", magic);
-    println!("  Lump data size: {} bytes", lump_info.data_size);
+    let mut lump_size = 0u64;
+    if filestamp.trim_end_matches('\0') == "PBDEMS2" {
+        let mut lump_file = File::open(&path).expect("Failed to reopen for lumps");
+        lump_file.seek(SeekFrom::Start(1072)).expect("seek lumps");
+        let mut lump_reader = cs_demo_parser::bitreader::BitReader::new_small(lump_file);
+        let magic = lump_reader.read_int(32);
+        let lump_info = cs_demo_parser::parser::lumps::LumpInfo::parse(&mut lump_reader);
+        println!("  Lump magic: 0x{:08x}", magic);
+        println!("  Lump data size: {} bytes", lump_info.data_size);
+        lump_size = lump_info.data_size;
+    } else {
+        println!("  No lump table for this demo format");
+    }
+    if lump_size > 0 {
+        println!("  Lump table size (manual): {} bytes", lump_size);
+    }
 
     // Reset reader for parser
     file.seek(SeekFrom::Start(0)).expect("seek back");
