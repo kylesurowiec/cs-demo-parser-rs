@@ -6,7 +6,8 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
   - Panic originates from `BitReader::read_int` when EOF is reached.
 - [x] Validate that `BitReader` correctly handles EOF by inspecting `bitreader.rs` around `read_int` and verifying return values instead of unwrapping.
   - Added `catch_unwind` around header parsing so EOF now returns `UnexpectedEndOfDemo` instead of panicking.
-- [ ] Investigate whether the demo file is truncated or corrupted by checking its size against the header values (playback frames, signon length, lump table sizes).
+- [x] Investigate whether the demo file is truncated or corrupted by checking its size against the header values (playback frames, signon length, lump table sizes).
+  - The demo files in `demos/` are only ~130 bytes and start with the text "version". They are Git LFS pointer files, so the real demos were not downloaded. Run `git lfs pull` to fetch them before continuing.
 - [ ] Examine the lump table parsing in `debug_dump.rs` and compare with the official Valve demo specification to ensure offsets are computed correctly.
 - [ ] Add logging around `Parser::parse_next_frame` to identify which frame causes the EOF and what command was expected.
 - [ ] Compare the behaviour with other demo files known to work, to determine if the issue is data specific or systemic.
