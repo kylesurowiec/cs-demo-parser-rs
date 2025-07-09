@@ -1,5 +1,20 @@
 # Debugging Steps for Unexpected EOF Panic
 
+**Latest panic stack trace**
+
+```
+thread 'main' panicked at src/parser/lumps.rs:21:9: assertion `left == right` failed: unexpected lump table magic
+  left: 10
+  right: 3128995841
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::panicking::assert_failed_inner
+   3: core::panicking::assert_failed
+   4: cs_demo_parser::parser::lumps::LumpInfo::parse
+   5: debug_dump::main
+```
+
 The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when reading the demo file. The following checklist outlines investigation steps to resolve the issue.
 
 - [x] Re-run `cargo run --example debug_dump` with `RUST_BACKTRACE=1` to capture a full stack trace of the panic.
@@ -16,6 +31,8 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
     the correct format and only parse lumps for PBDEMS2 demos.
 - [x] Remove premature skipping of `signon_length` bytes in `Parser::parse_header` and set `reading_signon` accordingly.
   - Header parsing no longer consumes signon data, preventing misaligned frame reads.
+- [x] Skip lump parsing in `debug_dump` for HL2DEMO demos to avoid panicking on unexpected magic.
+  - Lumps are only present in PBDEMS2 demos. Source 1 demos should ignore the table entirely.
 - [ ] Add logging around `Parser::parse_next_frame` to identify which frame causes the EOF and what command was expected.
 - [ ] Compare the behaviour with other demo files known to work, to determine if the issue is data specific or systemic.
 - [ ] Consider validating the data after each read in `BitReader` to detect misaligned reads earlier.
