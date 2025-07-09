@@ -39,7 +39,9 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
   - Header parsing no longer consumes signon data, preventing misaligned frame reads.
 - [x] Skip lump parsing in `debug_dump` for HL2DEMO demos to avoid panicking on unexpected magic.
   - Lumps are only present in PBDEMS2 demos. Source 1 demos should ignore the table entirely.
-- [ ] Add logging around `Parser::parse_next_frame` to identify which frame causes the EOF and what command was expected.
+- [x] Add logging around `Parser::parse_next_frame` to identify which frame causes the EOF and what command was expected.
+  - Inserted `println!` calls in `parse_next_frame`, `parse_frame_s1` and
+    `parse_frame_s2` to print the frame index and command type during parsing.
 - [ ] Compare the behaviour with other demo files known to work, to determine if the issue is data specific or systemic.
 - [ ] Consider validating the data after each read in `BitReader` to detect misaligned reads earlier.
 - [ ] Review recent commits for changes to `BitReader` or the parser that may have introduced the issue.
