@@ -40,6 +40,8 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
     the correct format and only parse lumps for PBDEMS2 demos.
 - [x] Remove premature skipping of `signon_length` bytes in `Parser::parse_header` and set `reading_signon` accordingly.
   - Header parsing no longer consumes signon data, preventing misaligned frame reads.
+- [x] Correct packet header bit count in `parse_packet_s1` to 160 bits. The previous
+  multiplication by 8 skipped too much data and caused misaligned reads.
 - [x] Skip lump parsing in `debug_dump` for HL2DEMO demos to avoid panicking on unexpected magic.
   - Lumps are only present in PBDEMS2 demos. Source 1 demos should ignore the table entirely.
 - [x] Add logging around `Parser::parse_next_frame` to identify which frame causes the EOF and what command was expected.
