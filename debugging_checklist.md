@@ -22,6 +22,8 @@ stack backtrace:
   13: std::panic::catch_unwind
   14: cs_demo_parser::parser::Parser::<R>::parse_next_frame
   15: debug_dump::main
+  16: core::ops::function::FnOnce::call_once
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
 ```
 
 The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when reading the demo file. The following checklist outlines investigation steps to resolve the issue.
@@ -40,8 +42,10 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
     the correct format and only parse lumps for PBDEMS2 demos.
 - [x] Remove premature skipping of `signon_length` bytes in `Parser::parse_header` and set `reading_signon` accordingly.
   - Header parsing no longer consumes signon data, preventing misaligned frame reads.
-- [x] Correct packet header bit count in `parse_packet_s1` to 160 bits. The previous
-  multiplication by 8 skipped too much data and caused misaligned reads.
+- [x] Correct packet header skip length in `parse_packet_s1`.
+  - Source 1 packets include 160 **bytes** of header data. The code should skip
+    `(152 + 4 + 4) * 8` bits. Setting it to just `160` bits caused the reader to
+    fall out of sync and trigger EOF errors.
 - [x] Skip lump parsing in `debug_dump` for HL2DEMO demos to avoid panicking on unexpected magic.
   - Lumps are only present in PBDEMS2 demos. Source 1 demos should ignore the table entirely.
 - [x] Add logging around `Parser::parse_next_frame` to identify which frame causes the EOF and what command was expected.
