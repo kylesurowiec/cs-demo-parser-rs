@@ -336,52 +336,59 @@ impl<R: Read> Parser<R> {
             return Ok(h.clone());
         }
 
-        let mut header = DemoHeader::default();
-        header.filestamp = self.bit_reader.read_c_string(8);
-        match header.filestamp.as_str() {
-            | "HL2DEMO" | "PBDEMS2" => {},
-            | "version" | "version " => return Err(ParserError::GitLfsPointer),
-            | _ => return Err(ParserError::InvalidFileType),
-        }
+        let parse_res = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            let mut header = DemoHeader::default();
+            header.filestamp = self.bit_reader.read_c_string(8);
+            match header.filestamp.as_str() {
+                | "HL2DEMO" | "PBDEMS2" => {},
+                | "version" | "version " => return Err(ParserError::GitLfsPointer),
+                | _ => return Err(ParserError::InvalidFileType),
+            }
 
-        header.protocol = self.bit_reader.read_signed_int(32);
-        header.network_protocol = self.bit_reader.read_signed_int(32);
-        header.server_name = self.bit_reader.read_c_string(260);
-        header.client_name = self.bit_reader.read_c_string(260);
-        header.map_name = self.bit_reader.read_c_string(260);
-        header.game_directory = self.bit_reader.read_c_string(260);
-        header.playback_time = self.bit_reader.read_float();
-        header.playback_ticks = self.bit_reader.read_signed_int(32);
-        header.playback_frames = self.bit_reader.read_signed_int(32);
-        header.signon_length = self.bit_reader.read_signed_int(32);
+            header.protocol = self.bit_reader.read_signed_int(32);
+            header.network_protocol = self.bit_reader.read_signed_int(32);
+            header.server_name = self.bit_reader.read_c_string(260);
+            header.client_name = self.bit_reader.read_c_string(260);
+            header.map_name = self.bit_reader.read_c_string(260);
+            header.game_directory = self.bit_reader.read_c_string(260);
+            header.playback_time = self.bit_reader.read_float();
+            header.playback_ticks = self.bit_reader.read_signed_int(32);
+            header.playback_frames = self.bit_reader.read_signed_int(32);
+            header.signon_length = self.bit_reader.read_signed_int(32);
 
-        // Some demos include a lump table directly after the header. For
-        // Source 2 demos the lumps contain additional data that needs to be
-        // skipped before parsing frames. Source 1 demos may contain an empty or
-        // garbage lump table which should simply be skipped if present.
-        if self.bit_reader.peek_u32() == Some(crate::parser::lumps::LUMP_MAGIC) {
-            let lump_info = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader);
-            if header.filestamp == "PBDEMS2" {
-                self.lump_size = lump_info.data_size;
+            // Some demos include a lump table directly after the header. For
+            // Source 2 demos the lumps contain additional data that needs to be
+            // skipped before parsing frames. Source 1 demos may contain an empty or
+            // garbage lump table which should simply be skipped if present.
+            if self.bit_reader.peek_u32() == Some(crate::parser::lumps::LUMP_MAGIC) {
+                let lump_info = crate::parser::lumps::LumpInfo::parse(&mut self.bit_reader);
+                if header.filestamp == "PBDEMS2" {
+                    self.lump_size = lump_info.data_size;
+                } else {
+                    // Source 1 demos don't actually use lump data but still embed
+                    // the table. Only the table itself needs to be skipped.
+                    self.lump_size = 0;
+                }
             } else {
-                // Source 1 demos don't actually use lump data but still embed
-                // the table. Only the table itself needs to be skipped.
                 self.lump_size = 0;
             }
-        } else {
-            self.lump_size = 0;
-        }
-        if header.filestamp == "HL2DEMO" && header.signon_length > 0 {
-            for _ in 0..header.signon_length {
-                self.bit_reader.read_int(8);
+            if header.filestamp == "HL2DEMO" && header.signon_length > 0 {
+                for _ in 0..header.signon_length {
+                    self.bit_reader.read_int(8);
+                }
+                self.reading_signon = false;
+            } else {
+                self.reading_signon = false;
             }
-            self.reading_signon = false;
-        } else {
-            self.reading_signon = false;
-        }
-        self.header = Some(header.clone());
+            self.header = Some(header.clone());
 
-        Ok(header)
+            Ok(header)
+        }));
+
+        match parse_res {
+            | Ok(res) => res,
+            | Err(_) => Err(ParserError::UnexpectedEndOfDemo),
+        }
     }
 
     /// Parses the next frame of the demo. Returns `Ok(false)` if the demo
