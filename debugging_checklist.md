@@ -62,3 +62,6 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
 
 - [ ] Implement Source 1 packet parsing in `parse_frame_s1` to handle game events like `player_death`. Current implementation skips packet contents, so no kill events are dispatched.
   - New panic in `parse_packet_entities` after implementing initial packet reading. Likely due to incorrect netmessage decoding. Review demoinfocs-golang for proper S1 packet structure.
+  - Temporarily skip `SvcPacketEntities` for `HL2DEMO` files to avoid overflow in
+    `sendtables2::Parser::parse_packet_entities` until a correct implementation
+    is available.
