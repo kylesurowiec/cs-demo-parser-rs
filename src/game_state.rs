@@ -5,7 +5,9 @@ use crate::common::{Bomb, Equipment, GrenadeProjectile, Hostage, Inferno, Player
 use crate::game_rules::GameRules;
 use crate::match_info::MatchInfo;
 use crate::proto::msg::cs_demo_parser_rs as proto_msg;
+use crate::proto::msgs2::CMsgPlayerInfo;
 use crate::sendtables2::Entity;
+use prost::Message;
 
 /// Very small placeholder for a team state.
 #[derive(Clone, Default)]
@@ -257,6 +259,52 @@ impl GameState {
         self.entities.remove(&id);
     }
 
+    pub fn apply_userinfo_table(&mut self, table: &crate::stringtables::StringTable) {
+        if table.name.eq_ignore_ascii_case("userinfo") {
+            for (idx, entry) in &table.entries {
+                if entry.user_data.is_empty() {
+                    continue;
+                }
+                if let Ok(info) = CMsgPlayerInfo::decode(&entry.user_data[..]) {
+                    let user_id = info.userid.unwrap_or(*idx);
+                    let steam_id = info.steamid.or(info.xuid).unwrap_or(0);
+                    let name = info.name.unwrap_or_default();
+                    let is_bot = info.fakeplayer.unwrap_or(false);
+                    let p = self
+                        .players_by_user_id
+                        .entry(user_id)
+                        .or_insert_with(crate::common::Player::default);
+                    p.user_id = user_id;
+                    p.name = name;
+                    p.steam_id64 = steam_id;
+                    p.is_bot = is_bot;
+                    p.is_connected = true;
+                    if p.entity_id != 0 {
+                        self.players_by_entity_id.insert(p.entity_id, p.clone());
+                    }
+                }
+            }
+        }
+    }
+
+    fn update_player_from_entity(&mut self, ent: &Entity) {
+        if !ent.class.name.to_lowercase().contains("player") {
+            return;
+        }
+        let p = self
+            .players_by_entity_id
+            .entry(ent.index)
+            .or_insert_with(crate::common::Player::default);
+        p.entity_id = ent.index;
+        if p.user_id == 0 {
+            p.user_id = ent.index;
+        }
+        // team information might be available via entity properties in a
+        // complete implementation. This simplified version does not decode
+        // properties and leaves the team unchanged.
+        self.players_by_user_id.insert(p.user_id, p.clone());
+    }
+
     fn update_special_entities(&mut self, ent: &Entity) {
         let name = ent.class.name.as_str();
         if name.contains("Projectile") {
@@ -314,6 +362,7 @@ impl GameState {
             } else if ev.op.contains(EntityOp::CREATED) || ev.op.contains(EntityOp::UPDATED) {
                 self.add_entity(ev.entity.clone());
                 self.update_special_entities(&ev.entity);
+                self.update_player_from_entity(&ev.entity);
             }
         } else if any.is::<crate::events::FrameDone>() {
             if let Some(fb) = self.flying_flashbangs.first() {
