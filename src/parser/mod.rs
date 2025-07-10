@@ -999,3 +999,49 @@ impl<R: Read> Parser<R> {
 }
 
 use crate::proto::msg::cs_demo_parser_rs as proto_msg;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::io::Cursor;
+
+    #[test]
+    fn parse_packet_s1_header_length() {
+        // Construct a minimal Source 1 demo containing a single packet frame.
+        let mut data = Vec::new();
+
+        // Demo header
+        let mut filestamp = [0u8; 8];
+        filestamp[..7].copy_from_slice(b"HL2DEMO");
+        data.extend_from_slice(&filestamp);
+        data.extend_from_slice(&0u32.to_le_bytes()); // protocol
+        data.extend_from_slice(&0u32.to_le_bytes()); // network_protocol
+        data.extend_from_slice(&[0u8; 260]); // server_name
+        data.extend_from_slice(&[0u8; 260]); // client_name
+        data.extend_from_slice(&[0u8; 260]); // map_name
+        data.extend_from_slice(&[0u8; 260]); // game_directory
+        data.extend_from_slice(&0f32.to_le_bytes()); // playback_time
+        data.extend_from_slice(&0u32.to_le_bytes()); // playback_ticks
+        data.extend_from_slice(&0u32.to_le_bytes()); // playback_frames
+        data.extend_from_slice(&0u32.to_le_bytes()); // signon_length
+
+        // Frame: command 1 (signon), tick 0, player slot 0
+        data.push(1u8);
+        data.extend_from_slice(&0u32.to_le_bytes());
+        data.push(0u8);
+
+        // Packet header - 160 bytes of zeros
+        data.extend_from_slice(&[0u8; 160]);
+
+        // Net message section length (0)
+        data.extend_from_slice(&0u32.to_le_bytes());
+
+        let mut parser = Parser::new(Cursor::new(data));
+
+        parser.parse_header().expect("header parsed");
+        assert!(parser.parse_next_frame().unwrap());
+        // No bytes should remain for another frame.
+        let res = parser.parse_next_frame();
+        assert!(matches!(res, Err(ParserError::UnexpectedEndOfDemo)));
+    }
+}
