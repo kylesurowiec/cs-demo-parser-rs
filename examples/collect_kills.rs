@@ -1,5 +1,6 @@
 use cs_demo_parser::events::Kill;
 use cs_demo_parser::parser::Parser;
+use std::collections::HashMap;
 use std::env;
 use std::fs::File;
 
@@ -32,7 +33,24 @@ fn main() {
     let file = File::open(&path).expect("failed to open demo");
     let mut parser = Parser::new(file);
     match collect_kills(&mut parser) {
-        | Ok(kills) => println!("collected {} kills", kills.len()),
+        | Ok(kills) => {
+            println!("collected {} kills", kills.len());
+            let mut scoreboard: HashMap<String, (u32, u32)> = HashMap::new();
+            for k in &kills {
+                if k.killer.is_some() {
+                    let entry = scoreboard.entry("Unknown".to_string()).or_insert((0, 0));
+                    entry.0 += 1;
+                }
+                if k.victim.is_some() {
+                    let entry = scoreboard.entry("Unknown".to_string()).or_insert((0, 0));
+                    entry.1 += 1;
+                }
+            }
+            println!("scoreboard:");
+            for (player, (kills, deaths)) in scoreboard {
+                println!("{}: {} kills / {} deaths", player, kills, deaths);
+            }
+        },
         | Err(e) => eprintln!("error: {:?}", e),
     }
 }

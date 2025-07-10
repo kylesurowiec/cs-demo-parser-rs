@@ -70,3 +70,6 @@ Debug notes:
 
 - `debug_dump` runs successfully with the full demo path argument (no `-demo`).
 - `collect_kills` works on `2015-08-23-ESLOneCologne2015-fnatic-vs-virtuspro-mirage.dem` and reports 154 kills.
+- Player names are not decoded from events yet, so generating a scoreboard from
+  kill events isn't possible. Need to parse `player_info` data or string tables
+  in future iterations.
