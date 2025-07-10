@@ -326,11 +326,18 @@ impl GameState {
                     entity: Some(ent.clone()),
                     ..Default::default()
                 });
+        } else if name.contains("Hostage") {
+            self.hostages
+                .entry(ent.index)
+                .or_insert_with(|| crate::common::Hostage { ..Default::default() });
         } else if name.contains("DroppedWeapon") || name.contains("Dropped") {
             self.dropped_weapons
                 .entry(ent.index)
                 .or_insert_with(|| name.to_string());
         } else if let Some(eq) = self.equipment_mapping.get(name) {
+            if *eq == crate::common::EquipmentType::Bomb {
+                self.bomb.entity = Some(ent.clone());
+            }
             self.weapons.entry(ent.index).or_insert_with(|| Equipment {
                 equipment_type: *eq,
                 entity: None,
@@ -371,6 +378,12 @@ impl GameState {
                 self.dropped_weapons.remove(&ev.entity.index);
                 self.grenade_projectiles.remove(&ev.entity.index);
                 self.infernos.remove(&ev.entity.index);
+                self.hostages.remove(&ev.entity.index);
+                if let Some(b) = &self.bomb.entity {
+                    if b.index == ev.entity.index {
+                        self.bomb.entity = None;
+                    }
+                }
             } else if ev.op.contains(EntityOp::CREATED) || ev.op.contains(EntityOp::UPDATED) {
                 self.add_entity(ev.entity.clone());
                 self.update_special_entities(&ev.entity);
