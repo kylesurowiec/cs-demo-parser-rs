@@ -1,5 +1,5 @@
 # cs-demo-parser
-Mostly vibe coded fork of https://github.com/markus-wa/demoinfocs-golang written in Rust. Counter‑Strike demo parser written in Rust.
+Mostly vibe coded fork of https://github.com/markus-wa/demoinfocs-golang written in Rust.
 
 Goals:
   1:1 functionality
