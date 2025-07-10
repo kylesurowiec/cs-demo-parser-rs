@@ -33,3 +33,31 @@ fn userinfo_updates_players() {
     assert_eq!(42, p.steam_id64);
     assert!(p.is_connected);
 }
+
+use cs_demo_parser::parser::EntityEvent;
+use cs_demo_parser::sendtables::EntityOp;
+use cs_demo_parser::sendtables2::{Class, Entity};
+
+#[test]
+fn player_entity_updates() {
+    let mut gs = GameState::default();
+    let class = Class {
+        class_id: 1,
+        name: "CCSPlayerPawn".into(),
+        serializer: None,
+    };
+    let ent = Entity {
+        index: 2,
+        serial: 1,
+        class,
+    };
+    gs.handle_event(&EntityEvent {
+        entity: ent.clone(),
+        op: EntityOp::CREATED,
+    });
+    assert!(gs.players_by_entity_id.contains_key(&2));
+    let p = gs.players_by_entity_id.get(&2).unwrap();
+    assert_eq!(2, p.entity_id);
+    assert!(p.is_connected);
+    assert!(gs.players_by_user_id.contains_key(&2));
+}
