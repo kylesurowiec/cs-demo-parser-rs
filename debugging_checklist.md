@@ -51,15 +51,6 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
 - [x] Add logging around `Parser::parse_next_frame` to identify which frame causes the EOF and what command was expected.
   - Inserted `println!` calls in `parse_next_frame`, `parse_frame_s1` and
     `parse_frame_s2` to print the frame index and command type during parsing.
-- [ ] Compare the behaviour with other demo files known to work, to determine if the issue is data specific or systemic.
-- [ ] Consider validating the data after each read in `BitReader` to detect misaligned reads earlier.
-- [ ] Review recent commits for changes to `BitReader` or the parser that may have introduced the issue.
-- [ ] Create unit tests for `BitReader::read_int` when reading near EOF to ensure graceful error handling.
-- [ ] Research upstream libraries or documentation (e.g., `demoinfocs-golang`) for known quirks in parsing this specific demo format.
-- Observed `print_events` example failing with `UnexpectedEndOfDemo` after ~74k frames.
-  Need to inspect frame reading logic in `parse_frame_s1` for late-demo cases.
-  - Removed `reading_signon` state so the final DEM_Stop command ends parsing.
-
  - [x] Implement Source 1 packet parsing in `parse_frame_s1` to handle game events like `player_death`. Kill events are now dispatched.
   - New panic in `parse_packet_entities` after implementing initial packet reading. Likely due to incorrect netmessage decoding. Review demoinfocs-golang for proper S1 packet structure.
   - Temporarily skip `SvcPacketEntities` for `HL2DEMO` files to avoid overflow in
@@ -67,7 +58,6 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
     is available.
 
 Debug notes:
-
 - `debug_dump` runs successfully with the full demo path argument (no `-demo`).
 - `collect_kills` works on `2015-08-23-ESLOneCologne2015-fnatic-vs-virtuspro-mirage.dem` and reports 154 kills.
 - Player names are not decoded from events yet, so generating a scoreboard from
