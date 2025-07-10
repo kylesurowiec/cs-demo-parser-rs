@@ -1,23 +1,15 @@
-use cs_demo_parser::events::Kill;
 use cs_demo_parser::parser::Parser;
+use cs_demo_parser::proto::msg::cs_demo_parser_rs::{
+    CsvcMsgGameEvent, CsvcMsgGameEventList, csvc_msg_game_event,
+};
 use std::collections::HashMap;
 use std::env;
 use std::fs::File;
 
-/// Collects all kill events of the provided parser.
-fn collect_kills(
-    parser: &mut Parser<File>,
-) -> Result<Vec<Kill>, cs_demo_parser::parser::ParserError> {
-    use std::sync::{Arc, Mutex};
-
-    let kills = Arc::new(Mutex::new(Vec::new()));
-    let handler_kills = Arc::clone(&kills);
-    let handler_id = parser.register_event_handler::<Kill, _>(move |k| {
-        handler_kills.lock().unwrap().push(k.clone());
-    });
-    parser.parse_to_end()?;
-    parser.unregister_event_handler(handler_id);
-    Ok(Arc::try_unwrap(kills).unwrap().into_inner().unwrap())
+#[derive(Default)]
+struct EventDescriptor {
+    name: String,
+    keys: Vec<(String, i32)>,
 }
 
 fn demo_path_from_args() -> String {
@@ -28,29 +20,109 @@ fn demo_path_from_args() -> String {
     }
 }
 
+fn key_to_i32(key: &csvc_msg_game_event::KeyT) -> i32 {
+    key.val_long.or(key.val_short).or(key.val_byte).unwrap_or(0)
+}
+
+fn key_to_string(key: &csvc_msg_game_event::KeyT) -> String {
+    key.val_string.clone().unwrap_or_default()
+}
+
 fn main() {
     let path = demo_path_from_args();
     let file = File::open(&path).expect("failed to open demo");
     let mut parser = Parser::new(file);
-    match collect_kills(&mut parser) {
-        | Ok(kills) => {
-            println!("collected {} kills", kills.len());
-            let mut scoreboard: HashMap<String, (u32, u32)> = HashMap::new();
-            for k in &kills {
-                if k.killer.is_some() {
-                    let entry = scoreboard.entry("Unknown".to_string()).or_insert((0, 0));
-                    entry.0 += 1;
-                }
-                if k.victim.is_some() {
-                    let entry = scoreboard.entry("Unknown".to_string()).or_insert((0, 0));
-                    entry.1 += 1;
-                }
+
+    let descriptors: std::sync::Arc<std::sync::Mutex<HashMap<i32, EventDescriptor>>> =
+        Default::default();
+    let desc_clone = descriptors.clone();
+    parser.register_net_message_handler::<CsvcMsgGameEventList, _>(move |list| {
+        let mut map = desc_clone.lock().unwrap();
+        map.clear();
+        for d in &list.descriptors {
+            if let (Some(id), Some(name)) = (d.eventid, d.name.as_ref()) {
+                let keys = d
+                    .keys
+                    .iter()
+                    .filter_map(|k| {
+                        if let (Some(typ), Some(kn)) = (k.r#type, k.name.as_ref()) {
+                            Some((kn.clone(), typ))
+                        } else {
+                            None
+                        }
+                    })
+                    .collect();
+                map.insert(
+                    id,
+                    EventDescriptor {
+                        name: name.clone(),
+                        keys,
+                    },
+                );
             }
-            println!("scoreboard:");
-            for (player, (kills, deaths)) in scoreboard {
-                println!("{}: {} kills / {} deaths", player, kills, deaths);
-            }
-        },
-        | Err(e) => eprintln!("error: {:?}", e),
+        }
+    });
+
+    let scoreboard: std::sync::Arc<std::sync::Mutex<HashMap<i32, (u32, u32)>>> = Default::default();
+    let names: std::sync::Arc<std::sync::Mutex<HashMap<i32, String>>> = Default::default();
+    let desc_clone = descriptors.clone();
+    let sb_clone = scoreboard.clone();
+    let names_clone = names.clone();
+    parser.register_net_message_handler::<CsvcMsgGameEvent, _>(move |ev| {
+        let map = desc_clone.lock().unwrap();
+        let desc = match ev.eventid.and_then(|id| map.get(&id)) {
+            | Some(d) => d,
+            | None => return,
+        };
+        match desc.name.as_str() {
+            | "player_connect" | "player_connect_full" => {
+                let mut userid = 0;
+                let mut name = String::new();
+                for ((kname, _), key) in desc.keys.iter().zip(&ev.keys) {
+                    match kname.as_str() {
+                        | "userid" => userid = key_to_i32(key),
+                        | "name" => name = key_to_string(key),
+                        | _ => {},
+                    }
+                }
+                if userid != 0 && !name.is_empty() {
+                    names_clone.lock().unwrap().insert(userid, name);
+                }
+            },
+            | "player_death" => {
+                let mut victim = 0;
+                let mut attacker = 0;
+                for ((kname, _), key) in desc.keys.iter().zip(&ev.keys) {
+                    match kname.as_str() {
+                        | "userid" => victim = key_to_i32(key),
+                        | "attacker" => attacker = key_to_i32(key),
+                        | _ => {},
+                    }
+                }
+                if victim != 0 {
+                    sb_clone.lock().unwrap().entry(victim).or_insert((0, 0)).1 += 1;
+                }
+                if attacker != 0 {
+                    sb_clone.lock().unwrap().entry(attacker).or_insert((0, 0)).0 += 1;
+                }
+            },
+            | _ => {},
+        }
+    });
+
+    if let Err(e) = parser.parse_to_end() {
+        eprintln!("error: {:?}", e);
+        return;
+    }
+
+    let sb = scoreboard.lock().unwrap();
+    let name_map = names.lock().unwrap();
+    println!("scoreboard:");
+    for (id, (k, d)) in sb.iter() {
+        let name = name_map
+            .get(id)
+            .cloned()
+            .unwrap_or_else(|| format!("#{}", id));
+        println!("{}: {} kills / {} deaths", name, k, d);
     }
 }
