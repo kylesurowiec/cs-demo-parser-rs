@@ -513,6 +513,12 @@ impl<R: Read> Parser<R> {
     fn parse_stringtable_packet(&mut self, data: &[u8]) {
         let updates = self.string_tables.parse_packet(data);
         for t in updates {
+            if t.name.eq_ignore_ascii_case("userinfo") {
+                self.game_state_mut().apply_userinfo_table(&t);
+            }
+            if t.name == "ItemDefinitions" {
+                self.update_equipment_mapping_from_classes();
+            }
             self.dispatch_event(StringTableUpdated { table: t });
         }
     }
@@ -779,6 +785,12 @@ impl<R: Read> Parser<R> {
                             self.dispatch_event(crate::events::StringTableCreated {
                                 table_name: t.name.clone(),
                             });
+                            if t.name.eq_ignore_ascii_case("userinfo") {
+                                self.game_state_mut().apply_userinfo_table(&t);
+                            }
+                            if t.name == "ItemDefinitions" {
+                                self.update_equipment_mapping_from_classes();
+                            }
                             self.dispatch_event(StringTableUpdated { table: t });
                         }
                         self.dispatch_net_message(msg);
@@ -787,6 +799,12 @@ impl<R: Read> Parser<R> {
                 | proto_msg::SvcMessages::SvcUpdateStringTable => {
                     if let Ok(msg) = proto_msg::CsvcMsgUpdateStringTable::decode(buf) {
                         if let Some(t) = self.string_tables.on_update_string_table(&msg) {
+                            if t.name.eq_ignore_ascii_case("userinfo") {
+                                self.game_state_mut().apply_userinfo_table(&t);
+                            }
+                            if t.name == "ItemDefinitions" {
+                                self.update_equipment_mapping_from_classes();
+                            }
                             self.dispatch_event(StringTableUpdated { table: t });
                         }
                         self.dispatch_net_message(msg);
