@@ -63,3 +63,4 @@ Debug notes:
 - Player names are not decoded from events yet, so generating a scoreboard from
   kill events isn't possible. Need to parse `player_info` data or string tables
   in future iterations.
+- Decoding of `CSVCMsg_GameEvent` fields still missing. Kill events contain no player IDs or names, leaving scoreboard empty. Implement descriptor lookup and key parsing in `GameEventHandler` to fill event structs in the next iteration.
