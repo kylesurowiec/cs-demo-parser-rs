@@ -463,9 +463,6 @@ impl<R: Read> Parser<R> {
                     data.push(self.bit_reader.read_int(8) as u8);
                 }
 
-                let _ = self.s1_tables.parse_packet(&data);
-                self.dispatch_event(crate::events::DataTablesParsed);
-
                 if self.s1_tables.parse_packet(&data).is_ok() {
                     self.server_classes = self.s1_tables.server_classes().to_vec();
                     self.update_equipment_mapping_from_classes();
@@ -767,6 +764,7 @@ impl<R: Read> Parser<R> {
                 },
                 | proto_msg::SvcMessages::SvcClassInfo => {
                     if let Ok(msg) = proto_msg::CsvcMsgClassInfo::decode(buf) {
+                        self.s2_tables.on_class_info(&msg);
                         self.dispatch_net_message(msg);
                     }
                 },
