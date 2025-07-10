@@ -25,7 +25,21 @@ stack backtrace:
   16: core::ops::function::FnOnce::call_once
 note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
 ```
-Compile error trying to add scoreboard: `Player` struct has no `name` field, see `error[E0609]`.
+Latest compile error when trying to use player names in `collect_kills`:
+
+```
+error[E0609]: no field `name` on type `&cs_demo_parser::events::Player`
+ --> examples/collect_kills.rs:41:57
+  |
+41 |                     let entry = scoreboard.entry(killer.name.clone()).or_insert((0, 0));
+   |                                                         ^^^^ unknown field
+
+error[E0609]: no field `name` on type `&cs_demo_parser::events::Player`
+ --> examples/collect_kills.rs:45:57
+  |
+45 |                     let entry = scoreboard.entry(victim.name.clone()).or_insert((0, 0));
+   |                                                         ^^^^ unknown field
+```
 
 The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when reading the demo file. The following checklist outlines investigation steps to resolve the issue.
 

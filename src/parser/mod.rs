@@ -399,8 +399,6 @@ impl<R: Read> Parser<R> {
             self.signon_skipped = true;
         }
 
-        println!("Starting frame {}", self.current_frame);
-
         std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
             match self
                 .header
@@ -428,7 +426,6 @@ impl<R: Read> Parser<R> {
 
     fn parse_frame_s1(&mut self) -> Result<bool, ParserError> {
         let cmd = self.bit_reader.read_int(8) as u8;
-        println!("  cmd {} on frame {}", cmd, self.current_frame);
         let tick = self.bit_reader.read_signed_int(32);
         self.game_state.set_ingame_tick(tick);
         self.bit_reader.read_int(8); // player slot
@@ -572,7 +569,7 @@ impl<R: Read> Parser<R> {
         let cmd = self.bit_reader.read_varint32();
         let msg_type = cmd & !64;
         let compressed = (cmd & 64) != 0;
-        println!("  msg_type {} on frame {}", msg_type, self.current_frame);
+
         let tick = self.bit_reader.read_varint32();
         self.game_state.set_ingame_tick(tick as i32);
         let size = self.bit_reader.read_varint32();
