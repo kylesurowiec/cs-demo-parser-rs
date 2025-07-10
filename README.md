@@ -1,8 +1,9 @@
 # cs-demo-parser
+Mostly vibe coded fork of https://github.com/markus-wa/demoinfocs-golang written in Rust. Counter‑Strike demo parser written in Rust.
 
-This repository contains a Counter‑Strike demo parser written in Rust.
-The old Go implementation has been removed and the Rust crate now lives at the repository root.
-Example programs can be found under `examples`.
+Goals:
+  1:1 functionality
+  Look for speed improvements
 
 ## Building
 
