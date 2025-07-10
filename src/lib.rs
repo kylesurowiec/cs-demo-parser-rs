@@ -11,7 +11,7 @@ pub mod gamerules;
 pub mod match_info;
 pub mod matchinfo;
 pub mod parser;
-pub use demoinfocs_proto as proto;
+pub use proto;
 pub mod sendtables;
 pub mod sendtables1;
 pub mod sendtables2;
