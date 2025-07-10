@@ -25,6 +25,7 @@ stack backtrace:
   16: core::ops::function::FnOnce::call_once
 note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
 ```
+Compile error trying to add scoreboard: `Player` struct has no `name` field, see `error[E0609]`.
 
 The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when reading the demo file. The following checklist outlines investigation steps to resolve the issue.
 
@@ -64,3 +65,4 @@ Debug notes:
   kill events isn't possible. Need to parse `player_info` data or string tables
   in future iterations.
 - Decoding of `CSVCMsg_GameEvent` fields still missing. Kill events contain no player IDs or names, leaving scoreboard empty. Implement descriptor lookup and key parsing in `GameEventHandler` to fill event structs in the next iteration.
+- Attempted to build scoreboard by parsing kill events, but compile error: Player struct has no name field.
