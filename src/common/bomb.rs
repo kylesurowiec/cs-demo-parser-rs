@@ -1,8 +1,10 @@
 use super::Player;
 use crate::sendtables::entity::Vector;
+use crate::sendtables2::Entity;
 
 #[derive(Default)]
 pub struct Bomb {
+    pub entity: Option<Entity>,
     pub last_on_ground_position: Vector,
     pub carrier: Option<Player>,
 }
