@@ -60,8 +60,13 @@ The `debug_dump` example panics with `UnexpectedEof` in `bitreader.rs` when read
   Need to inspect frame reading logic in `parse_frame_s1` for late-demo cases.
   - Removed `reading_signon` state so the final DEM_Stop command ends parsing.
 
-- [ ] Implement Source 1 packet parsing in `parse_frame_s1` to handle game events like `player_death`. Current implementation skips packet contents, so no kill events are dispatched.
+ - [x] Implement Source 1 packet parsing in `parse_frame_s1` to handle game events like `player_death`. Kill events are now dispatched.
   - New panic in `parse_packet_entities` after implementing initial packet reading. Likely due to incorrect netmessage decoding. Review demoinfocs-golang for proper S1 packet structure.
   - Temporarily skip `SvcPacketEntities` for `HL2DEMO` files to avoid overflow in
     `sendtables2::Parser::parse_packet_entities` until a correct implementation
     is available.
+
+Debug notes:
+
+- `debug_dump` runs successfully with the full demo path argument (no `-demo`).
+- `collect_kills` works on `2015-08-23-ESLOneCologne2015-fnatic-vs-virtuspro-mirage.dem` and reports 154 kills.
