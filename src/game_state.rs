@@ -299,6 +299,7 @@ impl GameState {
             .entry(ent.index)
             .or_insert_with(crate::common::Player::default);
         p.entity_id = ent.index;
+        p.is_connected = true;
         if p.user_id == 0 {
             p.user_id = ent.index;
         }
@@ -329,7 +330,9 @@ impl GameState {
         } else if name.contains("Hostage") {
             self.hostages
                 .entry(ent.index)
-                .or_insert_with(|| crate::common::Hostage { ..Default::default() });
+                .or_insert_with(|| crate::common::Hostage {
+                    ..Default::default()
+                });
         } else if name.contains("DroppedWeapon") || name.contains("Dropped") {
             self.dropped_weapons
                 .entry(ent.index)
@@ -379,6 +382,10 @@ impl GameState {
                 self.grenade_projectiles.remove(&ev.entity.index);
                 self.infernos.remove(&ev.entity.index);
                 self.hostages.remove(&ev.entity.index);
+                if let Some(p) = self.players_by_entity_id.get_mut(&ev.entity.index) {
+                    p.is_connected = false;
+                    self.players_by_user_id.insert(p.user_id, p.clone());
+                }
                 if let Some(b) = &self.bomb.entity {
                     if b.index == ev.entity.index {
                         self.bomb.entity = None;
