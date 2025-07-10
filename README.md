@@ -2,8 +2,8 @@
 Mostly vibe coded fork of https://github.com/markus-wa/demoinfocs-golang written in Rust.
 
 Goals:
-  1:1 functionality
-  Look for speed improvements
+  - 1:1 functionality
+  - Investigate speed improvements
 
 ## Building
 
