@@ -327,6 +327,14 @@ impl GameState {
             self.dropped_weapons
                 .entry(ent.index)
                 .or_insert_with(|| name.to_string());
+        } else if let Some(eq) = self.equipment_mapping.get(name) {
+            self.weapons.entry(ent.index).or_insert_with(|| Equipment {
+                equipment_type: *eq,
+                entity: None,
+                original_string: name.to_string(),
+                unique_id: ent.index as i64,
+                position: Default::default(),
+            });
         } else if name.contains("GameRules") {
             self.rules.entity = Some(ent.clone());
         }
@@ -355,6 +363,7 @@ impl GameState {
             use crate::sendtables::EntityOp;
             if ev.op.contains(EntityOp::DELETED) {
                 self.remove_entity(ev.entity.index);
+                self.weapons.remove(&ev.entity.index);
                 self.projectile_owners.remove(&ev.entity.index);
                 self.dropped_weapons.remove(&ev.entity.index);
                 self.grenade_projectiles.remove(&ev.entity.index);
