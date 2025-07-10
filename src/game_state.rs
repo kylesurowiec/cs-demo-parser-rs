@@ -275,6 +275,9 @@ impl GameState {
                         .entry(user_id)
                         .or_insert_with(crate::common::Player::default);
                     p.user_id = user_id;
+                    if p.entity_id == 0 {
+                        p.entity_id = user_id;
+                    }
                     p.name = name;
                     p.steam_id64 = steam_id;
                     p.is_bot = is_bot;
