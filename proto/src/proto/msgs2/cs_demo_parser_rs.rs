@@ -83,1046 +83,1084 @@ impl GcProtoBufMsgSrc {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcGiftedItems {
+pub struct CgcStorePurchaseInitLineItem {
     #[prost(uint32, optional, tag = "1")]
-    pub accountid: ::core::option::Option<u32>,
+    pub item_def_id: ::core::option::Option<u32>,
     #[prost(uint32, optional, tag = "2")]
-    pub giftdefindex: ::core::option::Option<u32>,
+    pub quantity: ::core::option::Option<u32>,
     #[prost(uint32, optional, tag = "3")]
-    pub max_gifts_possible: ::core::option::Option<u32>,
+    pub cost_in_local_currency: ::core::option::Option<u32>,
     #[prost(uint32, optional, tag = "4")]
-    pub num_eligible_recipients: ::core::option::Option<u32>,
-    #[prost(uint32, repeated, packed = "false", tag = "5")]
-    pub recipients_accountids: ::prost::alloc::vec::Vec<u32>,
+    pub purchase_type: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "5")]
+    pub supplemental_data: ::core::option::Option<u64>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcDevSchemaReservationRequest {
+pub struct CMsgGcStorePurchaseInit {
     #[prost(string, optional, tag = "1")]
-    pub schema_typename: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "2")]
-    pub instance_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(uint64, optional, tag = "3")]
-    pub context: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "4")]
-    pub id: ::core::option::Option<u64>,
+    pub country: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(int32, optional, tag = "2")]
+    pub language: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub currency: ::core::option::Option<i32>,
+    #[prost(message, repeated, tag = "4")]
+    pub line_items: ::prost::alloc::vec::Vec<CgcStorePurchaseInitLineItem>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgCasketItem {
+pub struct CMsgGcStorePurchaseInitResponse {
+    #[prost(int32, optional, tag = "1")]
+    pub result: ::core::option::Option<i32>,
+    #[prost(uint64, optional, tag = "2")]
+    pub txn_id: ::core::option::Option<u64>,
+    #[prost(string, optional, tag = "3")]
+    pub url: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(uint64, repeated, packed = "false", tag = "4")]
+    pub item_ids: ::prost::alloc::vec::Vec<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoPartyInvite {
     #[prost(uint64, optional, tag = "1")]
-    pub casket_item_id: ::core::option::Option<u64>,
+    pub group_id: ::core::option::Option<u64>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub sender_id: ::core::option::Option<u64>,
+    #[prost(string, optional, tag = "3")]
+    pub sender_name: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoLobbyInvite {
+    #[prost(uint64, optional, tag = "1")]
+    pub group_id: ::core::option::Option<u64>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub sender_id: ::core::option::Option<u64>,
+    #[prost(string, optional, tag = "3")]
+    pub sender_name: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSystemBroadcast {
+    #[prost(string, optional, tag = "1")]
+    pub message: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgInviteToParty {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steam_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub client_version: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub team_invite: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgInvitationCreated {
+    #[prost(uint64, optional, tag = "1")]
+    pub group_id: ::core::option::Option<u64>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub steam_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgPartyInviteResponse {
+    #[prost(uint64, optional, tag = "1")]
+    pub party_id: ::core::option::Option<u64>,
+    #[prost(bool, optional, tag = "2")]
+    pub accept: ::core::option::Option<bool>,
+    #[prost(uint32, optional, tag = "3")]
+    pub client_version: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub team_invite: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgKickFromParty {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steam_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgLeaveParty {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgServerAvailable {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgLanServerAvailable {
+    #[prost(fixed64, optional, tag = "1")]
+    pub lobby_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconGameAccountClient {
+    #[prost(uint32, optional, tag = "1", default = "0")]
+    pub additional_backpack_slots: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "6")]
+    pub trade_ban_expiration: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "12")]
+    pub bonus_xp_timestamp_refresh: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "13")]
+    pub bonus_xp_usedflags: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "14")]
+    pub elevated_state: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "15")]
+    pub elevated_timestamp: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoItemCriteriaCondition {
+    #[prost(int32, optional, tag = "1")]
+    pub op: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "2")]
+    pub field: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "3")]
+    pub required: ::core::option::Option<bool>,
+    #[prost(float, optional, tag = "4")]
+    pub float_value: ::core::option::Option<f32>,
+    #[prost(string, optional, tag = "5")]
+    pub string_value: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoItemCriteria {
+    #[prost(uint32, optional, tag = "1")]
+    pub item_level: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "2")]
+    pub item_quality: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "3")]
+    pub item_level_set: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "4")]
+    pub item_quality_set: ::core::option::Option<bool>,
+    #[prost(uint32, optional, tag = "5")]
+    pub initial_inventory: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "6")]
+    pub initial_quantity: ::core::option::Option<u32>,
+    #[prost(bool, optional, tag = "8")]
+    pub ignore_enabled_flag: ::core::option::Option<bool>,
+    #[prost(message, repeated, tag = "9")]
+    pub conditions: ::prost::alloc::vec::Vec<CsoItemCriteriaCondition>,
+    #[prost(int32, optional, tag = "10")]
+    pub item_rarity: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "11")]
+    pub item_rarity_set: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "12")]
+    pub recent_only: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoItemRecipe {
+    #[prost(uint32, optional, tag = "1")]
+    pub def_index: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "2")]
+    pub name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "3")]
+    pub n_a: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "4")]
+    pub desc_inputs: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "5")]
+    pub desc_outputs: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "6")]
+    pub di_a: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "7")]
+    pub di_b: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "8")]
+    pub di_c: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "9")]
+    pub do_a: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "10")]
+    pub do_b: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "11")]
+    pub do_c: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "12")]
+    pub requires_all_same_class: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "13")]
+    pub requires_all_same_slot: ::core::option::Option<bool>,
+    #[prost(int32, optional, tag = "14")]
+    pub class_usage_for_output: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "15")]
+    pub slot_usage_for_output: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "16")]
+    pub set_for_output: ::core::option::Option<i32>,
+    #[prost(message, repeated, tag = "20")]
+    pub input_items_criteria: ::prost::alloc::vec::Vec<CsoItemCriteria>,
+    #[prost(message, repeated, tag = "21")]
+    pub output_items_criteria: ::prost::alloc::vec::Vec<CsoItemCriteria>,
+    #[prost(uint32, repeated, packed = "false", tag = "22")]
+    pub input_item_dupe_counts: ::prost::alloc::vec::Vec<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgDevNewItemRequest {
+    #[prost(fixed64, optional, tag = "1")]
+    pub receiver: ::core::option::Option<u64>,
+    #[prost(message, optional, tag = "2")]
+    pub criteria: ::core::option::Option<CsoItemCriteria>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgIncrementKillCountAttribute {
+    #[prost(fixed32, optional, tag = "1")]
+    pub killer_account_id: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "2")]
+    pub victim_account_id: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "3")]
+    pub item_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "4")]
+    pub event_type: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub amount: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgApplySticker {
+    #[prost(uint64, optional, tag = "1")]
+    pub sticker_item_id: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "2")]
+    pub item_item_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "3")]
+    pub sticker_slot: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub baseitem_defidx: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "5")]
+    pub sticker_wear: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "6")]
+    pub sticker_rotation: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "7")]
+    pub sticker_scale: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "8")]
+    pub sticker_offset_x: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "9")]
+    pub sticker_offset_y: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "10")]
+    pub sticker_offset_z: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "11")]
+    pub sticker_wear_target: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgModifyItemAttribute {
+    #[prost(uint64, optional, tag = "1")]
+    pub item_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub attr_defidx: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub attr_value: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgApplyStatTrakSwap {
+    #[prost(uint64, optional, tag = "1")]
+    pub tool_item_id: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "2")]
+    pub item_1_item_id: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "3")]
+    pub item_2_item_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgApplyStrangePart {
+    #[prost(uint64, optional, tag = "1")]
+    pub strange_part_item_id: ::core::option::Option<u64>,
     #[prost(uint64, optional, tag = "2")]
     pub item_item_id: ::core::option::Option<u64>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcUserTrackTimePlayedConsecutively {
-    #[prost(uint32, optional, tag = "1")]
-    pub state: ::core::option::Option<u32>,
+pub struct CMsgApplyPennantUpgrade {
+    #[prost(uint64, optional, tag = "1")]
+    pub upgrade_item_id: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "2")]
+    pub pennant_item_id: ::core::option::Option<u64>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcItemCustomizationNotification {
-    #[prost(uint64, repeated, packed = "false", tag = "1")]
-    pub item_id: ::prost::alloc::vec::Vec<u64>,
+pub struct CMsgApplyEggEssence {
+    #[prost(uint64, optional, tag = "1")]
+    pub essence_item_id: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "2")]
+    pub egg_item_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconItemAttribute {
+    #[prost(uint32, optional, tag = "1")]
+    pub def_index: ::core::option::Option<u32>,
     #[prost(uint32, optional, tag = "2")]
-    pub request: ::core::option::Option<u32>,
+    pub value: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "3")]
+    pub value_bytes: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconItemEquipped {
+    #[prost(uint32, optional, tag = "1")]
+    pub new_class: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub new_slot: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconItem {
+    #[prost(uint64, optional, tag = "1")]
+    pub id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub account_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub inventory: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub def_index: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub quantity: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "6")]
+    pub level: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "7")]
+    pub quality: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "8", default = "0")]
+    pub flags: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "9")]
+    pub origin: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "10")]
+    pub custom_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "11")]
+    pub custom_desc: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(message, repeated, tag = "12")]
+    pub attribute: ::prost::alloc::vec::Vec<CsoEconItemAttribute>,
+    #[prost(message, optional, boxed, tag = "13")]
+    pub interior_item: ::core::option::Option<::prost::alloc::boxed::Box<CsoEconItem>>,
+    #[prost(bool, optional, tag = "14", default = "false")]
+    pub in_use: ::core::option::Option<bool>,
+    #[prost(uint32, optional, tag = "15", default = "0")]
+    pub style: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "16", default = "0")]
+    pub original_id: ::core::option::Option<u64>,
+    #[prost(message, repeated, tag = "18")]
+    pub equipped_state: ::prost::alloc::vec::Vec<CsoEconItemEquipped>,
+    #[prost(uint32, optional, tag = "19")]
+    pub rarity: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgAdjustItemEquippedState {
+    #[prost(uint64, optional, tag = "1")]
+    pub item_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub new_class: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub new_slot: ::core::option::Option<u32>,
+    #[prost(bool, optional, tag = "4")]
+    pub swap: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgAdjustItemEquippedStateMulti {
+    #[prost(uint64, repeated, packed = "false", tag = "1")]
+    pub t_equips: ::prost::alloc::vec::Vec<u64>,
+    #[prost(uint64, repeated, packed = "false", tag = "2")]
+    pub ct_equips: ::prost::alloc::vec::Vec<u64>,
     #[prost(uint64, repeated, packed = "false", tag = "3")]
-    pub extra_data: ::prost::alloc::vec::Vec<u64>,
+    pub noteam_equips: ::prost::alloc::vec::Vec<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSortItems {
+    #[prost(uint32, optional, tag = "1")]
+    pub sort_type: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconClaimCode {
+    #[prost(uint32, optional, tag = "1")]
+    pub account_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub code_type: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub time_acquired: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "4")]
+    pub code: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgStoreGetUserData {
+    #[prost(fixed32, optional, tag = "1")]
+    pub price_sheet_version: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "2")]
+    pub currency: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgStoreGetUserDataResponse {
+    #[prost(int32, optional, tag = "1")]
+    pub result: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub currency_deprecated: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "3")]
+    pub country_deprecated: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(fixed32, optional, tag = "4")]
+    pub price_sheet_version: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "8")]
+    pub price_sheet: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgUpdateItemSchema {
+    #[prost(bytes = "vec", optional, tag = "1")]
+    pub items_game: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(fixed32, optional, tag = "2")]
+    pub item_schema_version: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "4")]
+    pub items_game_url: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcError {
+    #[prost(string, optional, tag = "1")]
+    pub error_text: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgRequestInventoryRefresh {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgConVarValue {
+    #[prost(string, optional, tag = "1")]
+    pub name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "2")]
+    pub value: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgReplicateConVars {
+    #[prost(message, repeated, tag = "1")]
+    pub convars: ::prost::alloc::vec::Vec<CMsgConVarValue>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgUseItem {
+    #[prost(uint64, optional, tag = "1")]
+    pub item_id: ::core::option::Option<u64>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub target_steam_id: ::core::option::Option<u64>,
+    #[prost(uint32, repeated, packed = "false", tag = "3")]
+    pub gift_potential_targets: ::prost::alloc::vec::Vec<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub duel_class_lock: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "5")]
+    pub initiator_steam_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgReplayUploadedToYouTube {
+    #[prost(string, optional, tag = "1")]
+    pub youtube_url: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "2")]
+    pub youtube_account_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(uint64, optional, tag = "3")]
+    pub session_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgConsumableExhausted {
+    #[prost(int32, optional, tag = "1")]
+    pub item_def_id: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgItemAcknowledgedDeprecated {
+    #[prost(uint32, optional, tag = "1")]
+    pub account_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub inventory: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub def_index: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub quality: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub rarity: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "6")]
+    pub origin: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "7")]
+    pub item_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSetItemPositions {
+    #[prost(message, repeated, tag = "1")]
+    pub item_positions: ::prost::alloc::vec::Vec<c_msg_set_item_positions::ItemPosition>,
+}
+/// Nested message and enum types in `CMsgSetItemPositions`.
+pub mod c_msg_set_item_positions {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ItemPosition {
+        #[prost(uint32, optional, tag = "1")]
+        pub legacy_item_id: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "2")]
+        pub position: ::core::option::Option<u32>,
+        #[prost(uint64, optional, tag = "3")]
+        pub item_id: ::core::option::Option<u64>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcReportAbuse {
+    #[prost(fixed64, optional, tag = "1")]
+    pub target_steam_id: ::core::option::Option<u64>,
+    #[prost(string, optional, tag = "4")]
+    pub description: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(uint64, optional, tag = "5")]
+    pub gid: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub abuse_type: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub content_type: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "6")]
+    pub target_game_server_ip: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "7")]
+    pub target_game_server_port: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcReportAbuseResponse {
+    #[prost(fixed64, optional, tag = "1")]
+    pub target_steam_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub result: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "3")]
+    pub error_message: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcNameItemNotification {
+    #[prost(fixed64, optional, tag = "1")]
+    pub player_steamid: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub item_def_index: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "3")]
+    pub item_name_custom: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcClientDisplayNotification {
+    #[prost(string, optional, tag = "1")]
+    pub notification_title_localization_key: ::core::option::Option<
+        ::prost::alloc::string::String,
+    >,
+    #[prost(string, optional, tag = "2")]
+    pub notification_body_localization_key: ::core::option::Option<
+        ::prost::alloc::string::String,
+    >,
+    #[prost(string, repeated, tag = "3")]
+    pub body_substring_keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    #[prost(string, repeated, tag = "4")]
+    pub body_substring_values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcShowItemsPickedUp {
+    #[prost(fixed64, optional, tag = "1")]
+    pub player_steamid: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcIncrementKillCountResponse {
+    #[prost(uint32, optional, tag = "1")]
+    pub killer_account_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub num_kills: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub item_def: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub level_type: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconItemDropRateBonus {
+    #[prost(uint32, optional, tag = "1")]
+    pub account_id: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "2")]
+    pub expiration_date: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "3")]
+    pub bonus: ::core::option::Option<f32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub bonus_count: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "5")]
+    pub item_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "6")]
+    pub def_index: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconItemLeagueViewPass {
+    #[prost(uint32, optional, tag = "1")]
+    pub account_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub league_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub admin: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub itemindex: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconItemEventTicket {
+    #[prost(uint32, optional, tag = "1")]
+    pub account_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub event_id: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "3")]
+    pub item_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcItemPreviewItemBoughtNotification {
+    #[prost(uint32, optional, tag = "1")]
+    pub item_def_index: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcStorePurchaseCancel {
+    #[prost(uint64, optional, tag = "1")]
+    pub txn_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcStorePurchaseCancelResponse {
+    #[prost(uint32, optional, tag = "1")]
+    pub result: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcStorePurchaseFinalize {
+    #[prost(uint64, optional, tag = "1")]
+    pub txn_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcStorePurchaseFinalizeResponse {
+    #[prost(uint32, optional, tag = "1")]
+    pub result: ::core::option::Option<u32>,
+    #[prost(uint64, repeated, packed = "false", tag = "2")]
+    pub item_ids: ::prost::alloc::vec::Vec<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcBannedWordListRequest {
+    #[prost(uint32, optional, tag = "1")]
+    pub ban_list_group_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub word_id: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcRequestAnnouncements {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcRequestAnnouncementsResponse {
+    #[prost(string, optional, tag = "1")]
+    pub announcement_title: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "2")]
+    pub announcement: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "3")]
+    pub nextmatch_title: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "4")]
+    pub nextmatch: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcBannedWord {
+    #[prost(uint32, optional, tag = "1")]
+    pub word_id: ::core::option::Option<u32>,
+    #[prost(
+        enumeration = "GcBannedWordType",
+        optional,
+        tag = "2",
+        default = "GcBannedWordDisableWord"
+    )]
+    pub word_type: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "3")]
+    pub word: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcBannedWordListResponse {
+    #[prost(uint32, optional, tag = "1")]
+    pub ban_list_group_id: ::core::option::Option<u32>,
+    #[prost(message, repeated, tag = "2")]
+    pub word_list: ::prost::alloc::vec::Vec<CMsgGcBannedWord>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcToGcBannedWordListBroadcast {
+    #[prost(message, optional, tag = "1")]
+    pub broadcast: ::core::option::Option<CMsgGcBannedWordListResponse>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcToGcBannedWordListUpdated {
+    #[prost(uint32, optional, tag = "1")]
+    pub group_id: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconDefaultEquippedDefinitionInstanceClient {
+    #[prost(uint32, optional, tag = "1")]
+    pub account_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub item_definition: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub class_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub slot_id: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcToGcDirtySdoCache {
+    #[prost(uint32, optional, tag = "1")]
+    pub sdo_type: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "2")]
+    pub key_uint64: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcToGcDirtyMultipleSdoCache {
+    #[prost(uint32, optional, tag = "1")]
+    pub sdo_type: ::core::option::Option<u32>,
+    #[prost(uint64, repeated, packed = "false", tag = "2")]
+    pub key_uint64: ::prost::alloc::vec::Vec<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcCollectItem {
+    #[prost(uint64, optional, tag = "1")]
+    pub collection_item_id: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "2")]
+    pub subject_item_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSdoNoMemcached {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcToGcUpdateSqlKeyValue {
+    #[prost(string, optional, tag = "1")]
+    pub key_name: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcToGcIsTrustedServer {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steam_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcToGcIsTrustedServerResponse {
+    #[prost(bool, optional, tag = "1")]
+    pub is_trusted: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcToGcBroadcastConsoleCommand {
+    #[prost(string, optional, tag = "1")]
+    pub con_command: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcServerVersionUpdated {
+    #[prost(uint32, optional, tag = "1")]
+    pub server_version: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcClientVersionUpdated {
+    #[prost(uint32, optional, tag = "1")]
+    pub client_version: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcToGcWebApiAccountChanged {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcToGcRequestPassportItemGrant {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steam_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub league_id: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "3")]
+    pub reward_flag: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGameServerInfo {
+    #[prost(fixed32, optional, tag = "1")]
+    pub server_public_ip_addr: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "2")]
+    pub server_private_ip_addr: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub server_port: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub server_tv_port: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "5")]
+    pub server_key: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "6")]
+    pub server_hibernation: ::core::option::Option<bool>,
+    #[prost(
+        enumeration = "c_msg_game_server_info::ServerType",
+        optional,
+        tag = "7",
+        default = "Unspecified"
+    )]
+    pub server_type: ::core::option::Option<i32>,
+    #[prost(uint32, optional, tag = "8")]
+    pub server_region: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "9")]
+    pub server_loadavg: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "10")]
+    pub server_tv_broadcast_time: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "11")]
+    pub server_game_time: ::core::option::Option<f32>,
+    #[prost(fixed64, optional, tag = "12")]
+    pub server_relay_connected_steam_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "13")]
+    pub relay_slots_max: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "14")]
+    pub relays_connected: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "15")]
+    pub relay_clients_connected: ::core::option::Option<i32>,
+    #[prost(fixed64, optional, tag = "16")]
+    pub relayed_game_server_steam_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "17")]
+    pub parent_relay_count: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "18")]
+    pub tv_secret_code: ::core::option::Option<u64>,
+}
+/// Nested message and enum types in `CMsgGameServerInfo`.
+pub mod c_msg_game_server_info {
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum ServerType {
+        Unspecified = 0,
+        Game = 1,
+        Proxy = 2,
+    }
+    impl ServerType {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                ServerType::Unspecified => "UNSPECIFIED",
+                ServerType::Game => "GAME",
+                ServerType::Proxy => "PROXY",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "UNSPECIFIED" => Some(Self::Unspecified),
+                "GAME" => Some(Self::Game),
+                "PROXY" => Some(Self::Proxy),
+                _ => None,
+            }
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconEquipSlot {
+    #[prost(uint32, optional, tag = "1")]
+    pub account_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub class_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub slot_id: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "4")]
+    pub item_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "5")]
+    pub item_definition: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgAdjustEquipSlot {
+    #[prost(uint32, optional, tag = "1")]
+    pub class_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub slot_id: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "3")]
+    pub item_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgAdjustEquipSlots {
+    #[prost(message, repeated, tag = "1")]
+    pub slots: ::prost::alloc::vec::Vec<CMsgAdjustEquipSlot>,
+    #[prost(uint32, optional, tag = "2")]
+    pub change_num: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgOpenCrate {
+    #[prost(uint64, optional, tag = "1")]
+    pub tool_item_id: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "2")]
+    pub subject_item_id: ::core::option::Option<u64>,
+    #[prost(bool, optional, tag = "3")]
+    pub for_rental: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsoEconRentalHistory {
+    #[prost(uint32, optional, tag = "1")]
+    pub account_id: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "2")]
+    pub crate_item_id: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "3")]
+    pub crate_def_index: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub issue_date: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub expiration_date: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgAcknowledgeRentalExpiration {
+    #[prost(uint64, optional, tag = "1")]
+    pub crate_item_id: ::core::option::Option<u64>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum EgcItemMsg {
-    KEMsgGcBase = 1000,
-    KEMsgGcSetItemPosition = 1001,
-    KEMsgGcCraft = 1002,
-    KEMsgGcCraftResponse = 1003,
-    KEMsgGcDelete = 1004,
-    KEMsgGcVerifyCacheSubscription = 1005,
-    KEMsgGcNameItem = 1006,
-    KEMsgGcUnlockCrate = 1007,
-    KEMsgGcUnlockCrateResponse = 1008,
-    KEMsgGcPaintItem = 1009,
-    KEMsgGcPaintItemResponse = 1010,
-    KEMsgGcGoldenWrenchBroadcast = 1011,
-    KEMsgGcmotdRequest = 1012,
-    KEMsgGcmotdRequestResponse = 1013,
-    KEMsgGcAddItemToSocketDeprecated = 1014,
-    KEMsgGcAddItemToSocketResponseDeprecated = 1015,
-    KEMsgGcAddSocketToBaseItemDeprecated = 1016,
-    KEMsgGcAddSocketToItemDeprecated = 1017,
-    KEMsgGcAddSocketToItemResponseDeprecated = 1018,
-    KEMsgGcNameBaseItem = 1019,
-    KEMsgGcNameBaseItemResponse = 1020,
-    KEMsgGcRemoveSocketItemDeprecated = 1021,
-    KEMsgGcRemoveSocketItemResponseDeprecated = 1022,
-    KEMsgGcCustomizeItemTexture = 1023,
-    KEMsgGcCustomizeItemTextureResponse = 1024,
-    KEMsgGcUseItemRequest = 1025,
-    KEMsgGcUseItemResponse = 1026,
-    KEMsgGcGiftedItemsDeprecated = 1027,
-    KEMsgGcRemoveItemName = 1030,
-    KEMsgGcRemoveItemPaint = 1031,
-    KEMsgGcGiftWrapItem = 1032,
-    KEMsgGcGiftWrapItemResponse = 1033,
-    KEMsgGcDeliverGift = 1034,
-    KEMsgGcDeliverGiftResponseGiver = 1035,
-    KEMsgGcDeliverGiftResponseReceiver = 1036,
-    KEMsgGcUnwrapGiftRequest = 1037,
-    KEMsgGcUnwrapGiftResponse = 1038,
-    KEMsgGcSetItemStyle = 1039,
-    KEMsgGcUsedClaimCodeItem = 1040,
-    KEMsgGcSortItems = 1041,
-    KEMsgGcRevolvingLootListDeprecated = 1042,
-    KEMsgGcLookupAccount = 1043,
-    KEMsgGcLookupAccountResponse = 1044,
-    KEMsgGcLookupAccountName = 1045,
-    KEMsgGcLookupAccountNameResponse = 1046,
-    KEMsgGcUpdateItemSchema = 1049,
-    KEMsgGcRemoveCustomTexture = 1051,
-    KEMsgGcRemoveCustomTextureResponse = 1052,
-    KEMsgGcRemoveMakersMark = 1053,
-    KEMsgGcRemoveMakersMarkResponse = 1054,
-    KEMsgGcRemoveUniqueCraftIndex = 1055,
-    KEMsgGcRemoveUniqueCraftIndexResponse = 1056,
-    KEMsgGcSaxxyBroadcast = 1057,
-    KEMsgGcBackpackSortFinished = 1058,
-    KEMsgGcAdjustItemEquippedState = 1059,
-    KEMsgGcCollectItem = 1061,
-    KEMsgGcItemAcknowledgedDeprecated = 1062,
-    KEMsgGcReportAbuse = 1065,
-    KEMsgGcReportAbuseResponse = 1066,
-    KEMsgGcNameItemNotification = 1068,
-    KEMsgGcApplyConsumableEffects = 1069,
-    KEMsgGcConsumableExhausted = 1070,
-    KEMsgGcShowItemsPickedUp = 1071,
-    KEMsgGcClientDisplayNotification = 1072,
-    KEMsgGcApplyStrangePart = 1073,
-    KEMsgGcIncrementKillCountAttribute = 1074,
-    KEMsgGcIncrementKillCountResponse = 1075,
-    KEMsgGcApplyPennantUpgrade = 1076,
-    KEMsgGcSetItemPositions = 1077,
-    KEMsgGcApplyEggEssence = 1078,
-    KEMsgGcNameEggEssenceResponse = 1079,
-    KEMsgGcPaintKitItem = 1080,
-    KEMsgGcPaintKitBaseItem = 1081,
-    KEMsgGcPaintKitItemResponse = 1082,
-    KEMsgGcGiftedItems = 1083,
-    KEMsgGcUnlockItemStyle = 1084,
-    KEMsgGcUnlockItemStyleResponse = 1085,
-    KEMsgGcApplySticker = 1086,
-    KEMsgGcItemAcknowledged = 1087,
-    KEMsgGcStatTrakSwap = 1088,
-    KEMsgGcUserTrackTimePlayedConsecutively = 1089,
-    KEMsgGcItemCustomizationNotification = 1090,
-    KEMsgGcModifyItemAttribute = 1091,
-    KEMsgGcCasketItemAdd = 1092,
-    KEMsgGcCasketItemExtract = 1093,
-    KEMsgGcCasketItemLoadContents = 1094,
-    KEMsgGcTradingBase = 1500,
-    KEMsgGcTradingInitiateTradeRequest = 1501,
-    KEMsgGcTradingInitiateTradeResponse = 1502,
-    KEMsgGcTradingStartSession = 1503,
-    KEMsgGcTradingSetItem = 1504,
-    KEMsgGcTradingRemoveItem = 1505,
-    KEMsgGcTradingUpdateTradeInfo = 1506,
-    KEMsgGcTradingSetReadiness = 1507,
-    KEMsgGcTradingReadinessResponse = 1508,
-    KEMsgGcTradingSessionClosed = 1509,
-    KEMsgGcTradingCancelSession = 1510,
-    KEMsgGcTradingTradeChatMsg = 1511,
-    KEMsgGcTradingConfirmOffer = 1512,
-    KEMsgGcTradingTradeTypingChatMsg = 1513,
-    KEMsgGcServerBrowserFavoriteServer = 1601,
-    KEMsgGcServerBrowserBlacklistServer = 1602,
-    KEMsgGcServerRentalsBase = 1700,
-    KEMsgGcItemPreviewCheckStatus = 1701,
-    KEMsgGcItemPreviewStatusResponse = 1702,
-    KEMsgGcItemPreviewRequest = 1703,
-    KEMsgGcItemPreviewRequestResponse = 1704,
-    KEMsgGcItemPreviewExpire = 1705,
-    KEMsgGcItemPreviewExpireNotification = 1706,
-    KEMsgGcItemPreviewItemBoughtNotification = 1707,
-    KEMsgGcDevNewItemRequest = 2001,
-    KEMsgGcDevNewItemRequestResponse = 2002,
-    KEMsgGcDevPaintKitDropItem = 2003,
-    KEMsgGcDevSchemaReservationRequest = 2004,
-    KEMsgGcStoreGetUserData = 2500,
-    KEMsgGcStoreGetUserDataResponse = 2501,
-    KEMsgGcStorePurchaseInitDeprecated = 2502,
-    KEMsgGcStorePurchaseInitResponseDeprecated = 2503,
-    KEMsgGcStorePurchaseFinalize = 2504,
-    KEMsgGcStorePurchaseFinalizeResponse = 2505,
-    KEMsgGcStorePurchaseCancel = 2506,
-    KEMsgGcStorePurchaseCancelResponse = 2507,
-    KEMsgGcStorePurchaseQueryTxn = 2508,
-    KEMsgGcStorePurchaseQueryTxnResponse = 2509,
-    KEMsgGcStorePurchaseInit = 2510,
-    KEMsgGcStorePurchaseInitResponse = 2511,
-    KEMsgGcBannedWordListRequest = 2512,
-    KEMsgGcBannedWordListResponse = 2513,
-    KEMsgGcToGcBannedWordListBroadcast = 2514,
-    KEMsgGcToGcBannedWordListUpdated = 2515,
-    KEMsgGcToGcDirtySdoCache = 2516,
-    KEMsgGcToGcDirtyMultipleSdoCache = 2517,
-    KEMsgGcToGcUpdateSqlKeyValue = 2518,
-    KEMsgGcToGcIsTrustedServer = 2519,
-    KEMsgGcToGcIsTrustedServerResponse = 2520,
-    KEMsgGcToGcBroadcastConsoleCommand = 2521,
-    KEMsgGcServerVersionUpdated = 2522,
-    KEMsgGcToGcWebApiAccountChanged = 2524,
-    KEMsgGcRequestAnnouncements = 2525,
-    KEMsgGcRequestAnnouncementsResponse = 2526,
-    KEMsgGcRequestPassportItemGrant = 2527,
-    KEMsgGcClientVersionUpdated = 2528,
-    KEMsgGcAdjustItemEquippedStateMulti = 2529,
-    KEMsgGcRecurringSubscriptionStatus = 2530,
-    KEMsgGcAdjustEquipSlotsManual = 2531,
-    KEMsgGcAdjustEquipSlotsShuffle = 2532,
-    KEMsgGcNameItemAndEquip = 2533,
-    KEMsgGcOpenCrate = 2534,
-    KEMsgGcAcknowledgeRentalExpiration = 2535,
+pub enum EgcBaseMsg {
+    KEMsgGcSystemMessage = 4001,
+    KEMsgGcReplicateConVars = 4002,
+    KEMsgGcConVarUpdated = 4003,
+    KEMsgGcInQueue = 4008,
+    KEMsgGcInviteToParty = 4501,
+    KEMsgGcInvitationCreated = 4502,
+    KEMsgGcPartyInviteResponse = 4503,
+    KEMsgGcKickFromParty = 4504,
+    KEMsgGcLeaveParty = 4505,
+    KEMsgGcServerAvailable = 4506,
+    KEMsgGcClientConnectToServer = 4507,
+    KEMsgGcGameServerInfo = 4508,
+    KEMsgGcError = 4509,
+    KEMsgGcReplayUploadedToYouTube = 4510,
+    KEMsgGclanServerAvailable = 4511,
 }
-impl EgcItemMsg {
+impl EgcBaseMsg {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            EgcItemMsg::KEMsgGcBase => "k_EMsgGCBase",
-            EgcItemMsg::KEMsgGcSetItemPosition => "k_EMsgGCSetItemPosition",
-            EgcItemMsg::KEMsgGcCraft => "k_EMsgGCCraft",
-            EgcItemMsg::KEMsgGcCraftResponse => "k_EMsgGCCraftResponse",
-            EgcItemMsg::KEMsgGcDelete => "k_EMsgGCDelete",
-            EgcItemMsg::KEMsgGcVerifyCacheSubscription => {
-                "k_EMsgGCVerifyCacheSubscription"
+            EgcBaseMsg::KEMsgGcSystemMessage => "k_EMsgGCSystemMessage",
+            EgcBaseMsg::KEMsgGcReplicateConVars => "k_EMsgGCReplicateConVars",
+            EgcBaseMsg::KEMsgGcConVarUpdated => "k_EMsgGCConVarUpdated",
+            EgcBaseMsg::KEMsgGcInQueue => "k_EMsgGCInQueue",
+            EgcBaseMsg::KEMsgGcInviteToParty => "k_EMsgGCInviteToParty",
+            EgcBaseMsg::KEMsgGcInvitationCreated => "k_EMsgGCInvitationCreated",
+            EgcBaseMsg::KEMsgGcPartyInviteResponse => "k_EMsgGCPartyInviteResponse",
+            EgcBaseMsg::KEMsgGcKickFromParty => "k_EMsgGCKickFromParty",
+            EgcBaseMsg::KEMsgGcLeaveParty => "k_EMsgGCLeaveParty",
+            EgcBaseMsg::KEMsgGcServerAvailable => "k_EMsgGCServerAvailable",
+            EgcBaseMsg::KEMsgGcClientConnectToServer => "k_EMsgGCClientConnectToServer",
+            EgcBaseMsg::KEMsgGcGameServerInfo => "k_EMsgGCGameServerInfo",
+            EgcBaseMsg::KEMsgGcError => "k_EMsgGCError",
+            EgcBaseMsg::KEMsgGcReplayUploadedToYouTube => {
+                "k_EMsgGCReplay_UploadedToYouTube"
             }
-            EgcItemMsg::KEMsgGcNameItem => "k_EMsgGCNameItem",
-            EgcItemMsg::KEMsgGcUnlockCrate => "k_EMsgGCUnlockCrate",
-            EgcItemMsg::KEMsgGcUnlockCrateResponse => "k_EMsgGCUnlockCrateResponse",
-            EgcItemMsg::KEMsgGcPaintItem => "k_EMsgGCPaintItem",
-            EgcItemMsg::KEMsgGcPaintItemResponse => "k_EMsgGCPaintItemResponse",
-            EgcItemMsg::KEMsgGcGoldenWrenchBroadcast => "k_EMsgGCGoldenWrenchBroadcast",
-            EgcItemMsg::KEMsgGcmotdRequest => "k_EMsgGCMOTDRequest",
-            EgcItemMsg::KEMsgGcmotdRequestResponse => "k_EMsgGCMOTDRequestResponse",
-            EgcItemMsg::KEMsgGcAddItemToSocketDeprecated => {
-                "k_EMsgGCAddItemToSocket_DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcAddItemToSocketResponseDeprecated => {
-                "k_EMsgGCAddItemToSocketResponse_DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcAddSocketToBaseItemDeprecated => {
-                "k_EMsgGCAddSocketToBaseItem_DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcAddSocketToItemDeprecated => {
-                "k_EMsgGCAddSocketToItem_DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcAddSocketToItemResponseDeprecated => {
-                "k_EMsgGCAddSocketToItemResponse_DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcNameBaseItem => "k_EMsgGCNameBaseItem",
-            EgcItemMsg::KEMsgGcNameBaseItemResponse => "k_EMsgGCNameBaseItemResponse",
-            EgcItemMsg::KEMsgGcRemoveSocketItemDeprecated => {
-                "k_EMsgGCRemoveSocketItem_DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcRemoveSocketItemResponseDeprecated => {
-                "k_EMsgGCRemoveSocketItemResponse_DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcCustomizeItemTexture => "k_EMsgGCCustomizeItemTexture",
-            EgcItemMsg::KEMsgGcCustomizeItemTextureResponse => {
-                "k_EMsgGCCustomizeItemTextureResponse"
-            }
-            EgcItemMsg::KEMsgGcUseItemRequest => "k_EMsgGCUseItemRequest",
-            EgcItemMsg::KEMsgGcUseItemResponse => "k_EMsgGCUseItemResponse",
-            EgcItemMsg::KEMsgGcGiftedItemsDeprecated => "k_EMsgGCGiftedItems_DEPRECATED",
-            EgcItemMsg::KEMsgGcRemoveItemName => "k_EMsgGCRemoveItemName",
-            EgcItemMsg::KEMsgGcRemoveItemPaint => "k_EMsgGCRemoveItemPaint",
-            EgcItemMsg::KEMsgGcGiftWrapItem => "k_EMsgGCGiftWrapItem",
-            EgcItemMsg::KEMsgGcGiftWrapItemResponse => "k_EMsgGCGiftWrapItemResponse",
-            EgcItemMsg::KEMsgGcDeliverGift => "k_EMsgGCDeliverGift",
-            EgcItemMsg::KEMsgGcDeliverGiftResponseGiver => {
-                "k_EMsgGCDeliverGiftResponseGiver"
-            }
-            EgcItemMsg::KEMsgGcDeliverGiftResponseReceiver => {
-                "k_EMsgGCDeliverGiftResponseReceiver"
-            }
-            EgcItemMsg::KEMsgGcUnwrapGiftRequest => "k_EMsgGCUnwrapGiftRequest",
-            EgcItemMsg::KEMsgGcUnwrapGiftResponse => "k_EMsgGCUnwrapGiftResponse",
-            EgcItemMsg::KEMsgGcSetItemStyle => "k_EMsgGCSetItemStyle",
-            EgcItemMsg::KEMsgGcUsedClaimCodeItem => "k_EMsgGCUsedClaimCodeItem",
-            EgcItemMsg::KEMsgGcSortItems => "k_EMsgGCSortItems",
-            EgcItemMsg::KEMsgGcRevolvingLootListDeprecated => {
-                "k_EMsgGC_RevolvingLootList_DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcLookupAccount => "k_EMsgGCLookupAccount",
-            EgcItemMsg::KEMsgGcLookupAccountResponse => "k_EMsgGCLookupAccountResponse",
-            EgcItemMsg::KEMsgGcLookupAccountName => "k_EMsgGCLookupAccountName",
-            EgcItemMsg::KEMsgGcLookupAccountNameResponse => {
-                "k_EMsgGCLookupAccountNameResponse"
-            }
-            EgcItemMsg::KEMsgGcUpdateItemSchema => "k_EMsgGCUpdateItemSchema",
-            EgcItemMsg::KEMsgGcRemoveCustomTexture => "k_EMsgGCRemoveCustomTexture",
-            EgcItemMsg::KEMsgGcRemoveCustomTextureResponse => {
-                "k_EMsgGCRemoveCustomTextureResponse"
-            }
-            EgcItemMsg::KEMsgGcRemoveMakersMark => "k_EMsgGCRemoveMakersMark",
-            EgcItemMsg::KEMsgGcRemoveMakersMarkResponse => {
-                "k_EMsgGCRemoveMakersMarkResponse"
-            }
-            EgcItemMsg::KEMsgGcRemoveUniqueCraftIndex => "k_EMsgGCRemoveUniqueCraftIndex",
-            EgcItemMsg::KEMsgGcRemoveUniqueCraftIndexResponse => {
-                "k_EMsgGCRemoveUniqueCraftIndexResponse"
-            }
-            EgcItemMsg::KEMsgGcSaxxyBroadcast => "k_EMsgGCSaxxyBroadcast",
-            EgcItemMsg::KEMsgGcBackpackSortFinished => "k_EMsgGCBackpackSortFinished",
-            EgcItemMsg::KEMsgGcAdjustItemEquippedState => {
-                "k_EMsgGCAdjustItemEquippedState"
-            }
-            EgcItemMsg::KEMsgGcCollectItem => "k_EMsgGCCollectItem",
-            EgcItemMsg::KEMsgGcItemAcknowledgedDeprecated => {
-                "k_EMsgGCItemAcknowledged__DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcReportAbuse => "k_EMsgGC_ReportAbuse",
-            EgcItemMsg::KEMsgGcReportAbuseResponse => "k_EMsgGC_ReportAbuseResponse",
-            EgcItemMsg::KEMsgGcNameItemNotification => "k_EMsgGCNameItemNotification",
-            EgcItemMsg::KEMsgGcApplyConsumableEffects => "k_EMsgGCApplyConsumableEffects",
-            EgcItemMsg::KEMsgGcConsumableExhausted => "k_EMsgGCConsumableExhausted",
-            EgcItemMsg::KEMsgGcShowItemsPickedUp => "k_EMsgGCShowItemsPickedUp",
-            EgcItemMsg::KEMsgGcClientDisplayNotification => {
-                "k_EMsgGCClientDisplayNotification"
-            }
-            EgcItemMsg::KEMsgGcApplyStrangePart => "k_EMsgGCApplyStrangePart",
-            EgcItemMsg::KEMsgGcIncrementKillCountAttribute => {
-                "k_EMsgGC_IncrementKillCountAttribute"
-            }
-            EgcItemMsg::KEMsgGcIncrementKillCountResponse => {
-                "k_EMsgGC_IncrementKillCountResponse"
-            }
-            EgcItemMsg::KEMsgGcApplyPennantUpgrade => "k_EMsgGCApplyPennantUpgrade",
-            EgcItemMsg::KEMsgGcSetItemPositions => "k_EMsgGCSetItemPositions",
-            EgcItemMsg::KEMsgGcApplyEggEssence => "k_EMsgGCApplyEggEssence",
-            EgcItemMsg::KEMsgGcNameEggEssenceResponse => "k_EMsgGCNameEggEssenceResponse",
-            EgcItemMsg::KEMsgGcPaintKitItem => "k_EMsgGCPaintKitItem",
-            EgcItemMsg::KEMsgGcPaintKitBaseItem => "k_EMsgGCPaintKitBaseItem",
-            EgcItemMsg::KEMsgGcPaintKitItemResponse => "k_EMsgGCPaintKitItemResponse",
-            EgcItemMsg::KEMsgGcGiftedItems => "k_EMsgGCGiftedItems",
-            EgcItemMsg::KEMsgGcUnlockItemStyle => "k_EMsgGCUnlockItemStyle",
-            EgcItemMsg::KEMsgGcUnlockItemStyleResponse => {
-                "k_EMsgGCUnlockItemStyleResponse"
-            }
-            EgcItemMsg::KEMsgGcApplySticker => "k_EMsgGCApplySticker",
-            EgcItemMsg::KEMsgGcItemAcknowledged => "k_EMsgGCItemAcknowledged",
-            EgcItemMsg::KEMsgGcStatTrakSwap => "k_EMsgGCStatTrakSwap",
-            EgcItemMsg::KEMsgGcUserTrackTimePlayedConsecutively => {
-                "k_EMsgGCUserTrackTimePlayedConsecutively"
-            }
-            EgcItemMsg::KEMsgGcItemCustomizationNotification => {
-                "k_EMsgGCItemCustomizationNotification"
-            }
-            EgcItemMsg::KEMsgGcModifyItemAttribute => "k_EMsgGCModifyItemAttribute",
-            EgcItemMsg::KEMsgGcCasketItemAdd => "k_EMsgGCCasketItemAdd",
-            EgcItemMsg::KEMsgGcCasketItemExtract => "k_EMsgGCCasketItemExtract",
-            EgcItemMsg::KEMsgGcCasketItemLoadContents => "k_EMsgGCCasketItemLoadContents",
-            EgcItemMsg::KEMsgGcTradingBase => "k_EMsgGCTradingBase",
-            EgcItemMsg::KEMsgGcTradingInitiateTradeRequest => {
-                "k_EMsgGCTrading_InitiateTradeRequest"
-            }
-            EgcItemMsg::KEMsgGcTradingInitiateTradeResponse => {
-                "k_EMsgGCTrading_InitiateTradeResponse"
-            }
-            EgcItemMsg::KEMsgGcTradingStartSession => "k_EMsgGCTrading_StartSession",
-            EgcItemMsg::KEMsgGcTradingSetItem => "k_EMsgGCTrading_SetItem",
-            EgcItemMsg::KEMsgGcTradingRemoveItem => "k_EMsgGCTrading_RemoveItem",
-            EgcItemMsg::KEMsgGcTradingUpdateTradeInfo => {
-                "k_EMsgGCTrading_UpdateTradeInfo"
-            }
-            EgcItemMsg::KEMsgGcTradingSetReadiness => "k_EMsgGCTrading_SetReadiness",
-            EgcItemMsg::KEMsgGcTradingReadinessResponse => {
-                "k_EMsgGCTrading_ReadinessResponse"
-            }
-            EgcItemMsg::KEMsgGcTradingSessionClosed => "k_EMsgGCTrading_SessionClosed",
-            EgcItemMsg::KEMsgGcTradingCancelSession => "k_EMsgGCTrading_CancelSession",
-            EgcItemMsg::KEMsgGcTradingTradeChatMsg => "k_EMsgGCTrading_TradeChatMsg",
-            EgcItemMsg::KEMsgGcTradingConfirmOffer => "k_EMsgGCTrading_ConfirmOffer",
-            EgcItemMsg::KEMsgGcTradingTradeTypingChatMsg => {
-                "k_EMsgGCTrading_TradeTypingChatMsg"
-            }
-            EgcItemMsg::KEMsgGcServerBrowserFavoriteServer => {
-                "k_EMsgGCServerBrowser_FavoriteServer"
-            }
-            EgcItemMsg::KEMsgGcServerBrowserBlacklistServer => {
-                "k_EMsgGCServerBrowser_BlacklistServer"
-            }
-            EgcItemMsg::KEMsgGcServerRentalsBase => "k_EMsgGCServerRentalsBase",
-            EgcItemMsg::KEMsgGcItemPreviewCheckStatus => "k_EMsgGCItemPreviewCheckStatus",
-            EgcItemMsg::KEMsgGcItemPreviewStatusResponse => {
-                "k_EMsgGCItemPreviewStatusResponse"
-            }
-            EgcItemMsg::KEMsgGcItemPreviewRequest => "k_EMsgGCItemPreviewRequest",
-            EgcItemMsg::KEMsgGcItemPreviewRequestResponse => {
-                "k_EMsgGCItemPreviewRequestResponse"
-            }
-            EgcItemMsg::KEMsgGcItemPreviewExpire => "k_EMsgGCItemPreviewExpire",
-            EgcItemMsg::KEMsgGcItemPreviewExpireNotification => {
-                "k_EMsgGCItemPreviewExpireNotification"
-            }
-            EgcItemMsg::KEMsgGcItemPreviewItemBoughtNotification => {
-                "k_EMsgGCItemPreviewItemBoughtNotification"
-            }
-            EgcItemMsg::KEMsgGcDevNewItemRequest => "k_EMsgGCDev_NewItemRequest",
-            EgcItemMsg::KEMsgGcDevNewItemRequestResponse => {
-                "k_EMsgGCDev_NewItemRequestResponse"
-            }
-            EgcItemMsg::KEMsgGcDevPaintKitDropItem => "k_EMsgGCDev_PaintKitDropItem",
-            EgcItemMsg::KEMsgGcDevSchemaReservationRequest => {
-                "k_EMsgGCDev_SchemaReservationRequest"
-            }
-            EgcItemMsg::KEMsgGcStoreGetUserData => "k_EMsgGCStoreGetUserData",
-            EgcItemMsg::KEMsgGcStoreGetUserDataResponse => {
-                "k_EMsgGCStoreGetUserDataResponse"
-            }
-            EgcItemMsg::KEMsgGcStorePurchaseInitDeprecated => {
-                "k_EMsgGCStorePurchaseInit_DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcStorePurchaseInitResponseDeprecated => {
-                "k_EMsgGCStorePurchaseInitResponse_DEPRECATED"
-            }
-            EgcItemMsg::KEMsgGcStorePurchaseFinalize => "k_EMsgGCStorePurchaseFinalize",
-            EgcItemMsg::KEMsgGcStorePurchaseFinalizeResponse => {
-                "k_EMsgGCStorePurchaseFinalizeResponse"
-            }
-            EgcItemMsg::KEMsgGcStorePurchaseCancel => "k_EMsgGCStorePurchaseCancel",
-            EgcItemMsg::KEMsgGcStorePurchaseCancelResponse => {
-                "k_EMsgGCStorePurchaseCancelResponse"
-            }
-            EgcItemMsg::KEMsgGcStorePurchaseQueryTxn => "k_EMsgGCStorePurchaseQueryTxn",
-            EgcItemMsg::KEMsgGcStorePurchaseQueryTxnResponse => {
-                "k_EMsgGCStorePurchaseQueryTxnResponse"
-            }
-            EgcItemMsg::KEMsgGcStorePurchaseInit => "k_EMsgGCStorePurchaseInit",
-            EgcItemMsg::KEMsgGcStorePurchaseInitResponse => {
-                "k_EMsgGCStorePurchaseInitResponse"
-            }
-            EgcItemMsg::KEMsgGcBannedWordListRequest => "k_EMsgGCBannedWordListRequest",
-            EgcItemMsg::KEMsgGcBannedWordListResponse => "k_EMsgGCBannedWordListResponse",
-            EgcItemMsg::KEMsgGcToGcBannedWordListBroadcast => {
-                "k_EMsgGCToGCBannedWordListBroadcast"
-            }
-            EgcItemMsg::KEMsgGcToGcBannedWordListUpdated => {
-                "k_EMsgGCToGCBannedWordListUpdated"
-            }
-            EgcItemMsg::KEMsgGcToGcDirtySdoCache => "k_EMsgGCToGCDirtySDOCache",
-            EgcItemMsg::KEMsgGcToGcDirtyMultipleSdoCache => {
-                "k_EMsgGCToGCDirtyMultipleSDOCache"
-            }
-            EgcItemMsg::KEMsgGcToGcUpdateSqlKeyValue => "k_EMsgGCToGCUpdateSQLKeyValue",
-            EgcItemMsg::KEMsgGcToGcIsTrustedServer => "k_EMsgGCToGCIsTrustedServer",
-            EgcItemMsg::KEMsgGcToGcIsTrustedServerResponse => {
-                "k_EMsgGCToGCIsTrustedServerResponse"
-            }
-            EgcItemMsg::KEMsgGcToGcBroadcastConsoleCommand => {
-                "k_EMsgGCToGCBroadcastConsoleCommand"
-            }
-            EgcItemMsg::KEMsgGcServerVersionUpdated => "k_EMsgGCServerVersionUpdated",
-            EgcItemMsg::KEMsgGcToGcWebApiAccountChanged => {
-                "k_EMsgGCToGCWebAPIAccountChanged"
-            }
-            EgcItemMsg::KEMsgGcRequestAnnouncements => "k_EMsgGCRequestAnnouncements",
-            EgcItemMsg::KEMsgGcRequestAnnouncementsResponse => {
-                "k_EMsgGCRequestAnnouncementsResponse"
-            }
-            EgcItemMsg::KEMsgGcRequestPassportItemGrant => {
-                "k_EMsgGCRequestPassportItemGrant"
-            }
-            EgcItemMsg::KEMsgGcClientVersionUpdated => "k_EMsgGCClientVersionUpdated",
-            EgcItemMsg::KEMsgGcAdjustItemEquippedStateMulti => {
-                "k_EMsgGCAdjustItemEquippedStateMulti"
-            }
-            EgcItemMsg::KEMsgGcRecurringSubscriptionStatus => {
-                "k_EMsgGCRecurringSubscriptionStatus"
-            }
-            EgcItemMsg::KEMsgGcAdjustEquipSlotsManual => "k_EMsgGCAdjustEquipSlotsManual",
-            EgcItemMsg::KEMsgGcAdjustEquipSlotsShuffle => {
-                "k_EMsgGCAdjustEquipSlotsShuffle"
-            }
-            EgcItemMsg::KEMsgGcNameItemAndEquip => "k_EMsgGCNameItemAndEquip",
-            EgcItemMsg::KEMsgGcOpenCrate => "k_EMsgGCOpenCrate",
-            EgcItemMsg::KEMsgGcAcknowledgeRentalExpiration => {
-                "k_EMsgGCAcknowledgeRentalExpiration"
-            }
+            EgcBaseMsg::KEMsgGclanServerAvailable => "k_EMsgGCLANServerAvailable",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "k_EMsgGCBase" => Some(Self::KEMsgGcBase),
-            "k_EMsgGCSetItemPosition" => Some(Self::KEMsgGcSetItemPosition),
-            "k_EMsgGCCraft" => Some(Self::KEMsgGcCraft),
-            "k_EMsgGCCraftResponse" => Some(Self::KEMsgGcCraftResponse),
-            "k_EMsgGCDelete" => Some(Self::KEMsgGcDelete),
-            "k_EMsgGCVerifyCacheSubscription" => {
-                Some(Self::KEMsgGcVerifyCacheSubscription)
+            "k_EMsgGCSystemMessage" => Some(Self::KEMsgGcSystemMessage),
+            "k_EMsgGCReplicateConVars" => Some(Self::KEMsgGcReplicateConVars),
+            "k_EMsgGCConVarUpdated" => Some(Self::KEMsgGcConVarUpdated),
+            "k_EMsgGCInQueue" => Some(Self::KEMsgGcInQueue),
+            "k_EMsgGCInviteToParty" => Some(Self::KEMsgGcInviteToParty),
+            "k_EMsgGCInvitationCreated" => Some(Self::KEMsgGcInvitationCreated),
+            "k_EMsgGCPartyInviteResponse" => Some(Self::KEMsgGcPartyInviteResponse),
+            "k_EMsgGCKickFromParty" => Some(Self::KEMsgGcKickFromParty),
+            "k_EMsgGCLeaveParty" => Some(Self::KEMsgGcLeaveParty),
+            "k_EMsgGCServerAvailable" => Some(Self::KEMsgGcServerAvailable),
+            "k_EMsgGCClientConnectToServer" => Some(Self::KEMsgGcClientConnectToServer),
+            "k_EMsgGCGameServerInfo" => Some(Self::KEMsgGcGameServerInfo),
+            "k_EMsgGCError" => Some(Self::KEMsgGcError),
+            "k_EMsgGCReplay_UploadedToYouTube" => {
+                Some(Self::KEMsgGcReplayUploadedToYouTube)
             }
-            "k_EMsgGCNameItem" => Some(Self::KEMsgGcNameItem),
-            "k_EMsgGCUnlockCrate" => Some(Self::KEMsgGcUnlockCrate),
-            "k_EMsgGCUnlockCrateResponse" => Some(Self::KEMsgGcUnlockCrateResponse),
-            "k_EMsgGCPaintItem" => Some(Self::KEMsgGcPaintItem),
-            "k_EMsgGCPaintItemResponse" => Some(Self::KEMsgGcPaintItemResponse),
-            "k_EMsgGCGoldenWrenchBroadcast" => Some(Self::KEMsgGcGoldenWrenchBroadcast),
-            "k_EMsgGCMOTDRequest" => Some(Self::KEMsgGcmotdRequest),
-            "k_EMsgGCMOTDRequestResponse" => Some(Self::KEMsgGcmotdRequestResponse),
-            "k_EMsgGCAddItemToSocket_DEPRECATED" => {
-                Some(Self::KEMsgGcAddItemToSocketDeprecated)
-            }
-            "k_EMsgGCAddItemToSocketResponse_DEPRECATED" => {
-                Some(Self::KEMsgGcAddItemToSocketResponseDeprecated)
-            }
-            "k_EMsgGCAddSocketToBaseItem_DEPRECATED" => {
-                Some(Self::KEMsgGcAddSocketToBaseItemDeprecated)
-            }
-            "k_EMsgGCAddSocketToItem_DEPRECATED" => {
-                Some(Self::KEMsgGcAddSocketToItemDeprecated)
-            }
-            "k_EMsgGCAddSocketToItemResponse_DEPRECATED" => {
-                Some(Self::KEMsgGcAddSocketToItemResponseDeprecated)
-            }
-            "k_EMsgGCNameBaseItem" => Some(Self::KEMsgGcNameBaseItem),
-            "k_EMsgGCNameBaseItemResponse" => Some(Self::KEMsgGcNameBaseItemResponse),
-            "k_EMsgGCRemoveSocketItem_DEPRECATED" => {
-                Some(Self::KEMsgGcRemoveSocketItemDeprecated)
-            }
-            "k_EMsgGCRemoveSocketItemResponse_DEPRECATED" => {
-                Some(Self::KEMsgGcRemoveSocketItemResponseDeprecated)
-            }
-            "k_EMsgGCCustomizeItemTexture" => Some(Self::KEMsgGcCustomizeItemTexture),
-            "k_EMsgGCCustomizeItemTextureResponse" => {
-                Some(Self::KEMsgGcCustomizeItemTextureResponse)
-            }
-            "k_EMsgGCUseItemRequest" => Some(Self::KEMsgGcUseItemRequest),
-            "k_EMsgGCUseItemResponse" => Some(Self::KEMsgGcUseItemResponse),
-            "k_EMsgGCGiftedItems_DEPRECATED" => Some(Self::KEMsgGcGiftedItemsDeprecated),
-            "k_EMsgGCRemoveItemName" => Some(Self::KEMsgGcRemoveItemName),
-            "k_EMsgGCRemoveItemPaint" => Some(Self::KEMsgGcRemoveItemPaint),
-            "k_EMsgGCGiftWrapItem" => Some(Self::KEMsgGcGiftWrapItem),
-            "k_EMsgGCGiftWrapItemResponse" => Some(Self::KEMsgGcGiftWrapItemResponse),
-            "k_EMsgGCDeliverGift" => Some(Self::KEMsgGcDeliverGift),
-            "k_EMsgGCDeliverGiftResponseGiver" => {
-                Some(Self::KEMsgGcDeliverGiftResponseGiver)
-            }
-            "k_EMsgGCDeliverGiftResponseReceiver" => {
-                Some(Self::KEMsgGcDeliverGiftResponseReceiver)
-            }
-            "k_EMsgGCUnwrapGiftRequest" => Some(Self::KEMsgGcUnwrapGiftRequest),
-            "k_EMsgGCUnwrapGiftResponse" => Some(Self::KEMsgGcUnwrapGiftResponse),
-            "k_EMsgGCSetItemStyle" => Some(Self::KEMsgGcSetItemStyle),
-            "k_EMsgGCUsedClaimCodeItem" => Some(Self::KEMsgGcUsedClaimCodeItem),
-            "k_EMsgGCSortItems" => Some(Self::KEMsgGcSortItems),
-            "k_EMsgGC_RevolvingLootList_DEPRECATED" => {
-                Some(Self::KEMsgGcRevolvingLootListDeprecated)
-            }
-            "k_EMsgGCLookupAccount" => Some(Self::KEMsgGcLookupAccount),
-            "k_EMsgGCLookupAccountResponse" => Some(Self::KEMsgGcLookupAccountResponse),
-            "k_EMsgGCLookupAccountName" => Some(Self::KEMsgGcLookupAccountName),
-            "k_EMsgGCLookupAccountNameResponse" => {
-                Some(Self::KEMsgGcLookupAccountNameResponse)
-            }
-            "k_EMsgGCUpdateItemSchema" => Some(Self::KEMsgGcUpdateItemSchema),
-            "k_EMsgGCRemoveCustomTexture" => Some(Self::KEMsgGcRemoveCustomTexture),
-            "k_EMsgGCRemoveCustomTextureResponse" => {
-                Some(Self::KEMsgGcRemoveCustomTextureResponse)
-            }
-            "k_EMsgGCRemoveMakersMark" => Some(Self::KEMsgGcRemoveMakersMark),
-            "k_EMsgGCRemoveMakersMarkResponse" => {
-                Some(Self::KEMsgGcRemoveMakersMarkResponse)
-            }
-            "k_EMsgGCRemoveUniqueCraftIndex" => Some(Self::KEMsgGcRemoveUniqueCraftIndex),
-            "k_EMsgGCRemoveUniqueCraftIndexResponse" => {
-                Some(Self::KEMsgGcRemoveUniqueCraftIndexResponse)
-            }
-            "k_EMsgGCSaxxyBroadcast" => Some(Self::KEMsgGcSaxxyBroadcast),
-            "k_EMsgGCBackpackSortFinished" => Some(Self::KEMsgGcBackpackSortFinished),
-            "k_EMsgGCAdjustItemEquippedState" => {
-                Some(Self::KEMsgGcAdjustItemEquippedState)
-            }
-            "k_EMsgGCCollectItem" => Some(Self::KEMsgGcCollectItem),
-            "k_EMsgGCItemAcknowledged__DEPRECATED" => {
-                Some(Self::KEMsgGcItemAcknowledgedDeprecated)
-            }
-            "k_EMsgGC_ReportAbuse" => Some(Self::KEMsgGcReportAbuse),
-            "k_EMsgGC_ReportAbuseResponse" => Some(Self::KEMsgGcReportAbuseResponse),
-            "k_EMsgGCNameItemNotification" => Some(Self::KEMsgGcNameItemNotification),
-            "k_EMsgGCApplyConsumableEffects" => Some(Self::KEMsgGcApplyConsumableEffects),
-            "k_EMsgGCConsumableExhausted" => Some(Self::KEMsgGcConsumableExhausted),
-            "k_EMsgGCShowItemsPickedUp" => Some(Self::KEMsgGcShowItemsPickedUp),
-            "k_EMsgGCClientDisplayNotification" => {
-                Some(Self::KEMsgGcClientDisplayNotification)
-            }
-            "k_EMsgGCApplyStrangePart" => Some(Self::KEMsgGcApplyStrangePart),
-            "k_EMsgGC_IncrementKillCountAttribute" => {
-                Some(Self::KEMsgGcIncrementKillCountAttribute)
-            }
-            "k_EMsgGC_IncrementKillCountResponse" => {
-                Some(Self::KEMsgGcIncrementKillCountResponse)
-            }
-            "k_EMsgGCApplyPennantUpgrade" => Some(Self::KEMsgGcApplyPennantUpgrade),
-            "k_EMsgGCSetItemPositions" => Some(Self::KEMsgGcSetItemPositions),
-            "k_EMsgGCApplyEggEssence" => Some(Self::KEMsgGcApplyEggEssence),
-            "k_EMsgGCNameEggEssenceResponse" => Some(Self::KEMsgGcNameEggEssenceResponse),
-            "k_EMsgGCPaintKitItem" => Some(Self::KEMsgGcPaintKitItem),
-            "k_EMsgGCPaintKitBaseItem" => Some(Self::KEMsgGcPaintKitBaseItem),
-            "k_EMsgGCPaintKitItemResponse" => Some(Self::KEMsgGcPaintKitItemResponse),
-            "k_EMsgGCGiftedItems" => Some(Self::KEMsgGcGiftedItems),
-            "k_EMsgGCUnlockItemStyle" => Some(Self::KEMsgGcUnlockItemStyle),
-            "k_EMsgGCUnlockItemStyleResponse" => {
-                Some(Self::KEMsgGcUnlockItemStyleResponse)
-            }
-            "k_EMsgGCApplySticker" => Some(Self::KEMsgGcApplySticker),
-            "k_EMsgGCItemAcknowledged" => Some(Self::KEMsgGcItemAcknowledged),
-            "k_EMsgGCStatTrakSwap" => Some(Self::KEMsgGcStatTrakSwap),
-            "k_EMsgGCUserTrackTimePlayedConsecutively" => {
-                Some(Self::KEMsgGcUserTrackTimePlayedConsecutively)
-            }
-            "k_EMsgGCItemCustomizationNotification" => {
-                Some(Self::KEMsgGcItemCustomizationNotification)
-            }
-            "k_EMsgGCModifyItemAttribute" => Some(Self::KEMsgGcModifyItemAttribute),
-            "k_EMsgGCCasketItemAdd" => Some(Self::KEMsgGcCasketItemAdd),
-            "k_EMsgGCCasketItemExtract" => Some(Self::KEMsgGcCasketItemExtract),
-            "k_EMsgGCCasketItemLoadContents" => Some(Self::KEMsgGcCasketItemLoadContents),
-            "k_EMsgGCTradingBase" => Some(Self::KEMsgGcTradingBase),
-            "k_EMsgGCTrading_InitiateTradeRequest" => {
-                Some(Self::KEMsgGcTradingInitiateTradeRequest)
-            }
-            "k_EMsgGCTrading_InitiateTradeResponse" => {
-                Some(Self::KEMsgGcTradingInitiateTradeResponse)
-            }
-            "k_EMsgGCTrading_StartSession" => Some(Self::KEMsgGcTradingStartSession),
-            "k_EMsgGCTrading_SetItem" => Some(Self::KEMsgGcTradingSetItem),
-            "k_EMsgGCTrading_RemoveItem" => Some(Self::KEMsgGcTradingRemoveItem),
-            "k_EMsgGCTrading_UpdateTradeInfo" => {
-                Some(Self::KEMsgGcTradingUpdateTradeInfo)
-            }
-            "k_EMsgGCTrading_SetReadiness" => Some(Self::KEMsgGcTradingSetReadiness),
-            "k_EMsgGCTrading_ReadinessResponse" => {
-                Some(Self::KEMsgGcTradingReadinessResponse)
-            }
-            "k_EMsgGCTrading_SessionClosed" => Some(Self::KEMsgGcTradingSessionClosed),
-            "k_EMsgGCTrading_CancelSession" => Some(Self::KEMsgGcTradingCancelSession),
-            "k_EMsgGCTrading_TradeChatMsg" => Some(Self::KEMsgGcTradingTradeChatMsg),
-            "k_EMsgGCTrading_ConfirmOffer" => Some(Self::KEMsgGcTradingConfirmOffer),
-            "k_EMsgGCTrading_TradeTypingChatMsg" => {
-                Some(Self::KEMsgGcTradingTradeTypingChatMsg)
-            }
-            "k_EMsgGCServerBrowser_FavoriteServer" => {
-                Some(Self::KEMsgGcServerBrowserFavoriteServer)
-            }
-            "k_EMsgGCServerBrowser_BlacklistServer" => {
-                Some(Self::KEMsgGcServerBrowserBlacklistServer)
-            }
-            "k_EMsgGCServerRentalsBase" => Some(Self::KEMsgGcServerRentalsBase),
-            "k_EMsgGCItemPreviewCheckStatus" => Some(Self::KEMsgGcItemPreviewCheckStatus),
-            "k_EMsgGCItemPreviewStatusResponse" => {
-                Some(Self::KEMsgGcItemPreviewStatusResponse)
-            }
-            "k_EMsgGCItemPreviewRequest" => Some(Self::KEMsgGcItemPreviewRequest),
-            "k_EMsgGCItemPreviewRequestResponse" => {
-                Some(Self::KEMsgGcItemPreviewRequestResponse)
-            }
-            "k_EMsgGCItemPreviewExpire" => Some(Self::KEMsgGcItemPreviewExpire),
-            "k_EMsgGCItemPreviewExpireNotification" => {
-                Some(Self::KEMsgGcItemPreviewExpireNotification)
-            }
-            "k_EMsgGCItemPreviewItemBoughtNotification" => {
-                Some(Self::KEMsgGcItemPreviewItemBoughtNotification)
-            }
-            "k_EMsgGCDev_NewItemRequest" => Some(Self::KEMsgGcDevNewItemRequest),
-            "k_EMsgGCDev_NewItemRequestResponse" => {
-                Some(Self::KEMsgGcDevNewItemRequestResponse)
-            }
-            "k_EMsgGCDev_PaintKitDropItem" => Some(Self::KEMsgGcDevPaintKitDropItem),
-            "k_EMsgGCDev_SchemaReservationRequest" => {
-                Some(Self::KEMsgGcDevSchemaReservationRequest)
-            }
-            "k_EMsgGCStoreGetUserData" => Some(Self::KEMsgGcStoreGetUserData),
-            "k_EMsgGCStoreGetUserDataResponse" => {
-                Some(Self::KEMsgGcStoreGetUserDataResponse)
-            }
-            "k_EMsgGCStorePurchaseInit_DEPRECATED" => {
-                Some(Self::KEMsgGcStorePurchaseInitDeprecated)
-            }
-            "k_EMsgGCStorePurchaseInitResponse_DEPRECATED" => {
-                Some(Self::KEMsgGcStorePurchaseInitResponseDeprecated)
-            }
-            "k_EMsgGCStorePurchaseFinalize" => Some(Self::KEMsgGcStorePurchaseFinalize),
-            "k_EMsgGCStorePurchaseFinalizeResponse" => {
-                Some(Self::KEMsgGcStorePurchaseFinalizeResponse)
-            }
-            "k_EMsgGCStorePurchaseCancel" => Some(Self::KEMsgGcStorePurchaseCancel),
-            "k_EMsgGCStorePurchaseCancelResponse" => {
-                Some(Self::KEMsgGcStorePurchaseCancelResponse)
-            }
-            "k_EMsgGCStorePurchaseQueryTxn" => Some(Self::KEMsgGcStorePurchaseQueryTxn),
-            "k_EMsgGCStorePurchaseQueryTxnResponse" => {
-                Some(Self::KEMsgGcStorePurchaseQueryTxnResponse)
-            }
-            "k_EMsgGCStorePurchaseInit" => Some(Self::KEMsgGcStorePurchaseInit),
-            "k_EMsgGCStorePurchaseInitResponse" => {
-                Some(Self::KEMsgGcStorePurchaseInitResponse)
-            }
-            "k_EMsgGCBannedWordListRequest" => Some(Self::KEMsgGcBannedWordListRequest),
-            "k_EMsgGCBannedWordListResponse" => Some(Self::KEMsgGcBannedWordListResponse),
-            "k_EMsgGCToGCBannedWordListBroadcast" => {
-                Some(Self::KEMsgGcToGcBannedWordListBroadcast)
-            }
-            "k_EMsgGCToGCBannedWordListUpdated" => {
-                Some(Self::KEMsgGcToGcBannedWordListUpdated)
-            }
-            "k_EMsgGCToGCDirtySDOCache" => Some(Self::KEMsgGcToGcDirtySdoCache),
-            "k_EMsgGCToGCDirtyMultipleSDOCache" => {
-                Some(Self::KEMsgGcToGcDirtyMultipleSdoCache)
-            }
-            "k_EMsgGCToGCUpdateSQLKeyValue" => Some(Self::KEMsgGcToGcUpdateSqlKeyValue),
-            "k_EMsgGCToGCIsTrustedServer" => Some(Self::KEMsgGcToGcIsTrustedServer),
-            "k_EMsgGCToGCIsTrustedServerResponse" => {
-                Some(Self::KEMsgGcToGcIsTrustedServerResponse)
-            }
-            "k_EMsgGCToGCBroadcastConsoleCommand" => {
-                Some(Self::KEMsgGcToGcBroadcastConsoleCommand)
-            }
-            "k_EMsgGCServerVersionUpdated" => Some(Self::KEMsgGcServerVersionUpdated),
-            "k_EMsgGCToGCWebAPIAccountChanged" => {
-                Some(Self::KEMsgGcToGcWebApiAccountChanged)
-            }
-            "k_EMsgGCRequestAnnouncements" => Some(Self::KEMsgGcRequestAnnouncements),
-            "k_EMsgGCRequestAnnouncementsResponse" => {
-                Some(Self::KEMsgGcRequestAnnouncementsResponse)
-            }
-            "k_EMsgGCRequestPassportItemGrant" => {
-                Some(Self::KEMsgGcRequestPassportItemGrant)
-            }
-            "k_EMsgGCClientVersionUpdated" => Some(Self::KEMsgGcClientVersionUpdated),
-            "k_EMsgGCAdjustItemEquippedStateMulti" => {
-                Some(Self::KEMsgGcAdjustItemEquippedStateMulti)
-            }
-            "k_EMsgGCRecurringSubscriptionStatus" => {
-                Some(Self::KEMsgGcRecurringSubscriptionStatus)
-            }
-            "k_EMsgGCAdjustEquipSlotsManual" => Some(Self::KEMsgGcAdjustEquipSlotsManual),
-            "k_EMsgGCAdjustEquipSlotsShuffle" => {
-                Some(Self::KEMsgGcAdjustEquipSlotsShuffle)
-            }
-            "k_EMsgGCNameItemAndEquip" => Some(Self::KEMsgGcNameItemAndEquip),
-            "k_EMsgGCOpenCrate" => Some(Self::KEMsgGcOpenCrate),
-            "k_EMsgGCAcknowledgeRentalExpiration" => {
-                Some(Self::KEMsgGcAcknowledgeRentalExpiration)
-            }
+            "k_EMsgGCLANServerAvailable" => Some(Self::KEMsgGclanServerAvailable),
             _ => None,
         }
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum EgcMsgResponse {
-    KEgcMsgResponseOk = 0,
-    KEgcMsgResponseDenied = 1,
-    KEgcMsgResponseServerError = 2,
-    KEgcMsgResponseTimeout = 3,
-    KEgcMsgResponseInvalid = 4,
-    KEgcMsgResponseNoMatch = 5,
-    KEgcMsgResponseUnknownError = 6,
-    KEgcMsgResponseNotLoggedOn = 7,
-    KEgcMsgFailedToCreate = 8,
-    KEgcMsgLimitExceeded = 9,
-    KEgcMsgCommitUnfinalized = 10,
+pub enum EgcBaseProtoObjectTypes {
+    KEProtoObjectPartyInvite = 1001,
+    KEProtoObjectLobbyInvite = 1002,
 }
-impl EgcMsgResponse {
+impl EgcBaseProtoObjectTypes {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            EgcMsgResponse::KEgcMsgResponseOk => "k_EGCMsgResponseOK",
-            EgcMsgResponse::KEgcMsgResponseDenied => "k_EGCMsgResponseDenied",
-            EgcMsgResponse::KEgcMsgResponseServerError => "k_EGCMsgResponseServerError",
-            EgcMsgResponse::KEgcMsgResponseTimeout => "k_EGCMsgResponseTimeout",
-            EgcMsgResponse::KEgcMsgResponseInvalid => "k_EGCMsgResponseInvalid",
-            EgcMsgResponse::KEgcMsgResponseNoMatch => "k_EGCMsgResponseNoMatch",
-            EgcMsgResponse::KEgcMsgResponseUnknownError => "k_EGCMsgResponseUnknownError",
-            EgcMsgResponse::KEgcMsgResponseNotLoggedOn => "k_EGCMsgResponseNotLoggedOn",
-            EgcMsgResponse::KEgcMsgFailedToCreate => "k_EGCMsgFailedToCreate",
-            EgcMsgResponse::KEgcMsgLimitExceeded => "k_EGCMsgLimitExceeded",
-            EgcMsgResponse::KEgcMsgCommitUnfinalized => "k_EGCMsgCommitUnfinalized",
+            EgcBaseProtoObjectTypes::KEProtoObjectPartyInvite => {
+                "k_EProtoObjectPartyInvite"
+            }
+            EgcBaseProtoObjectTypes::KEProtoObjectLobbyInvite => {
+                "k_EProtoObjectLobbyInvite"
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "k_EGCMsgResponseOK" => Some(Self::KEgcMsgResponseOk),
-            "k_EGCMsgResponseDenied" => Some(Self::KEgcMsgResponseDenied),
-            "k_EGCMsgResponseServerError" => Some(Self::KEgcMsgResponseServerError),
-            "k_EGCMsgResponseTimeout" => Some(Self::KEgcMsgResponseTimeout),
-            "k_EGCMsgResponseInvalid" => Some(Self::KEgcMsgResponseInvalid),
-            "k_EGCMsgResponseNoMatch" => Some(Self::KEgcMsgResponseNoMatch),
-            "k_EGCMsgResponseUnknownError" => Some(Self::KEgcMsgResponseUnknownError),
-            "k_EGCMsgResponseNotLoggedOn" => Some(Self::KEgcMsgResponseNotLoggedOn),
-            "k_EGCMsgFailedToCreate" => Some(Self::KEgcMsgFailedToCreate),
-            "k_EGCMsgLimitExceeded" => Some(Self::KEgcMsgLimitExceeded),
-            "k_EGCMsgCommitUnfinalized" => Some(Self::KEgcMsgCommitUnfinalized),
+            "k_EProtoObjectPartyInvite" => Some(Self::KEProtoObjectPartyInvite),
+            "k_EProtoObjectLobbyInvite" => Some(Self::KEProtoObjectLobbyInvite),
             _ => None,
         }
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum EUnlockStyle {
-    KUnlockStyleSucceeded = 0,
-    KUnlockStyleFailedPreReq = 1,
-    KUnlockStyleFailedCantAfford = 2,
-    KUnlockStyleFailedCantCommit = 3,
-    KUnlockStyleFailedCantLockCache = 4,
-    KUnlockStyleFailedCantAffordAttrib = 5,
+pub enum GcBannedWordType {
+    GcBannedWordDisableWord = 0,
+    GcBannedWordEnableWord = 1,
 }
-impl EUnlockStyle {
+impl GcBannedWordType {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            EUnlockStyle::KUnlockStyleSucceeded => "k_UnlockStyle_Succeeded",
-            EUnlockStyle::KUnlockStyleFailedPreReq => "k_UnlockStyle_Failed_PreReq",
-            EUnlockStyle::KUnlockStyleFailedCantAfford => {
-                "k_UnlockStyle_Failed_CantAfford"
-            }
-            EUnlockStyle::KUnlockStyleFailedCantCommit => {
-                "k_UnlockStyle_Failed_CantCommit"
-            }
-            EUnlockStyle::KUnlockStyleFailedCantLockCache => {
-                "k_UnlockStyle_Failed_CantLockCache"
-            }
-            EUnlockStyle::KUnlockStyleFailedCantAffordAttrib => {
-                "k_UnlockStyle_Failed_CantAffordAttrib"
-            }
+            GcBannedWordType::GcBannedWordDisableWord => "GC_BANNED_WORD_DISABLE_WORD",
+            GcBannedWordType::GcBannedWordEnableWord => "GC_BANNED_WORD_ENABLE_WORD",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "k_UnlockStyle_Succeeded" => Some(Self::KUnlockStyleSucceeded),
-            "k_UnlockStyle_Failed_PreReq" => Some(Self::KUnlockStyleFailedPreReq),
-            "k_UnlockStyle_Failed_CantAfford" => Some(Self::KUnlockStyleFailedCantAfford),
-            "k_UnlockStyle_Failed_CantCommit" => Some(Self::KUnlockStyleFailedCantCommit),
-            "k_UnlockStyle_Failed_CantLockCache" => {
-                Some(Self::KUnlockStyleFailedCantLockCache)
-            }
-            "k_UnlockStyle_Failed_CantAffordAttrib" => {
-                Some(Self::KUnlockStyleFailedCantAffordAttrib)
-            }
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EgcItemCustomizationNotification {
-    KEgcItemCustomizationNotificationNameItem = 1006,
-    KEgcItemCustomizationNotificationUnlockCrate = 1007,
-    KEgcItemCustomizationNotificationXRayItemReveal = 1008,
-    KEgcItemCustomizationNotificationXRayItemClaim = 1009,
-    KEgcItemCustomizationNotificationCasketTooFull = 1011,
-    KEgcItemCustomizationNotificationCasketContents = 1012,
-    KEgcItemCustomizationNotificationCasketAdded = 1013,
-    KEgcItemCustomizationNotificationCasketRemoved = 1014,
-    KEgcItemCustomizationNotificationCasketInvFull = 1015,
-    KEgcItemCustomizationNotificationNameBaseItem = 1019,
-    KEgcItemCustomizationNotificationRemoveItemName = 1030,
-    KEgcItemCustomizationNotificationRemoveSticker = 1053,
-    KEgcItemCustomizationNotificationApplySticker = 1086,
-    KEgcItemCustomizationNotificationStatTrakSwap = 1088,
-    KEgcItemCustomizationNotificationRemovePatch = 1089,
-    KEgcItemCustomizationNotificationApplyPatch = 1090,
-    KEgcItemCustomizationNotificationApplyKeychain = 1091,
-    KEgcItemCustomizationNotificationRemoveKeychain = 1092,
-    KEgcItemCustomizationNotificationActivateFanToken = 9178,
-    KEgcItemCustomizationNotificationActivateOperationCoin = 9179,
-    KEgcItemCustomizationNotificationGraffitiUnseal = 9185,
-    KEgcItemCustomizationNotificationGenerateSouvenir = 9204,
-    KEgcItemCustomizationNotificationClientRedeemMissionReward = 9209,
-    KEgcItemCustomizationNotificationClientRedeemFreeReward = 9219,
-    KEgcItemCustomizationNotificationXpShopUseTicket = 9221,
-    KEgcItemCustomizationNotificationXpShopAckTracks = 9222,
-}
-impl EgcItemCustomizationNotification {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationNameItem => {
-                "k_EGCItemCustomizationNotification_NameItem"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationUnlockCrate => {
-                "k_EGCItemCustomizationNotification_UnlockCrate"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationXRayItemReveal => {
-                "k_EGCItemCustomizationNotification_XRayItemReveal"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationXRayItemClaim => {
-                "k_EGCItemCustomizationNotification_XRayItemClaim"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationCasketTooFull => {
-                "k_EGCItemCustomizationNotification_CasketTooFull"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationCasketContents => {
-                "k_EGCItemCustomizationNotification_CasketContents"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationCasketAdded => {
-                "k_EGCItemCustomizationNotification_CasketAdded"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationCasketRemoved => {
-                "k_EGCItemCustomizationNotification_CasketRemoved"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationCasketInvFull => {
-                "k_EGCItemCustomizationNotification_CasketInvFull"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationNameBaseItem => {
-                "k_EGCItemCustomizationNotification_NameBaseItem"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationRemoveItemName => {
-                "k_EGCItemCustomizationNotification_RemoveItemName"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationRemoveSticker => {
-                "k_EGCItemCustomizationNotification_RemoveSticker"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationApplySticker => {
-                "k_EGCItemCustomizationNotification_ApplySticker"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationStatTrakSwap => {
-                "k_EGCItemCustomizationNotification_StatTrakSwap"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationRemovePatch => {
-                "k_EGCItemCustomizationNotification_RemovePatch"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationApplyPatch => {
-                "k_EGCItemCustomizationNotification_ApplyPatch"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationApplyKeychain => {
-                "k_EGCItemCustomizationNotification_ApplyKeychain"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationRemoveKeychain => {
-                "k_EGCItemCustomizationNotification_RemoveKeychain"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationActivateFanToken => {
-                "k_EGCItemCustomizationNotification_ActivateFanToken"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationActivateOperationCoin => {
-                "k_EGCItemCustomizationNotification_ActivateOperationCoin"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationGraffitiUnseal => {
-                "k_EGCItemCustomizationNotification_GraffitiUnseal"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationGenerateSouvenir => {
-                "k_EGCItemCustomizationNotification_GenerateSouvenir"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationClientRedeemMissionReward => {
-                "k_EGCItemCustomizationNotification_ClientRedeemMissionReward"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationClientRedeemFreeReward => {
-                "k_EGCItemCustomizationNotification_ClientRedeemFreeReward"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationXpShopUseTicket => {
-                "k_EGCItemCustomizationNotification_XpShopUseTicket"
-            }
-            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationXpShopAckTracks => {
-                "k_EGCItemCustomizationNotification_XpShopAckTracks"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_EGCItemCustomizationNotification_NameItem" => {
-                Some(Self::KEgcItemCustomizationNotificationNameItem)
-            }
-            "k_EGCItemCustomizationNotification_UnlockCrate" => {
-                Some(Self::KEgcItemCustomizationNotificationUnlockCrate)
-            }
-            "k_EGCItemCustomizationNotification_XRayItemReveal" => {
-                Some(Self::KEgcItemCustomizationNotificationXRayItemReveal)
-            }
-            "k_EGCItemCustomizationNotification_XRayItemClaim" => {
-                Some(Self::KEgcItemCustomizationNotificationXRayItemClaim)
-            }
-            "k_EGCItemCustomizationNotification_CasketTooFull" => {
-                Some(Self::KEgcItemCustomizationNotificationCasketTooFull)
-            }
-            "k_EGCItemCustomizationNotification_CasketContents" => {
-                Some(Self::KEgcItemCustomizationNotificationCasketContents)
-            }
-            "k_EGCItemCustomizationNotification_CasketAdded" => {
-                Some(Self::KEgcItemCustomizationNotificationCasketAdded)
-            }
-            "k_EGCItemCustomizationNotification_CasketRemoved" => {
-                Some(Self::KEgcItemCustomizationNotificationCasketRemoved)
-            }
-            "k_EGCItemCustomizationNotification_CasketInvFull" => {
-                Some(Self::KEgcItemCustomizationNotificationCasketInvFull)
-            }
-            "k_EGCItemCustomizationNotification_NameBaseItem" => {
-                Some(Self::KEgcItemCustomizationNotificationNameBaseItem)
-            }
-            "k_EGCItemCustomizationNotification_RemoveItemName" => {
-                Some(Self::KEgcItemCustomizationNotificationRemoveItemName)
-            }
-            "k_EGCItemCustomizationNotification_RemoveSticker" => {
-                Some(Self::KEgcItemCustomizationNotificationRemoveSticker)
-            }
-            "k_EGCItemCustomizationNotification_ApplySticker" => {
-                Some(Self::KEgcItemCustomizationNotificationApplySticker)
-            }
-            "k_EGCItemCustomizationNotification_StatTrakSwap" => {
-                Some(Self::KEgcItemCustomizationNotificationStatTrakSwap)
-            }
-            "k_EGCItemCustomizationNotification_RemovePatch" => {
-                Some(Self::KEgcItemCustomizationNotificationRemovePatch)
-            }
-            "k_EGCItemCustomizationNotification_ApplyPatch" => {
-                Some(Self::KEgcItemCustomizationNotificationApplyPatch)
-            }
-            "k_EGCItemCustomizationNotification_ApplyKeychain" => {
-                Some(Self::KEgcItemCustomizationNotificationApplyKeychain)
-            }
-            "k_EGCItemCustomizationNotification_RemoveKeychain" => {
-                Some(Self::KEgcItemCustomizationNotificationRemoveKeychain)
-            }
-            "k_EGCItemCustomizationNotification_ActivateFanToken" => {
-                Some(Self::KEgcItemCustomizationNotificationActivateFanToken)
-            }
-            "k_EGCItemCustomizationNotification_ActivateOperationCoin" => {
-                Some(Self::KEgcItemCustomizationNotificationActivateOperationCoin)
-            }
-            "k_EGCItemCustomizationNotification_GraffitiUnseal" => {
-                Some(Self::KEgcItemCustomizationNotificationGraffitiUnseal)
-            }
-            "k_EGCItemCustomizationNotification_GenerateSouvenir" => {
-                Some(Self::KEgcItemCustomizationNotificationGenerateSouvenir)
-            }
-            "k_EGCItemCustomizationNotification_ClientRedeemMissionReward" => {
-                Some(Self::KEgcItemCustomizationNotificationClientRedeemMissionReward)
-            }
-            "k_EGCItemCustomizationNotification_ClientRedeemFreeReward" => {
-                Some(Self::KEgcItemCustomizationNotificationClientRedeemFreeReward)
-            }
-            "k_EGCItemCustomizationNotification_XpShopUseTicket" => {
-                Some(Self::KEgcItemCustomizationNotificationXpShopUseTicket)
-            }
-            "k_EGCItemCustomizationNotification_XpShopAckTracks" => {
-                Some(Self::KEgcItemCustomizationNotificationXpShopAckTracks)
-            }
+            "GC_BANNED_WORD_DISABLE_WORD" => Some(Self::GcBannedWordDisableWord),
+            "GC_BANNED_WORD_ENABLE_WORD" => Some(Self::GcBannedWordEnableWord),
             _ => None,
         }
     }
@@ -2486,4203 +2524,6 @@ impl SpawnGroupFlagsT {
             "SPAWN_GROUP_CREATE_NEW_SCENE_WORLD" => {
                 Some(Self::SpawnGroupCreateNewSceneWorld)
             }
-            _ => None,
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeArmorRicochet {
-    #[prost(message, optional, tag = "1")]
-    pub pos: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub dir: ::core::option::Option<CMsgVector>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeBaseBeam {
-    #[prost(fixed64, optional, tag = "1")]
-    pub modelindex: ::core::option::Option<u64>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub haloindex: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "3")]
-    pub startframe: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub framerate: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "5")]
-    pub life: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "6")]
-    pub width: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "7")]
-    pub endwidth: ::core::option::Option<f32>,
-    #[prost(uint32, optional, tag = "8")]
-    pub fadelength: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "9")]
-    pub amplitude: ::core::option::Option<f32>,
-    #[prost(fixed32, optional, tag = "10")]
-    pub color: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "11")]
-    pub speed: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "12")]
-    pub flags: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeBeamEntPoint {
-    #[prost(message, optional, tag = "1")]
-    pub base: ::core::option::Option<CMsgTeBaseBeam>,
-    #[prost(uint32, optional, tag = "2")]
-    pub startentity: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub endentity: ::core::option::Option<u32>,
-    #[prost(message, optional, tag = "4")]
-    pub start: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "5")]
-    pub end: ::core::option::Option<CMsgVector>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeBeamEnts {
-    #[prost(message, optional, tag = "1")]
-    pub base: ::core::option::Option<CMsgTeBaseBeam>,
-    #[prost(uint32, optional, tag = "2")]
-    pub startentity: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub endentity: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeBeamPoints {
-    #[prost(message, optional, tag = "1")]
-    pub base: ::core::option::Option<CMsgTeBaseBeam>,
-    #[prost(message, optional, tag = "2")]
-    pub start: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "3")]
-    pub end: ::core::option::Option<CMsgVector>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeBeamRing {
-    #[prost(message, optional, tag = "1")]
-    pub base: ::core::option::Option<CMsgTeBaseBeam>,
-    #[prost(uint32, optional, tag = "2")]
-    pub startentity: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub endentity: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTebspDecal {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub normal: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "3")]
-    pub saxis: ::core::option::Option<CMsgVector>,
-    #[prost(int32, optional, tag = "4", default = "-1")]
-    pub entity: ::core::option::Option<i32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub index: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeBubbles {
-    #[prost(message, optional, tag = "1")]
-    pub mins: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub maxs: ::core::option::Option<CMsgVector>,
-    #[prost(float, optional, tag = "3")]
-    pub height: ::core::option::Option<f32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub count: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "5")]
-    pub speed: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeBubbleTrail {
-    #[prost(message, optional, tag = "1")]
-    pub mins: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub maxs: ::core::option::Option<CMsgVector>,
-    #[prost(float, optional, tag = "3")]
-    pub waterz: ::core::option::Option<f32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub count: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "5")]
-    pub speed: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeDecal {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub start: ::core::option::Option<CMsgVector>,
-    #[prost(int32, optional, tag = "3", default = "-1")]
-    pub entity: ::core::option::Option<i32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub hitbox: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub index: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgEffectData {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub start: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "3")]
-    pub normal: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "4")]
-    pub angles: ::core::option::Option<CMsgQAngle>,
-    #[prost(fixed32, optional, tag = "5", default = "16777215")]
-    pub entity: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "6", default = "16777215")]
-    pub otherentity: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "7")]
-    pub scale: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "8")]
-    pub magnitude: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "9")]
-    pub radius: ::core::option::Option<f32>,
-    #[prost(fixed32, optional, tag = "10")]
-    pub surfaceprop: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "11")]
-    pub effectindex: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "12")]
-    pub damagetype: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "13")]
-    pub material: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "14")]
-    pub hitbox: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "15")]
-    pub color: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "16")]
-    pub flags: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "17")]
-    pub attachmentindex: ::core::option::Option<i32>,
-    #[prost(uint32, optional, tag = "18")]
-    pub effectname: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "19")]
-    pub attachmentname: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeEffectDispatch {
-    #[prost(message, optional, tag = "1")]
-    pub effectdata: ::core::option::Option<CMsgEffectData>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeEnergySplash {
-    #[prost(message, optional, tag = "1")]
-    pub pos: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub dir: ::core::option::Option<CMsgVector>,
-    #[prost(bool, optional, tag = "3")]
-    pub explosive: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeFizz {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub entity: ::core::option::Option<i32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub density: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "3")]
-    pub current: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeShatterSurface {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub angles: ::core::option::Option<CMsgQAngle>,
-    #[prost(message, optional, tag = "3")]
-    pub force: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "4")]
-    pub forcepos: ::core::option::Option<CMsgVector>,
-    #[prost(float, optional, tag = "5")]
-    pub width: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "6")]
-    pub height: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "7")]
-    pub shardsize: ::core::option::Option<f32>,
-    #[prost(uint32, optional, tag = "8")]
-    pub surfacetype: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "9")]
-    pub frontcolor: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "10")]
-    pub backcolor: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeGlowSprite {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(float, optional, tag = "2")]
-    pub scale: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub life: ::core::option::Option<f32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub brightness: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeImpact {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub normal: ::core::option::Option<CMsgVector>,
-    #[prost(uint32, optional, tag = "3")]
-    pub r#type: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeMuzzleFlash {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub angles: ::core::option::Option<CMsgQAngle>,
-    #[prost(float, optional, tag = "3")]
-    pub scale: ::core::option::Option<f32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub r#type: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeBloodStream {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub direction: ::core::option::Option<CMsgVector>,
-    #[prost(fixed32, optional, tag = "3")]
-    pub color: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub amount: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeExplosion {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(uint32, optional, tag = "2")]
-    pub framerate: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub flags: ::core::option::Option<u32>,
-    #[prost(message, optional, tag = "4")]
-    pub normal: ::core::option::Option<CMsgVector>,
-    #[prost(uint32, optional, tag = "5")]
-    pub materialtype: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "6")]
-    pub radius: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "7")]
-    pub magnitude: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "8")]
-    pub scale: ::core::option::Option<f32>,
-    #[prost(bool, optional, tag = "9")]
-    pub affect_ragdolls: ::core::option::Option<bool>,
-    #[prost(string, optional, tag = "10")]
-    pub effect_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(uint32, optional, tag = "11")]
-    pub explosion_type: ::core::option::Option<u32>,
-    #[prost(bool, optional, tag = "12")]
-    pub create_debris: ::core::option::Option<bool>,
-    #[prost(message, optional, tag = "13")]
-    pub debris_origin: ::core::option::Option<CMsgVector>,
-    #[prost(fixed32, optional, tag = "14")]
-    pub debris_surfaceprop: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeDust {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(float, optional, tag = "2")]
-    pub size: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub speed: ::core::option::Option<f32>,
-    #[prost(message, optional, tag = "4")]
-    pub direction: ::core::option::Option<CMsgVector>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeLargeFunnel {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(uint32, optional, tag = "2")]
-    pub reversed: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeSparks {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(uint32, optional, tag = "2")]
-    pub magnitude: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub length: ::core::option::Option<u32>,
-    #[prost(message, optional, tag = "4")]
-    pub direction: ::core::option::Option<CMsgVector>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTePhysicsProp {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub velocity: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "3")]
-    pub angles: ::core::option::Option<CMsgQAngle>,
-    #[prost(fixed32, optional, tag = "4")]
-    pub skin: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub flags: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "6")]
-    pub effects: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "7")]
-    pub color: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "8")]
-    pub modelindex: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "9")]
-    pub unused_breakmodelsnottomake: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "10")]
-    pub scale: ::core::option::Option<f32>,
-    #[prost(message, optional, tag = "11")]
-    pub dmgpos: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "12")]
-    pub dmgdir: ::core::option::Option<CMsgVector>,
-    #[prost(int32, optional, tag = "13")]
-    pub dmgtype: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTePlayerDecal {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(int32, optional, tag = "2", default = "-1")]
-    pub player: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3", default = "-1")]
-    pub entity: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeProjectedDecal {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub angles: ::core::option::Option<CMsgQAngle>,
-    #[prost(uint32, optional, tag = "3")]
-    pub index: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "4")]
-    pub distance: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeSmoke {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(float, optional, tag = "2")]
-    pub scale: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeWorldDecal {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub normal: ::core::option::Option<CMsgVector>,
-    #[prost(uint32, optional, tag = "3")]
-    pub index: ::core::option::Option<u32>,
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EteProtobufIds {
-    TeEffectDispatchId = 400,
-    TeArmorRicochetId = 401,
-    TeBeamEntPointId = 402,
-    TeBeamEntsId = 403,
-    TeBeamPointsId = 404,
-    TeBeamRingId = 405,
-    TeBspDecalId = 407,
-    TeBubblesId = 408,
-    TeBubbleTrailId = 409,
-    TeDecalId = 410,
-    TeWorldDecalId = 411,
-    TeEnergySplashId = 412,
-    TeFizzId = 413,
-    TeShatterSurfaceId = 414,
-    TeGlowSpriteId = 415,
-    TeImpactId = 416,
-    TeMuzzleFlashId = 417,
-    TeBloodStreamId = 418,
-    TeExplosionId = 419,
-    TeDustId = 420,
-    TeLargeFunnelId = 421,
-    TeSparksId = 422,
-    TePhysicsPropId = 423,
-    TePlayerDecalId = 424,
-    TeProjectedDecalId = 425,
-    TeSmokeId = 426,
-}
-impl EteProtobufIds {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EteProtobufIds::TeEffectDispatchId => "TE_EffectDispatchId",
-            EteProtobufIds::TeArmorRicochetId => "TE_ArmorRicochetId",
-            EteProtobufIds::TeBeamEntPointId => "TE_BeamEntPointId",
-            EteProtobufIds::TeBeamEntsId => "TE_BeamEntsId",
-            EteProtobufIds::TeBeamPointsId => "TE_BeamPointsId",
-            EteProtobufIds::TeBeamRingId => "TE_BeamRingId",
-            EteProtobufIds::TeBspDecalId => "TE_BSPDecalId",
-            EteProtobufIds::TeBubblesId => "TE_BubblesId",
-            EteProtobufIds::TeBubbleTrailId => "TE_BubbleTrailId",
-            EteProtobufIds::TeDecalId => "TE_DecalId",
-            EteProtobufIds::TeWorldDecalId => "TE_WorldDecalId",
-            EteProtobufIds::TeEnergySplashId => "TE_EnergySplashId",
-            EteProtobufIds::TeFizzId => "TE_FizzId",
-            EteProtobufIds::TeShatterSurfaceId => "TE_ShatterSurfaceId",
-            EteProtobufIds::TeGlowSpriteId => "TE_GlowSpriteId",
-            EteProtobufIds::TeImpactId => "TE_ImpactId",
-            EteProtobufIds::TeMuzzleFlashId => "TE_MuzzleFlashId",
-            EteProtobufIds::TeBloodStreamId => "TE_BloodStreamId",
-            EteProtobufIds::TeExplosionId => "TE_ExplosionId",
-            EteProtobufIds::TeDustId => "TE_DustId",
-            EteProtobufIds::TeLargeFunnelId => "TE_LargeFunnelId",
-            EteProtobufIds::TeSparksId => "TE_SparksId",
-            EteProtobufIds::TePhysicsPropId => "TE_PhysicsPropId",
-            EteProtobufIds::TePlayerDecalId => "TE_PlayerDecalId",
-            EteProtobufIds::TeProjectedDecalId => "TE_ProjectedDecalId",
-            EteProtobufIds::TeSmokeId => "TE_SmokeId",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "TE_EffectDispatchId" => Some(Self::TeEffectDispatchId),
-            "TE_ArmorRicochetId" => Some(Self::TeArmorRicochetId),
-            "TE_BeamEntPointId" => Some(Self::TeBeamEntPointId),
-            "TE_BeamEntsId" => Some(Self::TeBeamEntsId),
-            "TE_BeamPointsId" => Some(Self::TeBeamPointsId),
-            "TE_BeamRingId" => Some(Self::TeBeamRingId),
-            "TE_BSPDecalId" => Some(Self::TeBspDecalId),
-            "TE_BubblesId" => Some(Self::TeBubblesId),
-            "TE_BubbleTrailId" => Some(Self::TeBubbleTrailId),
-            "TE_DecalId" => Some(Self::TeDecalId),
-            "TE_WorldDecalId" => Some(Self::TeWorldDecalId),
-            "TE_EnergySplashId" => Some(Self::TeEnergySplashId),
-            "TE_FizzId" => Some(Self::TeFizzId),
-            "TE_ShatterSurfaceId" => Some(Self::TeShatterSurfaceId),
-            "TE_GlowSpriteId" => Some(Self::TeGlowSpriteId),
-            "TE_ImpactId" => Some(Self::TeImpactId),
-            "TE_MuzzleFlashId" => Some(Self::TeMuzzleFlashId),
-            "TE_BloodStreamId" => Some(Self::TeBloodStreamId),
-            "TE_ExplosionId" => Some(Self::TeExplosionId),
-            "TE_DustId" => Some(Self::TeDustId),
-            "TE_LargeFunnelId" => Some(Self::TeLargeFunnelId),
-            "TE_SparksId" => Some(Self::TeSparksId),
-            "TE_PhysicsPropId" => Some(Self::TePhysicsPropId),
-            "TE_PlayerDecalId" => Some(Self::TePlayerDecalId),
-            "TE_ProjectedDecalId" => Some(Self::TeProjectedDecalId),
-            "TE_SmokeId" => Some(Self::TeSmokeId),
-            _ => None,
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamNetworkingIdentityLegacyBinary {
-    #[prost(fixed64, optional, tag = "16")]
-    pub steam_id: ::core::option::Option<u64>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub generic_bytes: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(string, optional, tag = "3")]
-    pub generic_string: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bytes = "vec", optional, tag = "4")]
-    pub ipv6_and_port: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramCertificate {
-    #[prost(
-        enumeration = "c_msg_steam_datagram_certificate::EKeyType",
-        optional,
-        tag = "1",
-        default = "Invalid"
-    )]
-    pub key_type: ::core::option::Option<i32>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub key_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(fixed64, optional, tag = "4")]
-    pub legacy_steam_id: ::core::option::Option<u64>,
-    #[prost(message, optional, tag = "11")]
-    pub legacy_identity_binary: ::core::option::Option<
-        CMsgSteamNetworkingIdentityLegacyBinary,
-    >,
-    #[prost(string, optional, tag = "12")]
-    pub identity_string: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(fixed32, repeated, packed = "false", tag = "5")]
-    pub gameserver_datacenter_ids: ::prost::alloc::vec::Vec<u32>,
-    #[prost(fixed32, optional, tag = "8")]
-    pub time_created: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "9")]
-    pub time_expiry: ::core::option::Option<u32>,
-    #[prost(uint32, repeated, packed = "false", tag = "10")]
-    pub app_ids: ::prost::alloc::vec::Vec<u32>,
-    #[prost(string, repeated, tag = "13")]
-    pub ip_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `CMsgSteamDatagramCertificate`.
-pub mod c_msg_steam_datagram_certificate {
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum EKeyType {
-        Invalid = 0,
-        Ed25519 = 1,
-    }
-    impl EKeyType {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                EKeyType::Invalid => "INVALID",
-                EKeyType::Ed25519 => "ED25519",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "INVALID" => Some(Self::Invalid),
-                "ED25519" => Some(Self::Ed25519),
-                _ => None,
-            }
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramCertificateSigned {
-    #[prost(bytes = "vec", optional, tag = "4")]
-    pub cert: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(fixed64, optional, tag = "5")]
-    pub ca_key_id: ::core::option::Option<u64>,
-    #[prost(bytes = "vec", optional, tag = "6")]
-    pub ca_signature: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(bytes = "vec", optional, tag = "1")]
-    pub private_key_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramCertificateRequest {
-    #[prost(message, optional, tag = "1")]
-    pub cert: ::core::option::Option<CMsgSteamDatagramCertificate>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramSessionCryptInfo {
-    #[prost(
-        enumeration = "c_msg_steam_datagram_session_crypt_info::EKeyType",
-        optional,
-        tag = "1",
-        default = "Invalid"
-    )]
-    pub key_type: ::core::option::Option<i32>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub key_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(fixed64, optional, tag = "3")]
-    pub nonce: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "4")]
-    pub protocol_version: ::core::option::Option<u32>,
-    #[prost(
-        enumeration = "ESteamNetworkingSocketsCipher",
-        repeated,
-        packed = "false",
-        tag = "5"
-    )]
-    pub ciphers: ::prost::alloc::vec::Vec<i32>,
-}
-/// Nested message and enum types in `CMsgSteamDatagramSessionCryptInfo`.
-pub mod c_msg_steam_datagram_session_crypt_info {
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum EKeyType {
-        Invalid = 0,
-        Curve25519 = 1,
-    }
-    impl EKeyType {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                EKeyType::Invalid => "INVALID",
-                EKeyType::Curve25519 => "CURVE25519",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "INVALID" => Some(Self::Invalid),
-                "CURVE25519" => Some(Self::Curve25519),
-                _ => None,
-            }
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramSessionCryptInfoSigned {
-    #[prost(bytes = "vec", optional, tag = "1")]
-    pub info: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub signature: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramDiagnostic {
-    #[prost(uint32, optional, tag = "1")]
-    pub severity: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "2")]
-    pub text: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramLinkInstantaneousStats {
-    #[prost(uint32, optional, tag = "1")]
-    pub out_packets_per_sec_x10: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub out_bytes_per_sec: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub in_packets_per_sec_x10: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub in_bytes_per_sec: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub ping_ms: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "6")]
-    pub packets_dropped_pct: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "7")]
-    pub packets_weird_sequence_pct: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "8")]
-    pub peak_jitter_usec: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramLinkLifetimeStats {
-    #[prost(uint32, optional, tag = "2")]
-    pub connected_seconds: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "3")]
-    pub packets_sent: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "4")]
-    pub kb_sent: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "5")]
-    pub packets_recv: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "6")]
-    pub kb_recv: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "7")]
-    pub packets_recv_sequenced: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "8")]
-    pub packets_recv_dropped: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "9")]
-    pub packets_recv_out_of_order: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "15")]
-    pub packets_recv_out_of_order_corrected: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "10")]
-    pub packets_recv_duplicate: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "11")]
-    pub packets_recv_lurch: ::core::option::Option<u64>,
-    #[prost(uint64, repeated, packed = "false", tag = "12")]
-    pub multipath_packets_recv_sequenced: ::prost::alloc::vec::Vec<u64>,
-    #[prost(uint64, repeated, packed = "false", tag = "13")]
-    pub multipath_packets_recv_later: ::prost::alloc::vec::Vec<u64>,
-    #[prost(uint32, optional, tag = "14")]
-    pub multipath_send_enabled: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "21")]
-    pub quality_histogram_100: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "22")]
-    pub quality_histogram_99: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "23")]
-    pub quality_histogram_97: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "24")]
-    pub quality_histogram_95: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "25")]
-    pub quality_histogram_90: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "26")]
-    pub quality_histogram_75: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "27")]
-    pub quality_histogram_50: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "28")]
-    pub quality_histogram_1: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "29")]
-    pub quality_histogram_dead: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "30")]
-    pub quality_ntile_2nd: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "31")]
-    pub quality_ntile_5th: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "32")]
-    pub quality_ntile_25th: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "33")]
-    pub quality_ntile_50th: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "41")]
-    pub ping_histogram_25: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "42")]
-    pub ping_histogram_50: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "43")]
-    pub ping_histogram_75: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "44")]
-    pub ping_histogram_100: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "45")]
-    pub ping_histogram_125: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "46")]
-    pub ping_histogram_150: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "47")]
-    pub ping_histogram_200: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "48")]
-    pub ping_histogram_300: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "49")]
-    pub ping_histogram_max: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "50")]
-    pub ping_ntile_5th: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "51")]
-    pub ping_ntile_50th: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "52")]
-    pub ping_ntile_75th: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "53")]
-    pub ping_ntile_95th: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "54")]
-    pub ping_ntile_98th: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "61")]
-    pub jitter_histogram_negligible: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "62")]
-    pub jitter_histogram_1: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "63")]
-    pub jitter_histogram_2: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "64")]
-    pub jitter_histogram_5: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "65")]
-    pub jitter_histogram_10: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "66")]
-    pub jitter_histogram_20: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramConnectionQuality {
-    #[prost(message, optional, tag = "1")]
-    pub instantaneous: ::core::option::Option<CMsgSteamDatagramLinkInstantaneousStats>,
-    #[prost(message, optional, tag = "2")]
-    pub lifetime: ::core::option::Option<CMsgSteamDatagramLinkLifetimeStats>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgIceCandidate {
-    #[prost(string, optional, tag = "3")]
-    pub candidate: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgIceRendezvous {
-    #[prost(message, optional, tag = "2")]
-    pub auth: ::core::option::Option<c_msg_ice_rendezvous::Auth>,
-    #[prost(message, optional, tag = "1")]
-    pub add_candidate: ::core::option::Option<CMsgIceCandidate>,
-}
-/// Nested message and enum types in `CMsgICERendezvous`.
-pub mod c_msg_ice_rendezvous {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Auth {
-        #[prost(string, optional, tag = "1")]
-        pub pwd_frag: ::core::option::Option<::prost::alloc::string::String>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamNetworkingP2pRendezvous {
-    #[prost(string, optional, tag = "8")]
-    pub from_identity: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(fixed32, optional, tag = "9")]
-    pub from_connection_id: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "10")]
-    pub to_identity: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(fixed32, optional, tag = "1")]
-    pub to_connection_id: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub sdr_routes: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(uint32, optional, tag = "3")]
-    pub ack_peer_routes_revision: ::core::option::Option<u32>,
-    #[prost(bool, optional, tag = "7")]
-    pub ice_enabled: ::core::option::Option<bool>,
-    #[prost(bytes = "vec", optional, tag = "14")]
-    pub hosted_server_ticket: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(message, optional, tag = "4")]
-    pub connect_request: ::core::option::Option<
-        c_msg_steam_networking_p2p_rendezvous::ConnectRequest,
-    >,
-    #[prost(message, optional, tag = "5")]
-    pub connect_ok: ::core::option::Option<
-        c_msg_steam_networking_p2p_rendezvous::ConnectOk,
-    >,
-    #[prost(message, optional, tag = "6")]
-    pub connection_closed: ::core::option::Option<
-        c_msg_steam_networking_p2p_rendezvous::ConnectionClosed,
-    >,
-    #[prost(uint32, optional, tag = "11")]
-    pub ack_reliable_msg: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "12")]
-    pub first_reliable_msg: ::core::option::Option<u32>,
-    #[prost(message, repeated, tag = "13")]
-    pub reliable_messages: ::prost::alloc::vec::Vec<
-        c_msg_steam_networking_p2p_rendezvous::ReliableMessage,
-    >,
-    #[prost(message, repeated, tag = "15")]
-    pub application_messages: ::prost::alloc::vec::Vec<
-        c_msg_steam_networking_p2p_rendezvous::ApplicationMessage,
-    >,
-}
-/// Nested message and enum types in `CMsgSteamNetworkingP2PRendezvous`.
-pub mod c_msg_steam_networking_p2p_rendezvous {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConnectRequest {
-        #[prost(message, optional, tag = "6")]
-        pub crypt: ::core::option::Option<
-            super::CMsgSteamDatagramSessionCryptInfoSigned,
-        >,
-        #[prost(message, optional, tag = "7")]
-        pub cert: ::core::option::Option<super::CMsgSteamDatagramCertificateSigned>,
-        #[prost(uint32, optional, tag = "9")]
-        pub to_virtual_port: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "10")]
-        pub from_virtual_port: ::core::option::Option<u32>,
-        #[prost(string, optional, tag = "11")]
-        pub from_fakeip: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConnectOk {
-        #[prost(message, optional, tag = "5")]
-        pub crypt: ::core::option::Option<
-            super::CMsgSteamDatagramSessionCryptInfoSigned,
-        >,
-        #[prost(message, optional, tag = "6")]
-        pub cert: ::core::option::Option<super::CMsgSteamDatagramCertificateSigned>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ConnectionClosed {
-        #[prost(string, optional, tag = "5")]
-        pub debug: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(uint32, optional, tag = "6")]
-        pub reason_code: ::core::option::Option<u32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ReliableMessage {
-        #[prost(message, optional, tag = "1")]
-        pub ice: ::core::option::Option<super::CMsgIceRendezvous>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ApplicationMessage {
-        #[prost(bytes = "vec", optional, tag = "1")]
-        pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-        #[prost(uint64, optional, tag = "2")]
-        pub msg_num: ::core::option::Option<u64>,
-        #[prost(uint32, optional, tag = "3")]
-        pub flags: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "4")]
-        pub lane_idx: ::core::option::Option<u32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamNetworkingIceSessionSummary {
-    #[prost(uint32, optional, tag = "7")]
-    pub failure_reason_code: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "1")]
-    pub local_candidate_types: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub remote_candidate_types: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub initial_route_kind: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub initial_ping: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "6")]
-    pub initial_score: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub negotiation_ms: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "16")]
-    pub best_route_kind: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "17")]
-    pub best_ping: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "18")]
-    pub best_score: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "19")]
-    pub best_time: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "12")]
-    pub selected_seconds: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "13")]
-    pub user_settings: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "14")]
-    pub ice_enable_var: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "15")]
-    pub local_candidate_types_allowed: ::core::option::Option<u32>,
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ESteamNetworkingSocketsCipher {
-    KESteamNetworkingSocketsCipherInvalid = 0,
-    KESteamNetworkingSocketsCipherNull = 1,
-    KESteamNetworkingSocketsCipherAes256Gcm = 2,
-}
-impl ESteamNetworkingSocketsCipher {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            ESteamNetworkingSocketsCipher::KESteamNetworkingSocketsCipherInvalid => {
-                "k_ESteamNetworkingSocketsCipher_INVALID"
-            }
-            ESteamNetworkingSocketsCipher::KESteamNetworkingSocketsCipherNull => {
-                "k_ESteamNetworkingSocketsCipher_NULL"
-            }
-            ESteamNetworkingSocketsCipher::KESteamNetworkingSocketsCipherAes256Gcm => {
-                "k_ESteamNetworkingSocketsCipher_AES_256_GCM"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_ESteamNetworkingSocketsCipher_INVALID" => {
-                Some(Self::KESteamNetworkingSocketsCipherInvalid)
-            }
-            "k_ESteamNetworkingSocketsCipher_NULL" => {
-                Some(Self::KESteamNetworkingSocketsCipherNull)
-            }
-            "k_ESteamNetworkingSocketsCipher_AES_256_GCM" => {
-                Some(Self::KESteamNetworkingSocketsCipherAes256Gcm)
-            }
-            _ => None,
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamSocketsUdpChallengeRequest {
-    #[prost(fixed32, optional, tag = "1")]
-    pub connection_id: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "3")]
-    pub my_timestamp: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "4")]
-    pub protocol_version: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamSocketsUdpChallengeReply {
-    #[prost(fixed32, optional, tag = "1")]
-    pub connection_id: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub challenge: ::core::option::Option<u64>,
-    #[prost(fixed64, optional, tag = "3")]
-    pub your_timestamp: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "4")]
-    pub protocol_version: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamSocketsUdpConnectRequest {
-    #[prost(fixed32, optional, tag = "1")]
-    pub client_connection_id: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub challenge: ::core::option::Option<u64>,
-    #[prost(fixed64, optional, tag = "5")]
-    pub my_timestamp: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "6")]
-    pub ping_est_ms: ::core::option::Option<u32>,
-    #[prost(message, optional, tag = "7")]
-    pub crypt: ::core::option::Option<CMsgSteamDatagramSessionCryptInfoSigned>,
-    #[prost(message, optional, tag = "4")]
-    pub cert: ::core::option::Option<CMsgSteamDatagramCertificateSigned>,
-    #[prost(uint32, optional, tag = "8")]
-    pub legacy_protocol_version: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "10")]
-    pub identity_string: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(fixed64, optional, tag = "3")]
-    pub legacy_client_steam_id: ::core::option::Option<u64>,
-    #[prost(message, optional, tag = "9")]
-    pub legacy_identity_binary: ::core::option::Option<
-        CMsgSteamNetworkingIdentityLegacyBinary,
-    >,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamSocketsUdpConnectOk {
-    #[prost(fixed32, optional, tag = "1")]
-    pub client_connection_id: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "5")]
-    pub server_connection_id: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "3")]
-    pub your_timestamp: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "4")]
-    pub delay_time_usec: ::core::option::Option<u32>,
-    #[prost(message, optional, tag = "7")]
-    pub crypt: ::core::option::Option<CMsgSteamDatagramSessionCryptInfoSigned>,
-    #[prost(message, optional, tag = "8")]
-    pub cert: ::core::option::Option<CMsgSteamDatagramCertificateSigned>,
-    #[prost(string, optional, tag = "11")]
-    pub identity_string: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub legacy_server_steam_id: ::core::option::Option<u64>,
-    #[prost(message, optional, tag = "10")]
-    pub legacy_identity_binary: ::core::option::Option<
-        CMsgSteamNetworkingIdentityLegacyBinary,
-    >,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamSocketsUdpConnectionClosed {
-    #[prost(fixed32, optional, tag = "4")]
-    pub to_connection_id: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "5")]
-    pub from_connection_id: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "2")]
-    pub debug: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(uint32, optional, tag = "3")]
-    pub reason_code: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamSocketsUdpNoConnection {
-    #[prost(fixed32, optional, tag = "2")]
-    pub from_connection_id: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "3")]
-    pub to_connection_id: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamSocketsUdpStats {
-    #[prost(message, optional, tag = "1")]
-    pub stats: ::core::option::Option<CMsgSteamDatagramConnectionQuality>,
-    #[prost(uint32, optional, tag = "3")]
-    pub flags: ::core::option::Option<u32>,
-}
-/// Nested message and enum types in `CMsgSteamSockets_UDP_Stats`.
-pub mod c_msg_steam_sockets_udp_stats {
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum Flags {
-        AckRequestE2e = 2,
-        AckRequestImmediate = 4,
-        NotPrimaryTransportE2e = 16,
-    }
-    impl Flags {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                Flags::AckRequestE2e => "ACK_REQUEST_E2E",
-                Flags::AckRequestImmediate => "ACK_REQUEST_IMMEDIATE",
-                Flags::NotPrimaryTransportE2e => "NOT_PRIMARY_TRANSPORT_E2E",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "ACK_REQUEST_E2E" => Some(Self::AckRequestE2e),
-                "ACK_REQUEST_IMMEDIATE" => Some(Self::AckRequestImmediate),
-                "NOT_PRIMARY_TRANSPORT_E2E" => Some(Self::NotPrimaryTransportE2e),
-                _ => None,
-            }
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ESteamNetworkingUdpMsgId {
-    KESteamNetworkingUdpMsgChallengeRequest = 32,
-    KESteamNetworkingUdpMsgChallengeReply = 33,
-    KESteamNetworkingUdpMsgConnectRequest = 34,
-    KESteamNetworkingUdpMsgConnectOk = 35,
-    KESteamNetworkingUdpMsgConnectionClosed = 36,
-    KESteamNetworkingUdpMsgNoConnection = 37,
-}
-impl ESteamNetworkingUdpMsgId {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgChallengeRequest => {
-                "k_ESteamNetworkingUDPMsg_ChallengeRequest"
-            }
-            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgChallengeReply => {
-                "k_ESteamNetworkingUDPMsg_ChallengeReply"
-            }
-            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgConnectRequest => {
-                "k_ESteamNetworkingUDPMsg_ConnectRequest"
-            }
-            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgConnectOk => {
-                "k_ESteamNetworkingUDPMsg_ConnectOK"
-            }
-            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgConnectionClosed => {
-                "k_ESteamNetworkingUDPMsg_ConnectionClosed"
-            }
-            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgNoConnection => {
-                "k_ESteamNetworkingUDPMsg_NoConnection"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_ESteamNetworkingUDPMsg_ChallengeRequest" => {
-                Some(Self::KESteamNetworkingUdpMsgChallengeRequest)
-            }
-            "k_ESteamNetworkingUDPMsg_ChallengeReply" => {
-                Some(Self::KESteamNetworkingUdpMsgChallengeReply)
-            }
-            "k_ESteamNetworkingUDPMsg_ConnectRequest" => {
-                Some(Self::KESteamNetworkingUdpMsgConnectRequest)
-            }
-            "k_ESteamNetworkingUDPMsg_ConnectOK" => {
-                Some(Self::KESteamNetworkingUdpMsgConnectOk)
-            }
-            "k_ESteamNetworkingUDPMsg_ConnectionClosed" => {
-                Some(Self::KESteamNetworkingUdpMsgConnectionClosed)
-            }
-            "k_ESteamNetworkingUDPMsg_NoConnection" => {
-                Some(Self::KESteamNetworkingUdpMsgNoConnection)
-            }
-            _ => None,
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSoidOwner {
-    #[prost(uint32, optional, tag = "1")]
-    pub r#type: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "2")]
-    pub id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSoSingleObject {
-    #[prost(int32, optional, tag = "2")]
-    pub type_id: ::core::option::Option<i32>,
-    #[prost(bytes = "vec", optional, tag = "3")]
-    pub object_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(fixed64, optional, tag = "4")]
-    pub version: ::core::option::Option<u64>,
-    #[prost(message, optional, tag = "5")]
-    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSoMultipleObjects {
-    #[prost(message, repeated, tag = "2")]
-    pub objects_modified: ::prost::alloc::vec::Vec<
-        c_msg_so_multiple_objects::SingleObject,
-    >,
-    #[prost(fixed64, optional, tag = "3")]
-    pub version: ::core::option::Option<u64>,
-    #[prost(message, optional, tag = "6")]
-    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
-}
-/// Nested message and enum types in `CMsgSOMultipleObjects`.
-pub mod c_msg_so_multiple_objects {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SingleObject {
-        #[prost(int32, optional, tag = "1")]
-        pub type_id: ::core::option::Option<i32>,
-        #[prost(bytes = "vec", optional, tag = "2")]
-        pub object_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSoCacheSubscribed {
-    #[prost(message, repeated, tag = "2")]
-    pub objects: ::prost::alloc::vec::Vec<c_msg_so_cache_subscribed::SubscribedType>,
-    #[prost(fixed64, optional, tag = "3")]
-    pub version: ::core::option::Option<u64>,
-    #[prost(message, optional, tag = "4")]
-    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
-}
-/// Nested message and enum types in `CMsgSOCacheSubscribed`.
-pub mod c_msg_so_cache_subscribed {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SubscribedType {
-        #[prost(int32, optional, tag = "1")]
-        pub type_id: ::core::option::Option<i32>,
-        #[prost(bytes = "vec", repeated, tag = "2")]
-        pub object_data: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSoCacheUnsubscribed {
-    #[prost(message, optional, tag = "2")]
-    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSoCacheSubscriptionCheck {
-    #[prost(fixed64, optional, tag = "2")]
-    pub version: ::core::option::Option<u64>,
-    #[prost(message, optional, tag = "3")]
-    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSoCacheSubscriptionRefresh {
-    #[prost(message, optional, tag = "2")]
-    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSoCacheVersion {
-    #[prost(fixed64, optional, tag = "1")]
-    pub version: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgAccountDetails {
-    #[prost(bool, optional, tag = "1")]
-    pub valid: ::core::option::Option<bool>,
-    #[prost(string, optional, tag = "2")]
-    pub account_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "4")]
-    pub public_profile: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "5")]
-    pub public_inventory: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "6")]
-    pub vac_banned: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "7")]
-    pub cyber_cafe: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "8")]
-    pub school_account: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "9")]
-    pub free_trial_account: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "10")]
-    pub subscribed: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "11")]
-    pub low_violence: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "12")]
-    pub limited: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "13")]
-    pub trusted: ::core::option::Option<bool>,
-    #[prost(uint32, optional, tag = "14")]
-    pub package: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "15")]
-    pub time_cached: ::core::option::Option<u32>,
-    #[prost(bool, optional, tag = "16")]
-    pub account_locked: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "17")]
-    pub community_banned: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "18")]
-    pub trade_banned: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "19")]
-    pub eligible_for_community_market: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcMultiplexMessage {
-    #[prost(uint32, optional, tag = "1")]
-    pub msgtype: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub payload: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(fixed64, repeated, packed = "false", tag = "3")]
-    pub steamids: ::prost::alloc::vec::Vec<u64>,
-    #[prost(bool, optional, tag = "4")]
-    pub replytogc: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcMultiplexMessageResponse {
-    #[prost(uint32, optional, tag = "1")]
-    pub msgtype: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CgcToGcMsgMasterAck {
-    #[prost(uint32, optional, tag = "1")]
-    pub dir_index: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub gc_type: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CgcToGcMsgMasterAckResponse {
-    #[prost(int32, optional, tag = "1", default = "2")]
-    pub eresult: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CgcToGcMsgMasterStartupComplete {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CgcToGcMsgRouted {
-    #[prost(uint32, optional, tag = "1")]
-    pub msg_type: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub sender_id: ::core::option::Option<u64>,
-    #[prost(bytes = "vec", optional, tag = "3")]
-    pub net_message: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(uint32, optional, tag = "4")]
-    pub ip: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CgcToGcMsgRoutedReply {
-    #[prost(uint32, optional, tag = "1")]
-    pub msg_type: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub net_message: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcUpdateSessionIp {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steamid: ::core::option::Option<u64>,
-    #[prost(fixed32, optional, tag = "2")]
-    pub ip: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcRequestSessionIp {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steamid: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcRequestSessionIpResponse {
-    #[prost(fixed32, optional, tag = "1")]
-    pub ip: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSoCacheHaveVersion {
-    #[prost(message, optional, tag = "1")]
-    pub soid: ::core::option::Option<CMsgSoidOwner>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub version: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgClientHello {
-    #[prost(uint32, optional, tag = "1")]
-    pub version: ::core::option::Option<u32>,
-    #[prost(message, repeated, tag = "2")]
-    pub socache_have_versions: ::prost::alloc::vec::Vec<CMsgSoCacheHaveVersion>,
-    #[prost(uint32, optional, tag = "3")]
-    pub client_session_need: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub client_launcher: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub partner_srcid: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "6")]
-    pub partner_accountid: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "7")]
-    pub partner_accountflags: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "8")]
-    pub partner_accountbalance: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "9")]
-    pub steam_launcher: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgServerHello {
-    #[prost(uint32, optional, tag = "1")]
-    pub version: ::core::option::Option<u32>,
-    #[prost(message, repeated, tag = "2")]
-    pub socache_have_versions: ::prost::alloc::vec::Vec<CMsgSoCacheHaveVersion>,
-    #[prost(uint32, optional, tag = "3")]
-    pub legacy_client_session_need: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub client_launcher: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "6")]
-    pub legacy_steamdatagram_routing: ::core::option::Option<
-        ::prost::alloc::vec::Vec<u8>,
-    >,
-    #[prost(uint32, optional, tag = "7")]
-    pub required_internal_addr: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "8")]
-    pub steamdatagram_login: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(uint32, optional, tag = "9")]
-    pub socache_control: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgClientWelcome {
-    #[prost(uint32, optional, tag = "1")]
-    pub version: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub game_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(message, repeated, tag = "3")]
-    pub outofdate_subscribed_caches: ::prost::alloc::vec::Vec<CMsgSoCacheSubscribed>,
-    #[prost(message, repeated, tag = "4")]
-    pub uptodate_subscribed_caches: ::prost::alloc::vec::Vec<
-        CMsgSoCacheSubscriptionCheck,
-    >,
-    #[prost(message, optional, tag = "5")]
-    pub location: ::core::option::Option<c_msg_client_welcome::Location>,
-    #[prost(bytes = "vec", optional, tag = "6")]
-    pub game_data2: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(uint32, optional, tag = "7")]
-    pub rtime32_gc_welcome_timestamp: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "8")]
-    pub currency: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "9")]
-    pub balance: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "10")]
-    pub balance_url: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "11")]
-    pub txn_country_code: ::core::option::Option<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `CMsgClientWelcome`.
-pub mod c_msg_client_welcome {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Location {
-        #[prost(float, optional, tag = "1")]
-        pub latitude: ::core::option::Option<f32>,
-        #[prost(float, optional, tag = "2")]
-        pub longitude: ::core::option::Option<f32>,
-        #[prost(string, optional, tag = "3")]
-        pub country: ::core::option::Option<::prost::alloc::string::String>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgConnectionStatus {
-    #[prost(
-        enumeration = "GcConnectionStatus",
-        optional,
-        tag = "1",
-        default = "HaveSession"
-    )]
-    pub status: ::core::option::Option<i32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub client_session_need: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "3")]
-    pub queue_position: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "4")]
-    pub queue_size: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "5")]
-    pub wait_seconds: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "6")]
-    pub estimated_wait_seconds_remaining: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CWorkshopPopulateItemDescriptionsRequest {
-    #[prost(uint32, optional, tag = "1")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(message, repeated, tag = "2")]
-    pub languages: ::prost::alloc::vec::Vec<
-        c_workshop_populate_item_descriptions_request::ItemDescriptionsLanguageBlock,
-    >,
-}
-/// Nested message and enum types in `CWorkshop_PopulateItemDescriptions_Request`.
-pub mod c_workshop_populate_item_descriptions_request {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SingleItemDescription {
-        #[prost(uint32, optional, tag = "1")]
-        pub gameitemid: ::core::option::Option<u32>,
-        #[prost(string, optional, tag = "2")]
-        pub item_description: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(bool, optional, tag = "3")]
-        pub one_per_account: ::core::option::Option<bool>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ItemDescriptionsLanguageBlock {
-        #[prost(string, optional, tag = "1")]
-        pub language: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(message, repeated, tag = "2")]
-        pub descriptions: ::prost::alloc::vec::Vec<SingleItemDescription>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CWorkshopGetContributorsRequest {
-    #[prost(uint32, optional, tag = "1")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub gameitemid: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CWorkshopGetContributorsResponse {
-    #[prost(fixed64, repeated, packed = "false", tag = "1")]
-    pub contributors: ::prost::alloc::vec::Vec<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CWorkshopSetItemPaymentRulesRequest {
-    #[prost(uint32, optional, tag = "1")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub gameitemid: ::core::option::Option<u32>,
-    #[prost(message, repeated, tag = "3")]
-    pub associated_workshop_files: ::prost::alloc::vec::Vec<
-        c_workshop_set_item_payment_rules_request::WorkshopItemPaymentRule,
-    >,
-    #[prost(message, repeated, tag = "4")]
-    pub partner_accounts: ::prost::alloc::vec::Vec<
-        c_workshop_set_item_payment_rules_request::PartnerItemPaymentRule,
-    >,
-    #[prost(bool, optional, tag = "5")]
-    pub validate_only: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "6")]
-    pub make_workshop_files_subscribable: ::core::option::Option<bool>,
-    #[prost(message, optional, tag = "7")]
-    pub associated_workshop_file_for_direct_payments: ::core::option::Option<
-        c_workshop_set_item_payment_rules_request::WorkshopDirectPaymentRule,
-    >,
-}
-/// Nested message and enum types in `CWorkshop_SetItemPaymentRules_Request`.
-pub mod c_workshop_set_item_payment_rules_request {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WorkshopItemPaymentRule {
-        #[prost(uint64, optional, tag = "1")]
-        pub workshop_file_id: ::core::option::Option<u64>,
-        #[prost(float, optional, tag = "2")]
-        pub revenue_percentage: ::core::option::Option<f32>,
-        #[prost(string, optional, tag = "3")]
-        pub rule_description: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(uint32, optional, tag = "4", default = "1")]
-        pub rule_type: ::core::option::Option<u32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct WorkshopDirectPaymentRule {
-        #[prost(uint64, optional, tag = "1")]
-        pub workshop_file_id: ::core::option::Option<u64>,
-        #[prost(string, optional, tag = "2")]
-        pub rule_description: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct PartnerItemPaymentRule {
-        #[prost(uint32, optional, tag = "1")]
-        pub account_id: ::core::option::Option<u32>,
-        #[prost(float, optional, tag = "2")]
-        pub revenue_percentage: ::core::option::Option<f32>,
-        #[prost(string, optional, tag = "3")]
-        pub rule_description: ::core::option::Option<::prost::alloc::string::String>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CWorkshopSetItemPaymentRulesResponse {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CGameServersAggregationQueryRequest {
-    #[prost(string, optional, tag = "1")]
-    pub filter: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, repeated, tag = "3")]
-    pub group_fields: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CGameServersAggregationQueryResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub groups: ::prost::alloc::vec::Vec<
-        c_game_servers_aggregation_query_response::Group,
-    >,
-}
-/// Nested message and enum types in `CGameServers_AggregationQuery_Response`.
-pub mod c_game_servers_aggregation_query_response {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Group {
-        #[prost(string, repeated, tag = "1")]
-        pub group_values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-        #[prost(uint32, optional, tag = "2")]
-        pub servers_empty: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "3")]
-        pub servers_full: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "4")]
-        pub servers_total: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "5")]
-        pub players_humans: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "6")]
-        pub players_bots: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "7")]
-        pub player_capacity: ::core::option::Option<u32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CWorkshopAddSpecialPaymentRequest {
-    #[prost(uint32, optional, tag = "1")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub gameitemid: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "3")]
-    pub date: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(uint64, optional, tag = "4")]
-    pub payment_us_usd: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "5")]
-    pub payment_row_usd: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CWorkshopAddSpecialPaymentResponse {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CProductInfoSetRichPresenceLocalizationRequest {
-    #[prost(uint32, optional, tag = "1")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(message, repeated, tag = "2")]
-    pub languages: ::prost::alloc::vec::Vec<
-        c_product_info_set_rich_presence_localization_request::LanguageSection,
-    >,
-    #[prost(uint64, optional, tag = "3")]
-    pub steamid: ::core::option::Option<u64>,
-}
-/// Nested message and enum types in `CProductInfo_SetRichPresenceLocalization_Request`.
-pub mod c_product_info_set_rich_presence_localization_request {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Token {
-        #[prost(string, optional, tag = "1")]
-        pub token: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(string, optional, tag = "2")]
-        pub value: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct LanguageSection {
-        #[prost(string, optional, tag = "1")]
-        pub language: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(message, repeated, tag = "2")]
-        pub tokens: ::prost::alloc::vec::Vec<Token>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CProductInfoSetRichPresenceLocalizationResponse {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSerializedSoCache {
-    #[prost(uint32, optional, tag = "1")]
-    pub file_version: ::core::option::Option<u32>,
-    #[prost(message, repeated, tag = "2")]
-    pub caches: ::prost::alloc::vec::Vec<c_msg_serialized_so_cache::Cache>,
-    #[prost(uint32, optional, tag = "3")]
-    pub gc_socache_file_version: ::core::option::Option<u32>,
-}
-/// Nested message and enum types in `CMsgSerializedSOCache`.
-pub mod c_msg_serialized_so_cache {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct TypeCache {
-        #[prost(uint32, optional, tag = "1")]
-        pub r#type: ::core::option::Option<u32>,
-        #[prost(bytes = "vec", repeated, tag = "2")]
-        pub objects: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
-        #[prost(uint32, optional, tag = "3")]
-        pub service_id: ::core::option::Option<u32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Cache {
-        #[prost(uint32, optional, tag = "1")]
-        pub r#type: ::core::option::Option<u32>,
-        #[prost(uint64, optional, tag = "2")]
-        pub id: ::core::option::Option<u64>,
-        #[prost(message, repeated, tag = "3")]
-        pub versions: ::prost::alloc::vec::Vec<cache::Version>,
-        #[prost(message, repeated, tag = "4")]
-        pub type_caches: ::prost::alloc::vec::Vec<TypeCache>,
-    }
-    /// Nested message and enum types in `Cache`.
-    pub mod cache {
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Version {
-            #[prost(uint32, optional, tag = "1")]
-            pub service: ::core::option::Option<u32>,
-            #[prost(uint64, optional, tag = "2")]
-            pub version: ::core::option::Option<u64>,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum GcClientLauncherType {
-    Default = 0,
-    Perfectworld = 1,
-    Steamchina = 2,
-    Source2 = 3,
-}
-impl GcClientLauncherType {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            GcClientLauncherType::Default => "GCClientLauncherType_DEFAULT",
-            GcClientLauncherType::Perfectworld => "GCClientLauncherType_PERFECTWORLD",
-            GcClientLauncherType::Steamchina => "GCClientLauncherType_STEAMCHINA",
-            GcClientLauncherType::Source2 => "GCClientLauncherType_SOURCE2",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "GCClientLauncherType_DEFAULT" => Some(Self::Default),
-            "GCClientLauncherType_PERFECTWORLD" => Some(Self::Perfectworld),
-            "GCClientLauncherType_STEAMCHINA" => Some(Self::Steamchina),
-            "GCClientLauncherType_SOURCE2" => Some(Self::Source2),
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum GcConnectionStatus {
-    HaveSession = 0,
-    GcGoingDown = 1,
-    NoSession = 2,
-    NoSessionInLogonQueue = 3,
-    NoSteam = 4,
-}
-impl GcConnectionStatus {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            GcConnectionStatus::HaveSession => "GCConnectionStatus_HAVE_SESSION",
-            GcConnectionStatus::GcGoingDown => "GCConnectionStatus_GC_GOING_DOWN",
-            GcConnectionStatus::NoSession => "GCConnectionStatus_NO_SESSION",
-            GcConnectionStatus::NoSessionInLogonQueue => {
-                "GCConnectionStatus_NO_SESSION_IN_LOGON_QUEUE"
-            }
-            GcConnectionStatus::NoSteam => "GCConnectionStatus_NO_STEAM",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "GCConnectionStatus_HAVE_SESSION" => Some(Self::HaveSession),
-            "GCConnectionStatus_GC_GOING_DOWN" => Some(Self::GcGoingDown),
-            "GCConnectionStatus_NO_SESSION" => Some(Self::NoSession),
-            "GCConnectionStatus_NO_SESSION_IN_LOGON_QUEUE" => {
-                Some(Self::NoSessionInLogonQueue)
-            }
-            "GCConnectionStatus_NO_STEAM" => Some(Self::NoSteam),
-            _ => None,
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageAchievementEvent {
-    #[prost(uint32, optional, tag = "1")]
-    pub achievement: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageCloseCaption {
-    #[prost(fixed32, optional, tag = "1")]
-    pub hash: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "2")]
-    pub duration: ::core::option::Option<f32>,
-    #[prost(bool, optional, tag = "3")]
-    pub from_player: ::core::option::Option<bool>,
-    #[prost(int32, optional, tag = "4", default = "-1")]
-    pub ent_index: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageCloseCaptionDirect {
-    #[prost(fixed32, optional, tag = "1")]
-    pub hash: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "2")]
-    pub duration: ::core::option::Option<f32>,
-    #[prost(bool, optional, tag = "3")]
-    pub from_player: ::core::option::Option<bool>,
-    #[prost(int32, optional, tag = "4", default = "-1")]
-    pub ent_index: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageCloseCaptionPlaceholder {
-    #[prost(string, optional, tag = "1")]
-    pub string: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(float, optional, tag = "2")]
-    pub duration: ::core::option::Option<f32>,
-    #[prost(bool, optional, tag = "3")]
-    pub from_player: ::core::option::Option<bool>,
-    #[prost(int32, optional, tag = "4", default = "-1")]
-    pub ent_index: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageCurrentTimescale {
-    #[prost(float, optional, tag = "1")]
-    pub current: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageDesiredTimescale {
-    #[prost(float, optional, tag = "1")]
-    pub desired: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "2")]
-    pub acceleration: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub minblendrate: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "4")]
-    pub blenddeltamultiplier: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageFade {
-    #[prost(uint32, optional, tag = "1")]
-    pub duration: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub hold_time: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub flags: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "4")]
-    pub color: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageShake {
-    #[prost(uint32, optional, tag = "1")]
-    pub command: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "2")]
-    pub amplitude: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub frequency: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "4")]
-    pub duration: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageShakeDir {
-    #[prost(message, optional, tag = "1")]
-    pub shake: ::core::option::Option<CUserMessageShake>,
-    #[prost(message, optional, tag = "2")]
-    pub direction: ::core::option::Option<CMsgVector>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageWaterShake {
-    #[prost(uint32, optional, tag = "1")]
-    pub command: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "2")]
-    pub amplitude: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub frequency: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "4")]
-    pub duration: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageScreenTilt {
-    #[prost(uint32, optional, tag = "1")]
-    pub command: ::core::option::Option<u32>,
-    #[prost(bool, optional, tag = "2")]
-    pub ease_in_out: ::core::option::Option<bool>,
-    #[prost(message, optional, tag = "3")]
-    pub angle: ::core::option::Option<CMsgVector>,
-    #[prost(float, optional, tag = "4")]
-    pub duration: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "5")]
-    pub time: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageSayText {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub playerindex: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "2")]
-    pub text: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "3")]
-    pub chat: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageSayText2 {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub entityindex: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "2")]
-    pub chat: ::core::option::Option<bool>,
-    #[prost(string, optional, tag = "3")]
-    pub messagename: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "4")]
-    pub param1: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "5")]
-    pub param2: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "6")]
-    pub param3: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "7")]
-    pub param4: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageHudMsg {
-    #[prost(uint32, optional, tag = "1")]
-    pub channel: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "2")]
-    pub x: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub y: ::core::option::Option<f32>,
-    #[prost(fixed32, optional, tag = "4")]
-    pub color1: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "5")]
-    pub color2: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "6")]
-    pub effect: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "11")]
-    pub message: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageHudText {
-    #[prost(string, optional, tag = "1")]
-    pub message: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageTextMsg {
-    #[prost(uint32, optional, tag = "1")]
-    pub dest: ::core::option::Option<u32>,
-    #[prost(string, repeated, tag = "2")]
-    pub param: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageGameTitle {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageResetHud {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageSendAudio {
-    #[prost(string, optional, tag = "1")]
-    pub soundname: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "2")]
-    pub stop: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageAudioParameter {
-    #[prost(uint32, optional, tag = "1")]
-    pub parameter_type: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub name_hash_code: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "3")]
-    pub value: ::core::option::Option<f32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub int_value: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageVoiceMask {
-    #[prost(uint32, repeated, packed = "false", tag = "1")]
-    pub gamerules_masks: ::prost::alloc::vec::Vec<u32>,
-    #[prost(uint32, repeated, packed = "false", tag = "2")]
-    pub ban_masks: ::prost::alloc::vec::Vec<u32>,
-    #[prost(bool, optional, tag = "3")]
-    pub mod_enable: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageRequestState {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageRumble {
-    #[prost(int32, optional, tag = "1")]
-    pub index: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub data: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub flags: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageSayTextChannel {
-    #[prost(int32, optional, tag = "1")]
-    pub player: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub channel: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "3")]
-    pub text: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageColoredText {
-    #[prost(uint32, optional, tag = "1")]
-    pub color: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "2")]
-    pub text: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "3")]
-    pub reset: ::core::option::Option<bool>,
-    #[prost(int32, optional, tag = "4", default = "-1")]
-    pub context_player_slot: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "5")]
-    pub context_value: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "6")]
-    pub context_team_id: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageItemPickup {
-    #[prost(string, optional, tag = "1")]
-    pub itemname: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageAmmoDenied {
-    #[prost(uint32, optional, tag = "1")]
-    pub ammo_id: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageShowMenu {
-    #[prost(uint32, optional, tag = "1")]
-    pub validslots: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub displaytime: ::core::option::Option<u32>,
-    #[prost(bool, optional, tag = "3")]
-    pub needmore: ::core::option::Option<bool>,
-    #[prost(string, optional, tag = "4")]
-    pub menustring: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageCreditsMsg {
-    #[prost(enumeration = "ERollType", optional, tag = "1", default = "RollNone")]
-    pub rolltype: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "2")]
-    pub logo_length: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CEntityMessagePlayJingle {
-    #[prost(message, optional, tag = "1")]
-    pub entity_msg: ::core::option::Option<CEntityMsg>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CEntityMessageScreenOverlay {
-    #[prost(bool, optional, tag = "1")]
-    pub start_effect: ::core::option::Option<bool>,
-    #[prost(message, optional, tag = "2")]
-    pub entity_msg: ::core::option::Option<CEntityMsg>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CEntityMessageRemoveAllDecals {
-    #[prost(bool, optional, tag = "1")]
-    pub remove_decals: ::core::option::Option<bool>,
-    #[prost(message, optional, tag = "2")]
-    pub entity_msg: ::core::option::Option<CEntityMsg>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CEntityMessagePropagateForce {
-    #[prost(message, optional, tag = "1")]
-    pub impulse: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub entity_msg: ::core::option::Option<CEntityMsg>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CEntityMessageDoSpark {
-    #[prost(message, optional, tag = "1")]
-    pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(int32, optional, tag = "2", default = "-1")]
-    pub entityindex: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "3")]
-    pub radius: ::core::option::Option<f32>,
-    #[prost(fixed32, optional, tag = "4")]
-    pub color: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub beams: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "6")]
-    pub thick: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "7")]
-    pub duration: ::core::option::Option<f32>,
-    #[prost(message, optional, tag = "8")]
-    pub entity_msg: ::core::option::Option<CEntityMsg>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CEntityMessageFixAngle {
-    #[prost(bool, optional, tag = "1")]
-    pub relative: ::core::option::Option<bool>,
-    #[prost(message, optional, tag = "2")]
-    pub angle: ::core::option::Option<CMsgQAngle>,
-    #[prost(message, optional, tag = "3")]
-    pub entity_msg: ::core::option::Option<CEntityMsg>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageCameraTransition {
-    #[prost(uint32, optional, tag = "1")]
-    pub camera_type: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "2")]
-    pub duration: ::core::option::Option<f32>,
-    #[prost(message, optional, tag = "3")]
-    pub params_data_driven: ::core::option::Option<
-        c_user_message_camera_transition::TransitionDataDriven,
-    >,
-}
-/// Nested message and enum types in `CUserMessageCameraTransition`.
-pub mod c_user_message_camera_transition {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct TransitionDataDriven {
-        #[prost(string, optional, tag = "1")]
-        pub filename: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(int32, optional, tag = "2", default = "-1")]
-        pub attach_ent_index: ::core::option::Option<i32>,
-        #[prost(float, optional, tag = "3")]
-        pub duration: ::core::option::Option<f32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMsgParticleManager {
-    #[prost(
-        enumeration = "ParticleMessage",
-        required,
-        tag = "1",
-        default = "GameParticleManagerEventCreate"
-    )]
-    pub r#type: i32,
-    #[prost(uint32, required, tag = "2")]
-    pub index: u32,
-    #[prost(message, optional, tag = "3")]
-    pub release_particle_index: ::core::option::Option<
-        c_user_msg_particle_manager::ReleaseParticleIndex,
-    >,
-    #[prost(message, optional, tag = "4")]
-    pub create_particle: ::core::option::Option<
-        c_user_msg_particle_manager::CreateParticle,
-    >,
-    #[prost(message, optional, tag = "5")]
-    pub destroy_particle: ::core::option::Option<
-        c_user_msg_particle_manager::DestroyParticle,
-    >,
-    #[prost(message, optional, tag = "6")]
-    pub destroy_particle_involving: ::core::option::Option<
-        c_user_msg_particle_manager::DestroyParticleInvolving,
-    >,
-    #[prost(message, optional, tag = "7")]
-    pub update_particle: ::core::option::Option<
-        c_user_msg_particle_manager::UpdateParticleObsolete,
-    >,
-    #[prost(message, optional, tag = "8")]
-    pub update_particle_fwd: ::core::option::Option<
-        c_user_msg_particle_manager::UpdateParticleFwdObsolete,
-    >,
-    #[prost(message, optional, tag = "9")]
-    pub update_particle_orient: ::core::option::Option<
-        c_user_msg_particle_manager::UpdateParticleOrientObsolete,
-    >,
-    #[prost(message, optional, tag = "10")]
-    pub update_particle_fallback: ::core::option::Option<
-        c_user_msg_particle_manager::UpdateParticleFallback,
-    >,
-    #[prost(message, optional, tag = "11")]
-    pub update_particle_offset: ::core::option::Option<
-        c_user_msg_particle_manager::UpdateParticleOffset,
-    >,
-    #[prost(message, optional, tag = "12")]
-    pub update_particle_ent: ::core::option::Option<
-        c_user_msg_particle_manager::UpdateParticleEnt,
-    >,
-    #[prost(message, optional, tag = "14")]
-    pub update_particle_should_draw: ::core::option::Option<
-        c_user_msg_particle_manager::UpdateParticleShouldDraw,
-    >,
-    #[prost(message, optional, tag = "15")]
-    pub update_particle_set_frozen: ::core::option::Option<
-        c_user_msg_particle_manager::UpdateParticleSetFrozen,
-    >,
-    #[prost(message, optional, tag = "16")]
-    pub change_control_point_attachment: ::core::option::Option<
-        c_user_msg_particle_manager::ChangeControlPointAttachment,
-    >,
-    #[prost(message, optional, tag = "17")]
-    pub update_entity_position: ::core::option::Option<
-        c_user_msg_particle_manager::UpdateEntityPosition,
-    >,
-    #[prost(message, optional, tag = "18")]
-    pub set_particle_fow_properties: ::core::option::Option<
-        c_user_msg_particle_manager::SetParticleFoWProperties,
-    >,
-    #[prost(message, optional, tag = "19")]
-    pub set_particle_text: ::core::option::Option<
-        c_user_msg_particle_manager::SetParticleText,
-    >,
-    #[prost(message, optional, tag = "20")]
-    pub set_particle_should_check_fow: ::core::option::Option<
-        c_user_msg_particle_manager::SetParticleShouldCheckFoW,
-    >,
-    #[prost(message, optional, tag = "21")]
-    pub set_control_point_model: ::core::option::Option<
-        c_user_msg_particle_manager::SetControlPointModel,
-    >,
-    #[prost(message, optional, tag = "22")]
-    pub set_control_point_snapshot: ::core::option::Option<
-        c_user_msg_particle_manager::SetControlPointSnapshot,
-    >,
-    #[prost(message, optional, tag = "23")]
-    pub set_texture_attribute: ::core::option::Option<
-        c_user_msg_particle_manager::SetTextureAttribute,
-    >,
-    #[prost(message, optional, tag = "24")]
-    pub set_scene_object_generic_flag: ::core::option::Option<
-        c_user_msg_particle_manager::SetSceneObjectGenericFlag,
-    >,
-    #[prost(message, optional, tag = "25")]
-    pub set_scene_object_tint_and_desat: ::core::option::Option<
-        c_user_msg_particle_manager::SetSceneObjectTintAndDesat,
-    >,
-    #[prost(message, optional, tag = "26")]
-    pub destroy_particle_named: ::core::option::Option<
-        c_user_msg_particle_manager::DestroyParticleNamed,
-    >,
-    #[prost(message, optional, tag = "27")]
-    pub particle_skip_to_time: ::core::option::Option<
-        c_user_msg_particle_manager::ParticleSkipToTime,
-    >,
-    #[prost(message, optional, tag = "28")]
-    pub particle_can_freeze: ::core::option::Option<
-        c_user_msg_particle_manager::ParticleCanFreeze,
-    >,
-    #[prost(message, optional, tag = "29")]
-    pub set_named_value_context: ::core::option::Option<
-        c_user_msg_particle_manager::SetParticleNamedValueContext,
-    >,
-    #[prost(message, optional, tag = "30")]
-    pub update_particle_transform: ::core::option::Option<
-        c_user_msg_particle_manager::UpdateParticleTransform,
-    >,
-    #[prost(message, optional, tag = "31")]
-    pub particle_freeze_transition_override: ::core::option::Option<
-        c_user_msg_particle_manager::ParticleFreezeTransitionOverride,
-    >,
-    #[prost(message, optional, tag = "32")]
-    pub freeze_particle_involving: ::core::option::Option<
-        c_user_msg_particle_manager::FreezeParticleInvolving,
-    >,
-    #[prost(message, optional, tag = "33")]
-    pub add_modellist_override_element: ::core::option::Option<
-        c_user_msg_particle_manager::AddModellistOverrideElement,
-    >,
-    #[prost(message, optional, tag = "34")]
-    pub clear_modellist_override: ::core::option::Option<
-        c_user_msg_particle_manager::ClearModellistOverride,
-    >,
-    #[prost(message, optional, tag = "35")]
-    pub create_physics_sim: ::core::option::Option<
-        c_user_msg_particle_manager::CreatePhysicsSim,
-    >,
-    #[prost(message, optional, tag = "36")]
-    pub destroy_physics_sim: ::core::option::Option<
-        c_user_msg_particle_manager::DestroyPhysicsSim,
-    >,
-    #[prost(message, optional, tag = "37")]
-    pub set_vdata: ::core::option::Option<c_user_msg_particle_manager::SetVData>,
-    #[prost(message, optional, tag = "38")]
-    pub set_material_override: ::core::option::Option<
-        c_user_msg_particle_manager::SetMaterialOverride,
-    >,
-}
-/// Nested message and enum types in `CUserMsg_ParticleManager`.
-pub mod c_user_msg_particle_manager {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ReleaseParticleIndex {}
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CreateParticle {
-        #[prost(fixed64, optional, tag = "1")]
-        pub particle_name_index: ::core::option::Option<u64>,
-        #[prost(int32, optional, tag = "2")]
-        pub attach_type: ::core::option::Option<i32>,
-        #[prost(uint32, optional, tag = "3", default = "16777215")]
-        pub entity_handle: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "4", default = "16777215")]
-        pub entity_handle_for_modifiers: ::core::option::Option<u32>,
-        #[prost(bool, optional, tag = "5")]
-        pub apply_voice_ban_rules: ::core::option::Option<bool>,
-        #[prost(int32, optional, tag = "6")]
-        pub team_behavior: ::core::option::Option<i32>,
-        #[prost(string, optional, tag = "7")]
-        pub control_point_configuration: ::core::option::Option<
-            ::prost::alloc::string::String,
-        >,
-        #[prost(bool, optional, tag = "8")]
-        pub cluster: ::core::option::Option<bool>,
-        #[prost(float, optional, tag = "9")]
-        pub endcap_time: ::core::option::Option<f32>,
-        #[prost(message, optional, tag = "10")]
-        pub aggregation_position: ::core::option::Option<super::CMsgVector>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DestroyParticle {
-        #[prost(bool, optional, tag = "1")]
-        pub destroy_immediately: ::core::option::Option<bool>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DestroyParticleInvolving {
-        #[prost(bool, optional, tag = "1")]
-        pub destroy_immediately: ::core::option::Option<bool>,
-        #[prost(uint32, optional, tag = "3", default = "16777215")]
-        pub entity_handle: ::core::option::Option<u32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DestroyParticleNamed {
-        #[prost(fixed64, optional, tag = "1")]
-        pub particle_name_index: ::core::option::Option<u64>,
-        #[prost(uint32, optional, tag = "2", default = "16777215")]
-        pub entity_handle: ::core::option::Option<u32>,
-        #[prost(bool, optional, tag = "3")]
-        pub destroy_immediately: ::core::option::Option<bool>,
-        #[prost(bool, optional, tag = "4")]
-        pub play_endcap: ::core::option::Option<bool>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UpdateParticleObsolete {
-        #[prost(int32, optional, tag = "1")]
-        pub control_point: ::core::option::Option<i32>,
-        #[prost(message, optional, tag = "2")]
-        pub position: ::core::option::Option<super::CMsgVector>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UpdateParticleFwdObsolete {
-        #[prost(int32, optional, tag = "1")]
-        pub control_point: ::core::option::Option<i32>,
-        #[prost(message, optional, tag = "2")]
-        pub forward: ::core::option::Option<super::CMsgVector>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UpdateParticleOrientObsolete {
-        #[prost(int32, optional, tag = "1")]
-        pub control_point: ::core::option::Option<i32>,
-        #[prost(message, optional, tag = "2")]
-        pub forward: ::core::option::Option<super::CMsgVector>,
-        #[prost(message, optional, tag = "3")]
-        pub deprecated_right: ::core::option::Option<super::CMsgVector>,
-        #[prost(message, optional, tag = "4")]
-        pub up: ::core::option::Option<super::CMsgVector>,
-        #[prost(message, optional, tag = "5")]
-        pub left: ::core::option::Option<super::CMsgVector>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UpdateParticleTransform {
-        #[prost(int32, optional, tag = "1")]
-        pub control_point: ::core::option::Option<i32>,
-        #[prost(message, optional, tag = "2")]
-        pub position: ::core::option::Option<super::CMsgVector>,
-        #[prost(message, optional, tag = "3")]
-        pub orientation: ::core::option::Option<super::CMsgQuaternion>,
-        #[prost(float, optional, tag = "4")]
-        pub interpolation_interval: ::core::option::Option<f32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UpdateParticleFallback {
-        #[prost(int32, optional, tag = "1")]
-        pub control_point: ::core::option::Option<i32>,
-        #[prost(message, optional, tag = "2")]
-        pub position: ::core::option::Option<super::CMsgVector>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UpdateParticleOffset {
-        #[prost(int32, optional, tag = "1")]
-        pub control_point: ::core::option::Option<i32>,
-        #[prost(message, optional, tag = "2")]
-        pub origin_offset: ::core::option::Option<super::CMsgVector>,
-        #[prost(message, optional, tag = "3")]
-        pub angle_offset: ::core::option::Option<super::CMsgQAngle>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UpdateParticleEnt {
-        #[prost(int32, optional, tag = "1")]
-        pub control_point: ::core::option::Option<i32>,
-        #[prost(uint32, optional, tag = "2", default = "16777215")]
-        pub entity_handle: ::core::option::Option<u32>,
-        #[prost(int32, optional, tag = "3")]
-        pub attach_type: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "4")]
-        pub attachment: ::core::option::Option<i32>,
-        #[prost(message, optional, tag = "5")]
-        pub fallback_position: ::core::option::Option<super::CMsgVector>,
-        #[prost(bool, optional, tag = "6")]
-        pub include_wearables: ::core::option::Option<bool>,
-        #[prost(message, optional, tag = "7")]
-        pub offset_position: ::core::option::Option<super::CMsgVector>,
-        #[prost(message, optional, tag = "8")]
-        pub offset_angles: ::core::option::Option<super::CMsgQAngle>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UpdateParticleSetFrozen {
-        #[prost(bool, optional, tag = "1")]
-        pub set_frozen: ::core::option::Option<bool>,
-        #[prost(float, optional, tag = "2")]
-        pub transition_duration: ::core::option::Option<f32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UpdateParticleShouldDraw {
-        #[prost(bool, optional, tag = "1")]
-        pub should_draw: ::core::option::Option<bool>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ChangeControlPointAttachment {
-        #[prost(int32, optional, tag = "1")]
-        pub attachment_old: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "2")]
-        pub attachment_new: ::core::option::Option<i32>,
-        #[prost(uint32, optional, tag = "3", default = "16777215")]
-        pub entity_handle: ::core::option::Option<u32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct UpdateEntityPosition {
-        #[prost(uint32, optional, tag = "1", default = "16777215")]
-        pub entity_handle: ::core::option::Option<u32>,
-        #[prost(message, optional, tag = "2")]
-        pub position: ::core::option::Option<super::CMsgVector>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetParticleFoWProperties {
-        #[prost(int32, optional, tag = "1")]
-        pub fow_control_point: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "2")]
-        pub fow_control_point2: ::core::option::Option<i32>,
-        #[prost(float, optional, tag = "3")]
-        pub fow_radius: ::core::option::Option<f32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetParticleShouldCheckFoW {
-        #[prost(bool, optional, tag = "1")]
-        pub check_fow: ::core::option::Option<bool>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetControlPointModel {
-        #[prost(int32, optional, tag = "1")]
-        pub control_point: ::core::option::Option<i32>,
-        #[prost(string, optional, tag = "2")]
-        pub model_name: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetControlPointSnapshot {
-        #[prost(int32, optional, tag = "1")]
-        pub control_point: ::core::option::Option<i32>,
-        #[prost(string, optional, tag = "2")]
-        pub snapshot_name: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetParticleText {
-        #[prost(string, optional, tag = "1")]
-        pub text: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetTextureAttribute {
-        #[prost(string, optional, tag = "1")]
-        pub attribute_name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(string, optional, tag = "2")]
-        pub texture_name: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetSceneObjectGenericFlag {
-        #[prost(bool, optional, tag = "1")]
-        pub flag_value: ::core::option::Option<bool>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetSceneObjectTintAndDesat {
-        #[prost(fixed32, optional, tag = "1")]
-        pub tint: ::core::option::Option<u32>,
-        #[prost(float, optional, tag = "2")]
-        pub desat: ::core::option::Option<f32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ParticleSkipToTime {
-        #[prost(float, optional, tag = "1")]
-        pub skip_to_time: ::core::option::Option<f32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ParticleCanFreeze {
-        #[prost(bool, optional, tag = "1")]
-        pub can_freeze: ::core::option::Option<bool>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ParticleFreezeTransitionOverride {
-        #[prost(float, optional, tag = "1")]
-        pub freeze_transition_override: ::core::option::Option<f32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct FreezeParticleInvolving {
-        #[prost(bool, optional, tag = "1")]
-        pub set_frozen: ::core::option::Option<bool>,
-        #[prost(float, optional, tag = "2")]
-        pub transition_duration: ::core::option::Option<f32>,
-        #[prost(uint32, optional, tag = "3", default = "16777215")]
-        pub entity_handle: ::core::option::Option<u32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct AddModellistOverrideElement {
-        #[prost(string, optional, tag = "1")]
-        pub model_name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(float, optional, tag = "2")]
-        pub spawn_probability: ::core::option::Option<f32>,
-        #[prost(uint32, optional, tag = "3")]
-        pub groupid: ::core::option::Option<u32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ClearModellistOverride {
-        #[prost(uint32, optional, tag = "1")]
-        pub groupid: ::core::option::Option<u32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetParticleNamedValueContext {
-        #[prost(message, repeated, tag = "1")]
-        pub float_values: ::prost::alloc::vec::Vec<
-            set_particle_named_value_context::FloatContextValue,
-        >,
-        #[prost(message, repeated, tag = "2")]
-        pub vector_values: ::prost::alloc::vec::Vec<
-            set_particle_named_value_context::VectorContextValue,
-        >,
-        #[prost(message, repeated, tag = "3")]
-        pub transform_values: ::prost::alloc::vec::Vec<
-            set_particle_named_value_context::TransformContextValue,
-        >,
-        #[prost(message, repeated, tag = "4")]
-        pub ehandle_values: ::prost::alloc::vec::Vec<
-            set_particle_named_value_context::EHandleContext,
-        >,
-    }
-    /// Nested message and enum types in `SetParticleNamedValueContext`.
-    pub mod set_particle_named_value_context {
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct FloatContextValue {
-            #[prost(uint32, optional, tag = "1")]
-            pub value_name_hash: ::core::option::Option<u32>,
-            #[prost(float, optional, tag = "2")]
-            pub value: ::core::option::Option<f32>,
-        }
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct VectorContextValue {
-            #[prost(uint32, optional, tag = "1")]
-            pub value_name_hash: ::core::option::Option<u32>,
-            #[prost(message, optional, tag = "2")]
-            pub value: ::core::option::Option<super::super::CMsgVector>,
-        }
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct TransformContextValue {
-            #[prost(uint32, optional, tag = "1")]
-            pub value_name_hash: ::core::option::Option<u32>,
-            #[prost(message, optional, tag = "2")]
-            pub angles: ::core::option::Option<super::super::CMsgQAngle>,
-            #[prost(message, optional, tag = "3")]
-            pub translation: ::core::option::Option<super::super::CMsgVector>,
-        }
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct EHandleContext {
-            #[prost(uint32, optional, tag = "1")]
-            pub value_name_hash: ::core::option::Option<u32>,
-            #[prost(uint32, optional, tag = "2", default = "16777215")]
-            pub ent_index: ::core::option::Option<u32>,
-        }
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CreatePhysicsSim {
-        #[prost(string, optional, tag = "1")]
-        pub prop_group_name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(bool, optional, tag = "2")]
-        pub use_high_quality_simulation: ::core::option::Option<bool>,
-        #[prost(uint32, optional, tag = "3")]
-        pub max_particle_count: ::core::option::Option<u32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DestroyPhysicsSim {}
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetVData {
-        #[prost(string, optional, tag = "1")]
-        pub vdata_name: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SetMaterialOverride {
-        #[prost(string, optional, tag = "1")]
-        pub material_name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(bool, optional, tag = "2")]
-        pub include_children: ::core::option::Option<bool>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMsgHudError {
-    #[prost(int32, optional, tag = "1")]
-    pub order_id: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMsgCustomGameEvent {
-    #[prost(string, optional, tag = "1")]
-    pub event_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageHapticsManagerPulse {
-    #[prost(int32, optional, tag = "1")]
-    pub hand_id: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "2")]
-    pub effect_amplitude: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub effect_frequency: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "4")]
-    pub effect_duration: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageHapticsManagerEffect {
-    #[prost(int32, optional, tag = "1")]
-    pub hand_id: ::core::option::Option<i32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub effect_name_hash_code: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "3")]
-    pub effect_scale: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageAnimStateGraphState {
-    #[prost(int32, optional, tag = "1")]
-    pub entity_index: ::core::option::Option<i32>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageUpdateCssClasses {
-    #[prost(int32, optional, tag = "1")]
-    pub target_world_panel: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "2")]
-    pub css_classes: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "3")]
-    pub is_add: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageServerFrameTime {
-    #[prost(float, optional, tag = "1")]
-    pub frame_time: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageLagCompensationError {
-    #[prost(float, optional, tag = "1")]
-    pub distance: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageRequestDllStatus {
-    #[prost(string, optional, tag = "1")]
-    pub dll_action: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "2")]
-    pub full_report: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageRequestUtilAction {
-    #[prost(int32, optional, tag = "2")]
-    pub util1: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub util2: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "4")]
-    pub util3: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "5")]
-    pub util4: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "6")]
-    pub util5: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageUtilMsgResponse {
-    #[prost(fixed32, optional, tag = "1")]
-    pub crc: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "2")]
-    pub item_count: ::core::option::Option<i32>,
-    #[prost(fixed32, optional, tag = "3")]
-    pub crc2: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "4")]
-    pub item_count2: ::core::option::Option<i32>,
-    #[prost(int32, repeated, packed = "false", tag = "5")]
-    pub crc_part: ::prost::alloc::vec::Vec<i32>,
-    #[prost(int32, repeated, packed = "false", tag = "6")]
-    pub crc_part2: ::prost::alloc::vec::Vec<i32>,
-    #[prost(int32, optional, tag = "7")]
-    pub client_timestamp: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "8")]
-    pub platform: ::core::option::Option<i32>,
-    #[prost(message, repeated, tag = "9")]
-    pub itemdetails: ::prost::alloc::vec::Vec<
-        c_user_message_util_msg_response::ItemDetail,
-    >,
-    #[prost(int32, optional, tag = "10")]
-    pub itemgroup: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "11")]
-    pub total_count: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "12")]
-    pub total_count2: ::core::option::Option<i32>,
-}
-/// Nested message and enum types in `CUserMessage_UtilMsg_Response`.
-pub mod c_user_message_util_msg_response {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ItemDetail {
-        #[prost(int32, optional, tag = "1")]
-        pub index: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "2")]
-        pub hash: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "3")]
-        pub crc: ::core::option::Option<i32>,
-        #[prost(string, optional, tag = "4")]
-        pub name: ::core::option::Option<::prost::alloc::string::String>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageDllStatus {
-    #[prost(string, optional, tag = "1")]
-    pub file_report: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "2")]
-    pub command_line: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(uint32, optional, tag = "3")]
-    pub total_files: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub process_id: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "5")]
-    pub osversion: ::core::option::Option<i32>,
-    #[prost(uint64, optional, tag = "6")]
-    pub client_time: ::core::option::Option<u64>,
-    #[prost(message, repeated, tag = "7")]
-    pub diagnostics: ::prost::alloc::vec::Vec<c_user_message_dll_status::CvDiagnostic>,
-    #[prost(message, repeated, tag = "8")]
-    pub modules: ::prost::alloc::vec::Vec<c_user_message_dll_status::CModule>,
-}
-/// Nested message and enum types in `CUserMessage_DllStatus`.
-pub mod c_user_message_dll_status {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CvDiagnostic {
-        #[prost(uint32, optional, tag = "1")]
-        pub id: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "2")]
-        pub extended: ::core::option::Option<u32>,
-        #[prost(uint64, optional, tag = "3")]
-        pub value: ::core::option::Option<u64>,
-        #[prost(string, optional, tag = "4")]
-        pub string_value: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CModule {
-        #[prost(uint64, optional, tag = "1")]
-        pub base_addr: ::core::option::Option<u64>,
-        #[prost(string, optional, tag = "2")]
-        pub name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(uint32, optional, tag = "3")]
-        pub size: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "4")]
-        pub timestamp: ::core::option::Option<u32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageRequestInventory {
-    #[prost(int32, optional, tag = "1")]
-    pub inventory: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub offset: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub options: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageInventoryResponse {
-    #[prost(fixed32, optional, tag = "1")]
-    pub crc: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "2")]
-    pub item_count: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "5")]
-    pub osversion: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "6")]
-    pub perf_time: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "7")]
-    pub client_timestamp: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "8")]
-    pub platform: ::core::option::Option<i32>,
-    #[prost(message, repeated, tag = "9")]
-    pub inventories: ::prost::alloc::vec::Vec<
-        c_user_message_inventory_response::InventoryDetail,
-    >,
-    #[prost(message, repeated, tag = "10")]
-    pub inventories2: ::prost::alloc::vec::Vec<
-        c_user_message_inventory_response::InventoryDetail,
-    >,
-    #[prost(message, repeated, tag = "14")]
-    pub inventories3: ::prost::alloc::vec::Vec<
-        c_user_message_inventory_response::InventoryDetail,
-    >,
-    #[prost(int32, optional, tag = "11")]
-    pub inv_type: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "12")]
-    pub build_version: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "13")]
-    pub instance: ::core::option::Option<i32>,
-    #[prost(int64, optional, tag = "15")]
-    pub start_time: ::core::option::Option<i64>,
-}
-/// Nested message and enum types in `CUserMessage_Inventory_Response`.
-pub mod c_user_message_inventory_response {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct InventoryDetail {
-        #[prost(int32, optional, tag = "1")]
-        pub index: ::core::option::Option<i32>,
-        #[prost(int64, optional, tag = "2")]
-        pub primary: ::core::option::Option<i64>,
-        #[prost(int64, optional, tag = "3")]
-        pub offset: ::core::option::Option<i64>,
-        #[prost(int64, optional, tag = "4")]
-        pub first: ::core::option::Option<i64>,
-        #[prost(int64, optional, tag = "5")]
-        pub base: ::core::option::Option<i64>,
-        #[prost(string, optional, tag = "6")]
-        pub name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(string, optional, tag = "7")]
-        pub base_name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(int32, optional, tag = "8")]
-        pub base_detail: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "9")]
-        pub base_time: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "10")]
-        pub base_hash: ::core::option::Option<i32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageRequestDiagnostic {
-    #[prost(message, repeated, tag = "1")]
-    pub diagnostics: ::prost::alloc::vec::Vec<
-        c_user_message_request_diagnostic::Diagnostic,
-    >,
-}
-/// Nested message and enum types in `CUserMessageRequestDiagnostic`.
-pub mod c_user_message_request_diagnostic {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Diagnostic {
-        #[prost(int32, optional, tag = "1")]
-        pub index: ::core::option::Option<i32>,
-        #[prost(int64, optional, tag = "2")]
-        pub offset: ::core::option::Option<i64>,
-        #[prost(int32, optional, tag = "3")]
-        pub param: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "4")]
-        pub length: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "5")]
-        pub r#type: ::core::option::Option<i32>,
-        #[prost(int64, optional, tag = "6")]
-        pub base: ::core::option::Option<i64>,
-        #[prost(int64, optional, tag = "7")]
-        pub range: ::core::option::Option<i64>,
-        #[prost(int64, optional, tag = "8")]
-        pub extent: ::core::option::Option<i64>,
-        #[prost(int64, optional, tag = "9")]
-        pub detail: ::core::option::Option<i64>,
-        #[prost(string, optional, tag = "10")]
-        pub name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(string, optional, tag = "11")]
-        pub alias: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(bytes = "vec", optional, tag = "12")]
-        pub vardetail: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-        #[prost(int32, optional, tag = "13")]
-        pub context: ::core::option::Option<i32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageDiagnosticResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub diagnostics: ::prost::alloc::vec::Vec<
-        c_user_message_diagnostic_response::Diagnostic,
-    >,
-    #[prost(int32, optional, tag = "2")]
-    pub build_version: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub instance: ::core::option::Option<i32>,
-    #[prost(int64, optional, tag = "4")]
-    pub start_time: ::core::option::Option<i64>,
-    #[prost(int32, optional, tag = "5")]
-    pub osversion: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "6")]
-    pub platform: ::core::option::Option<i32>,
-}
-/// Nested message and enum types in `CUserMessage_Diagnostic_Response`.
-pub mod c_user_message_diagnostic_response {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Diagnostic {
-        #[prost(int32, optional, tag = "1")]
-        pub index: ::core::option::Option<i32>,
-        #[prost(int64, optional, tag = "2")]
-        pub offset: ::core::option::Option<i64>,
-        #[prost(int32, optional, tag = "3")]
-        pub param: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "4")]
-        pub length: ::core::option::Option<i32>,
-        #[prost(bytes = "vec", optional, tag = "5")]
-        pub detail: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-        #[prost(int64, optional, tag = "6")]
-        pub base: ::core::option::Option<i64>,
-        #[prost(int64, optional, tag = "7")]
-        pub range: ::core::option::Option<i64>,
-        #[prost(int32, optional, tag = "8")]
-        pub r#type: ::core::option::Option<i32>,
-        #[prost(string, optional, tag = "10")]
-        pub name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(string, optional, tag = "11")]
-        pub alias: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(bytes = "vec", optional, tag = "12")]
-        pub backup: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-        #[prost(int32, optional, tag = "13")]
-        pub context: ::core::option::Option<i32>,
-        #[prost(int64, optional, tag = "14")]
-        pub control: ::core::option::Option<i64>,
-        #[prost(int64, optional, tag = "15")]
-        pub augment: ::core::option::Option<i64>,
-        #[prost(int64, optional, tag = "16")]
-        pub placebo: ::core::option::Option<i64>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageExtraUserData {
-    #[prost(int32, optional, tag = "1")]
-    pub item: ::core::option::Option<i32>,
-    #[prost(int64, optional, tag = "2")]
-    pub value1: ::core::option::Option<i64>,
-    #[prost(int64, optional, tag = "3")]
-    pub value2: ::core::option::Option<i64>,
-    #[prost(bytes = "vec", repeated, tag = "4")]
-    pub detail1: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
-    #[prost(bytes = "vec", repeated, tag = "5")]
-    pub detail2: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessageNotifyResponseFound {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub ent_index: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "2")]
-    pub rule_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "3")]
-    pub response_value: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "4")]
-    pub response_concept: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(message, repeated, tag = "5")]
-    pub criteria: ::prost::alloc::vec::Vec<
-        c_user_message_notify_response_found::Criteria,
-    >,
-    #[prost(uint32, repeated, tag = "6")]
-    pub int_criteria_names: ::prost::alloc::vec::Vec<u32>,
-    #[prost(int32, repeated, tag = "7")]
-    pub int_criteria_values: ::prost::alloc::vec::Vec<i32>,
-    #[prost(uint32, repeated, tag = "8")]
-    pub float_criteria_names: ::prost::alloc::vec::Vec<u32>,
-    #[prost(float, repeated, packed = "false", tag = "9")]
-    pub float_criteria_values: ::prost::alloc::vec::Vec<f32>,
-    #[prost(uint32, repeated, tag = "10")]
-    pub symbol_criteria_names: ::prost::alloc::vec::Vec<u32>,
-    #[prost(uint32, repeated, tag = "11")]
-    pub symbol_criteria_values: ::prost::alloc::vec::Vec<u32>,
-    #[prost(int32, optional, tag = "12")]
-    pub speak_result: ::core::option::Option<i32>,
-}
-/// Nested message and enum types in `CUserMessage_NotifyResponseFound`.
-pub mod c_user_message_notify_response_found {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Criteria {
-        #[prost(uint32, optional, tag = "1")]
-        pub name_symbol: ::core::option::Option<u32>,
-        #[prost(string, optional, tag = "2")]
-        pub value: ::core::option::Option<::prost::alloc::string::String>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserMessagePlayResponseConditional {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub ent_index: ::core::option::Option<i32>,
-    #[prost(int32, repeated, packed = "false", tag = "2")]
-    pub player_slots: ::prost::alloc::vec::Vec<i32>,
-    #[prost(string, optional, tag = "3")]
-    pub response: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(message, optional, tag = "4")]
-    pub ent_origin: ::core::option::Option<CMsgVector>,
-    #[prost(float, optional, tag = "5")]
-    pub pre_delay: ::core::option::Option<f32>,
-    #[prost(int32, optional, tag = "6")]
-    pub mix_priority: ::core::option::Option<i32>,
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EBaseUserMessages {
-    UmAchievementEvent = 101,
-    UmCloseCaption = 102,
-    UmCloseCaptionDirect = 103,
-    UmCurrentTimescale = 104,
-    UmDesiredTimescale = 105,
-    UmFade = 106,
-    UmGameTitle = 107,
-    UmHudMsg = 110,
-    UmHudText = 111,
-    UmColoredText = 113,
-    UmRequestState = 114,
-    UmResetHud = 115,
-    UmRumble = 116,
-    UmSayText = 117,
-    UmSayText2 = 118,
-    UmSayTextChannel = 119,
-    UmShake = 120,
-    UmShakeDir = 121,
-    UmWaterShake = 122,
-    UmTextMsg = 124,
-    UmScreenTilt = 125,
-    UmVoiceMask = 128,
-    UmSendAudio = 130,
-    UmItemPickup = 131,
-    UmAmmoDenied = 132,
-    UmShowMenu = 134,
-    UmCreditsMsg = 135,
-    UmCloseCaptionPlaceholder = 142,
-    UmCameraTransition = 143,
-    UmAudioParameter = 144,
-    UmParticleManager = 145,
-    UmHudError = 146,
-    UmCustomGameEvent = 148,
-    UmAnimGraphUpdate = 149,
-    UmHapticsManagerPulse = 150,
-    UmHapticsManagerEffect = 151,
-    UmCommandQueueState = 152,
-    UmUpdateCssClasses = 153,
-    UmServerFrameTime = 154,
-    UmLagCompensationError = 155,
-    UmRequestDllStatus = 156,
-    UmRequestUtilAction = 157,
-    UmUtilActionResponse = 158,
-    UmDllStatusResponse = 159,
-    UmRequestInventory = 160,
-    UmInventoryResponse = 161,
-    UmRequestDiagnostic = 162,
-    UmDiagnosticResponse = 163,
-    UmExtraUserData = 164,
-    UmNotifyResponseFound = 165,
-    UmPlayResponseConditional = 166,
-    UmMaxBase = 200,
-}
-impl EBaseUserMessages {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EBaseUserMessages::UmAchievementEvent => "UM_AchievementEvent",
-            EBaseUserMessages::UmCloseCaption => "UM_CloseCaption",
-            EBaseUserMessages::UmCloseCaptionDirect => "UM_CloseCaptionDirect",
-            EBaseUserMessages::UmCurrentTimescale => "UM_CurrentTimescale",
-            EBaseUserMessages::UmDesiredTimescale => "UM_DesiredTimescale",
-            EBaseUserMessages::UmFade => "UM_Fade",
-            EBaseUserMessages::UmGameTitle => "UM_GameTitle",
-            EBaseUserMessages::UmHudMsg => "UM_HudMsg",
-            EBaseUserMessages::UmHudText => "UM_HudText",
-            EBaseUserMessages::UmColoredText => "UM_ColoredText",
-            EBaseUserMessages::UmRequestState => "UM_RequestState",
-            EBaseUserMessages::UmResetHud => "UM_ResetHUD",
-            EBaseUserMessages::UmRumble => "UM_Rumble",
-            EBaseUserMessages::UmSayText => "UM_SayText",
-            EBaseUserMessages::UmSayText2 => "UM_SayText2",
-            EBaseUserMessages::UmSayTextChannel => "UM_SayTextChannel",
-            EBaseUserMessages::UmShake => "UM_Shake",
-            EBaseUserMessages::UmShakeDir => "UM_ShakeDir",
-            EBaseUserMessages::UmWaterShake => "UM_WaterShake",
-            EBaseUserMessages::UmTextMsg => "UM_TextMsg",
-            EBaseUserMessages::UmScreenTilt => "UM_ScreenTilt",
-            EBaseUserMessages::UmVoiceMask => "UM_VoiceMask",
-            EBaseUserMessages::UmSendAudio => "UM_SendAudio",
-            EBaseUserMessages::UmItemPickup => "UM_ItemPickup",
-            EBaseUserMessages::UmAmmoDenied => "UM_AmmoDenied",
-            EBaseUserMessages::UmShowMenu => "UM_ShowMenu",
-            EBaseUserMessages::UmCreditsMsg => "UM_CreditsMsg",
-            EBaseUserMessages::UmCloseCaptionPlaceholder => "UM_CloseCaptionPlaceholder",
-            EBaseUserMessages::UmCameraTransition => "UM_CameraTransition",
-            EBaseUserMessages::UmAudioParameter => "UM_AudioParameter",
-            EBaseUserMessages::UmParticleManager => "UM_ParticleManager",
-            EBaseUserMessages::UmHudError => "UM_HudError",
-            EBaseUserMessages::UmCustomGameEvent => "UM_CustomGameEvent",
-            EBaseUserMessages::UmAnimGraphUpdate => "UM_AnimGraphUpdate",
-            EBaseUserMessages::UmHapticsManagerPulse => "UM_HapticsManagerPulse",
-            EBaseUserMessages::UmHapticsManagerEffect => "UM_HapticsManagerEffect",
-            EBaseUserMessages::UmCommandQueueState => "UM_CommandQueueState",
-            EBaseUserMessages::UmUpdateCssClasses => "UM_UpdateCssClasses",
-            EBaseUserMessages::UmServerFrameTime => "UM_ServerFrameTime",
-            EBaseUserMessages::UmLagCompensationError => "UM_LagCompensationError",
-            EBaseUserMessages::UmRequestDllStatus => "UM_RequestDllStatus",
-            EBaseUserMessages::UmRequestUtilAction => "UM_RequestUtilAction",
-            EBaseUserMessages::UmUtilActionResponse => "UM_UtilActionResponse",
-            EBaseUserMessages::UmDllStatusResponse => "UM_DllStatusResponse",
-            EBaseUserMessages::UmRequestInventory => "UM_RequestInventory",
-            EBaseUserMessages::UmInventoryResponse => "UM_InventoryResponse",
-            EBaseUserMessages::UmRequestDiagnostic => "UM_RequestDiagnostic",
-            EBaseUserMessages::UmDiagnosticResponse => "UM_DiagnosticResponse",
-            EBaseUserMessages::UmExtraUserData => "UM_ExtraUserData",
-            EBaseUserMessages::UmNotifyResponseFound => "UM_NotifyResponseFound",
-            EBaseUserMessages::UmPlayResponseConditional => "UM_PlayResponseConditional",
-            EBaseUserMessages::UmMaxBase => "UM_MAX_BASE",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "UM_AchievementEvent" => Some(Self::UmAchievementEvent),
-            "UM_CloseCaption" => Some(Self::UmCloseCaption),
-            "UM_CloseCaptionDirect" => Some(Self::UmCloseCaptionDirect),
-            "UM_CurrentTimescale" => Some(Self::UmCurrentTimescale),
-            "UM_DesiredTimescale" => Some(Self::UmDesiredTimescale),
-            "UM_Fade" => Some(Self::UmFade),
-            "UM_GameTitle" => Some(Self::UmGameTitle),
-            "UM_HudMsg" => Some(Self::UmHudMsg),
-            "UM_HudText" => Some(Self::UmHudText),
-            "UM_ColoredText" => Some(Self::UmColoredText),
-            "UM_RequestState" => Some(Self::UmRequestState),
-            "UM_ResetHUD" => Some(Self::UmResetHud),
-            "UM_Rumble" => Some(Self::UmRumble),
-            "UM_SayText" => Some(Self::UmSayText),
-            "UM_SayText2" => Some(Self::UmSayText2),
-            "UM_SayTextChannel" => Some(Self::UmSayTextChannel),
-            "UM_Shake" => Some(Self::UmShake),
-            "UM_ShakeDir" => Some(Self::UmShakeDir),
-            "UM_WaterShake" => Some(Self::UmWaterShake),
-            "UM_TextMsg" => Some(Self::UmTextMsg),
-            "UM_ScreenTilt" => Some(Self::UmScreenTilt),
-            "UM_VoiceMask" => Some(Self::UmVoiceMask),
-            "UM_SendAudio" => Some(Self::UmSendAudio),
-            "UM_ItemPickup" => Some(Self::UmItemPickup),
-            "UM_AmmoDenied" => Some(Self::UmAmmoDenied),
-            "UM_ShowMenu" => Some(Self::UmShowMenu),
-            "UM_CreditsMsg" => Some(Self::UmCreditsMsg),
-            "UM_CloseCaptionPlaceholder" => Some(Self::UmCloseCaptionPlaceholder),
-            "UM_CameraTransition" => Some(Self::UmCameraTransition),
-            "UM_AudioParameter" => Some(Self::UmAudioParameter),
-            "UM_ParticleManager" => Some(Self::UmParticleManager),
-            "UM_HudError" => Some(Self::UmHudError),
-            "UM_CustomGameEvent" => Some(Self::UmCustomGameEvent),
-            "UM_AnimGraphUpdate" => Some(Self::UmAnimGraphUpdate),
-            "UM_HapticsManagerPulse" => Some(Self::UmHapticsManagerPulse),
-            "UM_HapticsManagerEffect" => Some(Self::UmHapticsManagerEffect),
-            "UM_CommandQueueState" => Some(Self::UmCommandQueueState),
-            "UM_UpdateCssClasses" => Some(Self::UmUpdateCssClasses),
-            "UM_ServerFrameTime" => Some(Self::UmServerFrameTime),
-            "UM_LagCompensationError" => Some(Self::UmLagCompensationError),
-            "UM_RequestDllStatus" => Some(Self::UmRequestDllStatus),
-            "UM_RequestUtilAction" => Some(Self::UmRequestUtilAction),
-            "UM_UtilActionResponse" => Some(Self::UmUtilActionResponse),
-            "UM_DllStatusResponse" => Some(Self::UmDllStatusResponse),
-            "UM_RequestInventory" => Some(Self::UmRequestInventory),
-            "UM_InventoryResponse" => Some(Self::UmInventoryResponse),
-            "UM_RequestDiagnostic" => Some(Self::UmRequestDiagnostic),
-            "UM_DiagnosticResponse" => Some(Self::UmDiagnosticResponse),
-            "UM_ExtraUserData" => Some(Self::UmExtraUserData),
-            "UM_NotifyResponseFound" => Some(Self::UmNotifyResponseFound),
-            "UM_PlayResponseConditional" => Some(Self::UmPlayResponseConditional),
-            "UM_MAX_BASE" => Some(Self::UmMaxBase),
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EBaseEntityMessages {
-    EmPlayJingle = 136,
-    EmScreenOverlay = 137,
-    EmRemoveAllDecals = 138,
-    EmPropagateForce = 139,
-    EmDoSpark = 140,
-    EmFixAngle = 141,
-}
-impl EBaseEntityMessages {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EBaseEntityMessages::EmPlayJingle => "EM_PlayJingle",
-            EBaseEntityMessages::EmScreenOverlay => "EM_ScreenOverlay",
-            EBaseEntityMessages::EmRemoveAllDecals => "EM_RemoveAllDecals",
-            EBaseEntityMessages::EmPropagateForce => "EM_PropagateForce",
-            EBaseEntityMessages::EmDoSpark => "EM_DoSpark",
-            EBaseEntityMessages::EmFixAngle => "EM_FixAngle",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "EM_PlayJingle" => Some(Self::EmPlayJingle),
-            "EM_ScreenOverlay" => Some(Self::EmScreenOverlay),
-            "EM_RemoveAllDecals" => Some(Self::EmRemoveAllDecals),
-            "EM_PropagateForce" => Some(Self::EmPropagateForce),
-            "EM_DoSpark" => Some(Self::EmDoSpark),
-            "EM_FixAngle" => Some(Self::EmFixAngle),
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ERollType {
-    RollNone = -1,
-    RollStats = 0,
-    RollCredits = 1,
-    RollLateJoinLogo = 2,
-    RollOuttro = 3,
-}
-impl ERollType {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            ERollType::RollNone => "ROLL_NONE",
-            ERollType::RollStats => "ROLL_STATS",
-            ERollType::RollCredits => "ROLL_CREDITS",
-            ERollType::RollLateJoinLogo => "ROLL_LATE_JOIN_LOGO",
-            ERollType::RollOuttro => "ROLL_OUTTRO",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "ROLL_NONE" => Some(Self::RollNone),
-            "ROLL_STATS" => Some(Self::RollStats),
-            "ROLL_CREDITS" => Some(Self::RollCredits),
-            "ROLL_LATE_JOIN_LOGO" => Some(Self::RollLateJoinLogo),
-            "ROLL_OUTTRO" => Some(Self::RollOuttro),
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ParticleMessage {
-    GameParticleManagerEventCreate = 0,
-    GameParticleManagerEventUpdate = 1,
-    GameParticleManagerEventUpdateForward = 2,
-    GameParticleManagerEventUpdateOrientation = 3,
-    GameParticleManagerEventUpdateFallback = 4,
-    GameParticleManagerEventUpdateEnt = 5,
-    GameParticleManagerEventUpdateOffset = 6,
-    GameParticleManagerEventDestroy = 7,
-    GameParticleManagerEventDestroyInvolving = 8,
-    GameParticleManagerEventRelease = 9,
-    GameParticleManagerEventLatency = 10,
-    GameParticleManagerEventShouldDraw = 11,
-    GameParticleManagerEventFrozen = 12,
-    GameParticleManagerEventChangeControlPointAttachment = 13,
-    GameParticleManagerEventUpdateEntityPosition = 14,
-    GameParticleManagerEventSetFowProperties = 15,
-    GameParticleManagerEventSetText = 16,
-    GameParticleManagerEventSetShouldCheckFow = 17,
-    GameParticleManagerEventSetControlPointModel = 18,
-    GameParticleManagerEventSetControlPointSnapshot = 19,
-    GameParticleManagerEventSetTextureAttribute = 20,
-    GameParticleManagerEventSetSceneObjectGenericFlag = 21,
-    GameParticleManagerEventSetSceneObjectTintAndDesat = 22,
-    GameParticleManagerEventDestroyNamed = 23,
-    GameParticleManagerEventSkipToTime = 24,
-    GameParticleManagerEventCanFreeze = 25,
-    GameParticleManagerEventSetNamedValueContext = 26,
-    GameParticleManagerEventUpdateTransform = 27,
-    GameParticleManagerEventFreezeTransitionOverride = 28,
-    GameParticleManagerEventFreezeInvolving = 29,
-    GameParticleManagerEventAddModellistOverrideElement = 30,
-    GameParticleManagerEventClearModellistOverride = 31,
-    GameParticleManagerEventCreatePhysicsSim = 32,
-    GameParticleManagerEventDestroyPhysicsSim = 33,
-    GameParticleManagerEventSetVdata = 34,
-    GameParticleManagerEventSetMaterialOverride = 35,
-}
-impl ParticleMessage {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            ParticleMessage::GameParticleManagerEventCreate => {
-                "GAME_PARTICLE_MANAGER_EVENT_CREATE"
-            }
-            ParticleMessage::GameParticleManagerEventUpdate => {
-                "GAME_PARTICLE_MANAGER_EVENT_UPDATE"
-            }
-            ParticleMessage::GameParticleManagerEventUpdateForward => {
-                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_FORWARD"
-            }
-            ParticleMessage::GameParticleManagerEventUpdateOrientation => {
-                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ORIENTATION"
-            }
-            ParticleMessage::GameParticleManagerEventUpdateFallback => {
-                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_FALLBACK"
-            }
-            ParticleMessage::GameParticleManagerEventUpdateEnt => {
-                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ENT"
-            }
-            ParticleMessage::GameParticleManagerEventUpdateOffset => {
-                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_OFFSET"
-            }
-            ParticleMessage::GameParticleManagerEventDestroy => {
-                "GAME_PARTICLE_MANAGER_EVENT_DESTROY"
-            }
-            ParticleMessage::GameParticleManagerEventDestroyInvolving => {
-                "GAME_PARTICLE_MANAGER_EVENT_DESTROY_INVOLVING"
-            }
-            ParticleMessage::GameParticleManagerEventRelease => {
-                "GAME_PARTICLE_MANAGER_EVENT_RELEASE"
-            }
-            ParticleMessage::GameParticleManagerEventLatency => {
-                "GAME_PARTICLE_MANAGER_EVENT_LATENCY"
-            }
-            ParticleMessage::GameParticleManagerEventShouldDraw => {
-                "GAME_PARTICLE_MANAGER_EVENT_SHOULD_DRAW"
-            }
-            ParticleMessage::GameParticleManagerEventFrozen => {
-                "GAME_PARTICLE_MANAGER_EVENT_FROZEN"
-            }
-            ParticleMessage::GameParticleManagerEventChangeControlPointAttachment => {
-                "GAME_PARTICLE_MANAGER_EVENT_CHANGE_CONTROL_POINT_ATTACHMENT"
-            }
-            ParticleMessage::GameParticleManagerEventUpdateEntityPosition => {
-                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ENTITY_POSITION"
-            }
-            ParticleMessage::GameParticleManagerEventSetFowProperties => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_FOW_PROPERTIES"
-            }
-            ParticleMessage::GameParticleManagerEventSetText => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_TEXT"
-            }
-            ParticleMessage::GameParticleManagerEventSetShouldCheckFow => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_SHOULD_CHECK_FOW"
-            }
-            ParticleMessage::GameParticleManagerEventSetControlPointModel => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_CONTROL_POINT_MODEL"
-            }
-            ParticleMessage::GameParticleManagerEventSetControlPointSnapshot => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_CONTROL_POINT_SNAPSHOT"
-            }
-            ParticleMessage::GameParticleManagerEventSetTextureAttribute => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_TEXTURE_ATTRIBUTE"
-            }
-            ParticleMessage::GameParticleManagerEventSetSceneObjectGenericFlag => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_SCENE_OBJECT_GENERIC_FLAG"
-            }
-            ParticleMessage::GameParticleManagerEventSetSceneObjectTintAndDesat => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_SCENE_OBJECT_TINT_AND_DESAT"
-            }
-            ParticleMessage::GameParticleManagerEventDestroyNamed => {
-                "GAME_PARTICLE_MANAGER_EVENT_DESTROY_NAMED"
-            }
-            ParticleMessage::GameParticleManagerEventSkipToTime => {
-                "GAME_PARTICLE_MANAGER_EVENT_SKIP_TO_TIME"
-            }
-            ParticleMessage::GameParticleManagerEventCanFreeze => {
-                "GAME_PARTICLE_MANAGER_EVENT_CAN_FREEZE"
-            }
-            ParticleMessage::GameParticleManagerEventSetNamedValueContext => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_NAMED_VALUE_CONTEXT"
-            }
-            ParticleMessage::GameParticleManagerEventUpdateTransform => {
-                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_TRANSFORM"
-            }
-            ParticleMessage::GameParticleManagerEventFreezeTransitionOverride => {
-                "GAME_PARTICLE_MANAGER_EVENT_FREEZE_TRANSITION_OVERRIDE"
-            }
-            ParticleMessage::GameParticleManagerEventFreezeInvolving => {
-                "GAME_PARTICLE_MANAGER_EVENT_FREEZE_INVOLVING"
-            }
-            ParticleMessage::GameParticleManagerEventAddModellistOverrideElement => {
-                "GAME_PARTICLE_MANAGER_EVENT_ADD_MODELLIST_OVERRIDE_ELEMENT"
-            }
-            ParticleMessage::GameParticleManagerEventClearModellistOverride => {
-                "GAME_PARTICLE_MANAGER_EVENT_CLEAR_MODELLIST_OVERRIDE"
-            }
-            ParticleMessage::GameParticleManagerEventCreatePhysicsSim => {
-                "GAME_PARTICLE_MANAGER_EVENT_CREATE_PHYSICS_SIM"
-            }
-            ParticleMessage::GameParticleManagerEventDestroyPhysicsSim => {
-                "GAME_PARTICLE_MANAGER_EVENT_DESTROY_PHYSICS_SIM"
-            }
-            ParticleMessage::GameParticleManagerEventSetVdata => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_VDATA"
-            }
-            ParticleMessage::GameParticleManagerEventSetMaterialOverride => {
-                "GAME_PARTICLE_MANAGER_EVENT_SET_MATERIAL_OVERRIDE"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "GAME_PARTICLE_MANAGER_EVENT_CREATE" => {
-                Some(Self::GameParticleManagerEventCreate)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_UPDATE" => {
-                Some(Self::GameParticleManagerEventUpdate)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_FORWARD" => {
-                Some(Self::GameParticleManagerEventUpdateForward)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ORIENTATION" => {
-                Some(Self::GameParticleManagerEventUpdateOrientation)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_FALLBACK" => {
-                Some(Self::GameParticleManagerEventUpdateFallback)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ENT" => {
-                Some(Self::GameParticleManagerEventUpdateEnt)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_OFFSET" => {
-                Some(Self::GameParticleManagerEventUpdateOffset)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_DESTROY" => {
-                Some(Self::GameParticleManagerEventDestroy)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_DESTROY_INVOLVING" => {
-                Some(Self::GameParticleManagerEventDestroyInvolving)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_RELEASE" => {
-                Some(Self::GameParticleManagerEventRelease)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_LATENCY" => {
-                Some(Self::GameParticleManagerEventLatency)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SHOULD_DRAW" => {
-                Some(Self::GameParticleManagerEventShouldDraw)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_FROZEN" => {
-                Some(Self::GameParticleManagerEventFrozen)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_CHANGE_CONTROL_POINT_ATTACHMENT" => {
-                Some(Self::GameParticleManagerEventChangeControlPointAttachment)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ENTITY_POSITION" => {
-                Some(Self::GameParticleManagerEventUpdateEntityPosition)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_FOW_PROPERTIES" => {
-                Some(Self::GameParticleManagerEventSetFowProperties)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_TEXT" => {
-                Some(Self::GameParticleManagerEventSetText)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_SHOULD_CHECK_FOW" => {
-                Some(Self::GameParticleManagerEventSetShouldCheckFow)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_CONTROL_POINT_MODEL" => {
-                Some(Self::GameParticleManagerEventSetControlPointModel)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_CONTROL_POINT_SNAPSHOT" => {
-                Some(Self::GameParticleManagerEventSetControlPointSnapshot)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_TEXTURE_ATTRIBUTE" => {
-                Some(Self::GameParticleManagerEventSetTextureAttribute)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_SCENE_OBJECT_GENERIC_FLAG" => {
-                Some(Self::GameParticleManagerEventSetSceneObjectGenericFlag)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_SCENE_OBJECT_TINT_AND_DESAT" => {
-                Some(Self::GameParticleManagerEventSetSceneObjectTintAndDesat)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_DESTROY_NAMED" => {
-                Some(Self::GameParticleManagerEventDestroyNamed)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SKIP_TO_TIME" => {
-                Some(Self::GameParticleManagerEventSkipToTime)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_CAN_FREEZE" => {
-                Some(Self::GameParticleManagerEventCanFreeze)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_NAMED_VALUE_CONTEXT" => {
-                Some(Self::GameParticleManagerEventSetNamedValueContext)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_TRANSFORM" => {
-                Some(Self::GameParticleManagerEventUpdateTransform)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_FREEZE_TRANSITION_OVERRIDE" => {
-                Some(Self::GameParticleManagerEventFreezeTransitionOverride)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_FREEZE_INVOLVING" => {
-                Some(Self::GameParticleManagerEventFreezeInvolving)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_ADD_MODELLIST_OVERRIDE_ELEMENT" => {
-                Some(Self::GameParticleManagerEventAddModellistOverrideElement)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_CLEAR_MODELLIST_OVERRIDE" => {
-                Some(Self::GameParticleManagerEventClearModellistOverride)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_CREATE_PHYSICS_SIM" => {
-                Some(Self::GameParticleManagerEventCreatePhysicsSim)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_DESTROY_PHYSICS_SIM" => {
-                Some(Self::GameParticleManagerEventDestroyPhysicsSim)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_VDATA" => {
-                Some(Self::GameParticleManagerEventSetVdata)
-            }
-            "GAME_PARTICLE_MANAGER_EVENT_SET_MATERIAL_OVERRIDE" => {
-                Some(Self::GameParticleManagerEventSetMaterialOverride)
-            }
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EHapticPulseType {
-    VrHandHapticPulseLight = 0,
-    VrHandHapticPulseMedium = 1,
-    VrHandHapticPulseStrong = 2,
-}
-impl EHapticPulseType {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EHapticPulseType::VrHandHapticPulseLight => "VR_HAND_HAPTIC_PULSE_LIGHT",
-            EHapticPulseType::VrHandHapticPulseMedium => "VR_HAND_HAPTIC_PULSE_MEDIUM",
-            EHapticPulseType::VrHandHapticPulseStrong => "VR_HAND_HAPTIC_PULSE_STRONG",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "VR_HAND_HAPTIC_PULSE_LIGHT" => Some(Self::VrHandHapticPulseLight),
-            "VR_HAND_HAPTIC_PULSE_MEDIUM" => Some(Self::VrHandHapticPulseMedium),
-            "VR_HAND_HAPTIC_PULSE_STRONG" => Some(Self::VrHandHapticPulseStrong),
-            _ => None,
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CInButtonStatePb {
-    #[prost(uint64, optional, tag = "1")]
-    pub buttonstate1: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "2")]
-    pub buttonstate2: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "3")]
-    pub buttonstate3: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CSubtickMoveStep {
-    #[prost(uint64, optional, tag = "1")]
-    pub button: ::core::option::Option<u64>,
-    #[prost(bool, optional, tag = "2")]
-    pub pressed: ::core::option::Option<bool>,
-    #[prost(float, optional, tag = "3")]
-    pub when: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "4")]
-    pub analog_forward_delta: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "5")]
-    pub analog_left_delta: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CBaseUserCmdPb {
-    #[prost(int32, optional, tag = "1")]
-    pub legacy_command_number: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub client_tick: ::core::option::Option<i32>,
-    #[prost(message, optional, tag = "3")]
-    pub buttons_pb: ::core::option::Option<CInButtonStatePb>,
-    #[prost(message, optional, tag = "4")]
-    pub viewangles: ::core::option::Option<CMsgQAngle>,
-    #[prost(float, optional, tag = "5")]
-    pub forwardmove: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "6")]
-    pub leftmove: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "7")]
-    pub upmove: ::core::option::Option<f32>,
-    #[prost(int32, optional, tag = "8")]
-    pub impulse: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "9")]
-    pub weaponselect: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "10")]
-    pub random_seed: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "11")]
-    pub mousedx: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "12")]
-    pub mousedy: ::core::option::Option<i32>,
-    #[prost(uint32, optional, tag = "14", default = "16777215")]
-    pub pawn_entity_handle: ::core::option::Option<u32>,
-    #[prost(message, repeated, tag = "18")]
-    pub subtick_moves: ::prost::alloc::vec::Vec<CSubtickMoveStep>,
-    #[prost(bytes = "vec", optional, tag = "19")]
-    pub move_crc: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(uint32, optional, tag = "20")]
-    pub consumed_server_angle_changes: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "21")]
-    pub cmd_flags: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CUserCmdBasePb {
-    #[prost(message, optional, tag = "1")]
-    pub base: ::core::option::Option<CBaseUserCmdPb>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsgoInterpolationInfoPb {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub src_tick: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2", default = "-1")]
-    pub dst_tick: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "3", default = "0")]
-    pub frac: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsgoInterpolationInfoPbCl {
-    #[prost(float, optional, tag = "3", default = "0")]
-    pub frac: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsgoInputHistoryEntryPb {
-    #[prost(message, optional, tag = "2")]
-    pub view_angles: ::core::option::Option<CMsgQAngle>,
-    #[prost(int32, optional, tag = "4")]
-    pub render_tick_count: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "5")]
-    pub render_tick_fraction: ::core::option::Option<f32>,
-    #[prost(int32, optional, tag = "6")]
-    pub player_tick_count: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "7")]
-    pub player_tick_fraction: ::core::option::Option<f32>,
-    #[prost(message, optional, tag = "12")]
-    pub cl_interp: ::core::option::Option<CsgoInterpolationInfoPbCl>,
-    #[prost(message, optional, tag = "13")]
-    pub sv_interp0: ::core::option::Option<CsgoInterpolationInfoPb>,
-    #[prost(message, optional, tag = "14")]
-    pub sv_interp1: ::core::option::Option<CsgoInterpolationInfoPb>,
-    #[prost(message, optional, tag = "15")]
-    pub player_interp: ::core::option::Option<CsgoInterpolationInfoPb>,
-    #[prost(int32, optional, tag = "64")]
-    pub frame_number: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "65", default = "-1")]
-    pub target_ent_index: ::core::option::Option<i32>,
-    #[prost(message, optional, tag = "66")]
-    pub shoot_position: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "67")]
-    pub target_head_pos_check: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "68")]
-    pub target_abs_pos_check: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "69")]
-    pub target_abs_ang_check: ::core::option::Option<CMsgQAngle>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsgoUserCmdPb {
-    #[prost(message, optional, tag = "1")]
-    pub base: ::core::option::Option<CBaseUserCmdPb>,
-    #[prost(message, repeated, tag = "2")]
-    pub input_history: ::prost::alloc::vec::Vec<CsgoInputHistoryEntryPb>,
-    #[prost(int32, optional, tag = "6", default = "-1")]
-    pub attack1_start_history_index: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "7", default = "-1")]
-    pub attack2_start_history_index: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "8", default = "-1")]
-    pub attack3_start_history_index: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "9", default = "false")]
-    pub left_hand_desired: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "11", default = "false")]
-    pub is_predicting_body_shot_fx: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "12", default = "false")]
-    pub is_predicting_head_shot_fx: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "13", default = "false")]
-    pub is_predicting_kill_ragdolls: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoFileHeader {
-    #[prost(string, required, tag = "1")]
-    pub demo_file_stamp: ::prost::alloc::string::String,
-    #[prost(int32, optional, tag = "2")]
-    pub network_protocol: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "3")]
-    pub server_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "4")]
-    pub client_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "5")]
-    pub map_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "6")]
-    pub game_directory: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(int32, optional, tag = "7")]
-    pub fullpackets_version: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "8")]
-    pub allow_clientside_entities: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "9")]
-    pub allow_clientside_particles: ::core::option::Option<bool>,
-    #[prost(string, optional, tag = "10")]
-    pub addons: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "11")]
-    pub demo_version_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "12")]
-    pub demo_version_guid: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(int32, optional, tag = "13")]
-    pub build_num: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "14")]
-    pub game: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(int32, optional, tag = "15")]
-    pub server_start_tick: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CGameInfo {
-    #[prost(message, optional, tag = "4")]
-    pub dota: ::core::option::Option<c_game_info::CDotaGameInfo>,
-    #[prost(message, optional, tag = "5")]
-    pub cs: ::core::option::Option<c_game_info::CcsGameInfo>,
-}
-/// Nested message and enum types in `CGameInfo`.
-pub mod c_game_info {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CDotaGameInfo {
-        #[prost(uint64, optional, tag = "1")]
-        pub match_id: ::core::option::Option<u64>,
-        #[prost(int32, optional, tag = "2")]
-        pub game_mode: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "3")]
-        pub game_winner: ::core::option::Option<i32>,
-        #[prost(message, repeated, tag = "4")]
-        pub player_info: ::prost::alloc::vec::Vec<c_dota_game_info::CPlayerInfo>,
-        #[prost(uint32, optional, tag = "5")]
-        pub leagueid: ::core::option::Option<u32>,
-        #[prost(message, repeated, tag = "6")]
-        pub picks_bans: ::prost::alloc::vec::Vec<c_dota_game_info::CHeroSelectEvent>,
-        #[prost(uint32, optional, tag = "7")]
-        pub radiant_team_id: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "8")]
-        pub dire_team_id: ::core::option::Option<u32>,
-        #[prost(string, optional, tag = "9")]
-        pub radiant_team_tag: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(string, optional, tag = "10")]
-        pub dire_team_tag: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(uint32, optional, tag = "11")]
-        pub end_time: ::core::option::Option<u32>,
-    }
-    /// Nested message and enum types in `CDotaGameInfo`.
-    pub mod c_dota_game_info {
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct CPlayerInfo {
-            #[prost(string, optional, tag = "1")]
-            pub hero_name: ::core::option::Option<::prost::alloc::string::String>,
-            #[prost(string, optional, tag = "2")]
-            pub player_name: ::core::option::Option<::prost::alloc::string::String>,
-            #[prost(bool, optional, tag = "3")]
-            pub is_fake_client: ::core::option::Option<bool>,
-            #[prost(uint64, optional, tag = "4")]
-            pub steamid: ::core::option::Option<u64>,
-            #[prost(int32, optional, tag = "5")]
-            pub game_team: ::core::option::Option<i32>,
-        }
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct CHeroSelectEvent {
-            #[prost(bool, optional, tag = "1")]
-            pub is_pick: ::core::option::Option<bool>,
-            #[prost(uint32, optional, tag = "2")]
-            pub team: ::core::option::Option<u32>,
-            #[prost(int32, optional, tag = "3")]
-            pub hero_id: ::core::option::Option<i32>,
-        }
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct CcsGameInfo {
-        #[prost(int32, repeated, packed = "false", tag = "1")]
-        pub round_start_ticks: ::prost::alloc::vec::Vec<i32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoFileInfo {
-    #[prost(float, optional, tag = "1")]
-    pub playback_time: ::core::option::Option<f32>,
-    #[prost(int32, optional, tag = "2")]
-    pub playback_ticks: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub playback_frames: ::core::option::Option<i32>,
-    #[prost(message, optional, tag = "4")]
-    pub game_info: ::core::option::Option<CGameInfo>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoPacket {
-    #[prost(bytes = "vec", optional, tag = "3")]
-    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoFullPacket {
-    #[prost(message, optional, tag = "1")]
-    pub string_table: ::core::option::Option<CDemoStringTables>,
-    #[prost(message, optional, tag = "2")]
-    pub packet: ::core::option::Option<CDemoPacket>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoSaveGame {
-    #[prost(bytes = "vec", optional, tag = "1")]
-    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub steam_id: ::core::option::Option<u64>,
-    #[prost(fixed64, optional, tag = "3")]
-    pub signature: ::core::option::Option<u64>,
-    #[prost(int32, optional, tag = "4")]
-    pub version: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoSyncTick {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoConsoleCmd {
-    #[prost(string, optional, tag = "1")]
-    pub cmdstring: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoSendTables {
-    #[prost(bytes = "vec", optional, tag = "1")]
-    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoClassInfo {
-    #[prost(message, repeated, tag = "1")]
-    pub classes: ::prost::alloc::vec::Vec<c_demo_class_info::ClassT>,
-}
-/// Nested message and enum types in `CDemoClassInfo`.
-pub mod c_demo_class_info {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ClassT {
-        #[prost(int32, optional, tag = "1")]
-        pub class_id: ::core::option::Option<i32>,
-        #[prost(string, optional, tag = "2")]
-        pub network_name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(string, optional, tag = "3")]
-        pub table_name: ::core::option::Option<::prost::alloc::string::String>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoCustomData {
-    #[prost(int32, optional, tag = "1")]
-    pub callback_index: ::core::option::Option<i32>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoCustomDataCallbacks {
-    #[prost(string, repeated, tag = "1")]
-    pub save_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoAnimationHeader {
-    #[prost(sint32, optional, tag = "1")]
-    pub entity_id: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub tick: ::core::option::Option<i32>,
-    #[prost(bytes = "vec", optional, tag = "3")]
-    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoAnimationData {
-    #[prost(sint32, optional, tag = "1")]
-    pub entity_id: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub start_tick: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub end_tick: ::core::option::Option<i32>,
-    #[prost(bytes = "vec", optional, tag = "4")]
-    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(int64, optional, tag = "5")]
-    pub data_checksum: ::core::option::Option<i64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoStringTables {
-    #[prost(message, repeated, tag = "1")]
-    pub tables: ::prost::alloc::vec::Vec<c_demo_string_tables::TableT>,
-}
-/// Nested message and enum types in `CDemoStringTables`.
-pub mod c_demo_string_tables {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ItemsT {
-        #[prost(string, optional, tag = "1")]
-        pub str: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(bytes = "vec", optional, tag = "2")]
-        pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct TableT {
-        #[prost(string, optional, tag = "1")]
-        pub table_name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(message, repeated, tag = "2")]
-        pub items: ::prost::alloc::vec::Vec<ItemsT>,
-        #[prost(message, repeated, tag = "3")]
-        pub items_clientside: ::prost::alloc::vec::Vec<ItemsT>,
-        #[prost(int32, optional, tag = "4")]
-        pub table_flags: ::core::option::Option<i32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoStop {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoUserCmd {
-    #[prost(int32, optional, tag = "1")]
-    pub cmd_number: ::core::option::Option<i32>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoSpawnGroups {
-    #[prost(bytes = "vec", repeated, tag = "3")]
-    pub msgs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CDemoRecovery {
-    #[prost(message, optional, tag = "1")]
-    pub initial_spawn_group: ::core::option::Option<
-        c_demo_recovery::DemoInitialSpawnGroupEntry,
-    >,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub spawn_group_message: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-/// Nested message and enum types in `CDemoRecovery`.
-pub mod c_demo_recovery {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DemoInitialSpawnGroupEntry {
-        #[prost(uint32, optional, tag = "1")]
-        pub spawngrouphandle: ::core::option::Option<u32>,
-        #[prost(bool, optional, tag = "2")]
-        pub was_created: ::core::option::Option<bool>,
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EDemoCommands {
-    DemError = -1,
-    DemStop = 0,
-    DemFileHeader = 1,
-    DemFileInfo = 2,
-    DemSyncTick = 3,
-    DemSendTables = 4,
-    DemClassInfo = 5,
-    DemStringTables = 6,
-    DemPacket = 7,
-    DemSignonPacket = 8,
-    DemConsoleCmd = 9,
-    DemCustomData = 10,
-    DemCustomDataCallbacks = 11,
-    DemUserCmd = 12,
-    DemFullPacket = 13,
-    DemSaveGame = 14,
-    DemSpawnGroups = 15,
-    DemAnimationData = 16,
-    DemAnimationHeader = 17,
-    DemRecovery = 18,
-    DemMax = 19,
-    DemIsCompressed = 64,
-}
-impl EDemoCommands {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EDemoCommands::DemError => "DEM_Error",
-            EDemoCommands::DemStop => "DEM_Stop",
-            EDemoCommands::DemFileHeader => "DEM_FileHeader",
-            EDemoCommands::DemFileInfo => "DEM_FileInfo",
-            EDemoCommands::DemSyncTick => "DEM_SyncTick",
-            EDemoCommands::DemSendTables => "DEM_SendTables",
-            EDemoCommands::DemClassInfo => "DEM_ClassInfo",
-            EDemoCommands::DemStringTables => "DEM_StringTables",
-            EDemoCommands::DemPacket => "DEM_Packet",
-            EDemoCommands::DemSignonPacket => "DEM_SignonPacket",
-            EDemoCommands::DemConsoleCmd => "DEM_ConsoleCmd",
-            EDemoCommands::DemCustomData => "DEM_CustomData",
-            EDemoCommands::DemCustomDataCallbacks => "DEM_CustomDataCallbacks",
-            EDemoCommands::DemUserCmd => "DEM_UserCmd",
-            EDemoCommands::DemFullPacket => "DEM_FullPacket",
-            EDemoCommands::DemSaveGame => "DEM_SaveGame",
-            EDemoCommands::DemSpawnGroups => "DEM_SpawnGroups",
-            EDemoCommands::DemAnimationData => "DEM_AnimationData",
-            EDemoCommands::DemAnimationHeader => "DEM_AnimationHeader",
-            EDemoCommands::DemRecovery => "DEM_Recovery",
-            EDemoCommands::DemMax => "DEM_Max",
-            EDemoCommands::DemIsCompressed => "DEM_IsCompressed",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "DEM_Error" => Some(Self::DemError),
-            "DEM_Stop" => Some(Self::DemStop),
-            "DEM_FileHeader" => Some(Self::DemFileHeader),
-            "DEM_FileInfo" => Some(Self::DemFileInfo),
-            "DEM_SyncTick" => Some(Self::DemSyncTick),
-            "DEM_SendTables" => Some(Self::DemSendTables),
-            "DEM_ClassInfo" => Some(Self::DemClassInfo),
-            "DEM_StringTables" => Some(Self::DemStringTables),
-            "DEM_Packet" => Some(Self::DemPacket),
-            "DEM_SignonPacket" => Some(Self::DemSignonPacket),
-            "DEM_ConsoleCmd" => Some(Self::DemConsoleCmd),
-            "DEM_CustomData" => Some(Self::DemCustomData),
-            "DEM_CustomDataCallbacks" => Some(Self::DemCustomDataCallbacks),
-            "DEM_UserCmd" => Some(Self::DemUserCmd),
-            "DEM_FullPacket" => Some(Self::DemFullPacket),
-            "DEM_SaveGame" => Some(Self::DemSaveGame),
-            "DEM_SpawnGroups" => Some(Self::DemSpawnGroups),
-            "DEM_AnimationData" => Some(Self::DemAnimationData),
-            "DEM_AnimationHeader" => Some(Self::DemAnimationHeader),
-            "DEM_Recovery" => Some(Self::DemRecovery),
-            "DEM_Max" => Some(Self::DemMax),
-            "DEM_IsCompressed" => Some(Self::DemIsCompressed),
             _ => None,
         }
     }
@@ -8382,32 +4223,32 @@ impl ReplayEventTypeT {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NetMessageSplitscreenUserChanged {
+pub struct C2sConnectMessage {
     #[prost(uint32, optional, tag = "1")]
-    pub slot: ::core::option::Option<u32>,
+    pub host_version: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub auth_protocol: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub challenge_number: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "4")]
+    pub reservation_cookie: ::core::option::Option<u64>,
+    #[prost(bool, optional, tag = "5")]
+    pub low_violence: ::core::option::Option<bool>,
+    #[prost(bytes = "vec", optional, tag = "6")]
+    pub encrypted_password: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(message, repeated, tag = "7")]
+    pub splitplayers: ::prost::alloc::vec::Vec<CclcMsgSplitPlayerConnect>,
+    #[prost(bytes = "vec", optional, tag = "8")]
+    pub auth_steam: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(string, optional, tag = "9")]
+    pub challenge_context: ::core::option::Option<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NetMessageConnectionClosed {
-    #[prost(uint32, optional, tag = "1")]
-    pub reason: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "2")]
-    pub message: ::core::option::Option<::prost::alloc::string::String>,
+pub struct C2sConnectionMessage {
+    #[prost(string, optional, tag = "1")]
+    pub addon_name: ::core::option::Option<::prost::alloc::string::String>,
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NetMessageConnectionCrashed {
-    #[prost(uint32, optional, tag = "1")]
-    pub reason: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "2")]
-    pub message: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NetMessagePacketStart {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct NetMessagePacketEnd {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CEngineGotvSyncPacket {
@@ -8431,6 +4272,635 @@ pub struct CEngineGotvSyncPacket {
     pub keyframe_interval: ::core::option::Option<f32>,
     #[prost(uint32, optional, tag = "11")]
     pub cdndelay: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSoidOwner {
+    #[prost(uint32, optional, tag = "1")]
+    pub r#type: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "2")]
+    pub id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSoSingleObject {
+    #[prost(int32, optional, tag = "2")]
+    pub type_id: ::core::option::Option<i32>,
+    #[prost(bytes = "vec", optional, tag = "3")]
+    pub object_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(fixed64, optional, tag = "4")]
+    pub version: ::core::option::Option<u64>,
+    #[prost(message, optional, tag = "5")]
+    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSoMultipleObjects {
+    #[prost(message, repeated, tag = "2")]
+    pub objects_modified: ::prost::alloc::vec::Vec<
+        c_msg_so_multiple_objects::SingleObject,
+    >,
+    #[prost(fixed64, optional, tag = "3")]
+    pub version: ::core::option::Option<u64>,
+    #[prost(message, optional, tag = "6")]
+    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
+}
+/// Nested message and enum types in `CMsgSOMultipleObjects`.
+pub mod c_msg_so_multiple_objects {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SingleObject {
+        #[prost(int32, optional, tag = "1")]
+        pub type_id: ::core::option::Option<i32>,
+        #[prost(bytes = "vec", optional, tag = "2")]
+        pub object_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSoCacheSubscribed {
+    #[prost(message, repeated, tag = "2")]
+    pub objects: ::prost::alloc::vec::Vec<c_msg_so_cache_subscribed::SubscribedType>,
+    #[prost(fixed64, optional, tag = "3")]
+    pub version: ::core::option::Option<u64>,
+    #[prost(message, optional, tag = "4")]
+    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
+}
+/// Nested message and enum types in `CMsgSOCacheSubscribed`.
+pub mod c_msg_so_cache_subscribed {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SubscribedType {
+        #[prost(int32, optional, tag = "1")]
+        pub type_id: ::core::option::Option<i32>,
+        #[prost(bytes = "vec", repeated, tag = "2")]
+        pub object_data: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSoCacheUnsubscribed {
+    #[prost(message, optional, tag = "2")]
+    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSoCacheSubscriptionCheck {
+    #[prost(fixed64, optional, tag = "2")]
+    pub version: ::core::option::Option<u64>,
+    #[prost(message, optional, tag = "3")]
+    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSoCacheSubscriptionRefresh {
+    #[prost(message, optional, tag = "2")]
+    pub owner_soid: ::core::option::Option<CMsgSoidOwner>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSoCacheVersion {
+    #[prost(fixed64, optional, tag = "1")]
+    pub version: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgAccountDetails {
+    #[prost(bool, optional, tag = "1")]
+    pub valid: ::core::option::Option<bool>,
+    #[prost(string, optional, tag = "2")]
+    pub account_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "4")]
+    pub public_profile: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "5")]
+    pub public_inventory: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "6")]
+    pub vac_banned: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "7")]
+    pub cyber_cafe: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "8")]
+    pub school_account: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "9")]
+    pub free_trial_account: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "10")]
+    pub subscribed: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "11")]
+    pub low_violence: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "12")]
+    pub limited: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "13")]
+    pub trusted: ::core::option::Option<bool>,
+    #[prost(uint32, optional, tag = "14")]
+    pub package: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "15")]
+    pub time_cached: ::core::option::Option<u32>,
+    #[prost(bool, optional, tag = "16")]
+    pub account_locked: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "17")]
+    pub community_banned: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "18")]
+    pub trade_banned: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "19")]
+    pub eligible_for_community_market: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcMultiplexMessage {
+    #[prost(uint32, optional, tag = "1")]
+    pub msgtype: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub payload: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(fixed64, repeated, packed = "false", tag = "3")]
+    pub steamids: ::prost::alloc::vec::Vec<u64>,
+    #[prost(bool, optional, tag = "4")]
+    pub replytogc: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcMultiplexMessageResponse {
+    #[prost(uint32, optional, tag = "1")]
+    pub msgtype: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CgcToGcMsgMasterAck {
+    #[prost(uint32, optional, tag = "1")]
+    pub dir_index: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub gc_type: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CgcToGcMsgMasterAckResponse {
+    #[prost(int32, optional, tag = "1", default = "2")]
+    pub eresult: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CgcToGcMsgMasterStartupComplete {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CgcToGcMsgRouted {
+    #[prost(uint32, optional, tag = "1")]
+    pub msg_type: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub sender_id: ::core::option::Option<u64>,
+    #[prost(bytes = "vec", optional, tag = "3")]
+    pub net_message: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(uint32, optional, tag = "4")]
+    pub ip: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CgcToGcMsgRoutedReply {
+    #[prost(uint32, optional, tag = "1")]
+    pub msg_type: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub net_message: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcUpdateSessionIp {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steamid: ::core::option::Option<u64>,
+    #[prost(fixed32, optional, tag = "2")]
+    pub ip: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcRequestSessionIp {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steamid: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcRequestSessionIpResponse {
+    #[prost(fixed32, optional, tag = "1")]
+    pub ip: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSoCacheHaveVersion {
+    #[prost(message, optional, tag = "1")]
+    pub soid: ::core::option::Option<CMsgSoidOwner>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub version: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgClientHello {
+    #[prost(uint32, optional, tag = "1")]
+    pub version: ::core::option::Option<u32>,
+    #[prost(message, repeated, tag = "2")]
+    pub socache_have_versions: ::prost::alloc::vec::Vec<CMsgSoCacheHaveVersion>,
+    #[prost(uint32, optional, tag = "3")]
+    pub client_session_need: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub client_launcher: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub partner_srcid: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "6")]
+    pub partner_accountid: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "7")]
+    pub partner_accountflags: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "8")]
+    pub partner_accountbalance: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "9")]
+    pub steam_launcher: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgServerHello {
+    #[prost(uint32, optional, tag = "1")]
+    pub version: ::core::option::Option<u32>,
+    #[prost(message, repeated, tag = "2")]
+    pub socache_have_versions: ::prost::alloc::vec::Vec<CMsgSoCacheHaveVersion>,
+    #[prost(uint32, optional, tag = "3")]
+    pub legacy_client_session_need: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub client_launcher: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "6")]
+    pub legacy_steamdatagram_routing: ::core::option::Option<
+        ::prost::alloc::vec::Vec<u8>,
+    >,
+    #[prost(uint32, optional, tag = "7")]
+    pub required_internal_addr: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "8")]
+    pub steamdatagram_login: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(uint32, optional, tag = "9")]
+    pub socache_control: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgClientWelcome {
+    #[prost(uint32, optional, tag = "1")]
+    pub version: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub game_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(message, repeated, tag = "3")]
+    pub outofdate_subscribed_caches: ::prost::alloc::vec::Vec<CMsgSoCacheSubscribed>,
+    #[prost(message, repeated, tag = "4")]
+    pub uptodate_subscribed_caches: ::prost::alloc::vec::Vec<
+        CMsgSoCacheSubscriptionCheck,
+    >,
+    #[prost(message, optional, tag = "5")]
+    pub location: ::core::option::Option<c_msg_client_welcome::Location>,
+    #[prost(bytes = "vec", optional, tag = "6")]
+    pub game_data2: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(uint32, optional, tag = "7")]
+    pub rtime32_gc_welcome_timestamp: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "8")]
+    pub currency: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "9")]
+    pub balance: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "10")]
+    pub balance_url: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "11")]
+    pub txn_country_code: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `CMsgClientWelcome`.
+pub mod c_msg_client_welcome {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Location {
+        #[prost(float, optional, tag = "1")]
+        pub latitude: ::core::option::Option<f32>,
+        #[prost(float, optional, tag = "2")]
+        pub longitude: ::core::option::Option<f32>,
+        #[prost(string, optional, tag = "3")]
+        pub country: ::core::option::Option<::prost::alloc::string::String>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgConnectionStatus {
+    #[prost(
+        enumeration = "GcConnectionStatus",
+        optional,
+        tag = "1",
+        default = "HaveSession"
+    )]
+    pub status: ::core::option::Option<i32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub client_session_need: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "3")]
+    pub queue_position: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "4")]
+    pub queue_size: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "5")]
+    pub wait_seconds: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "6")]
+    pub estimated_wait_seconds_remaining: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CWorkshopPopulateItemDescriptionsRequest {
+    #[prost(uint32, optional, tag = "1")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(message, repeated, tag = "2")]
+    pub languages: ::prost::alloc::vec::Vec<
+        c_workshop_populate_item_descriptions_request::ItemDescriptionsLanguageBlock,
+    >,
+}
+/// Nested message and enum types in `CWorkshop_PopulateItemDescriptions_Request`.
+pub mod c_workshop_populate_item_descriptions_request {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SingleItemDescription {
+        #[prost(uint32, optional, tag = "1")]
+        pub gameitemid: ::core::option::Option<u32>,
+        #[prost(string, optional, tag = "2")]
+        pub item_description: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(bool, optional, tag = "3")]
+        pub one_per_account: ::core::option::Option<bool>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ItemDescriptionsLanguageBlock {
+        #[prost(string, optional, tag = "1")]
+        pub language: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(message, repeated, tag = "2")]
+        pub descriptions: ::prost::alloc::vec::Vec<SingleItemDescription>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CWorkshopGetContributorsRequest {
+    #[prost(uint32, optional, tag = "1")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub gameitemid: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CWorkshopGetContributorsResponse {
+    #[prost(fixed64, repeated, packed = "false", tag = "1")]
+    pub contributors: ::prost::alloc::vec::Vec<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CWorkshopSetItemPaymentRulesRequest {
+    #[prost(uint32, optional, tag = "1")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub gameitemid: ::core::option::Option<u32>,
+    #[prost(message, repeated, tag = "3")]
+    pub associated_workshop_files: ::prost::alloc::vec::Vec<
+        c_workshop_set_item_payment_rules_request::WorkshopItemPaymentRule,
+    >,
+    #[prost(message, repeated, tag = "4")]
+    pub partner_accounts: ::prost::alloc::vec::Vec<
+        c_workshop_set_item_payment_rules_request::PartnerItemPaymentRule,
+    >,
+    #[prost(bool, optional, tag = "5")]
+    pub validate_only: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "6")]
+    pub make_workshop_files_subscribable: ::core::option::Option<bool>,
+    #[prost(message, optional, tag = "7")]
+    pub associated_workshop_file_for_direct_payments: ::core::option::Option<
+        c_workshop_set_item_payment_rules_request::WorkshopDirectPaymentRule,
+    >,
+}
+/// Nested message and enum types in `CWorkshop_SetItemPaymentRules_Request`.
+pub mod c_workshop_set_item_payment_rules_request {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WorkshopItemPaymentRule {
+        #[prost(uint64, optional, tag = "1")]
+        pub workshop_file_id: ::core::option::Option<u64>,
+        #[prost(float, optional, tag = "2")]
+        pub revenue_percentage: ::core::option::Option<f32>,
+        #[prost(string, optional, tag = "3")]
+        pub rule_description: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(uint32, optional, tag = "4", default = "1")]
+        pub rule_type: ::core::option::Option<u32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct WorkshopDirectPaymentRule {
+        #[prost(uint64, optional, tag = "1")]
+        pub workshop_file_id: ::core::option::Option<u64>,
+        #[prost(string, optional, tag = "2")]
+        pub rule_description: ::core::option::Option<::prost::alloc::string::String>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PartnerItemPaymentRule {
+        #[prost(uint32, optional, tag = "1")]
+        pub account_id: ::core::option::Option<u32>,
+        #[prost(float, optional, tag = "2")]
+        pub revenue_percentage: ::core::option::Option<f32>,
+        #[prost(string, optional, tag = "3")]
+        pub rule_description: ::core::option::Option<::prost::alloc::string::String>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CWorkshopSetItemPaymentRulesResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CGameServersAggregationQueryRequest {
+    #[prost(string, optional, tag = "1")]
+    pub filter: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, repeated, tag = "3")]
+    pub group_fields: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CGameServersAggregationQueryResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub groups: ::prost::alloc::vec::Vec<
+        c_game_servers_aggregation_query_response::Group,
+    >,
+}
+/// Nested message and enum types in `CGameServers_AggregationQuery_Response`.
+pub mod c_game_servers_aggregation_query_response {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Group {
+        #[prost(string, repeated, tag = "1")]
+        pub group_values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+        #[prost(uint32, optional, tag = "2")]
+        pub servers_empty: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "3")]
+        pub servers_full: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "4")]
+        pub servers_total: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "5")]
+        pub players_humans: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "6")]
+        pub players_bots: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "7")]
+        pub player_capacity: ::core::option::Option<u32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CWorkshopAddSpecialPaymentRequest {
+    #[prost(uint32, optional, tag = "1")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub gameitemid: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "3")]
+    pub date: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(uint64, optional, tag = "4")]
+    pub payment_us_usd: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "5")]
+    pub payment_row_usd: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CWorkshopAddSpecialPaymentResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CProductInfoSetRichPresenceLocalizationRequest {
+    #[prost(uint32, optional, tag = "1")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(message, repeated, tag = "2")]
+    pub languages: ::prost::alloc::vec::Vec<
+        c_product_info_set_rich_presence_localization_request::LanguageSection,
+    >,
+    #[prost(uint64, optional, tag = "3")]
+    pub steamid: ::core::option::Option<u64>,
+}
+/// Nested message and enum types in `CProductInfo_SetRichPresenceLocalization_Request`.
+pub mod c_product_info_set_rich_presence_localization_request {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Token {
+        #[prost(string, optional, tag = "1")]
+        pub token: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(string, optional, tag = "2")]
+        pub value: ::core::option::Option<::prost::alloc::string::String>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct LanguageSection {
+        #[prost(string, optional, tag = "1")]
+        pub language: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(message, repeated, tag = "2")]
+        pub tokens: ::prost::alloc::vec::Vec<Token>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CProductInfoSetRichPresenceLocalizationResponse {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSerializedSoCache {
+    #[prost(uint32, optional, tag = "1")]
+    pub file_version: ::core::option::Option<u32>,
+    #[prost(message, repeated, tag = "2")]
+    pub caches: ::prost::alloc::vec::Vec<c_msg_serialized_so_cache::Cache>,
+    #[prost(uint32, optional, tag = "3")]
+    pub gc_socache_file_version: ::core::option::Option<u32>,
+}
+/// Nested message and enum types in `CMsgSerializedSOCache`.
+pub mod c_msg_serialized_so_cache {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TypeCache {
+        #[prost(uint32, optional, tag = "1")]
+        pub r#type: ::core::option::Option<u32>,
+        #[prost(bytes = "vec", repeated, tag = "2")]
+        pub objects: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+        #[prost(uint32, optional, tag = "3")]
+        pub service_id: ::core::option::Option<u32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Cache {
+        #[prost(uint32, optional, tag = "1")]
+        pub r#type: ::core::option::Option<u32>,
+        #[prost(uint64, optional, tag = "2")]
+        pub id: ::core::option::Option<u64>,
+        #[prost(message, repeated, tag = "3")]
+        pub versions: ::prost::alloc::vec::Vec<cache::Version>,
+        #[prost(message, repeated, tag = "4")]
+        pub type_caches: ::prost::alloc::vec::Vec<TypeCache>,
+    }
+    /// Nested message and enum types in `Cache`.
+    pub mod cache {
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Version {
+            #[prost(uint32, optional, tag = "1")]
+            pub service: ::core::option::Option<u32>,
+            #[prost(uint64, optional, tag = "2")]
+            pub version: ::core::option::Option<u64>,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum GcClientLauncherType {
+    Default = 0,
+    Perfectworld = 1,
+    Steamchina = 2,
+    Source2 = 3,
+}
+impl GcClientLauncherType {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            GcClientLauncherType::Default => "GCClientLauncherType_DEFAULT",
+            GcClientLauncherType::Perfectworld => "GCClientLauncherType_PERFECTWORLD",
+            GcClientLauncherType::Steamchina => "GCClientLauncherType_STEAMCHINA",
+            GcClientLauncherType::Source2 => "GCClientLauncherType_SOURCE2",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "GCClientLauncherType_DEFAULT" => Some(Self::Default),
+            "GCClientLauncherType_PERFECTWORLD" => Some(Self::Perfectworld),
+            "GCClientLauncherType_STEAMCHINA" => Some(Self::Steamchina),
+            "GCClientLauncherType_SOURCE2" => Some(Self::Source2),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum GcConnectionStatus {
+    HaveSession = 0,
+    GcGoingDown = 1,
+    NoSession = 2,
+    NoSessionInLogonQueue = 3,
+    NoSteam = 4,
+}
+impl GcConnectionStatus {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            GcConnectionStatus::HaveSession => "GCConnectionStatus_HAVE_SESSION",
+            GcConnectionStatus::GcGoingDown => "GCConnectionStatus_GC_GOING_DOWN",
+            GcConnectionStatus::NoSession => "GCConnectionStatus_NO_SESSION",
+            GcConnectionStatus::NoSessionInLogonQueue => {
+                "GCConnectionStatus_NO_SESSION_IN_LOGON_QUEUE"
+            }
+            GcConnectionStatus::NoSteam => "GCConnectionStatus_NO_STEAM",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "GCConnectionStatus_HAVE_SESSION" => Some(Self::HaveSession),
+            "GCConnectionStatus_GC_GOING_DOWN" => Some(Self::GcGoingDown),
+            "GCConnectionStatus_NO_SESSION" => Some(Self::NoSession),
+            "GCConnectionStatus_NO_SESSION_IN_LOGON_QUEUE" => {
+                Some(Self::NoSessionInLogonQueue)
+            }
+            "GCConnectionStatus_NO_STEAM" => Some(Self::NoSteam),
+            _ => None,
+        }
+    }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -11804,6 +8274,5119 @@ impl EInitSystemResult {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgVguiMenu {
+    #[prost(string, optional, tag = "1")]
+    pub name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "2")]
+    pub show: ::core::option::Option<bool>,
+    #[prost(message, repeated, tag = "3")]
+    pub keys: ::prost::alloc::vec::Vec<ccs_usr_msg_vgui_menu::Keys>,
+}
+/// Nested message and enum types in `CCSUsrMsg_VGUIMenu`.
+pub mod ccs_usr_msg_vgui_menu {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Keys {
+        #[prost(string, optional, tag = "1")]
+        pub name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(string, optional, tag = "2")]
+        pub value: ::core::option::Option<::prost::alloc::string::String>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgGeiger {
+    #[prost(int32, optional, tag = "1")]
+    pub range: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgTrain {
+    #[prost(int32, optional, tag = "1")]
+    pub train: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgHudText {
+    #[prost(string, optional, tag = "1")]
+    pub text: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgHudMsg {
+    #[prost(int32, optional, tag = "1")]
+    pub channel: ::core::option::Option<i32>,
+    #[prost(message, optional, tag = "2")]
+    pub pos: ::core::option::Option<CMsgVector2D>,
+    #[prost(message, optional, tag = "3")]
+    pub clr1: ::core::option::Option<CMsgRgba>,
+    #[prost(message, optional, tag = "4")]
+    pub clr2: ::core::option::Option<CMsgRgba>,
+    #[prost(int32, optional, tag = "5")]
+    pub effect: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "6")]
+    pub fade_in_time: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "7")]
+    pub fade_out_time: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "9")]
+    pub hold_time: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "10")]
+    pub fx_time: ::core::option::Option<f32>,
+    #[prost(string, optional, tag = "11")]
+    pub text: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgShake {
+    #[prost(int32, optional, tag = "1")]
+    pub command: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "2")]
+    pub local_amplitude: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub frequency: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "4")]
+    pub duration: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgFade {
+    #[prost(int32, optional, tag = "1")]
+    pub duration: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub hold_time: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub flags: ::core::option::Option<i32>,
+    #[prost(message, optional, tag = "4")]
+    pub clr: ::core::option::Option<CMsgRgba>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgRumble {
+    #[prost(int32, optional, tag = "1")]
+    pub index: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub data: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub flags: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgCloseCaption {
+    #[prost(uint32, optional, tag = "1")]
+    pub hash: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "2")]
+    pub duration: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "3")]
+    pub from_player: ::core::option::Option<bool>,
+    #[prost(string, optional, tag = "4")]
+    pub cctoken: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgCloseCaptionDirect {
+    #[prost(uint32, optional, tag = "1")]
+    pub hash: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "2")]
+    pub duration: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "3")]
+    pub from_player: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgSendAudio {
+    #[prost(string, optional, tag = "1")]
+    pub radio_sound: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgRawAudio {
+    #[prost(int32, optional, tag = "1")]
+    pub pitch: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2", default = "-1")]
+    pub entidx: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "3")]
+    pub duration: ::core::option::Option<f32>,
+    #[prost(string, optional, tag = "4")]
+    pub voice_filename: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgVoiceMask {
+    #[prost(message, repeated, tag = "1")]
+    pub player_masks: ::prost::alloc::vec::Vec<ccs_usr_msg_voice_mask::PlayerMask>,
+    #[prost(bool, optional, tag = "2")]
+    pub player_mod_enable: ::core::option::Option<bool>,
+}
+/// Nested message and enum types in `CCSUsrMsg_VoiceMask`.
+pub mod ccs_usr_msg_voice_mask {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PlayerMask {
+        #[prost(int32, optional, tag = "1")]
+        pub game_rules_mask: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "2")]
+        pub ban_masks: ::core::option::Option<i32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgDamage {
+    #[prost(int32, optional, tag = "1")]
+    pub amount: ::core::option::Option<i32>,
+    #[prost(message, optional, tag = "2")]
+    pub inflictor_world_pos: ::core::option::Option<CMsgVector>,
+    #[prost(int32, optional, tag = "3", default = "-1")]
+    pub victim_entindex: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgRadioText {
+    #[prost(int32, optional, tag = "1")]
+    pub msg_dst: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2", default = "-1")]
+    pub client: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "3")]
+    pub msg_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, repeated, tag = "4")]
+    pub params: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgHintText {
+    #[prost(string, optional, tag = "1")]
+    pub message: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgKeyHintText {
+    #[prost(string, repeated, tag = "1")]
+    pub messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgProcessSpottedEntityUpdate {
+    #[prost(bool, optional, tag = "1")]
+    pub new_update: ::core::option::Option<bool>,
+    #[prost(message, repeated, tag = "2")]
+    pub entity_updates: ::prost::alloc::vec::Vec<
+        ccs_usr_msg_process_spotted_entity_update::SpottedEntityUpdate,
+    >,
+}
+/// Nested message and enum types in `CCSUsrMsg_ProcessSpottedEntityUpdate`.
+pub mod ccs_usr_msg_process_spotted_entity_update {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SpottedEntityUpdate {
+        #[prost(int32, optional, tag = "1", default = "-1")]
+        pub entity_idx: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "2")]
+        pub class_id: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "3")]
+        pub origin_x: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "4")]
+        pub origin_y: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "5")]
+        pub origin_z: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "6")]
+        pub angle_y: ::core::option::Option<i32>,
+        #[prost(bool, optional, tag = "7")]
+        pub defuser: ::core::option::Option<bool>,
+        #[prost(bool, optional, tag = "8")]
+        pub player_has_defuser: ::core::option::Option<bool>,
+        #[prost(bool, optional, tag = "9")]
+        pub player_has_c4: ::core::option::Option<bool>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgSendPlayerItemDrops {
+    #[prost(message, repeated, tag = "1")]
+    pub entity_updates: ::prost::alloc::vec::Vec<CEconItemPreviewDataBlock>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgSendPlayerItemFound {
+    #[prost(message, optional, tag = "1")]
+    pub iteminfo: ::core::option::Option<CEconItemPreviewDataBlock>,
+    #[prost(int32, optional, tag = "2", default = "-1")]
+    pub playerslot: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgReloadEffect {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub entidx: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub actanim: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "3")]
+    pub origin_x: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "4")]
+    pub origin_y: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "5")]
+    pub origin_z: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgWeaponSound {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub entidx: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "2")]
+    pub origin_x: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub origin_y: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "4")]
+    pub origin_z: ::core::option::Option<f32>,
+    #[prost(string, optional, tag = "5")]
+    pub sound: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(float, optional, tag = "6")]
+    pub game_timestamp: ::core::option::Option<f32>,
+    #[prost(fixed32, optional, tag = "7")]
+    pub source_soundscapeid: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgUpdateScreenHealthBar {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub entidx: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "2")]
+    pub healthratio_old: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub healthratio_new: ::core::option::Option<f32>,
+    #[prost(int32, optional, tag = "4")]
+    pub style: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgEntityOutlineHighlight {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub entidx: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "2")]
+    pub removehighlight: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgAdjustMoney {
+    #[prost(int32, optional, tag = "1")]
+    pub amount: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgReportHit {
+    #[prost(float, optional, tag = "1")]
+    pub pos_x: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "2")]
+    pub pos_y: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "4")]
+    pub timestamp: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub pos_z: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgKillCam {
+    #[prost(int32, optional, tag = "1")]
+    pub obs_mode: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2", default = "-1")]
+    pub first_target: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3", default = "-1")]
+    pub second_target: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgDesiredTimescale {
+    #[prost(float, optional, tag = "1")]
+    pub desired_timescale: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "2")]
+    pub duration_realtime_sec: ::core::option::Option<f32>,
+    #[prost(int32, optional, tag = "3")]
+    pub interpolator_type: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "4")]
+    pub start_blend_time: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgCurrentTimescale {
+    #[prost(float, optional, tag = "1")]
+    pub cur_timescale: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgAchievementEvent {
+    #[prost(int32, optional, tag = "1")]
+    pub achievement: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub count: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub user_id: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgMatchEndConditions {
+    #[prost(int32, optional, tag = "1")]
+    pub fraglimit: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub mp_maxrounds: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub mp_winlimit: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "4")]
+    pub mp_timelimit: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgPlayerStatsUpdate {
+    #[prost(int32, optional, tag = "1")]
+    pub version: ::core::option::Option<i32>,
+    #[prost(message, repeated, tag = "4")]
+    pub stats: ::prost::alloc::vec::Vec<ccs_usr_msg_player_stats_update::Stat>,
+    #[prost(uint32, optional, tag = "5")]
+    pub ehandle: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "6")]
+    pub crc: ::core::option::Option<i32>,
+}
+/// Nested message and enum types in `CCSUsrMsg_PlayerStatsUpdate`.
+pub mod ccs_usr_msg_player_stats_update {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Stat {
+        #[prost(int32, optional, tag = "1")]
+        pub idx: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "2")]
+        pub delta: ::core::option::Option<i32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgQuestProgress {
+    #[prost(uint32, optional, tag = "1")]
+    pub quest_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub normal_points: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub bonus_points: ::core::option::Option<u32>,
+    #[prost(bool, optional, tag = "4")]
+    pub is_event_quest: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgScoreLeaderboardData {
+    #[prost(message, optional, tag = "1")]
+    pub data: ::core::option::Option<ScoreLeaderboardData>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgPlayerDecalDigitalSignature {
+    #[prost(message, optional, tag = "1")]
+    pub data: ::core::option::Option<PlayerDecalDigitalSignature>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgXRankGet {
+    #[prost(int32, optional, tag = "1")]
+    pub mode_idx: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub controller: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgXRankUpd {
+    #[prost(int32, optional, tag = "1")]
+    pub mode_idx: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub controller: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub ranking: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgCallVoteFailed {
+    #[prost(int32, optional, tag = "1")]
+    pub reason: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub time: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgVoteStart {
+    #[prost(int32, optional, tag = "1")]
+    pub team: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2", default = "-1")]
+    pub player_slot: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub vote_type: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "4")]
+    pub disp_str: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "5")]
+    pub details_str: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "6")]
+    pub other_team_str: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "7")]
+    pub is_yes_no_vote: ::core::option::Option<bool>,
+    #[prost(int32, optional, tag = "8", default = "-1")]
+    pub player_slot_target: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgVotePass {
+    #[prost(int32, optional, tag = "1")]
+    pub team: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub vote_type: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "3")]
+    pub disp_str: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "4")]
+    pub details_str: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgVoteFailed {
+    #[prost(int32, optional, tag = "1")]
+    pub team: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub reason: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgVoteSetup {
+    #[prost(string, repeated, tag = "1")]
+    pub potential_issues: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgSendLastKillerDamageToClient {
+    #[prost(int32, optional, tag = "1")]
+    pub num_hits_given: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub damage_given: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub num_hits_taken: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "4")]
+    pub damage_taken: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "5")]
+    pub actual_damage_given: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "6")]
+    pub actual_damage_taken: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgServerRankUpdate {
+    #[prost(message, repeated, tag = "1")]
+    pub rank_update: ::prost::alloc::vec::Vec<
+        ccs_usr_msg_server_rank_update::RankUpdate,
+    >,
+}
+/// Nested message and enum types in `CCSUsrMsg_ServerRankUpdate`.
+pub mod ccs_usr_msg_server_rank_update {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct RankUpdate {
+        #[prost(int32, optional, tag = "1")]
+        pub account_id: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "2")]
+        pub rank_old: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "3")]
+        pub rank_new: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "4")]
+        pub num_wins: ::core::option::Option<i32>,
+        #[prost(float, optional, tag = "5")]
+        pub rank_change: ::core::option::Option<f32>,
+        #[prost(int32, optional, tag = "6")]
+        pub rank_type_id: ::core::option::Option<i32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgXpUpdate {
+    #[prost(message, optional, tag = "1")]
+    pub data: ::core::option::Option<CMsgGcCstrike15V2Gc2ServerNotifyXpRewarded>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgItemPickup {
+    #[prost(string, optional, tag = "1")]
+    pub item: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgShowMenu {
+    #[prost(int32, optional, tag = "1")]
+    pub bits_valid_slots: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub display_time: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "3")]
+    pub menu_string: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgBarTime {
+    #[prost(string, optional, tag = "1")]
+    pub time: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgAmmoDenied {
+    #[prost(int32, optional, tag = "1")]
+    pub ammoidx: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgMarkAchievement {
+    #[prost(string, optional, tag = "1")]
+    pub achievement: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgMatchStatsUpdate {
+    #[prost(string, optional, tag = "1")]
+    pub update: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgItemDrop {
+    #[prost(int64, optional, tag = "1")]
+    pub itemid: ::core::option::Option<i64>,
+    #[prost(bool, optional, tag = "2")]
+    pub death: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgGlowPropTurnOff {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub entidx: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgRoundBackupFilenames {
+    #[prost(int32, optional, tag = "1")]
+    pub count: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub index: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "3")]
+    pub filename: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "4")]
+    pub nicename: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgSsui {
+    #[prost(bool, optional, tag = "1")]
+    pub show: ::core::option::Option<bool>,
+    #[prost(float, optional, tag = "2")]
+    pub start_time: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub end_time: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgSurvivalStats {
+    #[prost(uint64, optional, tag = "1")]
+    pub xuid: ::core::option::Option<u64>,
+    #[prost(message, repeated, tag = "2")]
+    pub facts: ::prost::alloc::vec::Vec<ccs_usr_msg_survival_stats::Fact>,
+    #[prost(message, repeated, tag = "3")]
+    pub users: ::prost::alloc::vec::Vec<ccs_usr_msg_survival_stats::Placement>,
+    #[prost(message, repeated, tag = "5")]
+    pub damages: ::prost::alloc::vec::Vec<ccs_usr_msg_survival_stats::Damage>,
+    #[prost(int32, optional, tag = "4")]
+    pub ticknumber: ::core::option::Option<i32>,
+}
+/// Nested message and enum types in `CCSUsrMsg_SurvivalStats`.
+pub mod ccs_usr_msg_survival_stats {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Fact {
+        #[prost(int32, optional, tag = "1")]
+        pub r#type: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "2")]
+        pub display: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "3")]
+        pub value: ::core::option::Option<i32>,
+        #[prost(float, optional, tag = "4")]
+        pub interestingness: ::core::option::Option<f32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Placement {
+        #[prost(uint64, optional, tag = "1")]
+        pub xuid: ::core::option::Option<u64>,
+        #[prost(int32, optional, tag = "2")]
+        pub teamnumber: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "3")]
+        pub placement: ::core::option::Option<i32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Damage {
+        #[prost(uint64, optional, tag = "1")]
+        pub xuid: ::core::option::Option<u64>,
+        #[prost(int32, optional, tag = "2")]
+        pub to: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "3")]
+        pub to_hits: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "4")]
+        pub from: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "5")]
+        pub from_hits: ::core::option::Option<i32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgEndOfMatchAllPlayersData {
+    #[prost(message, repeated, tag = "1")]
+    pub allplayerdata: ::prost::alloc::vec::Vec<
+        ccs_usr_msg_end_of_match_all_players_data::PlayerData,
+    >,
+    #[prost(int32, optional, tag = "2")]
+    pub scene: ::core::option::Option<i32>,
+}
+/// Nested message and enum types in `CCSUsrMsg_EndOfMatchAllPlayersData`.
+pub mod ccs_usr_msg_end_of_match_all_players_data {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Accolade {
+        #[prost(int32, optional, tag = "1")]
+        pub eaccolade: ::core::option::Option<i32>,
+        #[prost(float, optional, tag = "2")]
+        pub value: ::core::option::Option<f32>,
+        #[prost(int32, optional, tag = "3")]
+        pub position: ::core::option::Option<i32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct PlayerData {
+        #[prost(int32, optional, tag = "1", default = "-1")]
+        pub slot: ::core::option::Option<i32>,
+        #[prost(uint64, optional, tag = "2")]
+        pub xuid: ::core::option::Option<u64>,
+        #[prost(string, optional, tag = "3")]
+        pub name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(int32, optional, tag = "4")]
+        pub teamnumber: ::core::option::Option<i32>,
+        #[prost(message, optional, tag = "5")]
+        pub nomination: ::core::option::Option<Accolade>,
+        #[prost(message, repeated, tag = "6")]
+        pub items: ::prost::alloc::vec::Vec<super::CEconItemPreviewDataBlock>,
+        #[prost(int32, optional, tag = "7")]
+        pub playercolor: ::core::option::Option<i32>,
+        #[prost(bool, optional, tag = "8")]
+        pub isbot: ::core::option::Option<bool>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgRoundEndReportData {
+    #[prost(message, optional, tag = "1")]
+    pub init_conditions: ::core::option::Option<
+        ccs_usr_msg_round_end_report_data::InitialConditions,
+    >,
+    #[prost(message, repeated, tag = "2")]
+    pub all_rer_event_data: ::prost::alloc::vec::Vec<
+        ccs_usr_msg_round_end_report_data::RerEvent,
+    >,
+}
+/// Nested message and enum types in `CCSUsrMsg_RoundEndReportData`.
+pub mod ccs_usr_msg_round_end_report_data {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct RerEvent {
+        #[prost(float, optional, tag = "1")]
+        pub timestamp: ::core::option::Option<f32>,
+        #[prost(int32, optional, tag = "2")]
+        pub terrorist_odds: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "3")]
+        pub ct_alive: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "4")]
+        pub t_alive: ::core::option::Option<i32>,
+        #[prost(message, optional, tag = "5")]
+        pub victim_data: ::core::option::Option<rer_event::Victim>,
+        #[prost(message, optional, tag = "6")]
+        pub objective_data: ::core::option::Option<rer_event::Objective>,
+        #[prost(message, repeated, tag = "7")]
+        pub all_damage_data: ::prost::alloc::vec::Vec<rer_event::Damage>,
+    }
+    /// Nested message and enum types in `RerEvent`.
+    pub mod rer_event {
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Victim {
+            #[prost(int32, optional, tag = "1")]
+            pub team_number: ::core::option::Option<i32>,
+            #[prost(int32, optional, tag = "2", default = "-1")]
+            pub playerslot: ::core::option::Option<i32>,
+            #[prost(uint64, optional, tag = "3")]
+            pub xuid: ::core::option::Option<u64>,
+            #[prost(int32, optional, tag = "4")]
+            pub color: ::core::option::Option<i32>,
+            #[prost(bool, optional, tag = "5")]
+            pub is_bot: ::core::option::Option<bool>,
+            #[prost(bool, optional, tag = "6")]
+            pub is_dead: ::core::option::Option<bool>,
+        }
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Objective {
+            #[prost(int32, optional, tag = "1")]
+            pub r#type: ::core::option::Option<i32>,
+        }
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct Damage {
+            #[prost(int32, optional, tag = "1", default = "-1")]
+            pub other_playerslot: ::core::option::Option<i32>,
+            #[prost(uint64, optional, tag = "2")]
+            pub other_xuid: ::core::option::Option<u64>,
+            #[prost(int32, optional, tag = "3")]
+            pub health_removed: ::core::option::Option<i32>,
+            #[prost(int32, optional, tag = "4")]
+            pub num_hits: ::core::option::Option<i32>,
+            #[prost(int32, optional, tag = "5")]
+            pub return_health_removed: ::core::option::Option<i32>,
+            #[prost(int32, optional, tag = "6")]
+            pub return_num_hits: ::core::option::Option<i32>,
+        }
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct InitialConditions {
+        #[prost(int32, optional, tag = "1")]
+        pub ct_equip_value: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "2")]
+        pub t_equip_value: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "3")]
+        pub terrorist_odds: ::core::option::Option<i32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgPostRoundDamageReport {
+    #[prost(uint64, optional, tag = "1")]
+    pub other_xuid: ::core::option::Option<u64>,
+    #[prost(int32, optional, tag = "2")]
+    pub given_kill_type: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub given_health_removed: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "4")]
+    pub given_num_hits: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "5")]
+    pub taken_kill_type: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "6")]
+    pub taken_health_removed: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "7")]
+    pub taken_num_hits: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgCurrentRoundOdds {
+    #[prost(int32, optional, tag = "1")]
+    pub odds: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgDeepStats {
+    #[prost(message, optional, tag = "1")]
+    pub stats: ::core::option::Option<CMsgGccStrike15ClientDeepStats>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgShootInfo {
+    #[prost(int32, optional, tag = "1")]
+    pub frame_number: ::core::option::Option<i32>,
+    #[prost(message, repeated, tag = "2")]
+    pub hitbox_transforms: ::prost::alloc::vec::Vec<CMsgTransform>,
+    #[prost(message, optional, tag = "3")]
+    pub shoot_pos: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "4")]
+    pub shoot_dir: ::core::option::Option<CMsgQAngle>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgResetHud {
+    #[prost(bool, optional, tag = "1")]
+    pub reset: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgGameTitle {
+    #[prost(int32, optional, tag = "1")]
+    pub dummy: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgRequestState {
+    #[prost(int32, optional, tag = "1")]
+    pub dummy: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgStopSpectatorMode {
+    #[prost(int32, optional, tag = "1")]
+    pub dummy: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgDisconnectToLobby {
+    #[prost(int32, optional, tag = "1")]
+    pub dummy: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgWarmupHasEnded {
+    #[prost(int32, optional, tag = "1")]
+    pub dummy: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgClientInfo {
+    #[prost(int32, optional, tag = "1")]
+    pub dummy: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgServerRankRevealAll {
+    #[prost(int32, optional, tag = "1")]
+    pub seconds_till_shutdown: ::core::option::Option<i32>,
+    #[prost(message, optional, tag = "2")]
+    pub reservation: ::core::option::Option<
+        CMsgGccStrike15V2MatchmakingGc2ServerReserve,
+    >,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgPreMatchSayText {
+    #[prost(uint32, optional, tag = "1")]
+    pub account_id: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "2")]
+    pub text: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "3")]
+    pub all_chat: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgCounterStrafe {
+    #[prost(int32, optional, tag = "1")]
+    pub press_to_release_ns: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub total_keys_down: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CcsUsrMsgDamagePrediction {
+    #[prost(int32, optional, tag = "1")]
+    pub command_num: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub pellet_idx: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub victim_slot: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "4")]
+    pub victim_starting_health: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "5")]
+    pub victim_damage: ::core::option::Option<i32>,
+    #[prost(message, optional, tag = "6")]
+    pub shoot_pos: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "7")]
+    pub shoot_dir: ::core::option::Option<CMsgQAngle>,
+    #[prost(message, optional, tag = "8")]
+    pub aim_punch: ::core::option::Option<CMsgQAngle>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ECstrike15UserMessages {
+    CsUmVguiMenu = 301,
+    CsUmGeiger = 302,
+    CsUmTrain = 303,
+    CsUmHudText = 304,
+    CsUmSayText = 305,
+    CsUmSayText2 = 306,
+    CsUmTextMsg = 307,
+    CsUmHudMsg = 308,
+    CsUmResetHud = 309,
+    CsUmGameTitle = 310,
+    CsUmShake = 312,
+    CsUmFade = 313,
+    CsUmRumble = 314,
+    CsUmCloseCaption = 315,
+    CsUmCloseCaptionDirect = 316,
+    CsUmSendAudio = 317,
+    CsUmRawAudio = 318,
+    CsUmVoiceMask = 319,
+    CsUmRequestState = 320,
+    CsUmDamage = 321,
+    CsUmRadioText = 322,
+    CsUmHintText = 323,
+    CsUmKeyHintText = 324,
+    CsUmProcessSpottedEntityUpdate = 325,
+    CsUmReloadEffect = 326,
+    CsUmAdjustMoney = 327,
+    CsUmUpdateTeamMoney = 328,
+    CsUmStopSpectatorMode = 329,
+    CsUmKillCam = 330,
+    CsUmDesiredTimescale = 331,
+    CsUmCurrentTimescale = 332,
+    CsUmAchievementEvent = 333,
+    CsUmMatchEndConditions = 334,
+    CsUmDisconnectToLobby = 335,
+    CsUmPlayerStatsUpdate = 336,
+    CsUmWarmupHasEnded = 338,
+    CsUmClientInfo = 339,
+    CsUmXRankGet = 340,
+    CsUmXRankUpd = 341,
+    CsUmCallVoteFailed = 345,
+    CsUmVoteStart = 346,
+    CsUmVotePass = 347,
+    CsUmVoteFailed = 348,
+    CsUmVoteSetup = 349,
+    CsUmServerRankRevealAll = 350,
+    CsUmSendLastKillerDamageToClient = 351,
+    CsUmServerRankUpdate = 352,
+    CsUmItemPickup = 353,
+    CsUmShowMenu = 354,
+    CsUmBarTime = 355,
+    CsUmAmmoDenied = 356,
+    CsUmMarkAchievement = 357,
+    CsUmMatchStatsUpdate = 358,
+    CsUmItemDrop = 359,
+    CsUmGlowPropTurnOff = 360,
+    CsUmSendPlayerItemDrops = 361,
+    CsUmRoundBackupFilenames = 362,
+    CsUmSendPlayerItemFound = 363,
+    CsUmReportHit = 364,
+    CsUmXpUpdate = 365,
+    CsUmQuestProgress = 366,
+    CsUmScoreLeaderboardData = 367,
+    CsUmPlayerDecalDigitalSignature = 368,
+    CsUmWeaponSound = 369,
+    CsUmUpdateScreenHealthBar = 370,
+    CsUmEntityOutlineHighlight = 371,
+    CsUmSsui = 372,
+    CsUmSurvivalStats = 373,
+    CsUmDisconnectToLobby2 = 374,
+    CsUmEndOfMatchAllPlayersData = 375,
+    CsUmPostRoundDamageReport = 376,
+    CsUmRoundEndReportData = 379,
+    CsUmCurrentRoundOdds = 380,
+    CsUmDeepStats = 381,
+    CsUmShootInfo = 383,
+    CsUmCounterStrafe = 385,
+    CsUmDamagePrediction = 386,
+}
+impl ECstrike15UserMessages {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            ECstrike15UserMessages::CsUmVguiMenu => "CS_UM_VGUIMenu",
+            ECstrike15UserMessages::CsUmGeiger => "CS_UM_Geiger",
+            ECstrike15UserMessages::CsUmTrain => "CS_UM_Train",
+            ECstrike15UserMessages::CsUmHudText => "CS_UM_HudText",
+            ECstrike15UserMessages::CsUmSayText => "CS_UM_SayText",
+            ECstrike15UserMessages::CsUmSayText2 => "CS_UM_SayText2",
+            ECstrike15UserMessages::CsUmTextMsg => "CS_UM_TextMsg",
+            ECstrike15UserMessages::CsUmHudMsg => "CS_UM_HudMsg",
+            ECstrike15UserMessages::CsUmResetHud => "CS_UM_ResetHud",
+            ECstrike15UserMessages::CsUmGameTitle => "CS_UM_GameTitle",
+            ECstrike15UserMessages::CsUmShake => "CS_UM_Shake",
+            ECstrike15UserMessages::CsUmFade => "CS_UM_Fade",
+            ECstrike15UserMessages::CsUmRumble => "CS_UM_Rumble",
+            ECstrike15UserMessages::CsUmCloseCaption => "CS_UM_CloseCaption",
+            ECstrike15UserMessages::CsUmCloseCaptionDirect => "CS_UM_CloseCaptionDirect",
+            ECstrike15UserMessages::CsUmSendAudio => "CS_UM_SendAudio",
+            ECstrike15UserMessages::CsUmRawAudio => "CS_UM_RawAudio",
+            ECstrike15UserMessages::CsUmVoiceMask => "CS_UM_VoiceMask",
+            ECstrike15UserMessages::CsUmRequestState => "CS_UM_RequestState",
+            ECstrike15UserMessages::CsUmDamage => "CS_UM_Damage",
+            ECstrike15UserMessages::CsUmRadioText => "CS_UM_RadioText",
+            ECstrike15UserMessages::CsUmHintText => "CS_UM_HintText",
+            ECstrike15UserMessages::CsUmKeyHintText => "CS_UM_KeyHintText",
+            ECstrike15UserMessages::CsUmProcessSpottedEntityUpdate => {
+                "CS_UM_ProcessSpottedEntityUpdate"
+            }
+            ECstrike15UserMessages::CsUmReloadEffect => "CS_UM_ReloadEffect",
+            ECstrike15UserMessages::CsUmAdjustMoney => "CS_UM_AdjustMoney",
+            ECstrike15UserMessages::CsUmUpdateTeamMoney => "CS_UM_UpdateTeamMoney",
+            ECstrike15UserMessages::CsUmStopSpectatorMode => "CS_UM_StopSpectatorMode",
+            ECstrike15UserMessages::CsUmKillCam => "CS_UM_KillCam",
+            ECstrike15UserMessages::CsUmDesiredTimescale => "CS_UM_DesiredTimescale",
+            ECstrike15UserMessages::CsUmCurrentTimescale => "CS_UM_CurrentTimescale",
+            ECstrike15UserMessages::CsUmAchievementEvent => "CS_UM_AchievementEvent",
+            ECstrike15UserMessages::CsUmMatchEndConditions => "CS_UM_MatchEndConditions",
+            ECstrike15UserMessages::CsUmDisconnectToLobby => "CS_UM_DisconnectToLobby",
+            ECstrike15UserMessages::CsUmPlayerStatsUpdate => "CS_UM_PlayerStatsUpdate",
+            ECstrike15UserMessages::CsUmWarmupHasEnded => "CS_UM_WarmupHasEnded",
+            ECstrike15UserMessages::CsUmClientInfo => "CS_UM_ClientInfo",
+            ECstrike15UserMessages::CsUmXRankGet => "CS_UM_XRankGet",
+            ECstrike15UserMessages::CsUmXRankUpd => "CS_UM_XRankUpd",
+            ECstrike15UserMessages::CsUmCallVoteFailed => "CS_UM_CallVoteFailed",
+            ECstrike15UserMessages::CsUmVoteStart => "CS_UM_VoteStart",
+            ECstrike15UserMessages::CsUmVotePass => "CS_UM_VotePass",
+            ECstrike15UserMessages::CsUmVoteFailed => "CS_UM_VoteFailed",
+            ECstrike15UserMessages::CsUmVoteSetup => "CS_UM_VoteSetup",
+            ECstrike15UserMessages::CsUmServerRankRevealAll => {
+                "CS_UM_ServerRankRevealAll"
+            }
+            ECstrike15UserMessages::CsUmSendLastKillerDamageToClient => {
+                "CS_UM_SendLastKillerDamageToClient"
+            }
+            ECstrike15UserMessages::CsUmServerRankUpdate => "CS_UM_ServerRankUpdate",
+            ECstrike15UserMessages::CsUmItemPickup => "CS_UM_ItemPickup",
+            ECstrike15UserMessages::CsUmShowMenu => "CS_UM_ShowMenu",
+            ECstrike15UserMessages::CsUmBarTime => "CS_UM_BarTime",
+            ECstrike15UserMessages::CsUmAmmoDenied => "CS_UM_AmmoDenied",
+            ECstrike15UserMessages::CsUmMarkAchievement => "CS_UM_MarkAchievement",
+            ECstrike15UserMessages::CsUmMatchStatsUpdate => "CS_UM_MatchStatsUpdate",
+            ECstrike15UserMessages::CsUmItemDrop => "CS_UM_ItemDrop",
+            ECstrike15UserMessages::CsUmGlowPropTurnOff => "CS_UM_GlowPropTurnOff",
+            ECstrike15UserMessages::CsUmSendPlayerItemDrops => {
+                "CS_UM_SendPlayerItemDrops"
+            }
+            ECstrike15UserMessages::CsUmRoundBackupFilenames => {
+                "CS_UM_RoundBackupFilenames"
+            }
+            ECstrike15UserMessages::CsUmSendPlayerItemFound => {
+                "CS_UM_SendPlayerItemFound"
+            }
+            ECstrike15UserMessages::CsUmReportHit => "CS_UM_ReportHit",
+            ECstrike15UserMessages::CsUmXpUpdate => "CS_UM_XpUpdate",
+            ECstrike15UserMessages::CsUmQuestProgress => "CS_UM_QuestProgress",
+            ECstrike15UserMessages::CsUmScoreLeaderboardData => {
+                "CS_UM_ScoreLeaderboardData"
+            }
+            ECstrike15UserMessages::CsUmPlayerDecalDigitalSignature => {
+                "CS_UM_PlayerDecalDigitalSignature"
+            }
+            ECstrike15UserMessages::CsUmWeaponSound => "CS_UM_WeaponSound",
+            ECstrike15UserMessages::CsUmUpdateScreenHealthBar => {
+                "CS_UM_UpdateScreenHealthBar"
+            }
+            ECstrike15UserMessages::CsUmEntityOutlineHighlight => {
+                "CS_UM_EntityOutlineHighlight"
+            }
+            ECstrike15UserMessages::CsUmSsui => "CS_UM_SSUI",
+            ECstrike15UserMessages::CsUmSurvivalStats => "CS_UM_SurvivalStats",
+            ECstrike15UserMessages::CsUmDisconnectToLobby2 => "CS_UM_DisconnectToLobby2",
+            ECstrike15UserMessages::CsUmEndOfMatchAllPlayersData => {
+                "CS_UM_EndOfMatchAllPlayersData"
+            }
+            ECstrike15UserMessages::CsUmPostRoundDamageReport => {
+                "CS_UM_PostRoundDamageReport"
+            }
+            ECstrike15UserMessages::CsUmRoundEndReportData => "CS_UM_RoundEndReportData",
+            ECstrike15UserMessages::CsUmCurrentRoundOdds => "CS_UM_CurrentRoundOdds",
+            ECstrike15UserMessages::CsUmDeepStats => "CS_UM_DeepStats",
+            ECstrike15UserMessages::CsUmShootInfo => "CS_UM_ShootInfo",
+            ECstrike15UserMessages::CsUmCounterStrafe => "CS_UM_CounterStrafe",
+            ECstrike15UserMessages::CsUmDamagePrediction => "CS_UM_DamagePrediction",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "CS_UM_VGUIMenu" => Some(Self::CsUmVguiMenu),
+            "CS_UM_Geiger" => Some(Self::CsUmGeiger),
+            "CS_UM_Train" => Some(Self::CsUmTrain),
+            "CS_UM_HudText" => Some(Self::CsUmHudText),
+            "CS_UM_SayText" => Some(Self::CsUmSayText),
+            "CS_UM_SayText2" => Some(Self::CsUmSayText2),
+            "CS_UM_TextMsg" => Some(Self::CsUmTextMsg),
+            "CS_UM_HudMsg" => Some(Self::CsUmHudMsg),
+            "CS_UM_ResetHud" => Some(Self::CsUmResetHud),
+            "CS_UM_GameTitle" => Some(Self::CsUmGameTitle),
+            "CS_UM_Shake" => Some(Self::CsUmShake),
+            "CS_UM_Fade" => Some(Self::CsUmFade),
+            "CS_UM_Rumble" => Some(Self::CsUmRumble),
+            "CS_UM_CloseCaption" => Some(Self::CsUmCloseCaption),
+            "CS_UM_CloseCaptionDirect" => Some(Self::CsUmCloseCaptionDirect),
+            "CS_UM_SendAudio" => Some(Self::CsUmSendAudio),
+            "CS_UM_RawAudio" => Some(Self::CsUmRawAudio),
+            "CS_UM_VoiceMask" => Some(Self::CsUmVoiceMask),
+            "CS_UM_RequestState" => Some(Self::CsUmRequestState),
+            "CS_UM_Damage" => Some(Self::CsUmDamage),
+            "CS_UM_RadioText" => Some(Self::CsUmRadioText),
+            "CS_UM_HintText" => Some(Self::CsUmHintText),
+            "CS_UM_KeyHintText" => Some(Self::CsUmKeyHintText),
+            "CS_UM_ProcessSpottedEntityUpdate" => {
+                Some(Self::CsUmProcessSpottedEntityUpdate)
+            }
+            "CS_UM_ReloadEffect" => Some(Self::CsUmReloadEffect),
+            "CS_UM_AdjustMoney" => Some(Self::CsUmAdjustMoney),
+            "CS_UM_UpdateTeamMoney" => Some(Self::CsUmUpdateTeamMoney),
+            "CS_UM_StopSpectatorMode" => Some(Self::CsUmStopSpectatorMode),
+            "CS_UM_KillCam" => Some(Self::CsUmKillCam),
+            "CS_UM_DesiredTimescale" => Some(Self::CsUmDesiredTimescale),
+            "CS_UM_CurrentTimescale" => Some(Self::CsUmCurrentTimescale),
+            "CS_UM_AchievementEvent" => Some(Self::CsUmAchievementEvent),
+            "CS_UM_MatchEndConditions" => Some(Self::CsUmMatchEndConditions),
+            "CS_UM_DisconnectToLobby" => Some(Self::CsUmDisconnectToLobby),
+            "CS_UM_PlayerStatsUpdate" => Some(Self::CsUmPlayerStatsUpdate),
+            "CS_UM_WarmupHasEnded" => Some(Self::CsUmWarmupHasEnded),
+            "CS_UM_ClientInfo" => Some(Self::CsUmClientInfo),
+            "CS_UM_XRankGet" => Some(Self::CsUmXRankGet),
+            "CS_UM_XRankUpd" => Some(Self::CsUmXRankUpd),
+            "CS_UM_CallVoteFailed" => Some(Self::CsUmCallVoteFailed),
+            "CS_UM_VoteStart" => Some(Self::CsUmVoteStart),
+            "CS_UM_VotePass" => Some(Self::CsUmVotePass),
+            "CS_UM_VoteFailed" => Some(Self::CsUmVoteFailed),
+            "CS_UM_VoteSetup" => Some(Self::CsUmVoteSetup),
+            "CS_UM_ServerRankRevealAll" => Some(Self::CsUmServerRankRevealAll),
+            "CS_UM_SendLastKillerDamageToClient" => {
+                Some(Self::CsUmSendLastKillerDamageToClient)
+            }
+            "CS_UM_ServerRankUpdate" => Some(Self::CsUmServerRankUpdate),
+            "CS_UM_ItemPickup" => Some(Self::CsUmItemPickup),
+            "CS_UM_ShowMenu" => Some(Self::CsUmShowMenu),
+            "CS_UM_BarTime" => Some(Self::CsUmBarTime),
+            "CS_UM_AmmoDenied" => Some(Self::CsUmAmmoDenied),
+            "CS_UM_MarkAchievement" => Some(Self::CsUmMarkAchievement),
+            "CS_UM_MatchStatsUpdate" => Some(Self::CsUmMatchStatsUpdate),
+            "CS_UM_ItemDrop" => Some(Self::CsUmItemDrop),
+            "CS_UM_GlowPropTurnOff" => Some(Self::CsUmGlowPropTurnOff),
+            "CS_UM_SendPlayerItemDrops" => Some(Self::CsUmSendPlayerItemDrops),
+            "CS_UM_RoundBackupFilenames" => Some(Self::CsUmRoundBackupFilenames),
+            "CS_UM_SendPlayerItemFound" => Some(Self::CsUmSendPlayerItemFound),
+            "CS_UM_ReportHit" => Some(Self::CsUmReportHit),
+            "CS_UM_XpUpdate" => Some(Self::CsUmXpUpdate),
+            "CS_UM_QuestProgress" => Some(Self::CsUmQuestProgress),
+            "CS_UM_ScoreLeaderboardData" => Some(Self::CsUmScoreLeaderboardData),
+            "CS_UM_PlayerDecalDigitalSignature" => {
+                Some(Self::CsUmPlayerDecalDigitalSignature)
+            }
+            "CS_UM_WeaponSound" => Some(Self::CsUmWeaponSound),
+            "CS_UM_UpdateScreenHealthBar" => Some(Self::CsUmUpdateScreenHealthBar),
+            "CS_UM_EntityOutlineHighlight" => Some(Self::CsUmEntityOutlineHighlight),
+            "CS_UM_SSUI" => Some(Self::CsUmSsui),
+            "CS_UM_SurvivalStats" => Some(Self::CsUmSurvivalStats),
+            "CS_UM_DisconnectToLobby2" => Some(Self::CsUmDisconnectToLobby2),
+            "CS_UM_EndOfMatchAllPlayersData" => Some(Self::CsUmEndOfMatchAllPlayersData),
+            "CS_UM_PostRoundDamageReport" => Some(Self::CsUmPostRoundDamageReport),
+            "CS_UM_RoundEndReportData" => Some(Self::CsUmRoundEndReportData),
+            "CS_UM_CurrentRoundOdds" => Some(Self::CsUmCurrentRoundOdds),
+            "CS_UM_DeepStats" => Some(Self::CsUmDeepStats),
+            "CS_UM_ShootInfo" => Some(Self::CsUmShootInfo),
+            "CS_UM_CounterStrafe" => Some(Self::CsUmCounterStrafe),
+            "CS_UM_DamagePrediction" => Some(Self::CsUmDamagePrediction),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EcsUsrMsgDisconnectToLobbyAction {
+    KEcsUsrMsgDisconnectToLobbyActionDefault = 0,
+    KEcsUsrMsgDisconnectToLobbyActionGoQueue = 1,
+}
+impl EcsUsrMsgDisconnectToLobbyAction {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EcsUsrMsgDisconnectToLobbyAction::KEcsUsrMsgDisconnectToLobbyActionDefault => {
+                "k_ECSUsrMsg_DisconnectToLobby_Action_Default"
+            }
+            EcsUsrMsgDisconnectToLobbyAction::KEcsUsrMsgDisconnectToLobbyActionGoQueue => {
+                "k_ECSUsrMsg_DisconnectToLobby_Action_GoQueue"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_ECSUsrMsg_DisconnectToLobby_Action_Default" => {
+                Some(Self::KEcsUsrMsgDisconnectToLobbyActionDefault)
+            }
+            "k_ECSUsrMsg_DisconnectToLobby_Action_GoQueue" => {
+                Some(Self::KEcsUsrMsgDisconnectToLobbyActionGoQueue)
+            }
+            _ => None,
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTePlayerAnimEvent {
+    #[prost(fixed32, optional, tag = "1", default = "16777215")]
+    pub player: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub event: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "3")]
+    pub data: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeRadioIcon {
+    #[prost(fixed32, optional, tag = "1", default = "16777215")]
+    pub player: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeFireBullets {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub angles: ::core::option::Option<CMsgQAngle>,
+    #[prost(uint32, optional, tag = "3", default = "16777215")]
+    pub weapon_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub mode: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub seed: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "6", default = "16777215")]
+    pub player: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "7")]
+    pub inaccuracy: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "8")]
+    pub recoil_index: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "9")]
+    pub spread: ::core::option::Option<f32>,
+    #[prost(int32, optional, tag = "10")]
+    pub sound_type: ::core::option::Option<i32>,
+    #[prost(uint32, optional, tag = "11")]
+    pub item_def_index: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "12")]
+    pub sound_dsp_effect: ::core::option::Option<u32>,
+    #[prost(message, optional, tag = "13")]
+    pub ent_origin: ::core::option::Option<CMsgVector>,
+    #[prost(uint32, optional, tag = "14")]
+    pub num_bullets_remaining: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "15")]
+    pub attack_type: ::core::option::Option<u32>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ECsgoGameEvents {
+    GePlayerAnimEventId = 450,
+    GeRadioIconEventId = 451,
+    GeFireBulletsId = 452,
+}
+impl ECsgoGameEvents {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            ECsgoGameEvents::GePlayerAnimEventId => "GE_PlayerAnimEventId",
+            ECsgoGameEvents::GeRadioIconEventId => "GE_RadioIconEventId",
+            ECsgoGameEvents::GeFireBulletsId => "GE_FireBulletsId",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "GE_PlayerAnimEventId" => Some(Self::GePlayerAnimEventId),
+            "GE_RadioIconEventId" => Some(Self::GeRadioIconEventId),
+            "GE_FireBulletsId" => Some(Self::GeFireBulletsId),
+            _ => None,
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CInButtonStatePb {
+    #[prost(uint64, optional, tag = "1")]
+    pub buttonstate1: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "2")]
+    pub buttonstate2: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "3")]
+    pub buttonstate3: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CSubtickMoveStep {
+    #[prost(uint64, optional, tag = "1")]
+    pub button: ::core::option::Option<u64>,
+    #[prost(bool, optional, tag = "2")]
+    pub pressed: ::core::option::Option<bool>,
+    #[prost(float, optional, tag = "3")]
+    pub when: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "4")]
+    pub analog_forward_delta: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "5")]
+    pub analog_left_delta: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CBaseUserCmdPb {
+    #[prost(int32, optional, tag = "1")]
+    pub legacy_command_number: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub client_tick: ::core::option::Option<i32>,
+    #[prost(message, optional, tag = "3")]
+    pub buttons_pb: ::core::option::Option<CInButtonStatePb>,
+    #[prost(message, optional, tag = "4")]
+    pub viewangles: ::core::option::Option<CMsgQAngle>,
+    #[prost(float, optional, tag = "5")]
+    pub forwardmove: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "6")]
+    pub leftmove: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "7")]
+    pub upmove: ::core::option::Option<f32>,
+    #[prost(int32, optional, tag = "8")]
+    pub impulse: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "9")]
+    pub weaponselect: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "10")]
+    pub random_seed: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "11")]
+    pub mousedx: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "12")]
+    pub mousedy: ::core::option::Option<i32>,
+    #[prost(uint32, optional, tag = "14", default = "16777215")]
+    pub pawn_entity_handle: ::core::option::Option<u32>,
+    #[prost(message, repeated, tag = "18")]
+    pub subtick_moves: ::prost::alloc::vec::Vec<CSubtickMoveStep>,
+    #[prost(bytes = "vec", optional, tag = "19")]
+    pub move_crc: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(uint32, optional, tag = "20")]
+    pub consumed_server_angle_changes: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "21")]
+    pub cmd_flags: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserCmdBasePb {
+    #[prost(message, optional, tag = "1")]
+    pub base: ::core::option::Option<CBaseUserCmdPb>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsgoInterpolationInfoPb {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub src_tick: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2", default = "-1")]
+    pub dst_tick: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "3", default = "0")]
+    pub frac: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsgoInterpolationInfoPbCl {
+    #[prost(float, optional, tag = "3", default = "0")]
+    pub frac: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsgoInputHistoryEntryPb {
+    #[prost(message, optional, tag = "2")]
+    pub view_angles: ::core::option::Option<CMsgQAngle>,
+    #[prost(int32, optional, tag = "4")]
+    pub render_tick_count: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "5")]
+    pub render_tick_fraction: ::core::option::Option<f32>,
+    #[prost(int32, optional, tag = "6")]
+    pub player_tick_count: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "7")]
+    pub player_tick_fraction: ::core::option::Option<f32>,
+    #[prost(message, optional, tag = "12")]
+    pub cl_interp: ::core::option::Option<CsgoInterpolationInfoPbCl>,
+    #[prost(message, optional, tag = "13")]
+    pub sv_interp0: ::core::option::Option<CsgoInterpolationInfoPb>,
+    #[prost(message, optional, tag = "14")]
+    pub sv_interp1: ::core::option::Option<CsgoInterpolationInfoPb>,
+    #[prost(message, optional, tag = "15")]
+    pub player_interp: ::core::option::Option<CsgoInterpolationInfoPb>,
+    #[prost(int32, optional, tag = "64")]
+    pub frame_number: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "65", default = "-1")]
+    pub target_ent_index: ::core::option::Option<i32>,
+    #[prost(message, optional, tag = "66")]
+    pub shoot_position: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "67")]
+    pub target_head_pos_check: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "68")]
+    pub target_abs_pos_check: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "69")]
+    pub target_abs_ang_check: ::core::option::Option<CMsgQAngle>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CsgoUserCmdPb {
+    #[prost(message, optional, tag = "1")]
+    pub base: ::core::option::Option<CBaseUserCmdPb>,
+    #[prost(message, repeated, tag = "2")]
+    pub input_history: ::prost::alloc::vec::Vec<CsgoInputHistoryEntryPb>,
+    #[prost(int32, optional, tag = "6", default = "-1")]
+    pub attack1_start_history_index: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "7", default = "-1")]
+    pub attack2_start_history_index: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "8", default = "-1")]
+    pub attack3_start_history_index: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "9", default = "false")]
+    pub left_hand_desired: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "11", default = "false")]
+    pub is_predicting_body_shot_fx: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "12", default = "false")]
+    pub is_predicting_head_shot_fx: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "13", default = "false")]
+    pub is_predicting_kill_ragdolls: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Cp2pTextMessage {
+    #[prost(bytes = "vec", optional, tag = "1")]
+    pub text: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CSteamVoiceEncoding {
+    #[prost(bytes = "vec", optional, tag = "1")]
+    pub voice_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Cp2pVoice {
+    #[prost(message, optional, tag = "1")]
+    pub audio: ::core::option::Option<CMsgVoiceAudio>,
+    #[prost(uint32, optional, tag = "2")]
+    pub broadcast_group: ::core::option::Option<u32>,
+}
+/// Nested message and enum types in `CP2P_Voice`.
+pub mod cp2p_voice {
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum HandlerFlags {
+        PlayedAudio = 1,
+    }
+    impl HandlerFlags {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                HandlerFlags::PlayedAudio => "Played_Audio",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "Played_Audio" => Some(Self::PlayedAudio),
+                _ => None,
+            }
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Cp2pPing {
+    #[prost(uint64, required, tag = "1")]
+    pub send_time: u64,
+    #[prost(bool, required, tag = "2")]
+    pub is_reply: bool,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Cp2pVrAvatarPosition {
+    #[prost(message, repeated, tag = "1")]
+    pub body_parts: ::prost::alloc::vec::Vec<cp2p_vr_avatar_position::COrientation>,
+    #[prost(int32, optional, tag = "2")]
+    pub hat_id: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub scene_id: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "4")]
+    pub world_scale: ::core::option::Option<i32>,
+}
+/// Nested message and enum types in `CP2P_VRAvatarPosition`.
+pub mod cp2p_vr_avatar_position {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct COrientation {
+        #[prost(message, optional, tag = "1")]
+        pub pos: ::core::option::Option<super::CMsgVector>,
+        #[prost(message, optional, tag = "2")]
+        pub ang: ::core::option::Option<super::CMsgQAngle>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Cp2pWatchSynchronization {
+    #[prost(int32, optional, tag = "1")]
+    pub demo_tick: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "2")]
+    pub paused: ::core::option::Option<bool>,
+    #[prost(uint64, optional, tag = "3")]
+    pub tv_listen_voice_indices: ::core::option::Option<u64>,
+    #[prost(int32, optional, tag = "4")]
+    pub dota_spectator_mode: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "5")]
+    pub dota_spectator_watching_broadcaster: ::core::option::Option<bool>,
+    #[prost(int32, optional, tag = "6")]
+    pub dota_spectator_hero_index: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "7")]
+    pub dota_spectator_autospeed: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "8")]
+    pub dota_replay_speed: ::core::option::Option<i32>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum P2pMessages {
+    P2pTextMessage = 256,
+    P2pVoice = 257,
+    P2pPing = 258,
+    P2pVrAvatarPosition = 259,
+    P2pWatchSynchronization = 260,
+    P2pFightingGameGameData = 261,
+    P2pFightingGameConnection = 262,
+}
+impl P2pMessages {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            P2pMessages::P2pTextMessage => "p2p_TextMessage",
+            P2pMessages::P2pVoice => "p2p_Voice",
+            P2pMessages::P2pPing => "p2p_Ping",
+            P2pMessages::P2pVrAvatarPosition => "p2p_VRAvatarPosition",
+            P2pMessages::P2pWatchSynchronization => "p2p_WatchSynchronization",
+            P2pMessages::P2pFightingGameGameData => "p2p_FightingGame_GameData",
+            P2pMessages::P2pFightingGameConnection => "p2p_FightingGame_Connection",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "p2p_TextMessage" => Some(Self::P2pTextMessage),
+            "p2p_Voice" => Some(Self::P2pVoice),
+            "p2p_Ping" => Some(Self::P2pPing),
+            "p2p_VRAvatarPosition" => Some(Self::P2pVrAvatarPosition),
+            "p2p_WatchSynchronization" => Some(Self::P2pWatchSynchronization),
+            "p2p_FightingGame_GameData" => Some(Self::P2pFightingGameGameData),
+            "p2p_FightingGame_Connection" => Some(Self::P2pFightingGameConnection),
+            _ => None,
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoFileHeader {
+    #[prost(string, required, tag = "1")]
+    pub demo_file_stamp: ::prost::alloc::string::String,
+    #[prost(int32, optional, tag = "2")]
+    pub network_protocol: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "3")]
+    pub server_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "4")]
+    pub client_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "5")]
+    pub map_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "6")]
+    pub game_directory: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(int32, optional, tag = "7")]
+    pub fullpackets_version: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "8")]
+    pub allow_clientside_entities: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "9")]
+    pub allow_clientside_particles: ::core::option::Option<bool>,
+    #[prost(string, optional, tag = "10")]
+    pub addons: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "11")]
+    pub demo_version_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "12")]
+    pub demo_version_guid: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(int32, optional, tag = "13")]
+    pub build_num: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "14")]
+    pub game: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(int32, optional, tag = "15")]
+    pub server_start_tick: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CGameInfo {
+    #[prost(message, optional, tag = "4")]
+    pub dota: ::core::option::Option<c_game_info::CDotaGameInfo>,
+    #[prost(message, optional, tag = "5")]
+    pub cs: ::core::option::Option<c_game_info::CcsGameInfo>,
+}
+/// Nested message and enum types in `CGameInfo`.
+pub mod c_game_info {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CDotaGameInfo {
+        #[prost(uint64, optional, tag = "1")]
+        pub match_id: ::core::option::Option<u64>,
+        #[prost(int32, optional, tag = "2")]
+        pub game_mode: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "3")]
+        pub game_winner: ::core::option::Option<i32>,
+        #[prost(message, repeated, tag = "4")]
+        pub player_info: ::prost::alloc::vec::Vec<c_dota_game_info::CPlayerInfo>,
+        #[prost(uint32, optional, tag = "5")]
+        pub leagueid: ::core::option::Option<u32>,
+        #[prost(message, repeated, tag = "6")]
+        pub picks_bans: ::prost::alloc::vec::Vec<c_dota_game_info::CHeroSelectEvent>,
+        #[prost(uint32, optional, tag = "7")]
+        pub radiant_team_id: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "8")]
+        pub dire_team_id: ::core::option::Option<u32>,
+        #[prost(string, optional, tag = "9")]
+        pub radiant_team_tag: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(string, optional, tag = "10")]
+        pub dire_team_tag: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(uint32, optional, tag = "11")]
+        pub end_time: ::core::option::Option<u32>,
+    }
+    /// Nested message and enum types in `CDotaGameInfo`.
+    pub mod c_dota_game_info {
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct CPlayerInfo {
+            #[prost(string, optional, tag = "1")]
+            pub hero_name: ::core::option::Option<::prost::alloc::string::String>,
+            #[prost(string, optional, tag = "2")]
+            pub player_name: ::core::option::Option<::prost::alloc::string::String>,
+            #[prost(bool, optional, tag = "3")]
+            pub is_fake_client: ::core::option::Option<bool>,
+            #[prost(uint64, optional, tag = "4")]
+            pub steamid: ::core::option::Option<u64>,
+            #[prost(int32, optional, tag = "5")]
+            pub game_team: ::core::option::Option<i32>,
+        }
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct CHeroSelectEvent {
+            #[prost(bool, optional, tag = "1")]
+            pub is_pick: ::core::option::Option<bool>,
+            #[prost(uint32, optional, tag = "2")]
+            pub team: ::core::option::Option<u32>,
+            #[prost(int32, optional, tag = "3")]
+            pub hero_id: ::core::option::Option<i32>,
+        }
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CcsGameInfo {
+        #[prost(int32, repeated, packed = "false", tag = "1")]
+        pub round_start_ticks: ::prost::alloc::vec::Vec<i32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoFileInfo {
+    #[prost(float, optional, tag = "1")]
+    pub playback_time: ::core::option::Option<f32>,
+    #[prost(int32, optional, tag = "2")]
+    pub playback_ticks: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub playback_frames: ::core::option::Option<i32>,
+    #[prost(message, optional, tag = "4")]
+    pub game_info: ::core::option::Option<CGameInfo>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoPacket {
+    #[prost(bytes = "vec", optional, tag = "3")]
+    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoFullPacket {
+    #[prost(message, optional, tag = "1")]
+    pub string_table: ::core::option::Option<CDemoStringTables>,
+    #[prost(message, optional, tag = "2")]
+    pub packet: ::core::option::Option<CDemoPacket>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoSaveGame {
+    #[prost(bytes = "vec", optional, tag = "1")]
+    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub steam_id: ::core::option::Option<u64>,
+    #[prost(fixed64, optional, tag = "3")]
+    pub signature: ::core::option::Option<u64>,
+    #[prost(int32, optional, tag = "4")]
+    pub version: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoSyncTick {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoConsoleCmd {
+    #[prost(string, optional, tag = "1")]
+    pub cmdstring: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoSendTables {
+    #[prost(bytes = "vec", optional, tag = "1")]
+    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoClassInfo {
+    #[prost(message, repeated, tag = "1")]
+    pub classes: ::prost::alloc::vec::Vec<c_demo_class_info::ClassT>,
+}
+/// Nested message and enum types in `CDemoClassInfo`.
+pub mod c_demo_class_info {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ClassT {
+        #[prost(int32, optional, tag = "1")]
+        pub class_id: ::core::option::Option<i32>,
+        #[prost(string, optional, tag = "2")]
+        pub network_name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(string, optional, tag = "3")]
+        pub table_name: ::core::option::Option<::prost::alloc::string::String>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoCustomData {
+    #[prost(int32, optional, tag = "1")]
+    pub callback_index: ::core::option::Option<i32>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoCustomDataCallbacks {
+    #[prost(string, repeated, tag = "1")]
+    pub save_id: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoAnimationHeader {
+    #[prost(sint32, optional, tag = "1")]
+    pub entity_id: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub tick: ::core::option::Option<i32>,
+    #[prost(bytes = "vec", optional, tag = "3")]
+    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoAnimationData {
+    #[prost(sint32, optional, tag = "1")]
+    pub entity_id: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub start_tick: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub end_tick: ::core::option::Option<i32>,
+    #[prost(bytes = "vec", optional, tag = "4")]
+    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(int64, optional, tag = "5")]
+    pub data_checksum: ::core::option::Option<i64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoStringTables {
+    #[prost(message, repeated, tag = "1")]
+    pub tables: ::prost::alloc::vec::Vec<c_demo_string_tables::TableT>,
+}
+/// Nested message and enum types in `CDemoStringTables`.
+pub mod c_demo_string_tables {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ItemsT {
+        #[prost(string, optional, tag = "1")]
+        pub str: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(bytes = "vec", optional, tag = "2")]
+        pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TableT {
+        #[prost(string, optional, tag = "1")]
+        pub table_name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(message, repeated, tag = "2")]
+        pub items: ::prost::alloc::vec::Vec<ItemsT>,
+        #[prost(message, repeated, tag = "3")]
+        pub items_clientside: ::prost::alloc::vec::Vec<ItemsT>,
+        #[prost(int32, optional, tag = "4")]
+        pub table_flags: ::core::option::Option<i32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoStop {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoUserCmd {
+    #[prost(int32, optional, tag = "1")]
+    pub cmd_number: ::core::option::Option<i32>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoSpawnGroups {
+    #[prost(bytes = "vec", repeated, tag = "3")]
+    pub msgs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CDemoRecovery {
+    #[prost(message, optional, tag = "1")]
+    pub initial_spawn_group: ::core::option::Option<
+        c_demo_recovery::DemoInitialSpawnGroupEntry,
+    >,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub spawn_group_message: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+/// Nested message and enum types in `CDemoRecovery`.
+pub mod c_demo_recovery {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DemoInitialSpawnGroupEntry {
+        #[prost(uint32, optional, tag = "1")]
+        pub spawngrouphandle: ::core::option::Option<u32>,
+        #[prost(bool, optional, tag = "2")]
+        pub was_created: ::core::option::Option<bool>,
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EDemoCommands {
+    DemError = -1,
+    DemStop = 0,
+    DemFileHeader = 1,
+    DemFileInfo = 2,
+    DemSyncTick = 3,
+    DemSendTables = 4,
+    DemClassInfo = 5,
+    DemStringTables = 6,
+    DemPacket = 7,
+    DemSignonPacket = 8,
+    DemConsoleCmd = 9,
+    DemCustomData = 10,
+    DemCustomDataCallbacks = 11,
+    DemUserCmd = 12,
+    DemFullPacket = 13,
+    DemSaveGame = 14,
+    DemSpawnGroups = 15,
+    DemAnimationData = 16,
+    DemAnimationHeader = 17,
+    DemRecovery = 18,
+    DemMax = 19,
+    DemIsCompressed = 64,
+}
+impl EDemoCommands {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EDemoCommands::DemError => "DEM_Error",
+            EDemoCommands::DemStop => "DEM_Stop",
+            EDemoCommands::DemFileHeader => "DEM_FileHeader",
+            EDemoCommands::DemFileInfo => "DEM_FileInfo",
+            EDemoCommands::DemSyncTick => "DEM_SyncTick",
+            EDemoCommands::DemSendTables => "DEM_SendTables",
+            EDemoCommands::DemClassInfo => "DEM_ClassInfo",
+            EDemoCommands::DemStringTables => "DEM_StringTables",
+            EDemoCommands::DemPacket => "DEM_Packet",
+            EDemoCommands::DemSignonPacket => "DEM_SignonPacket",
+            EDemoCommands::DemConsoleCmd => "DEM_ConsoleCmd",
+            EDemoCommands::DemCustomData => "DEM_CustomData",
+            EDemoCommands::DemCustomDataCallbacks => "DEM_CustomDataCallbacks",
+            EDemoCommands::DemUserCmd => "DEM_UserCmd",
+            EDemoCommands::DemFullPacket => "DEM_FullPacket",
+            EDemoCommands::DemSaveGame => "DEM_SaveGame",
+            EDemoCommands::DemSpawnGroups => "DEM_SpawnGroups",
+            EDemoCommands::DemAnimationData => "DEM_AnimationData",
+            EDemoCommands::DemAnimationHeader => "DEM_AnimationHeader",
+            EDemoCommands::DemRecovery => "DEM_Recovery",
+            EDemoCommands::DemMax => "DEM_Max",
+            EDemoCommands::DemIsCompressed => "DEM_IsCompressed",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "DEM_Error" => Some(Self::DemError),
+            "DEM_Stop" => Some(Self::DemStop),
+            "DEM_FileHeader" => Some(Self::DemFileHeader),
+            "DEM_FileInfo" => Some(Self::DemFileInfo),
+            "DEM_SyncTick" => Some(Self::DemSyncTick),
+            "DEM_SendTables" => Some(Self::DemSendTables),
+            "DEM_ClassInfo" => Some(Self::DemClassInfo),
+            "DEM_StringTables" => Some(Self::DemStringTables),
+            "DEM_Packet" => Some(Self::DemPacket),
+            "DEM_SignonPacket" => Some(Self::DemSignonPacket),
+            "DEM_ConsoleCmd" => Some(Self::DemConsoleCmd),
+            "DEM_CustomData" => Some(Self::DemCustomData),
+            "DEM_CustomDataCallbacks" => Some(Self::DemCustomDataCallbacks),
+            "DEM_UserCmd" => Some(Self::DemUserCmd),
+            "DEM_FullPacket" => Some(Self::DemFullPacket),
+            "DEM_SaveGame" => Some(Self::DemSaveGame),
+            "DEM_SpawnGroups" => Some(Self::DemSpawnGroups),
+            "DEM_AnimationData" => Some(Self::DemAnimationData),
+            "DEM_AnimationHeader" => Some(Self::DemAnimationHeader),
+            "DEM_Recovery" => Some(Self::DemRecovery),
+            "DEM_Max" => Some(Self::DemMax),
+            "DEM_IsCompressed" => Some(Self::DemIsCompressed),
+            _ => None,
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcGiftedItems {
+    #[prost(uint32, optional, tag = "1")]
+    pub accountid: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub giftdefindex: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub max_gifts_possible: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub num_eligible_recipients: ::core::option::Option<u32>,
+    #[prost(uint32, repeated, packed = "false", tag = "5")]
+    pub recipients_accountids: ::prost::alloc::vec::Vec<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcDevSchemaReservationRequest {
+    #[prost(string, optional, tag = "1")]
+    pub schema_typename: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "2")]
+    pub instance_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(uint64, optional, tag = "3")]
+    pub context: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "4")]
+    pub id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgCasketItem {
+    #[prost(uint64, optional, tag = "1")]
+    pub casket_item_id: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "2")]
+    pub item_item_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcUserTrackTimePlayedConsecutively {
+    #[prost(uint32, optional, tag = "1")]
+    pub state: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGcItemCustomizationNotification {
+    #[prost(uint64, repeated, packed = "false", tag = "1")]
+    pub item_id: ::prost::alloc::vec::Vec<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub request: ::core::option::Option<u32>,
+    #[prost(uint64, repeated, packed = "false", tag = "3")]
+    pub extra_data: ::prost::alloc::vec::Vec<u64>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EgcItemMsg {
+    KEMsgGcBase = 1000,
+    KEMsgGcSetItemPosition = 1001,
+    KEMsgGcCraft = 1002,
+    KEMsgGcCraftResponse = 1003,
+    KEMsgGcDelete = 1004,
+    KEMsgGcVerifyCacheSubscription = 1005,
+    KEMsgGcNameItem = 1006,
+    KEMsgGcUnlockCrate = 1007,
+    KEMsgGcUnlockCrateResponse = 1008,
+    KEMsgGcPaintItem = 1009,
+    KEMsgGcPaintItemResponse = 1010,
+    KEMsgGcGoldenWrenchBroadcast = 1011,
+    KEMsgGcmotdRequest = 1012,
+    KEMsgGcmotdRequestResponse = 1013,
+    KEMsgGcAddItemToSocketDeprecated = 1014,
+    KEMsgGcAddItemToSocketResponseDeprecated = 1015,
+    KEMsgGcAddSocketToBaseItemDeprecated = 1016,
+    KEMsgGcAddSocketToItemDeprecated = 1017,
+    KEMsgGcAddSocketToItemResponseDeprecated = 1018,
+    KEMsgGcNameBaseItem = 1019,
+    KEMsgGcNameBaseItemResponse = 1020,
+    KEMsgGcRemoveSocketItemDeprecated = 1021,
+    KEMsgGcRemoveSocketItemResponseDeprecated = 1022,
+    KEMsgGcCustomizeItemTexture = 1023,
+    KEMsgGcCustomizeItemTextureResponse = 1024,
+    KEMsgGcUseItemRequest = 1025,
+    KEMsgGcUseItemResponse = 1026,
+    KEMsgGcGiftedItemsDeprecated = 1027,
+    KEMsgGcRemoveItemName = 1030,
+    KEMsgGcRemoveItemPaint = 1031,
+    KEMsgGcGiftWrapItem = 1032,
+    KEMsgGcGiftWrapItemResponse = 1033,
+    KEMsgGcDeliverGift = 1034,
+    KEMsgGcDeliverGiftResponseGiver = 1035,
+    KEMsgGcDeliverGiftResponseReceiver = 1036,
+    KEMsgGcUnwrapGiftRequest = 1037,
+    KEMsgGcUnwrapGiftResponse = 1038,
+    KEMsgGcSetItemStyle = 1039,
+    KEMsgGcUsedClaimCodeItem = 1040,
+    KEMsgGcSortItems = 1041,
+    KEMsgGcRevolvingLootListDeprecated = 1042,
+    KEMsgGcLookupAccount = 1043,
+    KEMsgGcLookupAccountResponse = 1044,
+    KEMsgGcLookupAccountName = 1045,
+    KEMsgGcLookupAccountNameResponse = 1046,
+    KEMsgGcUpdateItemSchema = 1049,
+    KEMsgGcRemoveCustomTexture = 1051,
+    KEMsgGcRemoveCustomTextureResponse = 1052,
+    KEMsgGcRemoveMakersMark = 1053,
+    KEMsgGcRemoveMakersMarkResponse = 1054,
+    KEMsgGcRemoveUniqueCraftIndex = 1055,
+    KEMsgGcRemoveUniqueCraftIndexResponse = 1056,
+    KEMsgGcSaxxyBroadcast = 1057,
+    KEMsgGcBackpackSortFinished = 1058,
+    KEMsgGcAdjustItemEquippedState = 1059,
+    KEMsgGcCollectItem = 1061,
+    KEMsgGcItemAcknowledgedDeprecated = 1062,
+    KEMsgGcReportAbuse = 1065,
+    KEMsgGcReportAbuseResponse = 1066,
+    KEMsgGcNameItemNotification = 1068,
+    KEMsgGcApplyConsumableEffects = 1069,
+    KEMsgGcConsumableExhausted = 1070,
+    KEMsgGcShowItemsPickedUp = 1071,
+    KEMsgGcClientDisplayNotification = 1072,
+    KEMsgGcApplyStrangePart = 1073,
+    KEMsgGcIncrementKillCountAttribute = 1074,
+    KEMsgGcIncrementKillCountResponse = 1075,
+    KEMsgGcApplyPennantUpgrade = 1076,
+    KEMsgGcSetItemPositions = 1077,
+    KEMsgGcApplyEggEssence = 1078,
+    KEMsgGcNameEggEssenceResponse = 1079,
+    KEMsgGcPaintKitItem = 1080,
+    KEMsgGcPaintKitBaseItem = 1081,
+    KEMsgGcPaintKitItemResponse = 1082,
+    KEMsgGcGiftedItems = 1083,
+    KEMsgGcUnlockItemStyle = 1084,
+    KEMsgGcUnlockItemStyleResponse = 1085,
+    KEMsgGcApplySticker = 1086,
+    KEMsgGcItemAcknowledged = 1087,
+    KEMsgGcStatTrakSwap = 1088,
+    KEMsgGcUserTrackTimePlayedConsecutively = 1089,
+    KEMsgGcItemCustomizationNotification = 1090,
+    KEMsgGcModifyItemAttribute = 1091,
+    KEMsgGcCasketItemAdd = 1092,
+    KEMsgGcCasketItemExtract = 1093,
+    KEMsgGcCasketItemLoadContents = 1094,
+    KEMsgGcTradingBase = 1500,
+    KEMsgGcTradingInitiateTradeRequest = 1501,
+    KEMsgGcTradingInitiateTradeResponse = 1502,
+    KEMsgGcTradingStartSession = 1503,
+    KEMsgGcTradingSetItem = 1504,
+    KEMsgGcTradingRemoveItem = 1505,
+    KEMsgGcTradingUpdateTradeInfo = 1506,
+    KEMsgGcTradingSetReadiness = 1507,
+    KEMsgGcTradingReadinessResponse = 1508,
+    KEMsgGcTradingSessionClosed = 1509,
+    KEMsgGcTradingCancelSession = 1510,
+    KEMsgGcTradingTradeChatMsg = 1511,
+    KEMsgGcTradingConfirmOffer = 1512,
+    KEMsgGcTradingTradeTypingChatMsg = 1513,
+    KEMsgGcServerBrowserFavoriteServer = 1601,
+    KEMsgGcServerBrowserBlacklistServer = 1602,
+    KEMsgGcServerRentalsBase = 1700,
+    KEMsgGcItemPreviewCheckStatus = 1701,
+    KEMsgGcItemPreviewStatusResponse = 1702,
+    KEMsgGcItemPreviewRequest = 1703,
+    KEMsgGcItemPreviewRequestResponse = 1704,
+    KEMsgGcItemPreviewExpire = 1705,
+    KEMsgGcItemPreviewExpireNotification = 1706,
+    KEMsgGcItemPreviewItemBoughtNotification = 1707,
+    KEMsgGcDevNewItemRequest = 2001,
+    KEMsgGcDevNewItemRequestResponse = 2002,
+    KEMsgGcDevPaintKitDropItem = 2003,
+    KEMsgGcDevSchemaReservationRequest = 2004,
+    KEMsgGcStoreGetUserData = 2500,
+    KEMsgGcStoreGetUserDataResponse = 2501,
+    KEMsgGcStorePurchaseInitDeprecated = 2502,
+    KEMsgGcStorePurchaseInitResponseDeprecated = 2503,
+    KEMsgGcStorePurchaseFinalize = 2504,
+    KEMsgGcStorePurchaseFinalizeResponse = 2505,
+    KEMsgGcStorePurchaseCancel = 2506,
+    KEMsgGcStorePurchaseCancelResponse = 2507,
+    KEMsgGcStorePurchaseQueryTxn = 2508,
+    KEMsgGcStorePurchaseQueryTxnResponse = 2509,
+    KEMsgGcStorePurchaseInit = 2510,
+    KEMsgGcStorePurchaseInitResponse = 2511,
+    KEMsgGcBannedWordListRequest = 2512,
+    KEMsgGcBannedWordListResponse = 2513,
+    KEMsgGcToGcBannedWordListBroadcast = 2514,
+    KEMsgGcToGcBannedWordListUpdated = 2515,
+    KEMsgGcToGcDirtySdoCache = 2516,
+    KEMsgGcToGcDirtyMultipleSdoCache = 2517,
+    KEMsgGcToGcUpdateSqlKeyValue = 2518,
+    KEMsgGcToGcIsTrustedServer = 2519,
+    KEMsgGcToGcIsTrustedServerResponse = 2520,
+    KEMsgGcToGcBroadcastConsoleCommand = 2521,
+    KEMsgGcServerVersionUpdated = 2522,
+    KEMsgGcToGcWebApiAccountChanged = 2524,
+    KEMsgGcRequestAnnouncements = 2525,
+    KEMsgGcRequestAnnouncementsResponse = 2526,
+    KEMsgGcRequestPassportItemGrant = 2527,
+    KEMsgGcClientVersionUpdated = 2528,
+    KEMsgGcAdjustItemEquippedStateMulti = 2529,
+    KEMsgGcRecurringSubscriptionStatus = 2530,
+    KEMsgGcAdjustEquipSlotsManual = 2531,
+    KEMsgGcAdjustEquipSlotsShuffle = 2532,
+    KEMsgGcNameItemAndEquip = 2533,
+    KEMsgGcOpenCrate = 2534,
+    KEMsgGcAcknowledgeRentalExpiration = 2535,
+}
+impl EgcItemMsg {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EgcItemMsg::KEMsgGcBase => "k_EMsgGCBase",
+            EgcItemMsg::KEMsgGcSetItemPosition => "k_EMsgGCSetItemPosition",
+            EgcItemMsg::KEMsgGcCraft => "k_EMsgGCCraft",
+            EgcItemMsg::KEMsgGcCraftResponse => "k_EMsgGCCraftResponse",
+            EgcItemMsg::KEMsgGcDelete => "k_EMsgGCDelete",
+            EgcItemMsg::KEMsgGcVerifyCacheSubscription => {
+                "k_EMsgGCVerifyCacheSubscription"
+            }
+            EgcItemMsg::KEMsgGcNameItem => "k_EMsgGCNameItem",
+            EgcItemMsg::KEMsgGcUnlockCrate => "k_EMsgGCUnlockCrate",
+            EgcItemMsg::KEMsgGcUnlockCrateResponse => "k_EMsgGCUnlockCrateResponse",
+            EgcItemMsg::KEMsgGcPaintItem => "k_EMsgGCPaintItem",
+            EgcItemMsg::KEMsgGcPaintItemResponse => "k_EMsgGCPaintItemResponse",
+            EgcItemMsg::KEMsgGcGoldenWrenchBroadcast => "k_EMsgGCGoldenWrenchBroadcast",
+            EgcItemMsg::KEMsgGcmotdRequest => "k_EMsgGCMOTDRequest",
+            EgcItemMsg::KEMsgGcmotdRequestResponse => "k_EMsgGCMOTDRequestResponse",
+            EgcItemMsg::KEMsgGcAddItemToSocketDeprecated => {
+                "k_EMsgGCAddItemToSocket_DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcAddItemToSocketResponseDeprecated => {
+                "k_EMsgGCAddItemToSocketResponse_DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcAddSocketToBaseItemDeprecated => {
+                "k_EMsgGCAddSocketToBaseItem_DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcAddSocketToItemDeprecated => {
+                "k_EMsgGCAddSocketToItem_DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcAddSocketToItemResponseDeprecated => {
+                "k_EMsgGCAddSocketToItemResponse_DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcNameBaseItem => "k_EMsgGCNameBaseItem",
+            EgcItemMsg::KEMsgGcNameBaseItemResponse => "k_EMsgGCNameBaseItemResponse",
+            EgcItemMsg::KEMsgGcRemoveSocketItemDeprecated => {
+                "k_EMsgGCRemoveSocketItem_DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcRemoveSocketItemResponseDeprecated => {
+                "k_EMsgGCRemoveSocketItemResponse_DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcCustomizeItemTexture => "k_EMsgGCCustomizeItemTexture",
+            EgcItemMsg::KEMsgGcCustomizeItemTextureResponse => {
+                "k_EMsgGCCustomizeItemTextureResponse"
+            }
+            EgcItemMsg::KEMsgGcUseItemRequest => "k_EMsgGCUseItemRequest",
+            EgcItemMsg::KEMsgGcUseItemResponse => "k_EMsgGCUseItemResponse",
+            EgcItemMsg::KEMsgGcGiftedItemsDeprecated => "k_EMsgGCGiftedItems_DEPRECATED",
+            EgcItemMsg::KEMsgGcRemoveItemName => "k_EMsgGCRemoveItemName",
+            EgcItemMsg::KEMsgGcRemoveItemPaint => "k_EMsgGCRemoveItemPaint",
+            EgcItemMsg::KEMsgGcGiftWrapItem => "k_EMsgGCGiftWrapItem",
+            EgcItemMsg::KEMsgGcGiftWrapItemResponse => "k_EMsgGCGiftWrapItemResponse",
+            EgcItemMsg::KEMsgGcDeliverGift => "k_EMsgGCDeliverGift",
+            EgcItemMsg::KEMsgGcDeliverGiftResponseGiver => {
+                "k_EMsgGCDeliverGiftResponseGiver"
+            }
+            EgcItemMsg::KEMsgGcDeliverGiftResponseReceiver => {
+                "k_EMsgGCDeliverGiftResponseReceiver"
+            }
+            EgcItemMsg::KEMsgGcUnwrapGiftRequest => "k_EMsgGCUnwrapGiftRequest",
+            EgcItemMsg::KEMsgGcUnwrapGiftResponse => "k_EMsgGCUnwrapGiftResponse",
+            EgcItemMsg::KEMsgGcSetItemStyle => "k_EMsgGCSetItemStyle",
+            EgcItemMsg::KEMsgGcUsedClaimCodeItem => "k_EMsgGCUsedClaimCodeItem",
+            EgcItemMsg::KEMsgGcSortItems => "k_EMsgGCSortItems",
+            EgcItemMsg::KEMsgGcRevolvingLootListDeprecated => {
+                "k_EMsgGC_RevolvingLootList_DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcLookupAccount => "k_EMsgGCLookupAccount",
+            EgcItemMsg::KEMsgGcLookupAccountResponse => "k_EMsgGCLookupAccountResponse",
+            EgcItemMsg::KEMsgGcLookupAccountName => "k_EMsgGCLookupAccountName",
+            EgcItemMsg::KEMsgGcLookupAccountNameResponse => {
+                "k_EMsgGCLookupAccountNameResponse"
+            }
+            EgcItemMsg::KEMsgGcUpdateItemSchema => "k_EMsgGCUpdateItemSchema",
+            EgcItemMsg::KEMsgGcRemoveCustomTexture => "k_EMsgGCRemoveCustomTexture",
+            EgcItemMsg::KEMsgGcRemoveCustomTextureResponse => {
+                "k_EMsgGCRemoveCustomTextureResponse"
+            }
+            EgcItemMsg::KEMsgGcRemoveMakersMark => "k_EMsgGCRemoveMakersMark",
+            EgcItemMsg::KEMsgGcRemoveMakersMarkResponse => {
+                "k_EMsgGCRemoveMakersMarkResponse"
+            }
+            EgcItemMsg::KEMsgGcRemoveUniqueCraftIndex => "k_EMsgGCRemoveUniqueCraftIndex",
+            EgcItemMsg::KEMsgGcRemoveUniqueCraftIndexResponse => {
+                "k_EMsgGCRemoveUniqueCraftIndexResponse"
+            }
+            EgcItemMsg::KEMsgGcSaxxyBroadcast => "k_EMsgGCSaxxyBroadcast",
+            EgcItemMsg::KEMsgGcBackpackSortFinished => "k_EMsgGCBackpackSortFinished",
+            EgcItemMsg::KEMsgGcAdjustItemEquippedState => {
+                "k_EMsgGCAdjustItemEquippedState"
+            }
+            EgcItemMsg::KEMsgGcCollectItem => "k_EMsgGCCollectItem",
+            EgcItemMsg::KEMsgGcItemAcknowledgedDeprecated => {
+                "k_EMsgGCItemAcknowledged__DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcReportAbuse => "k_EMsgGC_ReportAbuse",
+            EgcItemMsg::KEMsgGcReportAbuseResponse => "k_EMsgGC_ReportAbuseResponse",
+            EgcItemMsg::KEMsgGcNameItemNotification => "k_EMsgGCNameItemNotification",
+            EgcItemMsg::KEMsgGcApplyConsumableEffects => "k_EMsgGCApplyConsumableEffects",
+            EgcItemMsg::KEMsgGcConsumableExhausted => "k_EMsgGCConsumableExhausted",
+            EgcItemMsg::KEMsgGcShowItemsPickedUp => "k_EMsgGCShowItemsPickedUp",
+            EgcItemMsg::KEMsgGcClientDisplayNotification => {
+                "k_EMsgGCClientDisplayNotification"
+            }
+            EgcItemMsg::KEMsgGcApplyStrangePart => "k_EMsgGCApplyStrangePart",
+            EgcItemMsg::KEMsgGcIncrementKillCountAttribute => {
+                "k_EMsgGC_IncrementKillCountAttribute"
+            }
+            EgcItemMsg::KEMsgGcIncrementKillCountResponse => {
+                "k_EMsgGC_IncrementKillCountResponse"
+            }
+            EgcItemMsg::KEMsgGcApplyPennantUpgrade => "k_EMsgGCApplyPennantUpgrade",
+            EgcItemMsg::KEMsgGcSetItemPositions => "k_EMsgGCSetItemPositions",
+            EgcItemMsg::KEMsgGcApplyEggEssence => "k_EMsgGCApplyEggEssence",
+            EgcItemMsg::KEMsgGcNameEggEssenceResponse => "k_EMsgGCNameEggEssenceResponse",
+            EgcItemMsg::KEMsgGcPaintKitItem => "k_EMsgGCPaintKitItem",
+            EgcItemMsg::KEMsgGcPaintKitBaseItem => "k_EMsgGCPaintKitBaseItem",
+            EgcItemMsg::KEMsgGcPaintKitItemResponse => "k_EMsgGCPaintKitItemResponse",
+            EgcItemMsg::KEMsgGcGiftedItems => "k_EMsgGCGiftedItems",
+            EgcItemMsg::KEMsgGcUnlockItemStyle => "k_EMsgGCUnlockItemStyle",
+            EgcItemMsg::KEMsgGcUnlockItemStyleResponse => {
+                "k_EMsgGCUnlockItemStyleResponse"
+            }
+            EgcItemMsg::KEMsgGcApplySticker => "k_EMsgGCApplySticker",
+            EgcItemMsg::KEMsgGcItemAcknowledged => "k_EMsgGCItemAcknowledged",
+            EgcItemMsg::KEMsgGcStatTrakSwap => "k_EMsgGCStatTrakSwap",
+            EgcItemMsg::KEMsgGcUserTrackTimePlayedConsecutively => {
+                "k_EMsgGCUserTrackTimePlayedConsecutively"
+            }
+            EgcItemMsg::KEMsgGcItemCustomizationNotification => {
+                "k_EMsgGCItemCustomizationNotification"
+            }
+            EgcItemMsg::KEMsgGcModifyItemAttribute => "k_EMsgGCModifyItemAttribute",
+            EgcItemMsg::KEMsgGcCasketItemAdd => "k_EMsgGCCasketItemAdd",
+            EgcItemMsg::KEMsgGcCasketItemExtract => "k_EMsgGCCasketItemExtract",
+            EgcItemMsg::KEMsgGcCasketItemLoadContents => "k_EMsgGCCasketItemLoadContents",
+            EgcItemMsg::KEMsgGcTradingBase => "k_EMsgGCTradingBase",
+            EgcItemMsg::KEMsgGcTradingInitiateTradeRequest => {
+                "k_EMsgGCTrading_InitiateTradeRequest"
+            }
+            EgcItemMsg::KEMsgGcTradingInitiateTradeResponse => {
+                "k_EMsgGCTrading_InitiateTradeResponse"
+            }
+            EgcItemMsg::KEMsgGcTradingStartSession => "k_EMsgGCTrading_StartSession",
+            EgcItemMsg::KEMsgGcTradingSetItem => "k_EMsgGCTrading_SetItem",
+            EgcItemMsg::KEMsgGcTradingRemoveItem => "k_EMsgGCTrading_RemoveItem",
+            EgcItemMsg::KEMsgGcTradingUpdateTradeInfo => {
+                "k_EMsgGCTrading_UpdateTradeInfo"
+            }
+            EgcItemMsg::KEMsgGcTradingSetReadiness => "k_EMsgGCTrading_SetReadiness",
+            EgcItemMsg::KEMsgGcTradingReadinessResponse => {
+                "k_EMsgGCTrading_ReadinessResponse"
+            }
+            EgcItemMsg::KEMsgGcTradingSessionClosed => "k_EMsgGCTrading_SessionClosed",
+            EgcItemMsg::KEMsgGcTradingCancelSession => "k_EMsgGCTrading_CancelSession",
+            EgcItemMsg::KEMsgGcTradingTradeChatMsg => "k_EMsgGCTrading_TradeChatMsg",
+            EgcItemMsg::KEMsgGcTradingConfirmOffer => "k_EMsgGCTrading_ConfirmOffer",
+            EgcItemMsg::KEMsgGcTradingTradeTypingChatMsg => {
+                "k_EMsgGCTrading_TradeTypingChatMsg"
+            }
+            EgcItemMsg::KEMsgGcServerBrowserFavoriteServer => {
+                "k_EMsgGCServerBrowser_FavoriteServer"
+            }
+            EgcItemMsg::KEMsgGcServerBrowserBlacklistServer => {
+                "k_EMsgGCServerBrowser_BlacklistServer"
+            }
+            EgcItemMsg::KEMsgGcServerRentalsBase => "k_EMsgGCServerRentalsBase",
+            EgcItemMsg::KEMsgGcItemPreviewCheckStatus => "k_EMsgGCItemPreviewCheckStatus",
+            EgcItemMsg::KEMsgGcItemPreviewStatusResponse => {
+                "k_EMsgGCItemPreviewStatusResponse"
+            }
+            EgcItemMsg::KEMsgGcItemPreviewRequest => "k_EMsgGCItemPreviewRequest",
+            EgcItemMsg::KEMsgGcItemPreviewRequestResponse => {
+                "k_EMsgGCItemPreviewRequestResponse"
+            }
+            EgcItemMsg::KEMsgGcItemPreviewExpire => "k_EMsgGCItemPreviewExpire",
+            EgcItemMsg::KEMsgGcItemPreviewExpireNotification => {
+                "k_EMsgGCItemPreviewExpireNotification"
+            }
+            EgcItemMsg::KEMsgGcItemPreviewItemBoughtNotification => {
+                "k_EMsgGCItemPreviewItemBoughtNotification"
+            }
+            EgcItemMsg::KEMsgGcDevNewItemRequest => "k_EMsgGCDev_NewItemRequest",
+            EgcItemMsg::KEMsgGcDevNewItemRequestResponse => {
+                "k_EMsgGCDev_NewItemRequestResponse"
+            }
+            EgcItemMsg::KEMsgGcDevPaintKitDropItem => "k_EMsgGCDev_PaintKitDropItem",
+            EgcItemMsg::KEMsgGcDevSchemaReservationRequest => {
+                "k_EMsgGCDev_SchemaReservationRequest"
+            }
+            EgcItemMsg::KEMsgGcStoreGetUserData => "k_EMsgGCStoreGetUserData",
+            EgcItemMsg::KEMsgGcStoreGetUserDataResponse => {
+                "k_EMsgGCStoreGetUserDataResponse"
+            }
+            EgcItemMsg::KEMsgGcStorePurchaseInitDeprecated => {
+                "k_EMsgGCStorePurchaseInit_DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcStorePurchaseInitResponseDeprecated => {
+                "k_EMsgGCStorePurchaseInitResponse_DEPRECATED"
+            }
+            EgcItemMsg::KEMsgGcStorePurchaseFinalize => "k_EMsgGCStorePurchaseFinalize",
+            EgcItemMsg::KEMsgGcStorePurchaseFinalizeResponse => {
+                "k_EMsgGCStorePurchaseFinalizeResponse"
+            }
+            EgcItemMsg::KEMsgGcStorePurchaseCancel => "k_EMsgGCStorePurchaseCancel",
+            EgcItemMsg::KEMsgGcStorePurchaseCancelResponse => {
+                "k_EMsgGCStorePurchaseCancelResponse"
+            }
+            EgcItemMsg::KEMsgGcStorePurchaseQueryTxn => "k_EMsgGCStorePurchaseQueryTxn",
+            EgcItemMsg::KEMsgGcStorePurchaseQueryTxnResponse => {
+                "k_EMsgGCStorePurchaseQueryTxnResponse"
+            }
+            EgcItemMsg::KEMsgGcStorePurchaseInit => "k_EMsgGCStorePurchaseInit",
+            EgcItemMsg::KEMsgGcStorePurchaseInitResponse => {
+                "k_EMsgGCStorePurchaseInitResponse"
+            }
+            EgcItemMsg::KEMsgGcBannedWordListRequest => "k_EMsgGCBannedWordListRequest",
+            EgcItemMsg::KEMsgGcBannedWordListResponse => "k_EMsgGCBannedWordListResponse",
+            EgcItemMsg::KEMsgGcToGcBannedWordListBroadcast => {
+                "k_EMsgGCToGCBannedWordListBroadcast"
+            }
+            EgcItemMsg::KEMsgGcToGcBannedWordListUpdated => {
+                "k_EMsgGCToGCBannedWordListUpdated"
+            }
+            EgcItemMsg::KEMsgGcToGcDirtySdoCache => "k_EMsgGCToGCDirtySDOCache",
+            EgcItemMsg::KEMsgGcToGcDirtyMultipleSdoCache => {
+                "k_EMsgGCToGCDirtyMultipleSDOCache"
+            }
+            EgcItemMsg::KEMsgGcToGcUpdateSqlKeyValue => "k_EMsgGCToGCUpdateSQLKeyValue",
+            EgcItemMsg::KEMsgGcToGcIsTrustedServer => "k_EMsgGCToGCIsTrustedServer",
+            EgcItemMsg::KEMsgGcToGcIsTrustedServerResponse => {
+                "k_EMsgGCToGCIsTrustedServerResponse"
+            }
+            EgcItemMsg::KEMsgGcToGcBroadcastConsoleCommand => {
+                "k_EMsgGCToGCBroadcastConsoleCommand"
+            }
+            EgcItemMsg::KEMsgGcServerVersionUpdated => "k_EMsgGCServerVersionUpdated",
+            EgcItemMsg::KEMsgGcToGcWebApiAccountChanged => {
+                "k_EMsgGCToGCWebAPIAccountChanged"
+            }
+            EgcItemMsg::KEMsgGcRequestAnnouncements => "k_EMsgGCRequestAnnouncements",
+            EgcItemMsg::KEMsgGcRequestAnnouncementsResponse => {
+                "k_EMsgGCRequestAnnouncementsResponse"
+            }
+            EgcItemMsg::KEMsgGcRequestPassportItemGrant => {
+                "k_EMsgGCRequestPassportItemGrant"
+            }
+            EgcItemMsg::KEMsgGcClientVersionUpdated => "k_EMsgGCClientVersionUpdated",
+            EgcItemMsg::KEMsgGcAdjustItemEquippedStateMulti => {
+                "k_EMsgGCAdjustItemEquippedStateMulti"
+            }
+            EgcItemMsg::KEMsgGcRecurringSubscriptionStatus => {
+                "k_EMsgGCRecurringSubscriptionStatus"
+            }
+            EgcItemMsg::KEMsgGcAdjustEquipSlotsManual => "k_EMsgGCAdjustEquipSlotsManual",
+            EgcItemMsg::KEMsgGcAdjustEquipSlotsShuffle => {
+                "k_EMsgGCAdjustEquipSlotsShuffle"
+            }
+            EgcItemMsg::KEMsgGcNameItemAndEquip => "k_EMsgGCNameItemAndEquip",
+            EgcItemMsg::KEMsgGcOpenCrate => "k_EMsgGCOpenCrate",
+            EgcItemMsg::KEMsgGcAcknowledgeRentalExpiration => {
+                "k_EMsgGCAcknowledgeRentalExpiration"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_EMsgGCBase" => Some(Self::KEMsgGcBase),
+            "k_EMsgGCSetItemPosition" => Some(Self::KEMsgGcSetItemPosition),
+            "k_EMsgGCCraft" => Some(Self::KEMsgGcCraft),
+            "k_EMsgGCCraftResponse" => Some(Self::KEMsgGcCraftResponse),
+            "k_EMsgGCDelete" => Some(Self::KEMsgGcDelete),
+            "k_EMsgGCVerifyCacheSubscription" => {
+                Some(Self::KEMsgGcVerifyCacheSubscription)
+            }
+            "k_EMsgGCNameItem" => Some(Self::KEMsgGcNameItem),
+            "k_EMsgGCUnlockCrate" => Some(Self::KEMsgGcUnlockCrate),
+            "k_EMsgGCUnlockCrateResponse" => Some(Self::KEMsgGcUnlockCrateResponse),
+            "k_EMsgGCPaintItem" => Some(Self::KEMsgGcPaintItem),
+            "k_EMsgGCPaintItemResponse" => Some(Self::KEMsgGcPaintItemResponse),
+            "k_EMsgGCGoldenWrenchBroadcast" => Some(Self::KEMsgGcGoldenWrenchBroadcast),
+            "k_EMsgGCMOTDRequest" => Some(Self::KEMsgGcmotdRequest),
+            "k_EMsgGCMOTDRequestResponse" => Some(Self::KEMsgGcmotdRequestResponse),
+            "k_EMsgGCAddItemToSocket_DEPRECATED" => {
+                Some(Self::KEMsgGcAddItemToSocketDeprecated)
+            }
+            "k_EMsgGCAddItemToSocketResponse_DEPRECATED" => {
+                Some(Self::KEMsgGcAddItemToSocketResponseDeprecated)
+            }
+            "k_EMsgGCAddSocketToBaseItem_DEPRECATED" => {
+                Some(Self::KEMsgGcAddSocketToBaseItemDeprecated)
+            }
+            "k_EMsgGCAddSocketToItem_DEPRECATED" => {
+                Some(Self::KEMsgGcAddSocketToItemDeprecated)
+            }
+            "k_EMsgGCAddSocketToItemResponse_DEPRECATED" => {
+                Some(Self::KEMsgGcAddSocketToItemResponseDeprecated)
+            }
+            "k_EMsgGCNameBaseItem" => Some(Self::KEMsgGcNameBaseItem),
+            "k_EMsgGCNameBaseItemResponse" => Some(Self::KEMsgGcNameBaseItemResponse),
+            "k_EMsgGCRemoveSocketItem_DEPRECATED" => {
+                Some(Self::KEMsgGcRemoveSocketItemDeprecated)
+            }
+            "k_EMsgGCRemoveSocketItemResponse_DEPRECATED" => {
+                Some(Self::KEMsgGcRemoveSocketItemResponseDeprecated)
+            }
+            "k_EMsgGCCustomizeItemTexture" => Some(Self::KEMsgGcCustomizeItemTexture),
+            "k_EMsgGCCustomizeItemTextureResponse" => {
+                Some(Self::KEMsgGcCustomizeItemTextureResponse)
+            }
+            "k_EMsgGCUseItemRequest" => Some(Self::KEMsgGcUseItemRequest),
+            "k_EMsgGCUseItemResponse" => Some(Self::KEMsgGcUseItemResponse),
+            "k_EMsgGCGiftedItems_DEPRECATED" => Some(Self::KEMsgGcGiftedItemsDeprecated),
+            "k_EMsgGCRemoveItemName" => Some(Self::KEMsgGcRemoveItemName),
+            "k_EMsgGCRemoveItemPaint" => Some(Self::KEMsgGcRemoveItemPaint),
+            "k_EMsgGCGiftWrapItem" => Some(Self::KEMsgGcGiftWrapItem),
+            "k_EMsgGCGiftWrapItemResponse" => Some(Self::KEMsgGcGiftWrapItemResponse),
+            "k_EMsgGCDeliverGift" => Some(Self::KEMsgGcDeliverGift),
+            "k_EMsgGCDeliverGiftResponseGiver" => {
+                Some(Self::KEMsgGcDeliverGiftResponseGiver)
+            }
+            "k_EMsgGCDeliverGiftResponseReceiver" => {
+                Some(Self::KEMsgGcDeliverGiftResponseReceiver)
+            }
+            "k_EMsgGCUnwrapGiftRequest" => Some(Self::KEMsgGcUnwrapGiftRequest),
+            "k_EMsgGCUnwrapGiftResponse" => Some(Self::KEMsgGcUnwrapGiftResponse),
+            "k_EMsgGCSetItemStyle" => Some(Self::KEMsgGcSetItemStyle),
+            "k_EMsgGCUsedClaimCodeItem" => Some(Self::KEMsgGcUsedClaimCodeItem),
+            "k_EMsgGCSortItems" => Some(Self::KEMsgGcSortItems),
+            "k_EMsgGC_RevolvingLootList_DEPRECATED" => {
+                Some(Self::KEMsgGcRevolvingLootListDeprecated)
+            }
+            "k_EMsgGCLookupAccount" => Some(Self::KEMsgGcLookupAccount),
+            "k_EMsgGCLookupAccountResponse" => Some(Self::KEMsgGcLookupAccountResponse),
+            "k_EMsgGCLookupAccountName" => Some(Self::KEMsgGcLookupAccountName),
+            "k_EMsgGCLookupAccountNameResponse" => {
+                Some(Self::KEMsgGcLookupAccountNameResponse)
+            }
+            "k_EMsgGCUpdateItemSchema" => Some(Self::KEMsgGcUpdateItemSchema),
+            "k_EMsgGCRemoveCustomTexture" => Some(Self::KEMsgGcRemoveCustomTexture),
+            "k_EMsgGCRemoveCustomTextureResponse" => {
+                Some(Self::KEMsgGcRemoveCustomTextureResponse)
+            }
+            "k_EMsgGCRemoveMakersMark" => Some(Self::KEMsgGcRemoveMakersMark),
+            "k_EMsgGCRemoveMakersMarkResponse" => {
+                Some(Self::KEMsgGcRemoveMakersMarkResponse)
+            }
+            "k_EMsgGCRemoveUniqueCraftIndex" => Some(Self::KEMsgGcRemoveUniqueCraftIndex),
+            "k_EMsgGCRemoveUniqueCraftIndexResponse" => {
+                Some(Self::KEMsgGcRemoveUniqueCraftIndexResponse)
+            }
+            "k_EMsgGCSaxxyBroadcast" => Some(Self::KEMsgGcSaxxyBroadcast),
+            "k_EMsgGCBackpackSortFinished" => Some(Self::KEMsgGcBackpackSortFinished),
+            "k_EMsgGCAdjustItemEquippedState" => {
+                Some(Self::KEMsgGcAdjustItemEquippedState)
+            }
+            "k_EMsgGCCollectItem" => Some(Self::KEMsgGcCollectItem),
+            "k_EMsgGCItemAcknowledged__DEPRECATED" => {
+                Some(Self::KEMsgGcItemAcknowledgedDeprecated)
+            }
+            "k_EMsgGC_ReportAbuse" => Some(Self::KEMsgGcReportAbuse),
+            "k_EMsgGC_ReportAbuseResponse" => Some(Self::KEMsgGcReportAbuseResponse),
+            "k_EMsgGCNameItemNotification" => Some(Self::KEMsgGcNameItemNotification),
+            "k_EMsgGCApplyConsumableEffects" => Some(Self::KEMsgGcApplyConsumableEffects),
+            "k_EMsgGCConsumableExhausted" => Some(Self::KEMsgGcConsumableExhausted),
+            "k_EMsgGCShowItemsPickedUp" => Some(Self::KEMsgGcShowItemsPickedUp),
+            "k_EMsgGCClientDisplayNotification" => {
+                Some(Self::KEMsgGcClientDisplayNotification)
+            }
+            "k_EMsgGCApplyStrangePart" => Some(Self::KEMsgGcApplyStrangePart),
+            "k_EMsgGC_IncrementKillCountAttribute" => {
+                Some(Self::KEMsgGcIncrementKillCountAttribute)
+            }
+            "k_EMsgGC_IncrementKillCountResponse" => {
+                Some(Self::KEMsgGcIncrementKillCountResponse)
+            }
+            "k_EMsgGCApplyPennantUpgrade" => Some(Self::KEMsgGcApplyPennantUpgrade),
+            "k_EMsgGCSetItemPositions" => Some(Self::KEMsgGcSetItemPositions),
+            "k_EMsgGCApplyEggEssence" => Some(Self::KEMsgGcApplyEggEssence),
+            "k_EMsgGCNameEggEssenceResponse" => Some(Self::KEMsgGcNameEggEssenceResponse),
+            "k_EMsgGCPaintKitItem" => Some(Self::KEMsgGcPaintKitItem),
+            "k_EMsgGCPaintKitBaseItem" => Some(Self::KEMsgGcPaintKitBaseItem),
+            "k_EMsgGCPaintKitItemResponse" => Some(Self::KEMsgGcPaintKitItemResponse),
+            "k_EMsgGCGiftedItems" => Some(Self::KEMsgGcGiftedItems),
+            "k_EMsgGCUnlockItemStyle" => Some(Self::KEMsgGcUnlockItemStyle),
+            "k_EMsgGCUnlockItemStyleResponse" => {
+                Some(Self::KEMsgGcUnlockItemStyleResponse)
+            }
+            "k_EMsgGCApplySticker" => Some(Self::KEMsgGcApplySticker),
+            "k_EMsgGCItemAcknowledged" => Some(Self::KEMsgGcItemAcknowledged),
+            "k_EMsgGCStatTrakSwap" => Some(Self::KEMsgGcStatTrakSwap),
+            "k_EMsgGCUserTrackTimePlayedConsecutively" => {
+                Some(Self::KEMsgGcUserTrackTimePlayedConsecutively)
+            }
+            "k_EMsgGCItemCustomizationNotification" => {
+                Some(Self::KEMsgGcItemCustomizationNotification)
+            }
+            "k_EMsgGCModifyItemAttribute" => Some(Self::KEMsgGcModifyItemAttribute),
+            "k_EMsgGCCasketItemAdd" => Some(Self::KEMsgGcCasketItemAdd),
+            "k_EMsgGCCasketItemExtract" => Some(Self::KEMsgGcCasketItemExtract),
+            "k_EMsgGCCasketItemLoadContents" => Some(Self::KEMsgGcCasketItemLoadContents),
+            "k_EMsgGCTradingBase" => Some(Self::KEMsgGcTradingBase),
+            "k_EMsgGCTrading_InitiateTradeRequest" => {
+                Some(Self::KEMsgGcTradingInitiateTradeRequest)
+            }
+            "k_EMsgGCTrading_InitiateTradeResponse" => {
+                Some(Self::KEMsgGcTradingInitiateTradeResponse)
+            }
+            "k_EMsgGCTrading_StartSession" => Some(Self::KEMsgGcTradingStartSession),
+            "k_EMsgGCTrading_SetItem" => Some(Self::KEMsgGcTradingSetItem),
+            "k_EMsgGCTrading_RemoveItem" => Some(Self::KEMsgGcTradingRemoveItem),
+            "k_EMsgGCTrading_UpdateTradeInfo" => {
+                Some(Self::KEMsgGcTradingUpdateTradeInfo)
+            }
+            "k_EMsgGCTrading_SetReadiness" => Some(Self::KEMsgGcTradingSetReadiness),
+            "k_EMsgGCTrading_ReadinessResponse" => {
+                Some(Self::KEMsgGcTradingReadinessResponse)
+            }
+            "k_EMsgGCTrading_SessionClosed" => Some(Self::KEMsgGcTradingSessionClosed),
+            "k_EMsgGCTrading_CancelSession" => Some(Self::KEMsgGcTradingCancelSession),
+            "k_EMsgGCTrading_TradeChatMsg" => Some(Self::KEMsgGcTradingTradeChatMsg),
+            "k_EMsgGCTrading_ConfirmOffer" => Some(Self::KEMsgGcTradingConfirmOffer),
+            "k_EMsgGCTrading_TradeTypingChatMsg" => {
+                Some(Self::KEMsgGcTradingTradeTypingChatMsg)
+            }
+            "k_EMsgGCServerBrowser_FavoriteServer" => {
+                Some(Self::KEMsgGcServerBrowserFavoriteServer)
+            }
+            "k_EMsgGCServerBrowser_BlacklistServer" => {
+                Some(Self::KEMsgGcServerBrowserBlacklistServer)
+            }
+            "k_EMsgGCServerRentalsBase" => Some(Self::KEMsgGcServerRentalsBase),
+            "k_EMsgGCItemPreviewCheckStatus" => Some(Self::KEMsgGcItemPreviewCheckStatus),
+            "k_EMsgGCItemPreviewStatusResponse" => {
+                Some(Self::KEMsgGcItemPreviewStatusResponse)
+            }
+            "k_EMsgGCItemPreviewRequest" => Some(Self::KEMsgGcItemPreviewRequest),
+            "k_EMsgGCItemPreviewRequestResponse" => {
+                Some(Self::KEMsgGcItemPreviewRequestResponse)
+            }
+            "k_EMsgGCItemPreviewExpire" => Some(Self::KEMsgGcItemPreviewExpire),
+            "k_EMsgGCItemPreviewExpireNotification" => {
+                Some(Self::KEMsgGcItemPreviewExpireNotification)
+            }
+            "k_EMsgGCItemPreviewItemBoughtNotification" => {
+                Some(Self::KEMsgGcItemPreviewItemBoughtNotification)
+            }
+            "k_EMsgGCDev_NewItemRequest" => Some(Self::KEMsgGcDevNewItemRequest),
+            "k_EMsgGCDev_NewItemRequestResponse" => {
+                Some(Self::KEMsgGcDevNewItemRequestResponse)
+            }
+            "k_EMsgGCDev_PaintKitDropItem" => Some(Self::KEMsgGcDevPaintKitDropItem),
+            "k_EMsgGCDev_SchemaReservationRequest" => {
+                Some(Self::KEMsgGcDevSchemaReservationRequest)
+            }
+            "k_EMsgGCStoreGetUserData" => Some(Self::KEMsgGcStoreGetUserData),
+            "k_EMsgGCStoreGetUserDataResponse" => {
+                Some(Self::KEMsgGcStoreGetUserDataResponse)
+            }
+            "k_EMsgGCStorePurchaseInit_DEPRECATED" => {
+                Some(Self::KEMsgGcStorePurchaseInitDeprecated)
+            }
+            "k_EMsgGCStorePurchaseInitResponse_DEPRECATED" => {
+                Some(Self::KEMsgGcStorePurchaseInitResponseDeprecated)
+            }
+            "k_EMsgGCStorePurchaseFinalize" => Some(Self::KEMsgGcStorePurchaseFinalize),
+            "k_EMsgGCStorePurchaseFinalizeResponse" => {
+                Some(Self::KEMsgGcStorePurchaseFinalizeResponse)
+            }
+            "k_EMsgGCStorePurchaseCancel" => Some(Self::KEMsgGcStorePurchaseCancel),
+            "k_EMsgGCStorePurchaseCancelResponse" => {
+                Some(Self::KEMsgGcStorePurchaseCancelResponse)
+            }
+            "k_EMsgGCStorePurchaseQueryTxn" => Some(Self::KEMsgGcStorePurchaseQueryTxn),
+            "k_EMsgGCStorePurchaseQueryTxnResponse" => {
+                Some(Self::KEMsgGcStorePurchaseQueryTxnResponse)
+            }
+            "k_EMsgGCStorePurchaseInit" => Some(Self::KEMsgGcStorePurchaseInit),
+            "k_EMsgGCStorePurchaseInitResponse" => {
+                Some(Self::KEMsgGcStorePurchaseInitResponse)
+            }
+            "k_EMsgGCBannedWordListRequest" => Some(Self::KEMsgGcBannedWordListRequest),
+            "k_EMsgGCBannedWordListResponse" => Some(Self::KEMsgGcBannedWordListResponse),
+            "k_EMsgGCToGCBannedWordListBroadcast" => {
+                Some(Self::KEMsgGcToGcBannedWordListBroadcast)
+            }
+            "k_EMsgGCToGCBannedWordListUpdated" => {
+                Some(Self::KEMsgGcToGcBannedWordListUpdated)
+            }
+            "k_EMsgGCToGCDirtySDOCache" => Some(Self::KEMsgGcToGcDirtySdoCache),
+            "k_EMsgGCToGCDirtyMultipleSDOCache" => {
+                Some(Self::KEMsgGcToGcDirtyMultipleSdoCache)
+            }
+            "k_EMsgGCToGCUpdateSQLKeyValue" => Some(Self::KEMsgGcToGcUpdateSqlKeyValue),
+            "k_EMsgGCToGCIsTrustedServer" => Some(Self::KEMsgGcToGcIsTrustedServer),
+            "k_EMsgGCToGCIsTrustedServerResponse" => {
+                Some(Self::KEMsgGcToGcIsTrustedServerResponse)
+            }
+            "k_EMsgGCToGCBroadcastConsoleCommand" => {
+                Some(Self::KEMsgGcToGcBroadcastConsoleCommand)
+            }
+            "k_EMsgGCServerVersionUpdated" => Some(Self::KEMsgGcServerVersionUpdated),
+            "k_EMsgGCToGCWebAPIAccountChanged" => {
+                Some(Self::KEMsgGcToGcWebApiAccountChanged)
+            }
+            "k_EMsgGCRequestAnnouncements" => Some(Self::KEMsgGcRequestAnnouncements),
+            "k_EMsgGCRequestAnnouncementsResponse" => {
+                Some(Self::KEMsgGcRequestAnnouncementsResponse)
+            }
+            "k_EMsgGCRequestPassportItemGrant" => {
+                Some(Self::KEMsgGcRequestPassportItemGrant)
+            }
+            "k_EMsgGCClientVersionUpdated" => Some(Self::KEMsgGcClientVersionUpdated),
+            "k_EMsgGCAdjustItemEquippedStateMulti" => {
+                Some(Self::KEMsgGcAdjustItemEquippedStateMulti)
+            }
+            "k_EMsgGCRecurringSubscriptionStatus" => {
+                Some(Self::KEMsgGcRecurringSubscriptionStatus)
+            }
+            "k_EMsgGCAdjustEquipSlotsManual" => Some(Self::KEMsgGcAdjustEquipSlotsManual),
+            "k_EMsgGCAdjustEquipSlotsShuffle" => {
+                Some(Self::KEMsgGcAdjustEquipSlotsShuffle)
+            }
+            "k_EMsgGCNameItemAndEquip" => Some(Self::KEMsgGcNameItemAndEquip),
+            "k_EMsgGCOpenCrate" => Some(Self::KEMsgGcOpenCrate),
+            "k_EMsgGCAcknowledgeRentalExpiration" => {
+                Some(Self::KEMsgGcAcknowledgeRentalExpiration)
+            }
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EgcMsgResponse {
+    KEgcMsgResponseOk = 0,
+    KEgcMsgResponseDenied = 1,
+    KEgcMsgResponseServerError = 2,
+    KEgcMsgResponseTimeout = 3,
+    KEgcMsgResponseInvalid = 4,
+    KEgcMsgResponseNoMatch = 5,
+    KEgcMsgResponseUnknownError = 6,
+    KEgcMsgResponseNotLoggedOn = 7,
+    KEgcMsgFailedToCreate = 8,
+    KEgcMsgLimitExceeded = 9,
+    KEgcMsgCommitUnfinalized = 10,
+}
+impl EgcMsgResponse {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EgcMsgResponse::KEgcMsgResponseOk => "k_EGCMsgResponseOK",
+            EgcMsgResponse::KEgcMsgResponseDenied => "k_EGCMsgResponseDenied",
+            EgcMsgResponse::KEgcMsgResponseServerError => "k_EGCMsgResponseServerError",
+            EgcMsgResponse::KEgcMsgResponseTimeout => "k_EGCMsgResponseTimeout",
+            EgcMsgResponse::KEgcMsgResponseInvalid => "k_EGCMsgResponseInvalid",
+            EgcMsgResponse::KEgcMsgResponseNoMatch => "k_EGCMsgResponseNoMatch",
+            EgcMsgResponse::KEgcMsgResponseUnknownError => "k_EGCMsgResponseUnknownError",
+            EgcMsgResponse::KEgcMsgResponseNotLoggedOn => "k_EGCMsgResponseNotLoggedOn",
+            EgcMsgResponse::KEgcMsgFailedToCreate => "k_EGCMsgFailedToCreate",
+            EgcMsgResponse::KEgcMsgLimitExceeded => "k_EGCMsgLimitExceeded",
+            EgcMsgResponse::KEgcMsgCommitUnfinalized => "k_EGCMsgCommitUnfinalized",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_EGCMsgResponseOK" => Some(Self::KEgcMsgResponseOk),
+            "k_EGCMsgResponseDenied" => Some(Self::KEgcMsgResponseDenied),
+            "k_EGCMsgResponseServerError" => Some(Self::KEgcMsgResponseServerError),
+            "k_EGCMsgResponseTimeout" => Some(Self::KEgcMsgResponseTimeout),
+            "k_EGCMsgResponseInvalid" => Some(Self::KEgcMsgResponseInvalid),
+            "k_EGCMsgResponseNoMatch" => Some(Self::KEgcMsgResponseNoMatch),
+            "k_EGCMsgResponseUnknownError" => Some(Self::KEgcMsgResponseUnknownError),
+            "k_EGCMsgResponseNotLoggedOn" => Some(Self::KEgcMsgResponseNotLoggedOn),
+            "k_EGCMsgFailedToCreate" => Some(Self::KEgcMsgFailedToCreate),
+            "k_EGCMsgLimitExceeded" => Some(Self::KEgcMsgLimitExceeded),
+            "k_EGCMsgCommitUnfinalized" => Some(Self::KEgcMsgCommitUnfinalized),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EUnlockStyle {
+    KUnlockStyleSucceeded = 0,
+    KUnlockStyleFailedPreReq = 1,
+    KUnlockStyleFailedCantAfford = 2,
+    KUnlockStyleFailedCantCommit = 3,
+    KUnlockStyleFailedCantLockCache = 4,
+    KUnlockStyleFailedCantAffordAttrib = 5,
+}
+impl EUnlockStyle {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EUnlockStyle::KUnlockStyleSucceeded => "k_UnlockStyle_Succeeded",
+            EUnlockStyle::KUnlockStyleFailedPreReq => "k_UnlockStyle_Failed_PreReq",
+            EUnlockStyle::KUnlockStyleFailedCantAfford => {
+                "k_UnlockStyle_Failed_CantAfford"
+            }
+            EUnlockStyle::KUnlockStyleFailedCantCommit => {
+                "k_UnlockStyle_Failed_CantCommit"
+            }
+            EUnlockStyle::KUnlockStyleFailedCantLockCache => {
+                "k_UnlockStyle_Failed_CantLockCache"
+            }
+            EUnlockStyle::KUnlockStyleFailedCantAffordAttrib => {
+                "k_UnlockStyle_Failed_CantAffordAttrib"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_UnlockStyle_Succeeded" => Some(Self::KUnlockStyleSucceeded),
+            "k_UnlockStyle_Failed_PreReq" => Some(Self::KUnlockStyleFailedPreReq),
+            "k_UnlockStyle_Failed_CantAfford" => Some(Self::KUnlockStyleFailedCantAfford),
+            "k_UnlockStyle_Failed_CantCommit" => Some(Self::KUnlockStyleFailedCantCommit),
+            "k_UnlockStyle_Failed_CantLockCache" => {
+                Some(Self::KUnlockStyleFailedCantLockCache)
+            }
+            "k_UnlockStyle_Failed_CantAffordAttrib" => {
+                Some(Self::KUnlockStyleFailedCantAffordAttrib)
+            }
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EgcItemCustomizationNotification {
+    KEgcItemCustomizationNotificationNameItem = 1006,
+    KEgcItemCustomizationNotificationUnlockCrate = 1007,
+    KEgcItemCustomizationNotificationXRayItemReveal = 1008,
+    KEgcItemCustomizationNotificationXRayItemClaim = 1009,
+    KEgcItemCustomizationNotificationCasketTooFull = 1011,
+    KEgcItemCustomizationNotificationCasketContents = 1012,
+    KEgcItemCustomizationNotificationCasketAdded = 1013,
+    KEgcItemCustomizationNotificationCasketRemoved = 1014,
+    KEgcItemCustomizationNotificationCasketInvFull = 1015,
+    KEgcItemCustomizationNotificationNameBaseItem = 1019,
+    KEgcItemCustomizationNotificationRemoveItemName = 1030,
+    KEgcItemCustomizationNotificationRemoveSticker = 1053,
+    KEgcItemCustomizationNotificationApplySticker = 1086,
+    KEgcItemCustomizationNotificationStatTrakSwap = 1088,
+    KEgcItemCustomizationNotificationRemovePatch = 1089,
+    KEgcItemCustomizationNotificationApplyPatch = 1090,
+    KEgcItemCustomizationNotificationApplyKeychain = 1091,
+    KEgcItemCustomizationNotificationRemoveKeychain = 1092,
+    KEgcItemCustomizationNotificationActivateFanToken = 9178,
+    KEgcItemCustomizationNotificationActivateOperationCoin = 9179,
+    KEgcItemCustomizationNotificationGraffitiUnseal = 9185,
+    KEgcItemCustomizationNotificationGenerateSouvenir = 9204,
+    KEgcItemCustomizationNotificationClientRedeemMissionReward = 9209,
+    KEgcItemCustomizationNotificationClientRedeemFreeReward = 9219,
+    KEgcItemCustomizationNotificationXpShopUseTicket = 9221,
+    KEgcItemCustomizationNotificationXpShopAckTracks = 9222,
+}
+impl EgcItemCustomizationNotification {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationNameItem => {
+                "k_EGCItemCustomizationNotification_NameItem"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationUnlockCrate => {
+                "k_EGCItemCustomizationNotification_UnlockCrate"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationXRayItemReveal => {
+                "k_EGCItemCustomizationNotification_XRayItemReveal"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationXRayItemClaim => {
+                "k_EGCItemCustomizationNotification_XRayItemClaim"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationCasketTooFull => {
+                "k_EGCItemCustomizationNotification_CasketTooFull"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationCasketContents => {
+                "k_EGCItemCustomizationNotification_CasketContents"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationCasketAdded => {
+                "k_EGCItemCustomizationNotification_CasketAdded"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationCasketRemoved => {
+                "k_EGCItemCustomizationNotification_CasketRemoved"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationCasketInvFull => {
+                "k_EGCItemCustomizationNotification_CasketInvFull"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationNameBaseItem => {
+                "k_EGCItemCustomizationNotification_NameBaseItem"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationRemoveItemName => {
+                "k_EGCItemCustomizationNotification_RemoveItemName"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationRemoveSticker => {
+                "k_EGCItemCustomizationNotification_RemoveSticker"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationApplySticker => {
+                "k_EGCItemCustomizationNotification_ApplySticker"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationStatTrakSwap => {
+                "k_EGCItemCustomizationNotification_StatTrakSwap"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationRemovePatch => {
+                "k_EGCItemCustomizationNotification_RemovePatch"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationApplyPatch => {
+                "k_EGCItemCustomizationNotification_ApplyPatch"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationApplyKeychain => {
+                "k_EGCItemCustomizationNotification_ApplyKeychain"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationRemoveKeychain => {
+                "k_EGCItemCustomizationNotification_RemoveKeychain"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationActivateFanToken => {
+                "k_EGCItemCustomizationNotification_ActivateFanToken"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationActivateOperationCoin => {
+                "k_EGCItemCustomizationNotification_ActivateOperationCoin"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationGraffitiUnseal => {
+                "k_EGCItemCustomizationNotification_GraffitiUnseal"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationGenerateSouvenir => {
+                "k_EGCItemCustomizationNotification_GenerateSouvenir"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationClientRedeemMissionReward => {
+                "k_EGCItemCustomizationNotification_ClientRedeemMissionReward"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationClientRedeemFreeReward => {
+                "k_EGCItemCustomizationNotification_ClientRedeemFreeReward"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationXpShopUseTicket => {
+                "k_EGCItemCustomizationNotification_XpShopUseTicket"
+            }
+            EgcItemCustomizationNotification::KEgcItemCustomizationNotificationXpShopAckTracks => {
+                "k_EGCItemCustomizationNotification_XpShopAckTracks"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_EGCItemCustomizationNotification_NameItem" => {
+                Some(Self::KEgcItemCustomizationNotificationNameItem)
+            }
+            "k_EGCItemCustomizationNotification_UnlockCrate" => {
+                Some(Self::KEgcItemCustomizationNotificationUnlockCrate)
+            }
+            "k_EGCItemCustomizationNotification_XRayItemReveal" => {
+                Some(Self::KEgcItemCustomizationNotificationXRayItemReveal)
+            }
+            "k_EGCItemCustomizationNotification_XRayItemClaim" => {
+                Some(Self::KEgcItemCustomizationNotificationXRayItemClaim)
+            }
+            "k_EGCItemCustomizationNotification_CasketTooFull" => {
+                Some(Self::KEgcItemCustomizationNotificationCasketTooFull)
+            }
+            "k_EGCItemCustomizationNotification_CasketContents" => {
+                Some(Self::KEgcItemCustomizationNotificationCasketContents)
+            }
+            "k_EGCItemCustomizationNotification_CasketAdded" => {
+                Some(Self::KEgcItemCustomizationNotificationCasketAdded)
+            }
+            "k_EGCItemCustomizationNotification_CasketRemoved" => {
+                Some(Self::KEgcItemCustomizationNotificationCasketRemoved)
+            }
+            "k_EGCItemCustomizationNotification_CasketInvFull" => {
+                Some(Self::KEgcItemCustomizationNotificationCasketInvFull)
+            }
+            "k_EGCItemCustomizationNotification_NameBaseItem" => {
+                Some(Self::KEgcItemCustomizationNotificationNameBaseItem)
+            }
+            "k_EGCItemCustomizationNotification_RemoveItemName" => {
+                Some(Self::KEgcItemCustomizationNotificationRemoveItemName)
+            }
+            "k_EGCItemCustomizationNotification_RemoveSticker" => {
+                Some(Self::KEgcItemCustomizationNotificationRemoveSticker)
+            }
+            "k_EGCItemCustomizationNotification_ApplySticker" => {
+                Some(Self::KEgcItemCustomizationNotificationApplySticker)
+            }
+            "k_EGCItemCustomizationNotification_StatTrakSwap" => {
+                Some(Self::KEgcItemCustomizationNotificationStatTrakSwap)
+            }
+            "k_EGCItemCustomizationNotification_RemovePatch" => {
+                Some(Self::KEgcItemCustomizationNotificationRemovePatch)
+            }
+            "k_EGCItemCustomizationNotification_ApplyPatch" => {
+                Some(Self::KEgcItemCustomizationNotificationApplyPatch)
+            }
+            "k_EGCItemCustomizationNotification_ApplyKeychain" => {
+                Some(Self::KEgcItemCustomizationNotificationApplyKeychain)
+            }
+            "k_EGCItemCustomizationNotification_RemoveKeychain" => {
+                Some(Self::KEgcItemCustomizationNotificationRemoveKeychain)
+            }
+            "k_EGCItemCustomizationNotification_ActivateFanToken" => {
+                Some(Self::KEgcItemCustomizationNotificationActivateFanToken)
+            }
+            "k_EGCItemCustomizationNotification_ActivateOperationCoin" => {
+                Some(Self::KEgcItemCustomizationNotificationActivateOperationCoin)
+            }
+            "k_EGCItemCustomizationNotification_GraffitiUnseal" => {
+                Some(Self::KEgcItemCustomizationNotificationGraffitiUnseal)
+            }
+            "k_EGCItemCustomizationNotification_GenerateSouvenir" => {
+                Some(Self::KEgcItemCustomizationNotificationGenerateSouvenir)
+            }
+            "k_EGCItemCustomizationNotification_ClientRedeemMissionReward" => {
+                Some(Self::KEgcItemCustomizationNotificationClientRedeemMissionReward)
+            }
+            "k_EGCItemCustomizationNotification_ClientRedeemFreeReward" => {
+                Some(Self::KEgcItemCustomizationNotificationClientRedeemFreeReward)
+            }
+            "k_EGCItemCustomizationNotification_XpShopUseTicket" => {
+                Some(Self::KEgcItemCustomizationNotificationXpShopUseTicket)
+            }
+            "k_EGCItemCustomizationNotification_XpShopAckTracks" => {
+                Some(Self::KEgcItemCustomizationNotificationXpShopAckTracks)
+            }
+            _ => None,
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MlDict {
+    #[prost(string, optional, tag = "1")]
+    pub key: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "2")]
+    pub val_string: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(int32, optional, tag = "3")]
+    pub val_int: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "4")]
+    pub val_float: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MlEvent {
+    #[prost(string, optional, tag = "1")]
+    pub event_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(message, repeated, tag = "2")]
+    pub data: ::prost::alloc::vec::Vec<MlDict>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MlMatchState {
+    #[prost(string, optional, tag = "1")]
+    pub game_mode: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "2")]
+    pub phase: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(int32, optional, tag = "3")]
+    pub round: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "4")]
+    pub score_ct: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "5")]
+    pub score_t: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MlRoundState {
+    #[prost(string, optional, tag = "1")]
+    pub phase: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(enumeration = "ETeam", optional, tag = "2", default = "EtUnknown")]
+    pub win_team: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "3")]
+    pub bomb_state: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MlWeaponState {
+    #[prost(int32, optional, tag = "1")]
+    pub index: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "2")]
+    pub name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(enumeration = "EWeaponType", optional, tag = "3", default = "EwtKnife")]
+    pub r#type: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "4")]
+    pub ammo_clip: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "5")]
+    pub ammo_clip_max: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "6")]
+    pub ammo_reserve: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "7")]
+    pub state: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(float, optional, tag = "8")]
+    pub recoil_index: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MlPlayerState {
+    #[prost(int32, optional, tag = "1")]
+    pub account_id: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2", default = "-1")]
+    pub player_slot: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub entindex: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "4")]
+    pub name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "5")]
+    pub clan: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(enumeration = "ETeam", optional, tag = "6", default = "EtUnknown")]
+    pub team: ::core::option::Option<i32>,
+    #[prost(message, optional, tag = "7")]
+    pub abspos: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "8")]
+    pub eyeangle: ::core::option::Option<CMsgQAngle>,
+    #[prost(message, optional, tag = "9")]
+    pub eyeangle_fwd: ::core::option::Option<CMsgVector>,
+    #[prost(int32, optional, tag = "10")]
+    pub health: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "11")]
+    pub armor: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "12")]
+    pub flashed: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "13")]
+    pub smoked: ::core::option::Option<f32>,
+    #[prost(int32, optional, tag = "14")]
+    pub money: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "15")]
+    pub round_kills: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "16")]
+    pub round_killhs: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "17")]
+    pub burning: ::core::option::Option<f32>,
+    #[prost(bool, optional, tag = "18")]
+    pub helmet: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "19")]
+    pub defuse_kit: ::core::option::Option<bool>,
+    #[prost(message, repeated, tag = "20")]
+    pub weapons: ::prost::alloc::vec::Vec<MlWeaponState>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MlGameState {
+    #[prost(message, optional, tag = "1")]
+    pub r#match: ::core::option::Option<MlMatchState>,
+    #[prost(message, optional, tag = "2")]
+    pub round: ::core::option::Option<MlRoundState>,
+    #[prost(message, repeated, tag = "3")]
+    pub players: ::prost::alloc::vec::Vec<MlPlayerState>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MlDemoHeader {
+    #[prost(string, optional, tag = "1")]
+    pub map_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(int32, optional, tag = "2")]
+    pub tick_rate: ::core::option::Option<i32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub version: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub steam_universe: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MlTick {
+    #[prost(int32, optional, tag = "1")]
+    pub tick_count: ::core::option::Option<i32>,
+    #[prost(message, optional, tag = "2")]
+    pub state: ::core::option::Option<MlGameState>,
+    #[prost(message, repeated, tag = "3")]
+    pub events: ::prost::alloc::vec::Vec<MlEvent>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct VacNetShot {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steamid_player: ::core::option::Option<u64>,
+    #[prost(int32, optional, tag = "2")]
+    pub round_number: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub hit_type: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "4")]
+    pub weapon_type: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "5")]
+    pub distance_to_hurt_target: ::core::option::Option<f32>,
+    #[prost(float, repeated, packed = "false", tag = "6")]
+    pub delta_yaw_window: ::prost::alloc::vec::Vec<f32>,
+    #[prost(float, repeated, packed = "false", tag = "7")]
+    pub delta_pitch_window: ::prost::alloc::vec::Vec<f32>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EHitGroup {
+    EhgGeneric = 0,
+    EhgHead = 1,
+    EhgChest = 2,
+    EhgStomach = 3,
+    EhgLeftArm = 4,
+    EhgRightArm = 5,
+    EhgLeftLeg = 6,
+    EhgRightLeg = 7,
+    EhgGear = 8,
+    EhgMiss = 9,
+}
+impl EHitGroup {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EHitGroup::EhgGeneric => "EHG_Generic",
+            EHitGroup::EhgHead => "EHG_Head",
+            EHitGroup::EhgChest => "EHG_Chest",
+            EHitGroup::EhgStomach => "EHG_Stomach",
+            EHitGroup::EhgLeftArm => "EHG_LeftArm",
+            EHitGroup::EhgRightArm => "EHG_RightArm",
+            EHitGroup::EhgLeftLeg => "EHG_LeftLeg",
+            EHitGroup::EhgRightLeg => "EHG_RightLeg",
+            EHitGroup::EhgGear => "EHG_Gear",
+            EHitGroup::EhgMiss => "EHG_Miss",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "EHG_Generic" => Some(Self::EhgGeneric),
+            "EHG_Head" => Some(Self::EhgHead),
+            "EHG_Chest" => Some(Self::EhgChest),
+            "EHG_Stomach" => Some(Self::EhgStomach),
+            "EHG_LeftArm" => Some(Self::EhgLeftArm),
+            "EHG_RightArm" => Some(Self::EhgRightArm),
+            "EHG_LeftLeg" => Some(Self::EhgLeftLeg),
+            "EHG_RightLeg" => Some(Self::EhgRightLeg),
+            "EHG_Gear" => Some(Self::EhgGear),
+            "EHG_Miss" => Some(Self::EhgMiss),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ETeam {
+    EtUnknown = 0,
+    EtSpectator = 1,
+    EtTerrorist = 2,
+    EtCt = 3,
+}
+impl ETeam {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            ETeam::EtUnknown => "ET_Unknown",
+            ETeam::EtSpectator => "ET_Spectator",
+            ETeam::EtTerrorist => "ET_Terrorist",
+            ETeam::EtCt => "ET_CT",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ET_Unknown" => Some(Self::EtUnknown),
+            "ET_Spectator" => Some(Self::EtSpectator),
+            "ET_Terrorist" => Some(Self::EtTerrorist),
+            "ET_CT" => Some(Self::EtCt),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EWeaponType {
+    EwtKnife = 0,
+    EwtPistol = 1,
+    EwtSubMachineGun = 2,
+    EwtRifle = 3,
+    EwtShotgun = 4,
+    EwtSniperRifle = 5,
+    EwtMachineGun = 6,
+    EwtC4 = 7,
+    EwtGrenade = 8,
+    EwtEquipment = 9,
+    EwtStackableItem = 10,
+    EwtUnknown = 11,
+}
+impl EWeaponType {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EWeaponType::EwtKnife => "EWT_Knife",
+            EWeaponType::EwtPistol => "EWT_Pistol",
+            EWeaponType::EwtSubMachineGun => "EWT_SubMachineGun",
+            EWeaponType::EwtRifle => "EWT_Rifle",
+            EWeaponType::EwtShotgun => "EWT_Shotgun",
+            EWeaponType::EwtSniperRifle => "EWT_SniperRifle",
+            EWeaponType::EwtMachineGun => "EWT_MachineGun",
+            EWeaponType::EwtC4 => "EWT_C4",
+            EWeaponType::EwtGrenade => "EWT_Grenade",
+            EWeaponType::EwtEquipment => "EWT_Equipment",
+            EWeaponType::EwtStackableItem => "EWT_StackableItem",
+            EWeaponType::EwtUnknown => "EWT_Unknown",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "EWT_Knife" => Some(Self::EwtKnife),
+            "EWT_Pistol" => Some(Self::EwtPistol),
+            "EWT_SubMachineGun" => Some(Self::EwtSubMachineGun),
+            "EWT_Rifle" => Some(Self::EwtRifle),
+            "EWT_Shotgun" => Some(Self::EwtShotgun),
+            "EWT_SniperRifle" => Some(Self::EwtSniperRifle),
+            "EWT_MachineGun" => Some(Self::EwtMachineGun),
+            "EWT_C4" => Some(Self::EwtC4),
+            "EWT_Grenade" => Some(Self::EwtGrenade),
+            "EWT_Equipment" => Some(Self::EwtEquipment),
+            "EWT_StackableItem" => Some(Self::EwtStackableItem),
+            "EWT_Unknown" => Some(Self::EwtUnknown),
+            _ => None,
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgVDebugGameSessionIdEvent {
+    #[prost(int32, optional, tag = "1")]
+    pub clientid: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "2")]
+    pub gamesessionid: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgPlaceDecalEvent {
+    #[prost(message, optional, tag = "1")]
+    pub position: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub normal: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "3")]
+    pub saxis: ::core::option::Option<CMsgVector>,
+    #[prost(uint32, optional, tag = "4")]
+    pub decalmaterialindex: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub flags: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "6")]
+    pub color: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "7")]
+    pub width: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "8")]
+    pub height: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "9")]
+    pub depth: ::core::option::Option<f32>,
+    #[prost(uint32, optional, tag = "10")]
+    pub entityhandleindex: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "11")]
+    pub skeletoninstancehash: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "12")]
+    pub boneindex: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "13")]
+    pub translucenthit: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "14")]
+    pub is_adjacent: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgClearWorldDecalsEvent {
+    #[prost(uint32, optional, tag = "1")]
+    pub flagstoclear: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgClearEntityDecalsEvent {
+    #[prost(uint32, optional, tag = "1")]
+    pub flagstoclear: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgClearDecalsForSkeletonInstanceEvent {
+    #[prost(uint32, optional, tag = "1")]
+    pub flagstoclear: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub entityhandleindex: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub skeletoninstancehash: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSource1LegacyGameEventList {
+    #[prost(message, repeated, tag = "1")]
+    pub descriptors: ::prost::alloc::vec::Vec<
+        c_msg_source1_legacy_game_event_list::DescriptorT,
+    >,
+}
+/// Nested message and enum types in `CMsgSource1LegacyGameEventList`.
+pub mod c_msg_source1_legacy_game_event_list {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct KeyT {
+        #[prost(int32, optional, tag = "1")]
+        pub r#type: ::core::option::Option<i32>,
+        #[prost(string, optional, tag = "2")]
+        pub name: ::core::option::Option<::prost::alloc::string::String>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DescriptorT {
+        #[prost(int32, optional, tag = "1")]
+        pub eventid: ::core::option::Option<i32>,
+        #[prost(string, optional, tag = "2")]
+        pub name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(message, repeated, tag = "3")]
+        pub keys: ::prost::alloc::vec::Vec<KeyT>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSource1LegacyListenEvents {
+    #[prost(int32, optional, tag = "1")]
+    pub playerslot: ::core::option::Option<i32>,
+    #[prost(uint32, repeated, packed = "false", tag = "2")]
+    pub eventarraybits: ::prost::alloc::vec::Vec<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSource1LegacyGameEvent {
+    #[prost(string, optional, tag = "1")]
+    pub event_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(int32, optional, tag = "2")]
+    pub eventid: ::core::option::Option<i32>,
+    #[prost(message, repeated, tag = "3")]
+    pub keys: ::prost::alloc::vec::Vec<c_msg_source1_legacy_game_event::KeyT>,
+    #[prost(int32, optional, tag = "4")]
+    pub server_tick: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "5")]
+    pub passthrough: ::core::option::Option<i32>,
+}
+/// Nested message and enum types in `CMsgSource1LegacyGameEvent`.
+pub mod c_msg_source1_legacy_game_event {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct KeyT {
+        #[prost(int32, optional, tag = "1")]
+        pub r#type: ::core::option::Option<i32>,
+        #[prost(string, optional, tag = "2")]
+        pub val_string: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(float, optional, tag = "3")]
+        pub val_float: ::core::option::Option<f32>,
+        #[prost(int32, optional, tag = "4")]
+        pub val_long: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "5")]
+        pub val_short: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "6")]
+        pub val_byte: ::core::option::Option<i32>,
+        #[prost(bool, optional, tag = "7")]
+        pub val_bool: ::core::option::Option<bool>,
+        #[prost(uint64, optional, tag = "8")]
+        pub val_uint64: ::core::option::Option<u64>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSosStartSoundEvent {
+    #[prost(int32, optional, tag = "1")]
+    pub soundevent_guid: ::core::option::Option<i32>,
+    #[prost(fixed32, optional, tag = "2")]
+    pub soundevent_hash: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "3", default = "-1")]
+    pub source_entity_index: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "4")]
+    pub seed: ::core::option::Option<i32>,
+    #[prost(bytes = "vec", optional, tag = "5")]
+    pub packed_params: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(float, optional, tag = "6")]
+    pub start_time: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSosStopSoundEvent {
+    #[prost(int32, optional, tag = "1")]
+    pub soundevent_guid: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSosStopSoundEventHash {
+    #[prost(fixed32, optional, tag = "1")]
+    pub soundevent_hash: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "2", default = "-1")]
+    pub source_entity_index: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSosSetSoundEventParams {
+    #[prost(int32, optional, tag = "1")]
+    pub soundevent_guid: ::core::option::Option<i32>,
+    #[prost(bytes = "vec", optional, tag = "5")]
+    pub packed_params: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSosSetLibraryStackFields {
+    #[prost(fixed32, optional, tag = "1")]
+    pub stack_hash: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "5")]
+    pub packed_fields: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EBaseGameEvents {
+    GeVDebugGameSessionIdEvent = 200,
+    GePlaceDecalEvent = 201,
+    GeClearWorldDecalsEvent = 202,
+    GeClearEntityDecalsEvent = 203,
+    GeClearDecalsForSkeletonInstanceEvent = 204,
+    GeSource1LegacyGameEventList = 205,
+    GeSource1LegacyListenEvents = 206,
+    GeSource1LegacyGameEvent = 207,
+    GeSosStartSoundEvent = 208,
+    GeSosStopSoundEvent = 209,
+    GeSosSetSoundEventParams = 210,
+    GeSosSetLibraryStackFields = 211,
+    GeSosStopSoundEventHash = 212,
+}
+impl EBaseGameEvents {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EBaseGameEvents::GeVDebugGameSessionIdEvent => "GE_VDebugGameSessionIDEvent",
+            EBaseGameEvents::GePlaceDecalEvent => "GE_PlaceDecalEvent",
+            EBaseGameEvents::GeClearWorldDecalsEvent => "GE_ClearWorldDecalsEvent",
+            EBaseGameEvents::GeClearEntityDecalsEvent => "GE_ClearEntityDecalsEvent",
+            EBaseGameEvents::GeClearDecalsForSkeletonInstanceEvent => {
+                "GE_ClearDecalsForSkeletonInstanceEvent"
+            }
+            EBaseGameEvents::GeSource1LegacyGameEventList => {
+                "GE_Source1LegacyGameEventList"
+            }
+            EBaseGameEvents::GeSource1LegacyListenEvents => {
+                "GE_Source1LegacyListenEvents"
+            }
+            EBaseGameEvents::GeSource1LegacyGameEvent => "GE_Source1LegacyGameEvent",
+            EBaseGameEvents::GeSosStartSoundEvent => "GE_SosStartSoundEvent",
+            EBaseGameEvents::GeSosStopSoundEvent => "GE_SosStopSoundEvent",
+            EBaseGameEvents::GeSosSetSoundEventParams => "GE_SosSetSoundEventParams",
+            EBaseGameEvents::GeSosSetLibraryStackFields => "GE_SosSetLibraryStackFields",
+            EBaseGameEvents::GeSosStopSoundEventHash => "GE_SosStopSoundEventHash",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "GE_VDebugGameSessionIDEvent" => Some(Self::GeVDebugGameSessionIdEvent),
+            "GE_PlaceDecalEvent" => Some(Self::GePlaceDecalEvent),
+            "GE_ClearWorldDecalsEvent" => Some(Self::GeClearWorldDecalsEvent),
+            "GE_ClearEntityDecalsEvent" => Some(Self::GeClearEntityDecalsEvent),
+            "GE_ClearDecalsForSkeletonInstanceEvent" => {
+                Some(Self::GeClearDecalsForSkeletonInstanceEvent)
+            }
+            "GE_Source1LegacyGameEventList" => Some(Self::GeSource1LegacyGameEventList),
+            "GE_Source1LegacyListenEvents" => Some(Self::GeSource1LegacyListenEvents),
+            "GE_Source1LegacyGameEvent" => Some(Self::GeSource1LegacyGameEvent),
+            "GE_SosStartSoundEvent" => Some(Self::GeSosStartSoundEvent),
+            "GE_SosStopSoundEvent" => Some(Self::GeSosStopSoundEvent),
+            "GE_SosSetSoundEventParams" => Some(Self::GeSosSetSoundEventParams),
+            "GE_SosSetLibraryStackFields" => Some(Self::GeSosSetLibraryStackFields),
+            "GE_SosStopSoundEventHash" => Some(Self::GeSosStopSoundEventHash),
+            _ => None,
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGchVacVerificationChange {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steamid: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(bool, optional, tag = "3")]
+    pub is_verified: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGchAccountPhoneNumberChange {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steamid: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "3")]
+    pub phone_id: ::core::option::Option<u64>,
+    #[prost(bool, optional, tag = "4")]
+    pub is_verified: ::core::option::Option<bool>,
+    #[prost(bool, optional, tag = "5")]
+    pub is_identifying: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGchInviteUserToLobby {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steamid: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "3")]
+    pub steamid_invited: ::core::option::Option<u64>,
+    #[prost(fixed64, optional, tag = "4")]
+    pub steamid_lobby: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgGchRecurringSubscriptionStatusChange {
+    #[prost(fixed64, optional, tag = "1")]
+    pub steamid: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "3")]
+    pub agreementid: ::core::option::Option<u64>,
+    #[prost(bool, optional, tag = "4")]
+    pub active: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CQuestPublisherAddCommunityItemsToPlayerRequest {
+    #[prost(uint64, optional, tag = "1")]
+    pub steamid: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "2")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub match_item_type: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub match_item_class: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "5")]
+    pub prefix_item_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(message, repeated, tag = "6")]
+    pub attributes: ::prost::alloc::vec::Vec<
+        c_quest_publisher_add_community_items_to_player_request::Attribute,
+    >,
+    #[prost(string, optional, tag = "7")]
+    pub note: ::core::option::Option<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `CQuest_PublisherAddCommunityItemsToPlayer_Request`.
+pub mod c_quest_publisher_add_community_items_to_player_request {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Attribute {
+        #[prost(uint32, optional, tag = "1")]
+        pub attribute: ::core::option::Option<u32>,
+        #[prost(uint64, optional, tag = "2")]
+        pub value: ::core::option::Option<u64>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CQuestPublisherAddCommunityItemsToPlayerResponse {
+    #[prost(uint32, optional, tag = "1")]
+    pub items_matched: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub items_granted: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CCommunityGamePersonalDataCategoryInfo {
+    #[prost(string, optional, tag = "1")]
+    pub r#type: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "2")]
+    pub localization_token: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "3")]
+    pub template_file: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CCommunityGetGamePersonalDataCategoriesRequest {
+    #[prost(uint32, optional, tag = "1")]
+    pub appid: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CCommunityGetGamePersonalDataCategoriesResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub categories: ::prost::alloc::vec::Vec<CCommunityGamePersonalDataCategoryInfo>,
+    #[prost(string, optional, tag = "2")]
+    pub app_assets_basename: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CCommunityGetGamePersonalDataEntriesRequest {
+    #[prost(uint32, optional, tag = "1")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "2")]
+    pub steamid: ::core::option::Option<u64>,
+    #[prost(string, optional, tag = "3")]
+    pub r#type: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "4")]
+    pub continue_token: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CCommunityGetGamePersonalDataEntriesResponse {
+    #[prost(uint32, optional, tag = "1")]
+    pub gceresult: ::core::option::Option<u32>,
+    #[prost(string, repeated, tag = "2")]
+    pub entries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "3")]
+    pub continue_token: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "4")]
+    pub continue_text: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CCommunityTerminateGamePersonalDataEntriesRequest {
+    #[prost(uint32, optional, tag = "1")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "2")]
+    pub steamid: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CCommunityTerminateGamePersonalDataEntriesResponse {
+    #[prost(uint32, optional, tag = "1")]
+    pub gceresult: ::core::option::Option<u32>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EgcSystemMsg {
+    KEgcMsgInvalid = 0,
+    KEgcMsgMulti = 1,
+    KEgcMsgGenericReply = 10,
+    KEgcMsgSystemBase = 50,
+    KEgcMsgAchievementAwarded = 51,
+    KEgcMsgConCommand = 52,
+    KEgcMsgStartPlaying = 53,
+    KEgcMsgStopPlaying = 54,
+    KEgcMsgStartGameserver = 55,
+    KEgcMsgStopGameserver = 56,
+    KEgcMsgWgRequest = 57,
+    KEgcMsgWgResponse = 58,
+    KEgcMsgGetUserGameStatsSchema = 59,
+    KEgcMsgGetUserGameStatsSchemaResponse = 60,
+    KEgcMsgGetUserStatsDeprecated = 61,
+    KEgcMsgGetUserStatsResponse = 62,
+    KEgcMsgAppInfoUpdated = 63,
+    KEgcMsgValidateSession = 64,
+    KEgcMsgValidateSessionResponse = 65,
+    KEgcMsgLookupAccountFromInput = 66,
+    KEgcMsgSendHttpRequest = 67,
+    KEgcMsgSendHttpRequestResponse = 68,
+    KEgcMsgPreTestSetup = 69,
+    KEgcMsgRecordSupportAction = 70,
+    KEgcMsgGetAccountDetailsDeprecated = 71,
+    KEgcMsgReceiveInterAppMessage = 73,
+    KEgcMsgFindAccounts = 74,
+    KEgcMsgPostAlert = 75,
+    KEgcMsgGetLicenses = 76,
+    KEgcMsgGetUserStats = 77,
+    KEgcMsgGetCommands = 78,
+    KEgcMsgGetCommandsResponse = 79,
+    KEgcMsgAddFreeLicense = 80,
+    KEgcMsgAddFreeLicenseResponse = 81,
+    KEgcMsgGetIpLocation = 82,
+    KEgcMsgGetIpLocationResponse = 83,
+    KEgcMsgSystemStatsSchema = 84,
+    KEgcMsgGetSystemStats = 85,
+    KEgcMsgGetSystemStatsResponse = 86,
+    KEgcMsgSendEmail = 87,
+    KEgcMsgSendEmailResponse = 88,
+    KEgcMsgGetEmailTemplate = 89,
+    KEgcMsgGetEmailTemplateResponse = 90,
+    KEgcMsgGrantGuestPass = 91,
+    KEgcMsgGrantGuestPassResponse = 92,
+    KEgcMsgGetAccountDetails = 93,
+    KEgcMsgGetAccountDetailsResponse = 94,
+    KEgcMsgGetPersonaNames = 95,
+    KEgcMsgGetPersonaNamesResponse = 96,
+    KEgcMsgMultiplexMsg = 97,
+    KEgcMsgMultiplexMsgResponse = 98,
+    KEgcMsgWebApiRegisterInterfaces = 101,
+    KEgcMsgWebApiJobRequest = 102,
+    KEgcMsgWebApiJobRequestHttpResponse = 104,
+    KEgcMsgWebApiJobRequestForwardResponse = 105,
+    KEgcMsgMemCachedGet = 200,
+    KEgcMsgMemCachedGetResponse = 201,
+    KEgcMsgMemCachedSet = 202,
+    KEgcMsgMemCachedDelete = 203,
+    KEgcMsgMemCachedStats = 204,
+    KEgcMsgMemCachedStatsResponse = 205,
+    KEgcMsgMasterSetDirectory = 220,
+    KEgcMsgMasterSetDirectoryResponse = 221,
+    KEgcMsgMasterSetWebApiRouting = 222,
+    KEgcMsgMasterSetWebApiRoutingResponse = 223,
+    KEgcMsgMasterSetClientMsgRouting = 224,
+    KEgcMsgMasterSetClientMsgRoutingResponse = 225,
+    KEgcMsgSetOptions = 226,
+    KEgcMsgSetOptionsResponse = 227,
+    KEgcMsgSystemBase2 = 500,
+    KEgcMsgGetPurchaseTrustStatus = 501,
+    KEgcMsgGetPurchaseTrustStatusResponse = 502,
+    KEgcMsgUpdateSession = 503,
+    KEgcMsgGcAccountVacStatusChange = 504,
+    KEgcMsgCheckFriendship = 505,
+    KEgcMsgCheckFriendshipResponse = 506,
+    KEgcMsgGetPartnerAccountLink = 507,
+    KEgcMsgGetPartnerAccountLinkResponse = 508,
+    KEgcMsgDpPartnerMicroTxns = 512,
+    KEgcMsgDpPartnerMicroTxnsResponse = 513,
+    KEgcMsgVacVerificationChange = 518,
+    KEgcMsgAccountPhoneNumberChange = 519,
+    KEgcMsgInviteUserToLobby = 523,
+    KEgcMsgGetGamePersonalDataCategoriesRequest = 524,
+    KEgcMsgGetGamePersonalDataCategoriesResponse = 525,
+    KEgcMsgGetGamePersonalDataEntriesRequest = 526,
+    KEgcMsgGetGamePersonalDataEntriesResponse = 527,
+    KEgcMsgTerminateGamePersonalDataEntriesRequest = 528,
+    KEgcMsgTerminateGamePersonalDataEntriesResponse = 529,
+    KEgcMsgRecurringSubscriptionStatusChange = 530,
+    KEgcMsgDirectServiceMethod = 531,
+    KEgcMsgDirectServiceMethodResponse = 532,
+}
+impl EgcSystemMsg {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EgcSystemMsg::KEgcMsgInvalid => "k_EGCMsgInvalid",
+            EgcSystemMsg::KEgcMsgMulti => "k_EGCMsgMulti",
+            EgcSystemMsg::KEgcMsgGenericReply => "k_EGCMsgGenericReply",
+            EgcSystemMsg::KEgcMsgSystemBase => "k_EGCMsgSystemBase",
+            EgcSystemMsg::KEgcMsgAchievementAwarded => "k_EGCMsgAchievementAwarded",
+            EgcSystemMsg::KEgcMsgConCommand => "k_EGCMsgConCommand",
+            EgcSystemMsg::KEgcMsgStartPlaying => "k_EGCMsgStartPlaying",
+            EgcSystemMsg::KEgcMsgStopPlaying => "k_EGCMsgStopPlaying",
+            EgcSystemMsg::KEgcMsgStartGameserver => "k_EGCMsgStartGameserver",
+            EgcSystemMsg::KEgcMsgStopGameserver => "k_EGCMsgStopGameserver",
+            EgcSystemMsg::KEgcMsgWgRequest => "k_EGCMsgWGRequest",
+            EgcSystemMsg::KEgcMsgWgResponse => "k_EGCMsgWGResponse",
+            EgcSystemMsg::KEgcMsgGetUserGameStatsSchema => {
+                "k_EGCMsgGetUserGameStatsSchema"
+            }
+            EgcSystemMsg::KEgcMsgGetUserGameStatsSchemaResponse => {
+                "k_EGCMsgGetUserGameStatsSchemaResponse"
+            }
+            EgcSystemMsg::KEgcMsgGetUserStatsDeprecated => {
+                "k_EGCMsgGetUserStatsDEPRECATED"
+            }
+            EgcSystemMsg::KEgcMsgGetUserStatsResponse => "k_EGCMsgGetUserStatsResponse",
+            EgcSystemMsg::KEgcMsgAppInfoUpdated => "k_EGCMsgAppInfoUpdated",
+            EgcSystemMsg::KEgcMsgValidateSession => "k_EGCMsgValidateSession",
+            EgcSystemMsg::KEgcMsgValidateSessionResponse => {
+                "k_EGCMsgValidateSessionResponse"
+            }
+            EgcSystemMsg::KEgcMsgLookupAccountFromInput => {
+                "k_EGCMsgLookupAccountFromInput"
+            }
+            EgcSystemMsg::KEgcMsgSendHttpRequest => "k_EGCMsgSendHTTPRequest",
+            EgcSystemMsg::KEgcMsgSendHttpRequestResponse => {
+                "k_EGCMsgSendHTTPRequestResponse"
+            }
+            EgcSystemMsg::KEgcMsgPreTestSetup => "k_EGCMsgPreTestSetup",
+            EgcSystemMsg::KEgcMsgRecordSupportAction => "k_EGCMsgRecordSupportAction",
+            EgcSystemMsg::KEgcMsgGetAccountDetailsDeprecated => {
+                "k_EGCMsgGetAccountDetails_DEPRECATED"
+            }
+            EgcSystemMsg::KEgcMsgReceiveInterAppMessage => {
+                "k_EGCMsgReceiveInterAppMessage"
+            }
+            EgcSystemMsg::KEgcMsgFindAccounts => "k_EGCMsgFindAccounts",
+            EgcSystemMsg::KEgcMsgPostAlert => "k_EGCMsgPostAlert",
+            EgcSystemMsg::KEgcMsgGetLicenses => "k_EGCMsgGetLicenses",
+            EgcSystemMsg::KEgcMsgGetUserStats => "k_EGCMsgGetUserStats",
+            EgcSystemMsg::KEgcMsgGetCommands => "k_EGCMsgGetCommands",
+            EgcSystemMsg::KEgcMsgGetCommandsResponse => "k_EGCMsgGetCommandsResponse",
+            EgcSystemMsg::KEgcMsgAddFreeLicense => "k_EGCMsgAddFreeLicense",
+            EgcSystemMsg::KEgcMsgAddFreeLicenseResponse => {
+                "k_EGCMsgAddFreeLicenseResponse"
+            }
+            EgcSystemMsg::KEgcMsgGetIpLocation => "k_EGCMsgGetIPLocation",
+            EgcSystemMsg::KEgcMsgGetIpLocationResponse => "k_EGCMsgGetIPLocationResponse",
+            EgcSystemMsg::KEgcMsgSystemStatsSchema => "k_EGCMsgSystemStatsSchema",
+            EgcSystemMsg::KEgcMsgGetSystemStats => "k_EGCMsgGetSystemStats",
+            EgcSystemMsg::KEgcMsgGetSystemStatsResponse => {
+                "k_EGCMsgGetSystemStatsResponse"
+            }
+            EgcSystemMsg::KEgcMsgSendEmail => "k_EGCMsgSendEmail",
+            EgcSystemMsg::KEgcMsgSendEmailResponse => "k_EGCMsgSendEmailResponse",
+            EgcSystemMsg::KEgcMsgGetEmailTemplate => "k_EGCMsgGetEmailTemplate",
+            EgcSystemMsg::KEgcMsgGetEmailTemplateResponse => {
+                "k_EGCMsgGetEmailTemplateResponse"
+            }
+            EgcSystemMsg::KEgcMsgGrantGuestPass => "k_EGCMsgGrantGuestPass",
+            EgcSystemMsg::KEgcMsgGrantGuestPassResponse => {
+                "k_EGCMsgGrantGuestPassResponse"
+            }
+            EgcSystemMsg::KEgcMsgGetAccountDetails => "k_EGCMsgGetAccountDetails",
+            EgcSystemMsg::KEgcMsgGetAccountDetailsResponse => {
+                "k_EGCMsgGetAccountDetailsResponse"
+            }
+            EgcSystemMsg::KEgcMsgGetPersonaNames => "k_EGCMsgGetPersonaNames",
+            EgcSystemMsg::KEgcMsgGetPersonaNamesResponse => {
+                "k_EGCMsgGetPersonaNamesResponse"
+            }
+            EgcSystemMsg::KEgcMsgMultiplexMsg => "k_EGCMsgMultiplexMsg",
+            EgcSystemMsg::KEgcMsgMultiplexMsgResponse => "k_EGCMsgMultiplexMsgResponse",
+            EgcSystemMsg::KEgcMsgWebApiRegisterInterfaces => {
+                "k_EGCMsgWebAPIRegisterInterfaces"
+            }
+            EgcSystemMsg::KEgcMsgWebApiJobRequest => "k_EGCMsgWebAPIJobRequest",
+            EgcSystemMsg::KEgcMsgWebApiJobRequestHttpResponse => {
+                "k_EGCMsgWebAPIJobRequestHttpResponse"
+            }
+            EgcSystemMsg::KEgcMsgWebApiJobRequestForwardResponse => {
+                "k_EGCMsgWebAPIJobRequestForwardResponse"
+            }
+            EgcSystemMsg::KEgcMsgMemCachedGet => "k_EGCMsgMemCachedGet",
+            EgcSystemMsg::KEgcMsgMemCachedGetResponse => "k_EGCMsgMemCachedGetResponse",
+            EgcSystemMsg::KEgcMsgMemCachedSet => "k_EGCMsgMemCachedSet",
+            EgcSystemMsg::KEgcMsgMemCachedDelete => "k_EGCMsgMemCachedDelete",
+            EgcSystemMsg::KEgcMsgMemCachedStats => "k_EGCMsgMemCachedStats",
+            EgcSystemMsg::KEgcMsgMemCachedStatsResponse => {
+                "k_EGCMsgMemCachedStatsResponse"
+            }
+            EgcSystemMsg::KEgcMsgMasterSetDirectory => "k_EGCMsgMasterSetDirectory",
+            EgcSystemMsg::KEgcMsgMasterSetDirectoryResponse => {
+                "k_EGCMsgMasterSetDirectoryResponse"
+            }
+            EgcSystemMsg::KEgcMsgMasterSetWebApiRouting => {
+                "k_EGCMsgMasterSetWebAPIRouting"
+            }
+            EgcSystemMsg::KEgcMsgMasterSetWebApiRoutingResponse => {
+                "k_EGCMsgMasterSetWebAPIRoutingResponse"
+            }
+            EgcSystemMsg::KEgcMsgMasterSetClientMsgRouting => {
+                "k_EGCMsgMasterSetClientMsgRouting"
+            }
+            EgcSystemMsg::KEgcMsgMasterSetClientMsgRoutingResponse => {
+                "k_EGCMsgMasterSetClientMsgRoutingResponse"
+            }
+            EgcSystemMsg::KEgcMsgSetOptions => "k_EGCMsgSetOptions",
+            EgcSystemMsg::KEgcMsgSetOptionsResponse => "k_EGCMsgSetOptionsResponse",
+            EgcSystemMsg::KEgcMsgSystemBase2 => "k_EGCMsgSystemBase2",
+            EgcSystemMsg::KEgcMsgGetPurchaseTrustStatus => {
+                "k_EGCMsgGetPurchaseTrustStatus"
+            }
+            EgcSystemMsg::KEgcMsgGetPurchaseTrustStatusResponse => {
+                "k_EGCMsgGetPurchaseTrustStatusResponse"
+            }
+            EgcSystemMsg::KEgcMsgUpdateSession => "k_EGCMsgUpdateSession",
+            EgcSystemMsg::KEgcMsgGcAccountVacStatusChange => {
+                "k_EGCMsgGCAccountVacStatusChange"
+            }
+            EgcSystemMsg::KEgcMsgCheckFriendship => "k_EGCMsgCheckFriendship",
+            EgcSystemMsg::KEgcMsgCheckFriendshipResponse => {
+                "k_EGCMsgCheckFriendshipResponse"
+            }
+            EgcSystemMsg::KEgcMsgGetPartnerAccountLink => "k_EGCMsgGetPartnerAccountLink",
+            EgcSystemMsg::KEgcMsgGetPartnerAccountLinkResponse => {
+                "k_EGCMsgGetPartnerAccountLinkResponse"
+            }
+            EgcSystemMsg::KEgcMsgDpPartnerMicroTxns => "k_EGCMsgDPPartnerMicroTxns",
+            EgcSystemMsg::KEgcMsgDpPartnerMicroTxnsResponse => {
+                "k_EGCMsgDPPartnerMicroTxnsResponse"
+            }
+            EgcSystemMsg::KEgcMsgVacVerificationChange => "k_EGCMsgVacVerificationChange",
+            EgcSystemMsg::KEgcMsgAccountPhoneNumberChange => {
+                "k_EGCMsgAccountPhoneNumberChange"
+            }
+            EgcSystemMsg::KEgcMsgInviteUserToLobby => "k_EGCMsgInviteUserToLobby",
+            EgcSystemMsg::KEgcMsgGetGamePersonalDataCategoriesRequest => {
+                "k_EGCMsgGetGamePersonalDataCategoriesRequest"
+            }
+            EgcSystemMsg::KEgcMsgGetGamePersonalDataCategoriesResponse => {
+                "k_EGCMsgGetGamePersonalDataCategoriesResponse"
+            }
+            EgcSystemMsg::KEgcMsgGetGamePersonalDataEntriesRequest => {
+                "k_EGCMsgGetGamePersonalDataEntriesRequest"
+            }
+            EgcSystemMsg::KEgcMsgGetGamePersonalDataEntriesResponse => {
+                "k_EGCMsgGetGamePersonalDataEntriesResponse"
+            }
+            EgcSystemMsg::KEgcMsgTerminateGamePersonalDataEntriesRequest => {
+                "k_EGCMsgTerminateGamePersonalDataEntriesRequest"
+            }
+            EgcSystemMsg::KEgcMsgTerminateGamePersonalDataEntriesResponse => {
+                "k_EGCMsgTerminateGamePersonalDataEntriesResponse"
+            }
+            EgcSystemMsg::KEgcMsgRecurringSubscriptionStatusChange => {
+                "k_EGCMsgRecurringSubscriptionStatusChange"
+            }
+            EgcSystemMsg::KEgcMsgDirectServiceMethod => "k_EGCMsgDirectServiceMethod",
+            EgcSystemMsg::KEgcMsgDirectServiceMethodResponse => {
+                "k_EGCMsgDirectServiceMethodResponse"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_EGCMsgInvalid" => Some(Self::KEgcMsgInvalid),
+            "k_EGCMsgMulti" => Some(Self::KEgcMsgMulti),
+            "k_EGCMsgGenericReply" => Some(Self::KEgcMsgGenericReply),
+            "k_EGCMsgSystemBase" => Some(Self::KEgcMsgSystemBase),
+            "k_EGCMsgAchievementAwarded" => Some(Self::KEgcMsgAchievementAwarded),
+            "k_EGCMsgConCommand" => Some(Self::KEgcMsgConCommand),
+            "k_EGCMsgStartPlaying" => Some(Self::KEgcMsgStartPlaying),
+            "k_EGCMsgStopPlaying" => Some(Self::KEgcMsgStopPlaying),
+            "k_EGCMsgStartGameserver" => Some(Self::KEgcMsgStartGameserver),
+            "k_EGCMsgStopGameserver" => Some(Self::KEgcMsgStopGameserver),
+            "k_EGCMsgWGRequest" => Some(Self::KEgcMsgWgRequest),
+            "k_EGCMsgWGResponse" => Some(Self::KEgcMsgWgResponse),
+            "k_EGCMsgGetUserGameStatsSchema" => Some(Self::KEgcMsgGetUserGameStatsSchema),
+            "k_EGCMsgGetUserGameStatsSchemaResponse" => {
+                Some(Self::KEgcMsgGetUserGameStatsSchemaResponse)
+            }
+            "k_EGCMsgGetUserStatsDEPRECATED" => Some(Self::KEgcMsgGetUserStatsDeprecated),
+            "k_EGCMsgGetUserStatsResponse" => Some(Self::KEgcMsgGetUserStatsResponse),
+            "k_EGCMsgAppInfoUpdated" => Some(Self::KEgcMsgAppInfoUpdated),
+            "k_EGCMsgValidateSession" => Some(Self::KEgcMsgValidateSession),
+            "k_EGCMsgValidateSessionResponse" => {
+                Some(Self::KEgcMsgValidateSessionResponse)
+            }
+            "k_EGCMsgLookupAccountFromInput" => Some(Self::KEgcMsgLookupAccountFromInput),
+            "k_EGCMsgSendHTTPRequest" => Some(Self::KEgcMsgSendHttpRequest),
+            "k_EGCMsgSendHTTPRequestResponse" => {
+                Some(Self::KEgcMsgSendHttpRequestResponse)
+            }
+            "k_EGCMsgPreTestSetup" => Some(Self::KEgcMsgPreTestSetup),
+            "k_EGCMsgRecordSupportAction" => Some(Self::KEgcMsgRecordSupportAction),
+            "k_EGCMsgGetAccountDetails_DEPRECATED" => {
+                Some(Self::KEgcMsgGetAccountDetailsDeprecated)
+            }
+            "k_EGCMsgReceiveInterAppMessage" => Some(Self::KEgcMsgReceiveInterAppMessage),
+            "k_EGCMsgFindAccounts" => Some(Self::KEgcMsgFindAccounts),
+            "k_EGCMsgPostAlert" => Some(Self::KEgcMsgPostAlert),
+            "k_EGCMsgGetLicenses" => Some(Self::KEgcMsgGetLicenses),
+            "k_EGCMsgGetUserStats" => Some(Self::KEgcMsgGetUserStats),
+            "k_EGCMsgGetCommands" => Some(Self::KEgcMsgGetCommands),
+            "k_EGCMsgGetCommandsResponse" => Some(Self::KEgcMsgGetCommandsResponse),
+            "k_EGCMsgAddFreeLicense" => Some(Self::KEgcMsgAddFreeLicense),
+            "k_EGCMsgAddFreeLicenseResponse" => Some(Self::KEgcMsgAddFreeLicenseResponse),
+            "k_EGCMsgGetIPLocation" => Some(Self::KEgcMsgGetIpLocation),
+            "k_EGCMsgGetIPLocationResponse" => Some(Self::KEgcMsgGetIpLocationResponse),
+            "k_EGCMsgSystemStatsSchema" => Some(Self::KEgcMsgSystemStatsSchema),
+            "k_EGCMsgGetSystemStats" => Some(Self::KEgcMsgGetSystemStats),
+            "k_EGCMsgGetSystemStatsResponse" => Some(Self::KEgcMsgGetSystemStatsResponse),
+            "k_EGCMsgSendEmail" => Some(Self::KEgcMsgSendEmail),
+            "k_EGCMsgSendEmailResponse" => Some(Self::KEgcMsgSendEmailResponse),
+            "k_EGCMsgGetEmailTemplate" => Some(Self::KEgcMsgGetEmailTemplate),
+            "k_EGCMsgGetEmailTemplateResponse" => {
+                Some(Self::KEgcMsgGetEmailTemplateResponse)
+            }
+            "k_EGCMsgGrantGuestPass" => Some(Self::KEgcMsgGrantGuestPass),
+            "k_EGCMsgGrantGuestPassResponse" => Some(Self::KEgcMsgGrantGuestPassResponse),
+            "k_EGCMsgGetAccountDetails" => Some(Self::KEgcMsgGetAccountDetails),
+            "k_EGCMsgGetAccountDetailsResponse" => {
+                Some(Self::KEgcMsgGetAccountDetailsResponse)
+            }
+            "k_EGCMsgGetPersonaNames" => Some(Self::KEgcMsgGetPersonaNames),
+            "k_EGCMsgGetPersonaNamesResponse" => {
+                Some(Self::KEgcMsgGetPersonaNamesResponse)
+            }
+            "k_EGCMsgMultiplexMsg" => Some(Self::KEgcMsgMultiplexMsg),
+            "k_EGCMsgMultiplexMsgResponse" => Some(Self::KEgcMsgMultiplexMsgResponse),
+            "k_EGCMsgWebAPIRegisterInterfaces" => {
+                Some(Self::KEgcMsgWebApiRegisterInterfaces)
+            }
+            "k_EGCMsgWebAPIJobRequest" => Some(Self::KEgcMsgWebApiJobRequest),
+            "k_EGCMsgWebAPIJobRequestHttpResponse" => {
+                Some(Self::KEgcMsgWebApiJobRequestHttpResponse)
+            }
+            "k_EGCMsgWebAPIJobRequestForwardResponse" => {
+                Some(Self::KEgcMsgWebApiJobRequestForwardResponse)
+            }
+            "k_EGCMsgMemCachedGet" => Some(Self::KEgcMsgMemCachedGet),
+            "k_EGCMsgMemCachedGetResponse" => Some(Self::KEgcMsgMemCachedGetResponse),
+            "k_EGCMsgMemCachedSet" => Some(Self::KEgcMsgMemCachedSet),
+            "k_EGCMsgMemCachedDelete" => Some(Self::KEgcMsgMemCachedDelete),
+            "k_EGCMsgMemCachedStats" => Some(Self::KEgcMsgMemCachedStats),
+            "k_EGCMsgMemCachedStatsResponse" => Some(Self::KEgcMsgMemCachedStatsResponse),
+            "k_EGCMsgMasterSetDirectory" => Some(Self::KEgcMsgMasterSetDirectory),
+            "k_EGCMsgMasterSetDirectoryResponse" => {
+                Some(Self::KEgcMsgMasterSetDirectoryResponse)
+            }
+            "k_EGCMsgMasterSetWebAPIRouting" => Some(Self::KEgcMsgMasterSetWebApiRouting),
+            "k_EGCMsgMasterSetWebAPIRoutingResponse" => {
+                Some(Self::KEgcMsgMasterSetWebApiRoutingResponse)
+            }
+            "k_EGCMsgMasterSetClientMsgRouting" => {
+                Some(Self::KEgcMsgMasterSetClientMsgRouting)
+            }
+            "k_EGCMsgMasterSetClientMsgRoutingResponse" => {
+                Some(Self::KEgcMsgMasterSetClientMsgRoutingResponse)
+            }
+            "k_EGCMsgSetOptions" => Some(Self::KEgcMsgSetOptions),
+            "k_EGCMsgSetOptionsResponse" => Some(Self::KEgcMsgSetOptionsResponse),
+            "k_EGCMsgSystemBase2" => Some(Self::KEgcMsgSystemBase2),
+            "k_EGCMsgGetPurchaseTrustStatus" => Some(Self::KEgcMsgGetPurchaseTrustStatus),
+            "k_EGCMsgGetPurchaseTrustStatusResponse" => {
+                Some(Self::KEgcMsgGetPurchaseTrustStatusResponse)
+            }
+            "k_EGCMsgUpdateSession" => Some(Self::KEgcMsgUpdateSession),
+            "k_EGCMsgGCAccountVacStatusChange" => {
+                Some(Self::KEgcMsgGcAccountVacStatusChange)
+            }
+            "k_EGCMsgCheckFriendship" => Some(Self::KEgcMsgCheckFriendship),
+            "k_EGCMsgCheckFriendshipResponse" => {
+                Some(Self::KEgcMsgCheckFriendshipResponse)
+            }
+            "k_EGCMsgGetPartnerAccountLink" => Some(Self::KEgcMsgGetPartnerAccountLink),
+            "k_EGCMsgGetPartnerAccountLinkResponse" => {
+                Some(Self::KEgcMsgGetPartnerAccountLinkResponse)
+            }
+            "k_EGCMsgDPPartnerMicroTxns" => Some(Self::KEgcMsgDpPartnerMicroTxns),
+            "k_EGCMsgDPPartnerMicroTxnsResponse" => {
+                Some(Self::KEgcMsgDpPartnerMicroTxnsResponse)
+            }
+            "k_EGCMsgVacVerificationChange" => Some(Self::KEgcMsgVacVerificationChange),
+            "k_EGCMsgAccountPhoneNumberChange" => {
+                Some(Self::KEgcMsgAccountPhoneNumberChange)
+            }
+            "k_EGCMsgInviteUserToLobby" => Some(Self::KEgcMsgInviteUserToLobby),
+            "k_EGCMsgGetGamePersonalDataCategoriesRequest" => {
+                Some(Self::KEgcMsgGetGamePersonalDataCategoriesRequest)
+            }
+            "k_EGCMsgGetGamePersonalDataCategoriesResponse" => {
+                Some(Self::KEgcMsgGetGamePersonalDataCategoriesResponse)
+            }
+            "k_EGCMsgGetGamePersonalDataEntriesRequest" => {
+                Some(Self::KEgcMsgGetGamePersonalDataEntriesRequest)
+            }
+            "k_EGCMsgGetGamePersonalDataEntriesResponse" => {
+                Some(Self::KEgcMsgGetGamePersonalDataEntriesResponse)
+            }
+            "k_EGCMsgTerminateGamePersonalDataEntriesRequest" => {
+                Some(Self::KEgcMsgTerminateGamePersonalDataEntriesRequest)
+            }
+            "k_EGCMsgTerminateGamePersonalDataEntriesResponse" => {
+                Some(Self::KEgcMsgTerminateGamePersonalDataEntriesResponse)
+            }
+            "k_EGCMsgRecurringSubscriptionStatusChange" => {
+                Some(Self::KEgcMsgRecurringSubscriptionStatusChange)
+            }
+            "k_EGCMsgDirectServiceMethod" => Some(Self::KEgcMsgDirectServiceMethod),
+            "k_EGCMsgDirectServiceMethodResponse" => {
+                Some(Self::KEgcMsgDirectServiceMethodResponse)
+            }
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EsoMsg {
+    KEsoMsgCreate = 21,
+    KEsoMsgUpdate = 22,
+    KEsoMsgDestroy = 23,
+    KEsoMsgCacheSubscribed = 24,
+    KEsoMsgCacheUnsubscribed = 25,
+    KEsoMsgUpdateMultiple = 26,
+    KEsoMsgCacheSubscriptionCheck = 27,
+    KEsoMsgCacheSubscriptionRefresh = 28,
+}
+impl EsoMsg {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EsoMsg::KEsoMsgCreate => "k_ESOMsg_Create",
+            EsoMsg::KEsoMsgUpdate => "k_ESOMsg_Update",
+            EsoMsg::KEsoMsgDestroy => "k_ESOMsg_Destroy",
+            EsoMsg::KEsoMsgCacheSubscribed => "k_ESOMsg_CacheSubscribed",
+            EsoMsg::KEsoMsgCacheUnsubscribed => "k_ESOMsg_CacheUnsubscribed",
+            EsoMsg::KEsoMsgUpdateMultiple => "k_ESOMsg_UpdateMultiple",
+            EsoMsg::KEsoMsgCacheSubscriptionCheck => "k_ESOMsg_CacheSubscriptionCheck",
+            EsoMsg::KEsoMsgCacheSubscriptionRefresh => {
+                "k_ESOMsg_CacheSubscriptionRefresh"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_ESOMsg_Create" => Some(Self::KEsoMsgCreate),
+            "k_ESOMsg_Update" => Some(Self::KEsoMsgUpdate),
+            "k_ESOMsg_Destroy" => Some(Self::KEsoMsgDestroy),
+            "k_ESOMsg_CacheSubscribed" => Some(Self::KEsoMsgCacheSubscribed),
+            "k_ESOMsg_CacheUnsubscribed" => Some(Self::KEsoMsgCacheUnsubscribed),
+            "k_ESOMsg_UpdateMultiple" => Some(Self::KEsoMsgUpdateMultiple),
+            "k_ESOMsg_CacheSubscriptionCheck" => {
+                Some(Self::KEsoMsgCacheSubscriptionCheck)
+            }
+            "k_ESOMsg_CacheSubscriptionRefresh" => {
+                Some(Self::KEsoMsgCacheSubscriptionRefresh)
+            }
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EgcBaseClientMsg {
+    KEMsgGcClientWelcome = 4004,
+    KEMsgGcServerWelcome = 4005,
+    KEMsgGcClientHello = 4006,
+    KEMsgGcServerHello = 4007,
+    KEMsgGcClientConnectionStatus = 4009,
+    KEMsgGcServerConnectionStatus = 4010,
+    KEMsgGcClientHelloPartner = 4011,
+    KEMsgGcClientHelloPw = 4012,
+    KEMsgGcClientHelloR2 = 4013,
+    KEMsgGcClientHelloR3 = 4014,
+    KEMsgGcClientHelloR4 = 4015,
+}
+impl EgcBaseClientMsg {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EgcBaseClientMsg::KEMsgGcClientWelcome => "k_EMsgGCClientWelcome",
+            EgcBaseClientMsg::KEMsgGcServerWelcome => "k_EMsgGCServerWelcome",
+            EgcBaseClientMsg::KEMsgGcClientHello => "k_EMsgGCClientHello",
+            EgcBaseClientMsg::KEMsgGcServerHello => "k_EMsgGCServerHello",
+            EgcBaseClientMsg::KEMsgGcClientConnectionStatus => {
+                "k_EMsgGCClientConnectionStatus"
+            }
+            EgcBaseClientMsg::KEMsgGcServerConnectionStatus => {
+                "k_EMsgGCServerConnectionStatus"
+            }
+            EgcBaseClientMsg::KEMsgGcClientHelloPartner => "k_EMsgGCClientHelloPartner",
+            EgcBaseClientMsg::KEMsgGcClientHelloPw => "k_EMsgGCClientHelloPW",
+            EgcBaseClientMsg::KEMsgGcClientHelloR2 => "k_EMsgGCClientHelloR2",
+            EgcBaseClientMsg::KEMsgGcClientHelloR3 => "k_EMsgGCClientHelloR3",
+            EgcBaseClientMsg::KEMsgGcClientHelloR4 => "k_EMsgGCClientHelloR4",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_EMsgGCClientWelcome" => Some(Self::KEMsgGcClientWelcome),
+            "k_EMsgGCServerWelcome" => Some(Self::KEMsgGcServerWelcome),
+            "k_EMsgGCClientHello" => Some(Self::KEMsgGcClientHello),
+            "k_EMsgGCServerHello" => Some(Self::KEMsgGcServerHello),
+            "k_EMsgGCClientConnectionStatus" => Some(Self::KEMsgGcClientConnectionStatus),
+            "k_EMsgGCServerConnectionStatus" => Some(Self::KEMsgGcServerConnectionStatus),
+            "k_EMsgGCClientHelloPartner" => Some(Self::KEMsgGcClientHelloPartner),
+            "k_EMsgGCClientHelloPW" => Some(Self::KEMsgGcClientHelloPw),
+            "k_EMsgGCClientHelloR2" => Some(Self::KEMsgGcClientHelloR2),
+            "k_EMsgGCClientHelloR3" => Some(Self::KEMsgGcClientHelloR3),
+            "k_EMsgGCClientHelloR4" => Some(Self::KEMsgGcClientHelloR4),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EgcToGcMsg {
+    KEgcToGcMsgMasterAck = 150,
+    KEgcToGcMsgMasterAckResponse = 151,
+    KEgcToGcMsgRouted = 152,
+    KEgcToGcMsgRoutedReply = 153,
+    KEMsgUpdateSessionIp = 154,
+    KEMsgRequestSessionIp = 155,
+    KEMsgRequestSessionIpResponse = 156,
+    KEgcToGcMsgMasterStartupComplete = 157,
+}
+impl EgcToGcMsg {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EgcToGcMsg::KEgcToGcMsgMasterAck => "k_EGCToGCMsgMasterAck",
+            EgcToGcMsg::KEgcToGcMsgMasterAckResponse => "k_EGCToGCMsgMasterAckResponse",
+            EgcToGcMsg::KEgcToGcMsgRouted => "k_EGCToGCMsgRouted",
+            EgcToGcMsg::KEgcToGcMsgRoutedReply => "k_EGCToGCMsgRoutedReply",
+            EgcToGcMsg::KEMsgUpdateSessionIp => "k_EMsgUpdateSessionIP",
+            EgcToGcMsg::KEMsgRequestSessionIp => "k_EMsgRequestSessionIP",
+            EgcToGcMsg::KEMsgRequestSessionIpResponse => "k_EMsgRequestSessionIPResponse",
+            EgcToGcMsg::KEgcToGcMsgMasterStartupComplete => {
+                "k_EGCToGCMsgMasterStartupComplete"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_EGCToGCMsgMasterAck" => Some(Self::KEgcToGcMsgMasterAck),
+            "k_EGCToGCMsgMasterAckResponse" => Some(Self::KEgcToGcMsgMasterAckResponse),
+            "k_EGCToGCMsgRouted" => Some(Self::KEgcToGcMsgRouted),
+            "k_EGCToGCMsgRoutedReply" => Some(Self::KEgcToGcMsgRoutedReply),
+            "k_EMsgUpdateSessionIP" => Some(Self::KEMsgUpdateSessionIp),
+            "k_EMsgRequestSessionIP" => Some(Self::KEMsgRequestSessionIp),
+            "k_EMsgRequestSessionIPResponse" => Some(Self::KEMsgRequestSessionIpResponse),
+            "k_EGCToGCMsgMasterStartupComplete" => {
+                Some(Self::KEgcToGcMsgMasterStartupComplete)
+            }
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ECommunityItemClass {
+    KECommunityItemClassInvalid = 0,
+    KECommunityItemClassBadge = 1,
+    KECommunityItemClassGameCard = 2,
+    KECommunityItemClassProfileBackground = 3,
+    KECommunityItemClassEmoticon = 4,
+    KECommunityItemClassBoosterPack = 5,
+    KECommunityItemClassConsumable = 6,
+    KECommunityItemClassGameGoo = 7,
+    KECommunityItemClassProfileModifier = 8,
+    KECommunityItemClassScene = 9,
+    KECommunityItemClassSalienItem = 10,
+}
+impl ECommunityItemClass {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            ECommunityItemClass::KECommunityItemClassInvalid => {
+                "k_ECommunityItemClass_Invalid"
+            }
+            ECommunityItemClass::KECommunityItemClassBadge => {
+                "k_ECommunityItemClass_Badge"
+            }
+            ECommunityItemClass::KECommunityItemClassGameCard => {
+                "k_ECommunityItemClass_GameCard"
+            }
+            ECommunityItemClass::KECommunityItemClassProfileBackground => {
+                "k_ECommunityItemClass_ProfileBackground"
+            }
+            ECommunityItemClass::KECommunityItemClassEmoticon => {
+                "k_ECommunityItemClass_Emoticon"
+            }
+            ECommunityItemClass::KECommunityItemClassBoosterPack => {
+                "k_ECommunityItemClass_BoosterPack"
+            }
+            ECommunityItemClass::KECommunityItemClassConsumable => {
+                "k_ECommunityItemClass_Consumable"
+            }
+            ECommunityItemClass::KECommunityItemClassGameGoo => {
+                "k_ECommunityItemClass_GameGoo"
+            }
+            ECommunityItemClass::KECommunityItemClassProfileModifier => {
+                "k_ECommunityItemClass_ProfileModifier"
+            }
+            ECommunityItemClass::KECommunityItemClassScene => {
+                "k_ECommunityItemClass_Scene"
+            }
+            ECommunityItemClass::KECommunityItemClassSalienItem => {
+                "k_ECommunityItemClass_SalienItem"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_ECommunityItemClass_Invalid" => Some(Self::KECommunityItemClassInvalid),
+            "k_ECommunityItemClass_Badge" => Some(Self::KECommunityItemClassBadge),
+            "k_ECommunityItemClass_GameCard" => Some(Self::KECommunityItemClassGameCard),
+            "k_ECommunityItemClass_ProfileBackground" => {
+                Some(Self::KECommunityItemClassProfileBackground)
+            }
+            "k_ECommunityItemClass_Emoticon" => Some(Self::KECommunityItemClassEmoticon),
+            "k_ECommunityItemClass_BoosterPack" => {
+                Some(Self::KECommunityItemClassBoosterPack)
+            }
+            "k_ECommunityItemClass_Consumable" => {
+                Some(Self::KECommunityItemClassConsumable)
+            }
+            "k_ECommunityItemClass_GameGoo" => Some(Self::KECommunityItemClassGameGoo),
+            "k_ECommunityItemClass_ProfileModifier" => {
+                Some(Self::KECommunityItemClassProfileModifier)
+            }
+            "k_ECommunityItemClass_Scene" => Some(Self::KECommunityItemClassScene),
+            "k_ECommunityItemClass_SalienItem" => {
+                Some(Self::KECommunityItemClassSalienItem)
+            }
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ECommunityItemAttribute {
+    KECommunityItemAttributeInvalid = 0,
+    KECommunityItemAttributeCardBorder = 1,
+    KECommunityItemAttributeLevel = 2,
+    KECommunityItemAttributeIssueNumber = 3,
+    KECommunityItemAttributeTradableTime = 4,
+    KECommunityItemAttributeStorePackageId = 5,
+    KECommunityItemAttributeCommunityItemAppId = 6,
+    KECommunityItemAttributeCommunityItemType = 7,
+    KECommunityItemAttributeProfileModiferEnabled = 8,
+    KECommunityItemAttributeExpiryTime = 9,
+}
+impl ECommunityItemAttribute {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            ECommunityItemAttribute::KECommunityItemAttributeInvalid => {
+                "k_ECommunityItemAttribute_Invalid"
+            }
+            ECommunityItemAttribute::KECommunityItemAttributeCardBorder => {
+                "k_ECommunityItemAttribute_CardBorder"
+            }
+            ECommunityItemAttribute::KECommunityItemAttributeLevel => {
+                "k_ECommunityItemAttribute_Level"
+            }
+            ECommunityItemAttribute::KECommunityItemAttributeIssueNumber => {
+                "k_ECommunityItemAttribute_IssueNumber"
+            }
+            ECommunityItemAttribute::KECommunityItemAttributeTradableTime => {
+                "k_ECommunityItemAttribute_TradableTime"
+            }
+            ECommunityItemAttribute::KECommunityItemAttributeStorePackageId => {
+                "k_ECommunityItemAttribute_StorePackageID"
+            }
+            ECommunityItemAttribute::KECommunityItemAttributeCommunityItemAppId => {
+                "k_ECommunityItemAttribute_CommunityItemAppID"
+            }
+            ECommunityItemAttribute::KECommunityItemAttributeCommunityItemType => {
+                "k_ECommunityItemAttribute_CommunityItemType"
+            }
+            ECommunityItemAttribute::KECommunityItemAttributeProfileModiferEnabled => {
+                "k_ECommunityItemAttribute_ProfileModiferEnabled"
+            }
+            ECommunityItemAttribute::KECommunityItemAttributeExpiryTime => {
+                "k_ECommunityItemAttribute_ExpiryTime"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_ECommunityItemAttribute_Invalid" => {
+                Some(Self::KECommunityItemAttributeInvalid)
+            }
+            "k_ECommunityItemAttribute_CardBorder" => {
+                Some(Self::KECommunityItemAttributeCardBorder)
+            }
+            "k_ECommunityItemAttribute_Level" => {
+                Some(Self::KECommunityItemAttributeLevel)
+            }
+            "k_ECommunityItemAttribute_IssueNumber" => {
+                Some(Self::KECommunityItemAttributeIssueNumber)
+            }
+            "k_ECommunityItemAttribute_TradableTime" => {
+                Some(Self::KECommunityItemAttributeTradableTime)
+            }
+            "k_ECommunityItemAttribute_StorePackageID" => {
+                Some(Self::KECommunityItemAttributeStorePackageId)
+            }
+            "k_ECommunityItemAttribute_CommunityItemAppID" => {
+                Some(Self::KECommunityItemAttributeCommunityItemAppId)
+            }
+            "k_ECommunityItemAttribute_CommunityItemType" => {
+                Some(Self::KECommunityItemAttributeCommunityItemType)
+            }
+            "k_ECommunityItemAttribute_ProfileModiferEnabled" => {
+                Some(Self::KECommunityItemAttributeProfileModiferEnabled)
+            }
+            "k_ECommunityItemAttribute_ExpiryTime" => {
+                Some(Self::KECommunityItemAttributeExpiryTime)
+            }
+            _ => None,
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NetMessageSplitscreenUserChanged {
+    #[prost(uint32, optional, tag = "1")]
+    pub slot: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NetMessageConnectionClosed {
+    #[prost(uint32, optional, tag = "1")]
+    pub reason: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "2")]
+    pub message: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NetMessageConnectionCrashed {
+    #[prost(uint32, optional, tag = "1")]
+    pub reason: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "2")]
+    pub message: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NetMessagePacketStart {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct NetMessagePacketEnd {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamNetworkingIdentityLegacyBinary {
+    #[prost(fixed64, optional, tag = "16")]
+    pub steam_id: ::core::option::Option<u64>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub generic_bytes: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(string, optional, tag = "3")]
+    pub generic_string: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bytes = "vec", optional, tag = "4")]
+    pub ipv6_and_port: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramCertificate {
+    #[prost(
+        enumeration = "c_msg_steam_datagram_certificate::EKeyType",
+        optional,
+        tag = "1",
+        default = "Invalid"
+    )]
+    pub key_type: ::core::option::Option<i32>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub key_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(fixed64, optional, tag = "4")]
+    pub legacy_steam_id: ::core::option::Option<u64>,
+    #[prost(message, optional, tag = "11")]
+    pub legacy_identity_binary: ::core::option::Option<
+        CMsgSteamNetworkingIdentityLegacyBinary,
+    >,
+    #[prost(string, optional, tag = "12")]
+    pub identity_string: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(fixed32, repeated, packed = "false", tag = "5")]
+    pub gameserver_datacenter_ids: ::prost::alloc::vec::Vec<u32>,
+    #[prost(fixed32, optional, tag = "8")]
+    pub time_created: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "9")]
+    pub time_expiry: ::core::option::Option<u32>,
+    #[prost(uint32, repeated, packed = "false", tag = "10")]
+    pub app_ids: ::prost::alloc::vec::Vec<u32>,
+    #[prost(string, repeated, tag = "13")]
+    pub ip_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Nested message and enum types in `CMsgSteamDatagramCertificate`.
+pub mod c_msg_steam_datagram_certificate {
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum EKeyType {
+        Invalid = 0,
+        Ed25519 = 1,
+    }
+    impl EKeyType {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                EKeyType::Invalid => "INVALID",
+                EKeyType::Ed25519 => "ED25519",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "INVALID" => Some(Self::Invalid),
+                "ED25519" => Some(Self::Ed25519),
+                _ => None,
+            }
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramCertificateSigned {
+    #[prost(bytes = "vec", optional, tag = "4")]
+    pub cert: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(fixed64, optional, tag = "5")]
+    pub ca_key_id: ::core::option::Option<u64>,
+    #[prost(bytes = "vec", optional, tag = "6")]
+    pub ca_signature: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "vec", optional, tag = "1")]
+    pub private_key_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramCertificateRequest {
+    #[prost(message, optional, tag = "1")]
+    pub cert: ::core::option::Option<CMsgSteamDatagramCertificate>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramRelayAuthTicket {
+    #[prost(fixed32, optional, tag = "1")]
+    pub time_expiry: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "14")]
+    pub authorized_client_identity_string: ::core::option::Option<
+        ::prost::alloc::string::String,
+    >,
+    #[prost(string, optional, tag = "15")]
+    pub gameserver_identity_string: ::core::option::Option<
+        ::prost::alloc::string::String,
+    >,
+    #[prost(fixed32, optional, tag = "3")]
+    pub authorized_public_ip: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "11")]
+    pub gameserver_address: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(uint32, optional, tag = "7")]
+    pub app_id: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "10")]
+    pub virtual_port: ::core::option::Option<u32>,
+    #[prost(message, repeated, tag = "8")]
+    pub extra_fields: ::prost::alloc::vec::Vec<
+        c_msg_steam_datagram_relay_auth_ticket::ExtraField,
+    >,
+    #[prost(fixed64, optional, tag = "2")]
+    pub legacy_authorized_steam_id: ::core::option::Option<u64>,
+    #[prost(fixed64, optional, tag = "4")]
+    pub legacy_gameserver_steam_id: ::core::option::Option<u64>,
+    #[prost(fixed32, optional, tag = "9")]
+    pub legacy_gameserver_pop_id: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "12")]
+    pub legacy_authorized_client_identity_binary: ::core::option::Option<
+        ::prost::alloc::vec::Vec<u8>,
+    >,
+    #[prost(bytes = "vec", optional, tag = "13")]
+    pub legacy_gameserver_identity_binary: ::core::option::Option<
+        ::prost::alloc::vec::Vec<u8>,
+    >,
+}
+/// Nested message and enum types in `CMsgSteamDatagramRelayAuthTicket`.
+pub mod c_msg_steam_datagram_relay_auth_ticket {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ExtraField {
+        #[prost(string, optional, tag = "1")]
+        pub name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(string, optional, tag = "2")]
+        pub string_value: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(sint64, optional, tag = "3")]
+        pub int64_value: ::core::option::Option<i64>,
+        #[prost(fixed64, optional, tag = "5")]
+        pub fixed64_value: ::core::option::Option<u64>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramSignedRelayAuthTicket {
+    #[prost(fixed64, optional, tag = "1")]
+    pub reserved_do_not_use: ::core::option::Option<u64>,
+    #[prost(bytes = "vec", optional, tag = "3")]
+    pub ticket: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "vec", optional, tag = "4")]
+    pub signature: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub key_id: ::core::option::Option<u64>,
+    #[prost(message, repeated, tag = "5")]
+    pub certs: ::prost::alloc::vec::Vec<CMsgSteamDatagramCertificateSigned>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramCachedCredentialsForApp {
+    #[prost(bytes = "vec", optional, tag = "1")]
+    pub private_key: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub cert: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "vec", repeated, tag = "3")]
+    pub relay_tickets: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramGameCoordinatorServerLogin {
+    #[prost(uint32, optional, tag = "1")]
+    pub time_generated: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub appid: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "3")]
+    pub routing: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "vec", optional, tag = "4")]
+    pub appdata: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "vec", optional, tag = "5")]
+    pub legacy_identity_binary: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(string, optional, tag = "6")]
+    pub identity_string: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(fixed64, optional, tag = "99")]
+    pub dummy_steam_id: ::core::option::Option<u64>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramSignedGameCoordinatorServerLogin {
+    #[prost(message, optional, tag = "1")]
+    pub cert: ::core::option::Option<CMsgSteamDatagramCertificateSigned>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub login: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "vec", optional, tag = "3")]
+    pub signature: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramHostedServerAddressPlaintext {
+    #[prost(fixed32, optional, tag = "1")]
+    pub ipv4: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub ipv6: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(uint32, optional, tag = "3")]
+    pub port: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "4")]
+    pub routing_secret: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "5")]
+    pub protocol_version: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramSessionCryptInfo {
+    #[prost(
+        enumeration = "c_msg_steam_datagram_session_crypt_info::EKeyType",
+        optional,
+        tag = "1",
+        default = "Invalid"
+    )]
+    pub key_type: ::core::option::Option<i32>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub key_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(fixed64, optional, tag = "3")]
+    pub nonce: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "4")]
+    pub protocol_version: ::core::option::Option<u32>,
+    #[prost(
+        enumeration = "ESteamNetworkingSocketsCipher",
+        repeated,
+        packed = "false",
+        tag = "5"
+    )]
+    pub ciphers: ::prost::alloc::vec::Vec<i32>,
+}
+/// Nested message and enum types in `CMsgSteamDatagramSessionCryptInfo`.
+pub mod c_msg_steam_datagram_session_crypt_info {
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum EKeyType {
+        Invalid = 0,
+        Curve25519 = 1,
+    }
+    impl EKeyType {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                EKeyType::Invalid => "INVALID",
+                EKeyType::Curve25519 => "CURVE25519",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "INVALID" => Some(Self::Invalid),
+                "CURVE25519" => Some(Self::Curve25519),
+                _ => None,
+            }
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramSessionCryptInfoSigned {
+    #[prost(bytes = "vec", optional, tag = "1")]
+    pub info: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub signature: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramDiagnostic {
+    #[prost(uint32, optional, tag = "1")]
+    pub severity: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "2")]
+    pub text: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramLinkInstantaneousStats {
+    #[prost(uint32, optional, tag = "1")]
+    pub out_packets_per_sec_x10: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub out_bytes_per_sec: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub in_packets_per_sec_x10: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub in_bytes_per_sec: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub ping_ms: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "6")]
+    pub packets_dropped_pct: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "7")]
+    pub packets_weird_sequence_pct: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "8")]
+    pub peak_jitter_usec: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramLinkLifetimeStats {
+    #[prost(uint32, optional, tag = "2")]
+    pub connected_seconds: ::core::option::Option<u32>,
+    #[prost(uint64, optional, tag = "3")]
+    pub packets_sent: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "4")]
+    pub kb_sent: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "5")]
+    pub packets_recv: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "6")]
+    pub kb_recv: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "7")]
+    pub packets_recv_sequenced: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "8")]
+    pub packets_recv_dropped: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "9")]
+    pub packets_recv_out_of_order: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "15")]
+    pub packets_recv_out_of_order_corrected: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "10")]
+    pub packets_recv_duplicate: ::core::option::Option<u64>,
+    #[prost(uint64, optional, tag = "11")]
+    pub packets_recv_lurch: ::core::option::Option<u64>,
+    #[prost(uint64, repeated, packed = "false", tag = "12")]
+    pub multipath_packets_recv_sequenced: ::prost::alloc::vec::Vec<u64>,
+    #[prost(uint64, repeated, packed = "false", tag = "13")]
+    pub multipath_packets_recv_later: ::prost::alloc::vec::Vec<u64>,
+    #[prost(uint32, optional, tag = "14")]
+    pub multipath_send_enabled: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "21")]
+    pub quality_histogram_100: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "22")]
+    pub quality_histogram_99: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "23")]
+    pub quality_histogram_97: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "24")]
+    pub quality_histogram_95: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "25")]
+    pub quality_histogram_90: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "26")]
+    pub quality_histogram_75: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "27")]
+    pub quality_histogram_50: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "28")]
+    pub quality_histogram_1: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "29")]
+    pub quality_histogram_dead: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "30")]
+    pub quality_ntile_2nd: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "31")]
+    pub quality_ntile_5th: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "32")]
+    pub quality_ntile_25th: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "33")]
+    pub quality_ntile_50th: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "41")]
+    pub ping_histogram_25: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "42")]
+    pub ping_histogram_50: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "43")]
+    pub ping_histogram_75: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "44")]
+    pub ping_histogram_100: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "45")]
+    pub ping_histogram_125: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "46")]
+    pub ping_histogram_150: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "47")]
+    pub ping_histogram_200: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "48")]
+    pub ping_histogram_300: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "49")]
+    pub ping_histogram_max: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "50")]
+    pub ping_ntile_5th: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "51")]
+    pub ping_ntile_50th: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "52")]
+    pub ping_ntile_75th: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "53")]
+    pub ping_ntile_95th: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "54")]
+    pub ping_ntile_98th: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "61")]
+    pub jitter_histogram_negligible: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "62")]
+    pub jitter_histogram_1: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "63")]
+    pub jitter_histogram_2: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "64")]
+    pub jitter_histogram_5: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "65")]
+    pub jitter_histogram_10: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "66")]
+    pub jitter_histogram_20: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamDatagramConnectionQuality {
+    #[prost(message, optional, tag = "1")]
+    pub instantaneous: ::core::option::Option<CMsgSteamDatagramLinkInstantaneousStats>,
+    #[prost(message, optional, tag = "2")]
+    pub lifetime: ::core::option::Option<CMsgSteamDatagramLinkLifetimeStats>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgIceCandidate {
+    #[prost(string, optional, tag = "3")]
+    pub candidate: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgIceRendezvous {
+    #[prost(message, optional, tag = "2")]
+    pub auth: ::core::option::Option<c_msg_ice_rendezvous::Auth>,
+    #[prost(message, optional, tag = "1")]
+    pub add_candidate: ::core::option::Option<CMsgIceCandidate>,
+}
+/// Nested message and enum types in `CMsgICERendezvous`.
+pub mod c_msg_ice_rendezvous {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Auth {
+        #[prost(string, optional, tag = "1")]
+        pub pwd_frag: ::core::option::Option<::prost::alloc::string::String>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamNetworkingP2pRendezvous {
+    #[prost(string, optional, tag = "8")]
+    pub from_identity: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(fixed32, optional, tag = "9")]
+    pub from_connection_id: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "10")]
+    pub to_identity: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(fixed32, optional, tag = "1")]
+    pub to_connection_id: ::core::option::Option<u32>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub sdr_routes: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(uint32, optional, tag = "3")]
+    pub ack_peer_routes_revision: ::core::option::Option<u32>,
+    #[prost(bool, optional, tag = "7")]
+    pub ice_enabled: ::core::option::Option<bool>,
+    #[prost(bytes = "vec", optional, tag = "14")]
+    pub hosted_server_ticket: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+    #[prost(message, optional, tag = "4")]
+    pub connect_request: ::core::option::Option<
+        c_msg_steam_networking_p2p_rendezvous::ConnectRequest,
+    >,
+    #[prost(message, optional, tag = "5")]
+    pub connect_ok: ::core::option::Option<
+        c_msg_steam_networking_p2p_rendezvous::ConnectOk,
+    >,
+    #[prost(message, optional, tag = "6")]
+    pub connection_closed: ::core::option::Option<
+        c_msg_steam_networking_p2p_rendezvous::ConnectionClosed,
+    >,
+    #[prost(uint32, optional, tag = "11")]
+    pub ack_reliable_msg: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "12")]
+    pub first_reliable_msg: ::core::option::Option<u32>,
+    #[prost(message, repeated, tag = "13")]
+    pub reliable_messages: ::prost::alloc::vec::Vec<
+        c_msg_steam_networking_p2p_rendezvous::ReliableMessage,
+    >,
+    #[prost(message, repeated, tag = "15")]
+    pub application_messages: ::prost::alloc::vec::Vec<
+        c_msg_steam_networking_p2p_rendezvous::ApplicationMessage,
+    >,
+}
+/// Nested message and enum types in `CMsgSteamNetworkingP2PRendezvous`.
+pub mod c_msg_steam_networking_p2p_rendezvous {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConnectRequest {
+        #[prost(message, optional, tag = "6")]
+        pub crypt: ::core::option::Option<
+            super::CMsgSteamDatagramSessionCryptInfoSigned,
+        >,
+        #[prost(message, optional, tag = "7")]
+        pub cert: ::core::option::Option<super::CMsgSteamDatagramCertificateSigned>,
+        #[prost(uint32, optional, tag = "9")]
+        pub to_virtual_port: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "10")]
+        pub from_virtual_port: ::core::option::Option<u32>,
+        #[prost(string, optional, tag = "11")]
+        pub from_fakeip: ::core::option::Option<::prost::alloc::string::String>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConnectOk {
+        #[prost(message, optional, tag = "5")]
+        pub crypt: ::core::option::Option<
+            super::CMsgSteamDatagramSessionCryptInfoSigned,
+        >,
+        #[prost(message, optional, tag = "6")]
+        pub cert: ::core::option::Option<super::CMsgSteamDatagramCertificateSigned>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ConnectionClosed {
+        #[prost(string, optional, tag = "5")]
+        pub debug: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(uint32, optional, tag = "6")]
+        pub reason_code: ::core::option::Option<u32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ReliableMessage {
+        #[prost(message, optional, tag = "1")]
+        pub ice: ::core::option::Option<super::CMsgIceRendezvous>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ApplicationMessage {
+        #[prost(bytes = "vec", optional, tag = "1")]
+        pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+        #[prost(uint64, optional, tag = "2")]
+        pub msg_num: ::core::option::Option<u64>,
+        #[prost(uint32, optional, tag = "3")]
+        pub flags: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "4")]
+        pub lane_idx: ::core::option::Option<u32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamNetworkingIceSessionSummary {
+    #[prost(uint32, optional, tag = "7")]
+    pub failure_reason_code: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "1")]
+    pub local_candidate_types: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub remote_candidate_types: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub initial_route_kind: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub initial_ping: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "6")]
+    pub initial_score: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub negotiation_ms: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "16")]
+    pub best_route_kind: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "17")]
+    pub best_ping: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "18")]
+    pub best_score: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "19")]
+    pub best_time: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "12")]
+    pub selected_seconds: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "13")]
+    pub user_settings: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "14")]
+    pub ice_enable_var: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "15")]
+    pub local_candidate_types_allowed: ::core::option::Option<u32>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ESteamNetworkingSocketsCipher {
+    KESteamNetworkingSocketsCipherInvalid = 0,
+    KESteamNetworkingSocketsCipherNull = 1,
+    KESteamNetworkingSocketsCipherAes256Gcm = 2,
+}
+impl ESteamNetworkingSocketsCipher {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            ESteamNetworkingSocketsCipher::KESteamNetworkingSocketsCipherInvalid => {
+                "k_ESteamNetworkingSocketsCipher_INVALID"
+            }
+            ESteamNetworkingSocketsCipher::KESteamNetworkingSocketsCipherNull => {
+                "k_ESteamNetworkingSocketsCipher_NULL"
+            }
+            ESteamNetworkingSocketsCipher::KESteamNetworkingSocketsCipherAes256Gcm => {
+                "k_ESteamNetworkingSocketsCipher_AES_256_GCM"
+            }
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "k_ESteamNetworkingSocketsCipher_INVALID" => {
+                Some(Self::KESteamNetworkingSocketsCipherInvalid)
+            }
+            "k_ESteamNetworkingSocketsCipher_NULL" => {
+                Some(Self::KESteamNetworkingSocketsCipherNull)
+            }
+            "k_ESteamNetworkingSocketsCipher_AES_256_GCM" => {
+                Some(Self::KESteamNetworkingSocketsCipherAes256Gcm)
+            }
+            _ => None,
+        }
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CMsgSteamNetworkingIpAddress {
     #[prost(fixed32, optional, tag = "1")]
     pub v4: ::core::option::Option<u32>,
@@ -13302,34 +14885,6 @@ impl ESteamDatagramMsgId {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct C2sConnectMessage {
-    #[prost(uint32, optional, tag = "1")]
-    pub host_version: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub auth_protocol: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub challenge_number: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "4")]
-    pub reservation_cookie: ::core::option::Option<u64>,
-    #[prost(bool, optional, tag = "5")]
-    pub low_violence: ::core::option::Option<bool>,
-    #[prost(bytes = "vec", optional, tag = "6")]
-    pub encrypted_password: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(message, repeated, tag = "7")]
-    pub splitplayers: ::prost::alloc::vec::Vec<CclcMsgSplitPlayerConnect>,
-    #[prost(bytes = "vec", optional, tag = "8")]
-    pub auth_steam: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(string, optional, tag = "9")]
-    pub challenge_context: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct C2sConnectionMessage {
-    #[prost(string, optional, tag = "1")]
-    pub addon_name: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CGameNetworkingUiGlobalState {}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -13431,26 +14986,106 @@ pub struct CGameNetworkingUiAppSummary {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Cp2pTextMessage {
-    #[prost(bytes = "vec", optional, tag = "1")]
-    pub text: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+pub struct CMsgSteamSocketsUdpChallengeRequest {
+    #[prost(fixed32, optional, tag = "1")]
+    pub connection_id: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "3")]
+    pub my_timestamp: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "4")]
+    pub protocol_version: ::core::option::Option<u32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CSteamVoiceEncoding {
-    #[prost(bytes = "vec", optional, tag = "1")]
-    pub voice_data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+pub struct CMsgSteamSocketsUdpChallengeReply {
+    #[prost(fixed32, optional, tag = "1")]
+    pub connection_id: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub challenge: ::core::option::Option<u64>,
+    #[prost(fixed64, optional, tag = "3")]
+    pub your_timestamp: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "4")]
+    pub protocol_version: ::core::option::Option<u32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Cp2pVoice {
+pub struct CMsgSteamSocketsUdpConnectRequest {
+    #[prost(fixed32, optional, tag = "1")]
+    pub client_connection_id: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub challenge: ::core::option::Option<u64>,
+    #[prost(fixed64, optional, tag = "5")]
+    pub my_timestamp: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "6")]
+    pub ping_est_ms: ::core::option::Option<u32>,
+    #[prost(message, optional, tag = "7")]
+    pub crypt: ::core::option::Option<CMsgSteamDatagramSessionCryptInfoSigned>,
+    #[prost(message, optional, tag = "4")]
+    pub cert: ::core::option::Option<CMsgSteamDatagramCertificateSigned>,
+    #[prost(uint32, optional, tag = "8")]
+    pub legacy_protocol_version: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "10")]
+    pub identity_string: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(fixed64, optional, tag = "3")]
+    pub legacy_client_steam_id: ::core::option::Option<u64>,
+    #[prost(message, optional, tag = "9")]
+    pub legacy_identity_binary: ::core::option::Option<
+        CMsgSteamNetworkingIdentityLegacyBinary,
+    >,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamSocketsUdpConnectOk {
+    #[prost(fixed32, optional, tag = "1")]
+    pub client_connection_id: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "5")]
+    pub server_connection_id: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "3")]
+    pub your_timestamp: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "4")]
+    pub delay_time_usec: ::core::option::Option<u32>,
+    #[prost(message, optional, tag = "7")]
+    pub crypt: ::core::option::Option<CMsgSteamDatagramSessionCryptInfoSigned>,
+    #[prost(message, optional, tag = "8")]
+    pub cert: ::core::option::Option<CMsgSteamDatagramCertificateSigned>,
+    #[prost(string, optional, tag = "11")]
+    pub identity_string: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub legacy_server_steam_id: ::core::option::Option<u64>,
+    #[prost(message, optional, tag = "10")]
+    pub legacy_identity_binary: ::core::option::Option<
+        CMsgSteamNetworkingIdentityLegacyBinary,
+    >,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamSocketsUdpConnectionClosed {
+    #[prost(fixed32, optional, tag = "4")]
+    pub to_connection_id: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "5")]
+    pub from_connection_id: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "2")]
+    pub debug: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(uint32, optional, tag = "3")]
+    pub reason_code: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamSocketsUdpNoConnection {
+    #[prost(fixed32, optional, tag = "2")]
+    pub from_connection_id: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "3")]
+    pub to_connection_id: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgSteamSocketsUdpStats {
     #[prost(message, optional, tag = "1")]
-    pub audio: ::core::option::Option<CMsgVoiceAudio>,
-    #[prost(uint32, optional, tag = "2")]
-    pub broadcast_group: ::core::option::Option<u32>,
+    pub stats: ::core::option::Option<CMsgSteamDatagramConnectionQuality>,
+    #[prost(uint32, optional, tag = "3")]
+    pub flags: ::core::option::Option<u32>,
 }
-/// Nested message and enum types in `CP2P_Voice`.
-pub mod cp2p_voice {
+/// Nested message and enum types in `CMsgSteamSockets_UDP_Stats`.
+pub mod c_msg_steam_sockets_udp_stats {
     #[derive(
         Clone,
         Copy,
@@ -13463,864 +15098,601 @@ pub mod cp2p_voice {
         ::prost::Enumeration
     )]
     #[repr(i32)]
-    pub enum HandlerFlags {
-        PlayedAudio = 1,
+    pub enum Flags {
+        AckRequestE2e = 2,
+        AckRequestImmediate = 4,
+        NotPrimaryTransportE2e = 16,
     }
-    impl HandlerFlags {
+    impl Flags {
         /// String value of the enum field names used in the ProtoBuf definition.
         ///
         /// The values are not transformed in any way and thus are considered stable
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         pub fn as_str_name(&self) -> &'static str {
             match self {
-                HandlerFlags::PlayedAudio => "Played_Audio",
+                Flags::AckRequestE2e => "ACK_REQUEST_E2E",
+                Flags::AckRequestImmediate => "ACK_REQUEST_IMMEDIATE",
+                Flags::NotPrimaryTransportE2e => "NOT_PRIMARY_TRANSPORT_E2E",
             }
         }
         /// Creates an enum from field names used in the ProtoBuf definition.
         pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
             match value {
-                "Played_Audio" => Some(Self::PlayedAudio),
+                "ACK_REQUEST_E2E" => Some(Self::AckRequestE2e),
+                "ACK_REQUEST_IMMEDIATE" => Some(Self::AckRequestImmediate),
+                "NOT_PRIMARY_TRANSPORT_E2E" => Some(Self::NotPrimaryTransportE2e),
                 _ => None,
             }
         }
     }
 }
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Cp2pPing {
-    #[prost(uint64, required, tag = "1")]
-    pub send_time: u64,
-    #[prost(bool, required, tag = "2")]
-    pub is_reply: bool,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Cp2pVrAvatarPosition {
-    #[prost(message, repeated, tag = "1")]
-    pub body_parts: ::prost::alloc::vec::Vec<cp2p_vr_avatar_position::COrientation>,
-    #[prost(int32, optional, tag = "2")]
-    pub hat_id: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub scene_id: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "4")]
-    pub world_scale: ::core::option::Option<i32>,
-}
-/// Nested message and enum types in `CP2P_VRAvatarPosition`.
-pub mod cp2p_vr_avatar_position {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct COrientation {
-        #[prost(message, optional, tag = "1")]
-        pub pos: ::core::option::Option<super::CMsgVector>,
-        #[prost(message, optional, tag = "2")]
-        pub ang: ::core::option::Option<super::CMsgQAngle>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Cp2pWatchSynchronization {
-    #[prost(int32, optional, tag = "1")]
-    pub demo_tick: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "2")]
-    pub paused: ::core::option::Option<bool>,
-    #[prost(uint64, optional, tag = "3")]
-    pub tv_listen_voice_indices: ::core::option::Option<u64>,
-    #[prost(int32, optional, tag = "4")]
-    pub dota_spectator_mode: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "5")]
-    pub dota_spectator_watching_broadcaster: ::core::option::Option<bool>,
-    #[prost(int32, optional, tag = "6")]
-    pub dota_spectator_hero_index: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "7")]
-    pub dota_spectator_autospeed: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "8")]
-    pub dota_replay_speed: ::core::option::Option<i32>,
-}
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum P2pMessages {
-    P2pTextMessage = 256,
-    P2pVoice = 257,
-    P2pPing = 258,
-    P2pVrAvatarPosition = 259,
-    P2pWatchSynchronization = 260,
-    P2pFightingGameGameData = 261,
-    P2pFightingGameConnection = 262,
+pub enum ESteamNetworkingUdpMsgId {
+    KESteamNetworkingUdpMsgChallengeRequest = 32,
+    KESteamNetworkingUdpMsgChallengeReply = 33,
+    KESteamNetworkingUdpMsgConnectRequest = 34,
+    KESteamNetworkingUdpMsgConnectOk = 35,
+    KESteamNetworkingUdpMsgConnectionClosed = 36,
+    KESteamNetworkingUdpMsgNoConnection = 37,
 }
-impl P2pMessages {
+impl ESteamNetworkingUdpMsgId {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            P2pMessages::P2pTextMessage => "p2p_TextMessage",
-            P2pMessages::P2pVoice => "p2p_Voice",
-            P2pMessages::P2pPing => "p2p_Ping",
-            P2pMessages::P2pVrAvatarPosition => "p2p_VRAvatarPosition",
-            P2pMessages::P2pWatchSynchronization => "p2p_WatchSynchronization",
-            P2pMessages::P2pFightingGameGameData => "p2p_FightingGame_GameData",
-            P2pMessages::P2pFightingGameConnection => "p2p_FightingGame_Connection",
+            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgChallengeRequest => {
+                "k_ESteamNetworkingUDPMsg_ChallengeRequest"
+            }
+            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgChallengeReply => {
+                "k_ESteamNetworkingUDPMsg_ChallengeReply"
+            }
+            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgConnectRequest => {
+                "k_ESteamNetworkingUDPMsg_ConnectRequest"
+            }
+            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgConnectOk => {
+                "k_ESteamNetworkingUDPMsg_ConnectOK"
+            }
+            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgConnectionClosed => {
+                "k_ESteamNetworkingUDPMsg_ConnectionClosed"
+            }
+            ESteamNetworkingUdpMsgId::KESteamNetworkingUdpMsgNoConnection => {
+                "k_ESteamNetworkingUDPMsg_NoConnection"
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "p2p_TextMessage" => Some(Self::P2pTextMessage),
-            "p2p_Voice" => Some(Self::P2pVoice),
-            "p2p_Ping" => Some(Self::P2pPing),
-            "p2p_VRAvatarPosition" => Some(Self::P2pVrAvatarPosition),
-            "p2p_WatchSynchronization" => Some(Self::P2pWatchSynchronization),
-            "p2p_FightingGame_GameData" => Some(Self::P2pFightingGameGameData),
-            "p2p_FightingGame_Connection" => Some(Self::P2pFightingGameConnection),
+            "k_ESteamNetworkingUDPMsg_ChallengeRequest" => {
+                Some(Self::KESteamNetworkingUdpMsgChallengeRequest)
+            }
+            "k_ESteamNetworkingUDPMsg_ChallengeReply" => {
+                Some(Self::KESteamNetworkingUdpMsgChallengeReply)
+            }
+            "k_ESteamNetworkingUDPMsg_ConnectRequest" => {
+                Some(Self::KESteamNetworkingUdpMsgConnectRequest)
+            }
+            "k_ESteamNetworkingUDPMsg_ConnectOK" => {
+                Some(Self::KESteamNetworkingUdpMsgConnectOk)
+            }
+            "k_ESteamNetworkingUDPMsg_ConnectionClosed" => {
+                Some(Self::KESteamNetworkingUdpMsgConnectionClosed)
+            }
+            "k_ESteamNetworkingUDPMsg_NoConnection" => {
+                Some(Self::KESteamNetworkingUdpMsgNoConnection)
+            }
             _ => None,
         }
     }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTePlayerAnimEvent {
-    #[prost(fixed32, optional, tag = "1", default = "16777215")]
-    pub player: ::core::option::Option<u32>,
+pub struct CMsgTeArmorRicochet {
+    #[prost(message, optional, tag = "1")]
+    pub pos: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub dir: ::core::option::Option<CMsgVector>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeBaseBeam {
+    #[prost(fixed64, optional, tag = "1")]
+    pub modelindex: ::core::option::Option<u64>,
+    #[prost(fixed64, optional, tag = "2")]
+    pub haloindex: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "3")]
+    pub startframe: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub framerate: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "5")]
+    pub life: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "6")]
+    pub width: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "7")]
+    pub endwidth: ::core::option::Option<f32>,
+    #[prost(uint32, optional, tag = "8")]
+    pub fadelength: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "9")]
+    pub amplitude: ::core::option::Option<f32>,
+    #[prost(fixed32, optional, tag = "10")]
+    pub color: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "11")]
+    pub speed: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "12")]
+    pub flags: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeBeamEntPoint {
+    #[prost(message, optional, tag = "1")]
+    pub base: ::core::option::Option<CMsgTeBaseBeam>,
     #[prost(uint32, optional, tag = "2")]
-    pub event: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "3")]
-    pub data: ::core::option::Option<i32>,
+    pub startentity: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub endentity: ::core::option::Option<u32>,
+    #[prost(message, optional, tag = "4")]
+    pub start: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "5")]
+    pub end: ::core::option::Option<CMsgVector>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeRadioIcon {
-    #[prost(fixed32, optional, tag = "1", default = "16777215")]
-    pub player: ::core::option::Option<u32>,
+pub struct CMsgTeBeamEnts {
+    #[prost(message, optional, tag = "1")]
+    pub base: ::core::option::Option<CMsgTeBaseBeam>,
+    #[prost(uint32, optional, tag = "2")]
+    pub startentity: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub endentity: ::core::option::Option<u32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgTeFireBullets {
+pub struct CMsgTeBeamPoints {
+    #[prost(message, optional, tag = "1")]
+    pub base: ::core::option::Option<CMsgTeBaseBeam>,
+    #[prost(message, optional, tag = "2")]
+    pub start: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "3")]
+    pub end: ::core::option::Option<CMsgVector>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeBeamRing {
+    #[prost(message, optional, tag = "1")]
+    pub base: ::core::option::Option<CMsgTeBaseBeam>,
+    #[prost(uint32, optional, tag = "2")]
+    pub startentity: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub endentity: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTebspDecal {
     #[prost(message, optional, tag = "1")]
     pub origin: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "2")]
-    pub angles: ::core::option::Option<CMsgQAngle>,
-    #[prost(uint32, optional, tag = "3", default = "16777215")]
-    pub weapon_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub mode: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub seed: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "6", default = "16777215")]
-    pub player: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "7")]
-    pub inaccuracy: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "8")]
-    pub recoil_index: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "9")]
-    pub spread: ::core::option::Option<f32>,
-    #[prost(int32, optional, tag = "10")]
-    pub sound_type: ::core::option::Option<i32>,
-    #[prost(uint32, optional, tag = "11")]
-    pub item_def_index: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "12")]
-    pub sound_dsp_effect: ::core::option::Option<u32>,
-    #[prost(message, optional, tag = "13")]
-    pub ent_origin: ::core::option::Option<CMsgVector>,
-    #[prost(uint32, optional, tag = "14")]
-    pub num_bullets_remaining: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "15")]
-    pub attack_type: ::core::option::Option<u32>,
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ECsgoGameEvents {
-    GePlayerAnimEventId = 450,
-    GeRadioIconEventId = 451,
-    GeFireBulletsId = 452,
-}
-impl ECsgoGameEvents {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            ECsgoGameEvents::GePlayerAnimEventId => "GE_PlayerAnimEventId",
-            ECsgoGameEvents::GeRadioIconEventId => "GE_RadioIconEventId",
-            ECsgoGameEvents::GeFireBulletsId => "GE_FireBulletsId",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "GE_PlayerAnimEventId" => Some(Self::GePlayerAnimEventId),
-            "GE_RadioIconEventId" => Some(Self::GeRadioIconEventId),
-            "GE_FireBulletsId" => Some(Self::GeFireBulletsId),
-            _ => None,
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MlDict {
-    #[prost(string, optional, tag = "1")]
-    pub key: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "2")]
-    pub val_string: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(int32, optional, tag = "3")]
-    pub val_int: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "4")]
-    pub val_float: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MlEvent {
-    #[prost(string, optional, tag = "1")]
-    pub event_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(message, repeated, tag = "2")]
-    pub data: ::prost::alloc::vec::Vec<MlDict>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MlMatchState {
-    #[prost(string, optional, tag = "1")]
-    pub game_mode: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "2")]
-    pub phase: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(int32, optional, tag = "3")]
-    pub round: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "4")]
-    pub score_ct: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "5")]
-    pub score_t: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MlRoundState {
-    #[prost(string, optional, tag = "1")]
-    pub phase: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(enumeration = "ETeam", optional, tag = "2", default = "EtUnknown")]
-    pub win_team: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "3")]
-    pub bomb_state: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MlWeaponState {
-    #[prost(int32, optional, tag = "1")]
-    pub index: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "2")]
-    pub name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(enumeration = "EWeaponType", optional, tag = "3", default = "EwtKnife")]
-    pub r#type: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "4")]
-    pub ammo_clip: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "5")]
-    pub ammo_clip_max: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "6")]
-    pub ammo_reserve: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "7")]
-    pub state: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(float, optional, tag = "8")]
-    pub recoil_index: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MlPlayerState {
-    #[prost(int32, optional, tag = "1")]
-    pub account_id: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2", default = "-1")]
-    pub player_slot: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub entindex: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "4")]
-    pub name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "5")]
-    pub clan: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(enumeration = "ETeam", optional, tag = "6", default = "EtUnknown")]
-    pub team: ::core::option::Option<i32>,
-    #[prost(message, optional, tag = "7")]
-    pub abspos: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "8")]
-    pub eyeangle: ::core::option::Option<CMsgQAngle>,
-    #[prost(message, optional, tag = "9")]
-    pub eyeangle_fwd: ::core::option::Option<CMsgVector>,
-    #[prost(int32, optional, tag = "10")]
-    pub health: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "11")]
-    pub armor: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "12")]
-    pub flashed: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "13")]
-    pub smoked: ::core::option::Option<f32>,
-    #[prost(int32, optional, tag = "14")]
-    pub money: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "15")]
-    pub round_kills: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "16")]
-    pub round_killhs: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "17")]
-    pub burning: ::core::option::Option<f32>,
-    #[prost(bool, optional, tag = "18")]
-    pub helmet: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "19")]
-    pub defuse_kit: ::core::option::Option<bool>,
-    #[prost(message, repeated, tag = "20")]
-    pub weapons: ::prost::alloc::vec::Vec<MlWeaponState>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MlGameState {
-    #[prost(message, optional, tag = "1")]
-    pub r#match: ::core::option::Option<MlMatchState>,
-    #[prost(message, optional, tag = "2")]
-    pub round: ::core::option::Option<MlRoundState>,
-    #[prost(message, repeated, tag = "3")]
-    pub players: ::prost::alloc::vec::Vec<MlPlayerState>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MlDemoHeader {
-    #[prost(string, optional, tag = "1")]
-    pub map_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(int32, optional, tag = "2")]
-    pub tick_rate: ::core::option::Option<i32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub version: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub steam_universe: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MlTick {
-    #[prost(int32, optional, tag = "1")]
-    pub tick_count: ::core::option::Option<i32>,
-    #[prost(message, optional, tag = "2")]
-    pub state: ::core::option::Option<MlGameState>,
-    #[prost(message, repeated, tag = "3")]
-    pub events: ::prost::alloc::vec::Vec<MlEvent>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct VacNetShot {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steamid_player: ::core::option::Option<u64>,
-    #[prost(int32, optional, tag = "2")]
-    pub round_number: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub hit_type: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "4")]
-    pub weapon_type: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "5")]
-    pub distance_to_hurt_target: ::core::option::Option<f32>,
-    #[prost(float, repeated, packed = "false", tag = "6")]
-    pub delta_yaw_window: ::prost::alloc::vec::Vec<f32>,
-    #[prost(float, repeated, packed = "false", tag = "7")]
-    pub delta_pitch_window: ::prost::alloc::vec::Vec<f32>,
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EHitGroup {
-    EhgGeneric = 0,
-    EhgHead = 1,
-    EhgChest = 2,
-    EhgStomach = 3,
-    EhgLeftArm = 4,
-    EhgRightArm = 5,
-    EhgLeftLeg = 6,
-    EhgRightLeg = 7,
-    EhgGear = 8,
-    EhgMiss = 9,
-}
-impl EHitGroup {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EHitGroup::EhgGeneric => "EHG_Generic",
-            EHitGroup::EhgHead => "EHG_Head",
-            EHitGroup::EhgChest => "EHG_Chest",
-            EHitGroup::EhgStomach => "EHG_Stomach",
-            EHitGroup::EhgLeftArm => "EHG_LeftArm",
-            EHitGroup::EhgRightArm => "EHG_RightArm",
-            EHitGroup::EhgLeftLeg => "EHG_LeftLeg",
-            EHitGroup::EhgRightLeg => "EHG_RightLeg",
-            EHitGroup::EhgGear => "EHG_Gear",
-            EHitGroup::EhgMiss => "EHG_Miss",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "EHG_Generic" => Some(Self::EhgGeneric),
-            "EHG_Head" => Some(Self::EhgHead),
-            "EHG_Chest" => Some(Self::EhgChest),
-            "EHG_Stomach" => Some(Self::EhgStomach),
-            "EHG_LeftArm" => Some(Self::EhgLeftArm),
-            "EHG_RightArm" => Some(Self::EhgRightArm),
-            "EHG_LeftLeg" => Some(Self::EhgLeftLeg),
-            "EHG_RightLeg" => Some(Self::EhgRightLeg),
-            "EHG_Gear" => Some(Self::EhgGear),
-            "EHG_Miss" => Some(Self::EhgMiss),
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ETeam {
-    EtUnknown = 0,
-    EtSpectator = 1,
-    EtTerrorist = 2,
-    EtCt = 3,
-}
-impl ETeam {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            ETeam::EtUnknown => "ET_Unknown",
-            ETeam::EtSpectator => "ET_Spectator",
-            ETeam::EtTerrorist => "ET_Terrorist",
-            ETeam::EtCt => "ET_CT",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "ET_Unknown" => Some(Self::EtUnknown),
-            "ET_Spectator" => Some(Self::EtSpectator),
-            "ET_Terrorist" => Some(Self::EtTerrorist),
-            "ET_CT" => Some(Self::EtCt),
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EWeaponType {
-    EwtKnife = 0,
-    EwtPistol = 1,
-    EwtSubMachineGun = 2,
-    EwtRifle = 3,
-    EwtShotgun = 4,
-    EwtSniperRifle = 5,
-    EwtMachineGun = 6,
-    EwtC4 = 7,
-    EwtGrenade = 8,
-    EwtEquipment = 9,
-    EwtStackableItem = 10,
-    EwtUnknown = 11,
-}
-impl EWeaponType {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EWeaponType::EwtKnife => "EWT_Knife",
-            EWeaponType::EwtPistol => "EWT_Pistol",
-            EWeaponType::EwtSubMachineGun => "EWT_SubMachineGun",
-            EWeaponType::EwtRifle => "EWT_Rifle",
-            EWeaponType::EwtShotgun => "EWT_Shotgun",
-            EWeaponType::EwtSniperRifle => "EWT_SniperRifle",
-            EWeaponType::EwtMachineGun => "EWT_MachineGun",
-            EWeaponType::EwtC4 => "EWT_C4",
-            EWeaponType::EwtGrenade => "EWT_Grenade",
-            EWeaponType::EwtEquipment => "EWT_Equipment",
-            EWeaponType::EwtStackableItem => "EWT_StackableItem",
-            EWeaponType::EwtUnknown => "EWT_Unknown",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "EWT_Knife" => Some(Self::EwtKnife),
-            "EWT_Pistol" => Some(Self::EwtPistol),
-            "EWT_SubMachineGun" => Some(Self::EwtSubMachineGun),
-            "EWT_Rifle" => Some(Self::EwtRifle),
-            "EWT_Shotgun" => Some(Self::EwtShotgun),
-            "EWT_SniperRifle" => Some(Self::EwtSniperRifle),
-            "EWT_MachineGun" => Some(Self::EwtMachineGun),
-            "EWT_C4" => Some(Self::EwtC4),
-            "EWT_Grenade" => Some(Self::EwtGrenade),
-            "EWT_Equipment" => Some(Self::EwtEquipment),
-            "EWT_StackableItem" => Some(Self::EwtStackableItem),
-            "EWT_Unknown" => Some(Self::EwtUnknown),
-            _ => None,
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgVDebugGameSessionIdEvent {
-    #[prost(int32, optional, tag = "1")]
-    pub clientid: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "2")]
-    pub gamesessionid: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgPlaceDecalEvent {
-    #[prost(message, optional, tag = "1")]
-    pub position: ::core::option::Option<CMsgVector>,
     #[prost(message, optional, tag = "2")]
     pub normal: ::core::option::Option<CMsgVector>,
     #[prost(message, optional, tag = "3")]
     pub saxis: ::core::option::Option<CMsgVector>,
+    #[prost(int32, optional, tag = "4", default = "-1")]
+    pub entity: ::core::option::Option<i32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub index: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeBubbles {
+    #[prost(message, optional, tag = "1")]
+    pub mins: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub maxs: ::core::option::Option<CMsgVector>,
+    #[prost(float, optional, tag = "3")]
+    pub height: ::core::option::Option<f32>,
     #[prost(uint32, optional, tag = "4")]
-    pub decalmaterialindex: ::core::option::Option<u32>,
+    pub count: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "5")]
+    pub speed: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeBubbleTrail {
+    #[prost(message, optional, tag = "1")]
+    pub mins: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub maxs: ::core::option::Option<CMsgVector>,
+    #[prost(float, optional, tag = "3")]
+    pub waterz: ::core::option::Option<f32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub count: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "5")]
+    pub speed: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeDecal {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub start: ::core::option::Option<CMsgVector>,
+    #[prost(int32, optional, tag = "3", default = "-1")]
+    pub entity: ::core::option::Option<i32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub hitbox: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub index: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgEffectData {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub start: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "3")]
+    pub normal: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "4")]
+    pub angles: ::core::option::Option<CMsgQAngle>,
+    #[prost(fixed32, optional, tag = "5", default = "16777215")]
+    pub entity: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "6", default = "16777215")]
+    pub otherentity: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "7")]
+    pub scale: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "8")]
+    pub magnitude: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "9")]
+    pub radius: ::core::option::Option<f32>,
+    #[prost(fixed32, optional, tag = "10")]
+    pub surfaceprop: ::core::option::Option<u32>,
+    #[prost(fixed64, optional, tag = "11")]
+    pub effectindex: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "12")]
+    pub damagetype: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "13")]
+    pub material: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "14")]
+    pub hitbox: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "15")]
+    pub color: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "16")]
+    pub flags: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "17")]
+    pub attachmentindex: ::core::option::Option<i32>,
+    #[prost(uint32, optional, tag = "18")]
+    pub effectname: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "19")]
+    pub attachmentname: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeEffectDispatch {
+    #[prost(message, optional, tag = "1")]
+    pub effectdata: ::core::option::Option<CMsgEffectData>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeEnergySplash {
+    #[prost(message, optional, tag = "1")]
+    pub pos: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub dir: ::core::option::Option<CMsgVector>,
+    #[prost(bool, optional, tag = "3")]
+    pub explosive: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeFizz {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub entity: ::core::option::Option<i32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub density: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "3")]
+    pub current: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeShatterSurface {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub angles: ::core::option::Option<CMsgQAngle>,
+    #[prost(message, optional, tag = "3")]
+    pub force: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "4")]
+    pub forcepos: ::core::option::Option<CMsgVector>,
+    #[prost(float, optional, tag = "5")]
+    pub width: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "6")]
+    pub height: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "7")]
+    pub shardsize: ::core::option::Option<f32>,
+    #[prost(uint32, optional, tag = "8")]
+    pub surfacetype: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "9")]
+    pub frontcolor: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "10")]
+    pub backcolor: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeGlowSprite {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(float, optional, tag = "2")]
+    pub scale: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub life: ::core::option::Option<f32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub brightness: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeImpact {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub normal: ::core::option::Option<CMsgVector>,
+    #[prost(uint32, optional, tag = "3")]
+    pub r#type: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeMuzzleFlash {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub angles: ::core::option::Option<CMsgQAngle>,
+    #[prost(float, optional, tag = "3")]
+    pub scale: ::core::option::Option<f32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub r#type: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeBloodStream {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub direction: ::core::option::Option<CMsgVector>,
+    #[prost(fixed32, optional, tag = "3")]
+    pub color: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub amount: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeExplosion {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(uint32, optional, tag = "2")]
+    pub framerate: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub flags: ::core::option::Option<u32>,
+    #[prost(message, optional, tag = "4")]
+    pub normal: ::core::option::Option<CMsgVector>,
+    #[prost(uint32, optional, tag = "5")]
+    pub materialtype: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "6")]
+    pub radius: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "7")]
+    pub magnitude: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "8")]
+    pub scale: ::core::option::Option<f32>,
+    #[prost(bool, optional, tag = "9")]
+    pub affect_ragdolls: ::core::option::Option<bool>,
+    #[prost(string, optional, tag = "10")]
+    pub effect_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(uint32, optional, tag = "11")]
+    pub explosion_type: ::core::option::Option<u32>,
+    #[prost(bool, optional, tag = "12")]
+    pub create_debris: ::core::option::Option<bool>,
+    #[prost(message, optional, tag = "13")]
+    pub debris_origin: ::core::option::Option<CMsgVector>,
+    #[prost(fixed32, optional, tag = "14")]
+    pub debris_surfaceprop: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeDust {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(float, optional, tag = "2")]
+    pub size: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub speed: ::core::option::Option<f32>,
+    #[prost(message, optional, tag = "4")]
+    pub direction: ::core::option::Option<CMsgVector>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeLargeFunnel {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(uint32, optional, tag = "2")]
+    pub reversed: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeSparks {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(uint32, optional, tag = "2")]
+    pub magnitude: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub length: ::core::option::Option<u32>,
+    #[prost(message, optional, tag = "4")]
+    pub direction: ::core::option::Option<CMsgVector>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTePhysicsProp {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub velocity: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "3")]
+    pub angles: ::core::option::Option<CMsgQAngle>,
+    #[prost(fixed32, optional, tag = "4")]
+    pub skin: ::core::option::Option<u32>,
     #[prost(uint32, optional, tag = "5")]
     pub flags: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "6")]
+    #[prost(uint32, optional, tag = "6")]
+    pub effects: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "7")]
     pub color: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "7")]
-    pub width: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "8")]
-    pub height: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "9")]
-    pub depth: ::core::option::Option<f32>,
-    #[prost(uint32, optional, tag = "10")]
-    pub entityhandleindex: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "11")]
-    pub skeletoninstancehash: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "12")]
-    pub boneindex: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "13")]
-    pub translucenthit: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "14")]
-    pub is_adjacent: ::core::option::Option<bool>,
+    #[prost(fixed64, optional, tag = "8")]
+    pub modelindex: ::core::option::Option<u64>,
+    #[prost(uint32, optional, tag = "9")]
+    pub unused_breakmodelsnottomake: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "10")]
+    pub scale: ::core::option::Option<f32>,
+    #[prost(message, optional, tag = "11")]
+    pub dmgpos: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "12")]
+    pub dmgdir: ::core::option::Option<CMsgVector>,
+    #[prost(int32, optional, tag = "13")]
+    pub dmgtype: ::core::option::Option<i32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgClearWorldDecalsEvent {
-    #[prost(uint32, optional, tag = "1")]
-    pub flagstoclear: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgClearEntityDecalsEvent {
-    #[prost(uint32, optional, tag = "1")]
-    pub flagstoclear: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgClearDecalsForSkeletonInstanceEvent {
-    #[prost(uint32, optional, tag = "1")]
-    pub flagstoclear: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub entityhandleindex: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub skeletoninstancehash: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSource1LegacyGameEventList {
-    #[prost(message, repeated, tag = "1")]
-    pub descriptors: ::prost::alloc::vec::Vec<
-        c_msg_source1_legacy_game_event_list::DescriptorT,
-    >,
-}
-/// Nested message and enum types in `CMsgSource1LegacyGameEventList`.
-pub mod c_msg_source1_legacy_game_event_list {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct KeyT {
-        #[prost(int32, optional, tag = "1")]
-        pub r#type: ::core::option::Option<i32>,
-        #[prost(string, optional, tag = "2")]
-        pub name: ::core::option::Option<::prost::alloc::string::String>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct DescriptorT {
-        #[prost(int32, optional, tag = "1")]
-        pub eventid: ::core::option::Option<i32>,
-        #[prost(string, optional, tag = "2")]
-        pub name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(message, repeated, tag = "3")]
-        pub keys: ::prost::alloc::vec::Vec<KeyT>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSource1LegacyListenEvents {
-    #[prost(int32, optional, tag = "1")]
-    pub playerslot: ::core::option::Option<i32>,
-    #[prost(uint32, repeated, packed = "false", tag = "2")]
-    pub eventarraybits: ::prost::alloc::vec::Vec<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSource1LegacyGameEvent {
-    #[prost(string, optional, tag = "1")]
-    pub event_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(int32, optional, tag = "2")]
-    pub eventid: ::core::option::Option<i32>,
-    #[prost(message, repeated, tag = "3")]
-    pub keys: ::prost::alloc::vec::Vec<c_msg_source1_legacy_game_event::KeyT>,
-    #[prost(int32, optional, tag = "4")]
-    pub server_tick: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "5")]
-    pub passthrough: ::core::option::Option<i32>,
-}
-/// Nested message and enum types in `CMsgSource1LegacyGameEvent`.
-pub mod c_msg_source1_legacy_game_event {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct KeyT {
-        #[prost(int32, optional, tag = "1")]
-        pub r#type: ::core::option::Option<i32>,
-        #[prost(string, optional, tag = "2")]
-        pub val_string: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(float, optional, tag = "3")]
-        pub val_float: ::core::option::Option<f32>,
-        #[prost(int32, optional, tag = "4")]
-        pub val_long: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "5")]
-        pub val_short: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "6")]
-        pub val_byte: ::core::option::Option<i32>,
-        #[prost(bool, optional, tag = "7")]
-        pub val_bool: ::core::option::Option<bool>,
-        #[prost(uint64, optional, tag = "8")]
-        pub val_uint64: ::core::option::Option<u64>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSosStartSoundEvent {
-    #[prost(int32, optional, tag = "1")]
-    pub soundevent_guid: ::core::option::Option<i32>,
-    #[prost(fixed32, optional, tag = "2")]
-    pub soundevent_hash: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "3", default = "-1")]
-    pub source_entity_index: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "4")]
-    pub seed: ::core::option::Option<i32>,
-    #[prost(bytes = "vec", optional, tag = "5")]
-    pub packed_params: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(float, optional, tag = "6")]
-    pub start_time: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSosStopSoundEvent {
-    #[prost(int32, optional, tag = "1")]
-    pub soundevent_guid: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSosStopSoundEventHash {
-    #[prost(fixed32, optional, tag = "1")]
-    pub soundevent_hash: ::core::option::Option<u32>,
+pub struct CMsgTePlayerDecal {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
     #[prost(int32, optional, tag = "2", default = "-1")]
-    pub source_entity_index: ::core::option::Option<i32>,
+    pub player: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3", default = "-1")]
+    pub entity: ::core::option::Option<i32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSosSetSoundEventParams {
-    #[prost(int32, optional, tag = "1")]
-    pub soundevent_guid: ::core::option::Option<i32>,
-    #[prost(bytes = "vec", optional, tag = "5")]
-    pub packed_params: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+pub struct CMsgTeProjectedDecal {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub angles: ::core::option::Option<CMsgQAngle>,
+    #[prost(uint32, optional, tag = "3")]
+    pub index: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "4")]
+    pub distance: ::core::option::Option<f32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSosSetLibraryStackFields {
-    #[prost(fixed32, optional, tag = "1")]
-    pub stack_hash: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "5")]
-    pub packed_fields: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+pub struct CMsgTeSmoke {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(float, optional, tag = "2")]
+    pub scale: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CMsgTeWorldDecal {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub normal: ::core::option::Option<CMsgVector>,
+    #[prost(uint32, optional, tag = "3")]
+    pub index: ::core::option::Option<u32>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum EBaseGameEvents {
-    GeVDebugGameSessionIdEvent = 200,
-    GePlaceDecalEvent = 201,
-    GeClearWorldDecalsEvent = 202,
-    GeClearEntityDecalsEvent = 203,
-    GeClearDecalsForSkeletonInstanceEvent = 204,
-    GeSource1LegacyGameEventList = 205,
-    GeSource1LegacyListenEvents = 206,
-    GeSource1LegacyGameEvent = 207,
-    GeSosStartSoundEvent = 208,
-    GeSosStopSoundEvent = 209,
-    GeSosSetSoundEventParams = 210,
-    GeSosSetLibraryStackFields = 211,
-    GeSosStopSoundEventHash = 212,
+pub enum EteProtobufIds {
+    TeEffectDispatchId = 400,
+    TeArmorRicochetId = 401,
+    TeBeamEntPointId = 402,
+    TeBeamEntsId = 403,
+    TeBeamPointsId = 404,
+    TeBeamRingId = 405,
+    TeBspDecalId = 407,
+    TeBubblesId = 408,
+    TeBubbleTrailId = 409,
+    TeDecalId = 410,
+    TeWorldDecalId = 411,
+    TeEnergySplashId = 412,
+    TeFizzId = 413,
+    TeShatterSurfaceId = 414,
+    TeGlowSpriteId = 415,
+    TeImpactId = 416,
+    TeMuzzleFlashId = 417,
+    TeBloodStreamId = 418,
+    TeExplosionId = 419,
+    TeDustId = 420,
+    TeLargeFunnelId = 421,
+    TeSparksId = 422,
+    TePhysicsPropId = 423,
+    TePlayerDecalId = 424,
+    TeProjectedDecalId = 425,
+    TeSmokeId = 426,
 }
-impl EBaseGameEvents {
+impl EteProtobufIds {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            EBaseGameEvents::GeVDebugGameSessionIdEvent => "GE_VDebugGameSessionIDEvent",
-            EBaseGameEvents::GePlaceDecalEvent => "GE_PlaceDecalEvent",
-            EBaseGameEvents::GeClearWorldDecalsEvent => "GE_ClearWorldDecalsEvent",
-            EBaseGameEvents::GeClearEntityDecalsEvent => "GE_ClearEntityDecalsEvent",
-            EBaseGameEvents::GeClearDecalsForSkeletonInstanceEvent => {
-                "GE_ClearDecalsForSkeletonInstanceEvent"
-            }
-            EBaseGameEvents::GeSource1LegacyGameEventList => {
-                "GE_Source1LegacyGameEventList"
-            }
-            EBaseGameEvents::GeSource1LegacyListenEvents => {
-                "GE_Source1LegacyListenEvents"
-            }
-            EBaseGameEvents::GeSource1LegacyGameEvent => "GE_Source1LegacyGameEvent",
-            EBaseGameEvents::GeSosStartSoundEvent => "GE_SosStartSoundEvent",
-            EBaseGameEvents::GeSosStopSoundEvent => "GE_SosStopSoundEvent",
-            EBaseGameEvents::GeSosSetSoundEventParams => "GE_SosSetSoundEventParams",
-            EBaseGameEvents::GeSosSetLibraryStackFields => "GE_SosSetLibraryStackFields",
-            EBaseGameEvents::GeSosStopSoundEventHash => "GE_SosStopSoundEventHash",
+            EteProtobufIds::TeEffectDispatchId => "TE_EffectDispatchId",
+            EteProtobufIds::TeArmorRicochetId => "TE_ArmorRicochetId",
+            EteProtobufIds::TeBeamEntPointId => "TE_BeamEntPointId",
+            EteProtobufIds::TeBeamEntsId => "TE_BeamEntsId",
+            EteProtobufIds::TeBeamPointsId => "TE_BeamPointsId",
+            EteProtobufIds::TeBeamRingId => "TE_BeamRingId",
+            EteProtobufIds::TeBspDecalId => "TE_BSPDecalId",
+            EteProtobufIds::TeBubblesId => "TE_BubblesId",
+            EteProtobufIds::TeBubbleTrailId => "TE_BubbleTrailId",
+            EteProtobufIds::TeDecalId => "TE_DecalId",
+            EteProtobufIds::TeWorldDecalId => "TE_WorldDecalId",
+            EteProtobufIds::TeEnergySplashId => "TE_EnergySplashId",
+            EteProtobufIds::TeFizzId => "TE_FizzId",
+            EteProtobufIds::TeShatterSurfaceId => "TE_ShatterSurfaceId",
+            EteProtobufIds::TeGlowSpriteId => "TE_GlowSpriteId",
+            EteProtobufIds::TeImpactId => "TE_ImpactId",
+            EteProtobufIds::TeMuzzleFlashId => "TE_MuzzleFlashId",
+            EteProtobufIds::TeBloodStreamId => "TE_BloodStreamId",
+            EteProtobufIds::TeExplosionId => "TE_ExplosionId",
+            EteProtobufIds::TeDustId => "TE_DustId",
+            EteProtobufIds::TeLargeFunnelId => "TE_LargeFunnelId",
+            EteProtobufIds::TeSparksId => "TE_SparksId",
+            EteProtobufIds::TePhysicsPropId => "TE_PhysicsPropId",
+            EteProtobufIds::TePlayerDecalId => "TE_PlayerDecalId",
+            EteProtobufIds::TeProjectedDecalId => "TE_ProjectedDecalId",
+            EteProtobufIds::TeSmokeId => "TE_SmokeId",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "GE_VDebugGameSessionIDEvent" => Some(Self::GeVDebugGameSessionIdEvent),
-            "GE_PlaceDecalEvent" => Some(Self::GePlaceDecalEvent),
-            "GE_ClearWorldDecalsEvent" => Some(Self::GeClearWorldDecalsEvent),
-            "GE_ClearEntityDecalsEvent" => Some(Self::GeClearEntityDecalsEvent),
-            "GE_ClearDecalsForSkeletonInstanceEvent" => {
-                Some(Self::GeClearDecalsForSkeletonInstanceEvent)
-            }
-            "GE_Source1LegacyGameEventList" => Some(Self::GeSource1LegacyGameEventList),
-            "GE_Source1LegacyListenEvents" => Some(Self::GeSource1LegacyListenEvents),
-            "GE_Source1LegacyGameEvent" => Some(Self::GeSource1LegacyGameEvent),
-            "GE_SosStartSoundEvent" => Some(Self::GeSosStartSoundEvent),
-            "GE_SosStopSoundEvent" => Some(Self::GeSosStopSoundEvent),
-            "GE_SosSetSoundEventParams" => Some(Self::GeSosSetSoundEventParams),
-            "GE_SosSetLibraryStackFields" => Some(Self::GeSosSetLibraryStackFields),
-            "GE_SosStopSoundEventHash" => Some(Self::GeSosStopSoundEventHash),
+            "TE_EffectDispatchId" => Some(Self::TeEffectDispatchId),
+            "TE_ArmorRicochetId" => Some(Self::TeArmorRicochetId),
+            "TE_BeamEntPointId" => Some(Self::TeBeamEntPointId),
+            "TE_BeamEntsId" => Some(Self::TeBeamEntsId),
+            "TE_BeamPointsId" => Some(Self::TeBeamPointsId),
+            "TE_BeamRingId" => Some(Self::TeBeamRingId),
+            "TE_BSPDecalId" => Some(Self::TeBspDecalId),
+            "TE_BubblesId" => Some(Self::TeBubblesId),
+            "TE_BubbleTrailId" => Some(Self::TeBubbleTrailId),
+            "TE_DecalId" => Some(Self::TeDecalId),
+            "TE_WorldDecalId" => Some(Self::TeWorldDecalId),
+            "TE_EnergySplashId" => Some(Self::TeEnergySplashId),
+            "TE_FizzId" => Some(Self::TeFizzId),
+            "TE_ShatterSurfaceId" => Some(Self::TeShatterSurfaceId),
+            "TE_GlowSpriteId" => Some(Self::TeGlowSpriteId),
+            "TE_ImpactId" => Some(Self::TeImpactId),
+            "TE_MuzzleFlashId" => Some(Self::TeMuzzleFlashId),
+            "TE_BloodStreamId" => Some(Self::TeBloodStreamId),
+            "TE_ExplosionId" => Some(Self::TeExplosionId),
+            "TE_DustId" => Some(Self::TeDustId),
+            "TE_LargeFunnelId" => Some(Self::TeLargeFunnelId),
+            "TE_SparksId" => Some(Self::TeSparksId),
+            "TE_PhysicsPropId" => Some(Self::TePhysicsPropId),
+            "TE_PlayerDecalId" => Some(Self::TePlayerDecalId),
+            "TE_ProjectedDecalId" => Some(Self::TeProjectedDecalId),
+            "TE_SmokeId" => Some(Self::TeSmokeId),
             _ => None,
         }
     }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramRelayAuthTicket {
-    #[prost(fixed32, optional, tag = "1")]
-    pub time_expiry: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "14")]
-    pub authorized_client_identity_string: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
-    #[prost(string, optional, tag = "15")]
-    pub gameserver_identity_string: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
-    #[prost(fixed32, optional, tag = "3")]
-    pub authorized_public_ip: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "11")]
-    pub gameserver_address: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(uint32, optional, tag = "7")]
-    pub app_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "10")]
-    pub virtual_port: ::core::option::Option<u32>,
-    #[prost(message, repeated, tag = "8")]
-    pub extra_fields: ::prost::alloc::vec::Vec<
-        c_msg_steam_datagram_relay_auth_ticket::ExtraField,
-    >,
-    #[prost(fixed64, optional, tag = "2")]
-    pub legacy_authorized_steam_id: ::core::option::Option<u64>,
-    #[prost(fixed64, optional, tag = "4")]
-    pub legacy_gameserver_steam_id: ::core::option::Option<u64>,
-    #[prost(fixed32, optional, tag = "9")]
-    pub legacy_gameserver_pop_id: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "12")]
-    pub legacy_authorized_client_identity_binary: ::core::option::Option<
-        ::prost::alloc::vec::Vec<u8>,
-    >,
-    #[prost(bytes = "vec", optional, tag = "13")]
-    pub legacy_gameserver_identity_binary: ::core::option::Option<
-        ::prost::alloc::vec::Vec<u8>,
-    >,
-}
-/// Nested message and enum types in `CMsgSteamDatagramRelayAuthTicket`.
-pub mod c_msg_steam_datagram_relay_auth_ticket {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ExtraField {
-        #[prost(string, optional, tag = "1")]
-        pub name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(string, optional, tag = "2")]
-        pub string_value: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(sint64, optional, tag = "3")]
-        pub int64_value: ::core::option::Option<i64>,
-        #[prost(fixed64, optional, tag = "5")]
-        pub fixed64_value: ::core::option::Option<u64>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramSignedRelayAuthTicket {
-    #[prost(fixed64, optional, tag = "1")]
-    pub reserved_do_not_use: ::core::option::Option<u64>,
-    #[prost(bytes = "vec", optional, tag = "3")]
-    pub ticket: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(bytes = "vec", optional, tag = "4")]
-    pub signature: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub key_id: ::core::option::Option<u64>,
-    #[prost(message, repeated, tag = "5")]
-    pub certs: ::prost::alloc::vec::Vec<CMsgSteamDatagramCertificateSigned>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramCachedCredentialsForApp {
-    #[prost(bytes = "vec", optional, tag = "1")]
-    pub private_key: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub cert: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(bytes = "vec", repeated, tag = "3")]
-    pub relay_tickets: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramGameCoordinatorServerLogin {
-    #[prost(uint32, optional, tag = "1")]
-    pub time_generated: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "3")]
-    pub routing: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(bytes = "vec", optional, tag = "4")]
-    pub appdata: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(bytes = "vec", optional, tag = "5")]
-    pub legacy_identity_binary: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(string, optional, tag = "6")]
-    pub identity_string: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(fixed64, optional, tag = "99")]
-    pub dummy_steam_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramSignedGameCoordinatorServerLogin {
-    #[prost(message, optional, tag = "1")]
-    pub cert: ::core::option::Option<CMsgSteamDatagramCertificateSigned>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub login: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(bytes = "vec", optional, tag = "3")]
-    pub signature: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSteamDatagramHostedServerAddressPlaintext {
-    #[prost(fixed32, optional, tag = "1")]
-    pub ipv4: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "2")]
-    pub ipv6: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(uint32, optional, tag = "3")]
-    pub port: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "4")]
-    pub routing_secret: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "5")]
-    pub protocol_version: ::core::option::Option<u32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -14351,2065 +15723,83 @@ pub mod cui_font_file_package_pb {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CgcStorePurchaseInitLineItem {
+pub struct CUserMessageAchievementEvent {
     #[prost(uint32, optional, tag = "1")]
-    pub item_def_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub quantity: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub cost_in_local_currency: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub purchase_type: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "5")]
-    pub supplemental_data: ::core::option::Option<u64>,
+    pub achievement: ::core::option::Option<u32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcStorePurchaseInit {
-    #[prost(string, optional, tag = "1")]
-    pub country: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(int32, optional, tag = "2")]
-    pub language: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub currency: ::core::option::Option<i32>,
-    #[prost(message, repeated, tag = "4")]
-    pub line_items: ::prost::alloc::vec::Vec<CgcStorePurchaseInitLineItem>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcStorePurchaseInitResponse {
-    #[prost(int32, optional, tag = "1")]
-    pub result: ::core::option::Option<i32>,
-    #[prost(uint64, optional, tag = "2")]
-    pub txn_id: ::core::option::Option<u64>,
-    #[prost(string, optional, tag = "3")]
-    pub url: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(uint64, repeated, packed = "false", tag = "4")]
-    pub item_ids: ::prost::alloc::vec::Vec<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoPartyInvite {
-    #[prost(uint64, optional, tag = "1")]
-    pub group_id: ::core::option::Option<u64>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub sender_id: ::core::option::Option<u64>,
-    #[prost(string, optional, tag = "3")]
-    pub sender_name: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoLobbyInvite {
-    #[prost(uint64, optional, tag = "1")]
-    pub group_id: ::core::option::Option<u64>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub sender_id: ::core::option::Option<u64>,
-    #[prost(string, optional, tag = "3")]
-    pub sender_name: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSystemBroadcast {
-    #[prost(string, optional, tag = "1")]
-    pub message: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgInviteToParty {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steam_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub client_version: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub team_invite: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgInvitationCreated {
-    #[prost(uint64, optional, tag = "1")]
-    pub group_id: ::core::option::Option<u64>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub steam_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgPartyInviteResponse {
-    #[prost(uint64, optional, tag = "1")]
-    pub party_id: ::core::option::Option<u64>,
-    #[prost(bool, optional, tag = "2")]
-    pub accept: ::core::option::Option<bool>,
-    #[prost(uint32, optional, tag = "3")]
-    pub client_version: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub team_invite: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgKickFromParty {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steam_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgLeaveParty {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgServerAvailable {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgLanServerAvailable {
-    #[prost(fixed64, optional, tag = "1")]
-    pub lobby_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconGameAccountClient {
-    #[prost(uint32, optional, tag = "1", default = "0")]
-    pub additional_backpack_slots: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "6")]
-    pub trade_ban_expiration: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "12")]
-    pub bonus_xp_timestamp_refresh: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "13")]
-    pub bonus_xp_usedflags: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "14")]
-    pub elevated_state: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "15")]
-    pub elevated_timestamp: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoItemCriteriaCondition {
-    #[prost(int32, optional, tag = "1")]
-    pub op: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "2")]
-    pub field: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "3")]
-    pub required: ::core::option::Option<bool>,
-    #[prost(float, optional, tag = "4")]
-    pub float_value: ::core::option::Option<f32>,
-    #[prost(string, optional, tag = "5")]
-    pub string_value: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoItemCriteria {
-    #[prost(uint32, optional, tag = "1")]
-    pub item_level: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "2")]
-    pub item_quality: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "3")]
-    pub item_level_set: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "4")]
-    pub item_quality_set: ::core::option::Option<bool>,
-    #[prost(uint32, optional, tag = "5")]
-    pub initial_inventory: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "6")]
-    pub initial_quantity: ::core::option::Option<u32>,
-    #[prost(bool, optional, tag = "8")]
-    pub ignore_enabled_flag: ::core::option::Option<bool>,
-    #[prost(message, repeated, tag = "9")]
-    pub conditions: ::prost::alloc::vec::Vec<CsoItemCriteriaCondition>,
-    #[prost(int32, optional, tag = "10")]
-    pub item_rarity: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "11")]
-    pub item_rarity_set: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "12")]
-    pub recent_only: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoItemRecipe {
-    #[prost(uint32, optional, tag = "1")]
-    pub def_index: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "2")]
-    pub name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "3")]
-    pub n_a: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "4")]
-    pub desc_inputs: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "5")]
-    pub desc_outputs: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "6")]
-    pub di_a: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "7")]
-    pub di_b: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "8")]
-    pub di_c: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "9")]
-    pub do_a: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "10")]
-    pub do_b: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "11")]
-    pub do_c: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "12")]
-    pub requires_all_same_class: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "13")]
-    pub requires_all_same_slot: ::core::option::Option<bool>,
-    #[prost(int32, optional, tag = "14")]
-    pub class_usage_for_output: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "15")]
-    pub slot_usage_for_output: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "16")]
-    pub set_for_output: ::core::option::Option<i32>,
-    #[prost(message, repeated, tag = "20")]
-    pub input_items_criteria: ::prost::alloc::vec::Vec<CsoItemCriteria>,
-    #[prost(message, repeated, tag = "21")]
-    pub output_items_criteria: ::prost::alloc::vec::Vec<CsoItemCriteria>,
-    #[prost(uint32, repeated, packed = "false", tag = "22")]
-    pub input_item_dupe_counts: ::prost::alloc::vec::Vec<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgDevNewItemRequest {
-    #[prost(fixed64, optional, tag = "1")]
-    pub receiver: ::core::option::Option<u64>,
-    #[prost(message, optional, tag = "2")]
-    pub criteria: ::core::option::Option<CsoItemCriteria>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgIncrementKillCountAttribute {
+pub struct CUserMessageCloseCaption {
     #[prost(fixed32, optional, tag = "1")]
-    pub killer_account_id: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "2")]
-    pub victim_account_id: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "3")]
-    pub item_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "4")]
-    pub event_type: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub amount: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgApplySticker {
-    #[prost(uint64, optional, tag = "1")]
-    pub sticker_item_id: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "2")]
-    pub item_item_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "3")]
-    pub sticker_slot: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub baseitem_defidx: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "5")]
-    pub sticker_wear: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "6")]
-    pub sticker_rotation: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "7")]
-    pub sticker_scale: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "8")]
-    pub sticker_offset_x: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "9")]
-    pub sticker_offset_y: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "10")]
-    pub sticker_offset_z: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "11")]
-    pub sticker_wear_target: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgModifyItemAttribute {
-    #[prost(uint64, optional, tag = "1")]
-    pub item_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub attr_defidx: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub attr_value: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgApplyStatTrakSwap {
-    #[prost(uint64, optional, tag = "1")]
-    pub tool_item_id: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "2")]
-    pub item_1_item_id: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "3")]
-    pub item_2_item_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgApplyStrangePart {
-    #[prost(uint64, optional, tag = "1")]
-    pub strange_part_item_id: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "2")]
-    pub item_item_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgApplyPennantUpgrade {
-    #[prost(uint64, optional, tag = "1")]
-    pub upgrade_item_id: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "2")]
-    pub pennant_item_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgApplyEggEssence {
-    #[prost(uint64, optional, tag = "1")]
-    pub essence_item_id: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "2")]
-    pub egg_item_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconItemAttribute {
-    #[prost(uint32, optional, tag = "1")]
-    pub def_index: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub value: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "3")]
-    pub value_bytes: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconItemEquipped {
-    #[prost(uint32, optional, tag = "1")]
-    pub new_class: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub new_slot: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconItem {
-    #[prost(uint64, optional, tag = "1")]
-    pub id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub account_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub inventory: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub def_index: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub quantity: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "6")]
-    pub level: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "7")]
-    pub quality: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "8", default = "0")]
-    pub flags: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "9")]
-    pub origin: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "10")]
-    pub custom_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "11")]
-    pub custom_desc: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(message, repeated, tag = "12")]
-    pub attribute: ::prost::alloc::vec::Vec<CsoEconItemAttribute>,
-    #[prost(message, optional, boxed, tag = "13")]
-    pub interior_item: ::core::option::Option<::prost::alloc::boxed::Box<CsoEconItem>>,
-    #[prost(bool, optional, tag = "14", default = "false")]
-    pub in_use: ::core::option::Option<bool>,
-    #[prost(uint32, optional, tag = "15", default = "0")]
-    pub style: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "16", default = "0")]
-    pub original_id: ::core::option::Option<u64>,
-    #[prost(message, repeated, tag = "18")]
-    pub equipped_state: ::prost::alloc::vec::Vec<CsoEconItemEquipped>,
-    #[prost(uint32, optional, tag = "19")]
-    pub rarity: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgAdjustItemEquippedState {
-    #[prost(uint64, optional, tag = "1")]
-    pub item_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub new_class: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub new_slot: ::core::option::Option<u32>,
-    #[prost(bool, optional, tag = "4")]
-    pub swap: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgAdjustItemEquippedStateMulti {
-    #[prost(uint64, repeated, packed = "false", tag = "1")]
-    pub t_equips: ::prost::alloc::vec::Vec<u64>,
-    #[prost(uint64, repeated, packed = "false", tag = "2")]
-    pub ct_equips: ::prost::alloc::vec::Vec<u64>,
-    #[prost(uint64, repeated, packed = "false", tag = "3")]
-    pub noteam_equips: ::prost::alloc::vec::Vec<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSortItems {
-    #[prost(uint32, optional, tag = "1")]
-    pub sort_type: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconClaimCode {
-    #[prost(uint32, optional, tag = "1")]
-    pub account_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub code_type: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub time_acquired: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "4")]
-    pub code: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgStoreGetUserData {
-    #[prost(fixed32, optional, tag = "1")]
-    pub price_sheet_version: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "2")]
-    pub currency: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgStoreGetUserDataResponse {
-    #[prost(int32, optional, tag = "1")]
-    pub result: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub currency_deprecated: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "3")]
-    pub country_deprecated: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(fixed32, optional, tag = "4")]
-    pub price_sheet_version: ::core::option::Option<u32>,
-    #[prost(bytes = "vec", optional, tag = "8")]
-    pub price_sheet: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgUpdateItemSchema {
-    #[prost(bytes = "vec", optional, tag = "1")]
-    pub items_game: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
-    #[prost(fixed32, optional, tag = "2")]
-    pub item_schema_version: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "4")]
-    pub items_game_url: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcError {
-    #[prost(string, optional, tag = "1")]
-    pub error_text: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgRequestInventoryRefresh {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgConVarValue {
-    #[prost(string, optional, tag = "1")]
-    pub name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "2")]
-    pub value: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgReplicateConVars {
-    #[prost(message, repeated, tag = "1")]
-    pub convars: ::prost::alloc::vec::Vec<CMsgConVarValue>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgUseItem {
-    #[prost(uint64, optional, tag = "1")]
-    pub item_id: ::core::option::Option<u64>,
-    #[prost(fixed64, optional, tag = "2")]
-    pub target_steam_id: ::core::option::Option<u64>,
-    #[prost(uint32, repeated, packed = "false", tag = "3")]
-    pub gift_potential_targets: ::prost::alloc::vec::Vec<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub duel_class_lock: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "5")]
-    pub initiator_steam_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgReplayUploadedToYouTube {
-    #[prost(string, optional, tag = "1")]
-    pub youtube_url: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "2")]
-    pub youtube_account_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(uint64, optional, tag = "3")]
-    pub session_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgConsumableExhausted {
-    #[prost(int32, optional, tag = "1")]
-    pub item_def_id: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgItemAcknowledgedDeprecated {
-    #[prost(uint32, optional, tag = "1")]
-    pub account_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub inventory: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub def_index: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub quality: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub rarity: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "6")]
-    pub origin: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "7")]
-    pub item_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSetItemPositions {
-    #[prost(message, repeated, tag = "1")]
-    pub item_positions: ::prost::alloc::vec::Vec<c_msg_set_item_positions::ItemPosition>,
-}
-/// Nested message and enum types in `CMsgSetItemPositions`.
-pub mod c_msg_set_item_positions {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct ItemPosition {
-        #[prost(uint32, optional, tag = "1")]
-        pub legacy_item_id: ::core::option::Option<u32>,
-        #[prost(uint32, optional, tag = "2")]
-        pub position: ::core::option::Option<u32>,
-        #[prost(uint64, optional, tag = "3")]
-        pub item_id: ::core::option::Option<u64>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcReportAbuse {
-    #[prost(fixed64, optional, tag = "1")]
-    pub target_steam_id: ::core::option::Option<u64>,
-    #[prost(string, optional, tag = "4")]
-    pub description: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(uint64, optional, tag = "5")]
-    pub gid: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub abuse_type: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub content_type: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "6")]
-    pub target_game_server_ip: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "7")]
-    pub target_game_server_port: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcReportAbuseResponse {
-    #[prost(fixed64, optional, tag = "1")]
-    pub target_steam_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub result: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "3")]
-    pub error_message: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcNameItemNotification {
-    #[prost(fixed64, optional, tag = "1")]
-    pub player_steamid: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub item_def_index: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "3")]
-    pub item_name_custom: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcClientDisplayNotification {
-    #[prost(string, optional, tag = "1")]
-    pub notification_title_localization_key: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
-    #[prost(string, optional, tag = "2")]
-    pub notification_body_localization_key: ::core::option::Option<
-        ::prost::alloc::string::String,
-    >,
-    #[prost(string, repeated, tag = "3")]
-    pub body_substring_keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    #[prost(string, repeated, tag = "4")]
-    pub body_substring_values: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcShowItemsPickedUp {
-    #[prost(fixed64, optional, tag = "1")]
-    pub player_steamid: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcIncrementKillCountResponse {
-    #[prost(uint32, optional, tag = "1")]
-    pub killer_account_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub num_kills: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub item_def: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub level_type: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconItemDropRateBonus {
-    #[prost(uint32, optional, tag = "1")]
-    pub account_id: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "2")]
-    pub expiration_date: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "3")]
-    pub bonus: ::core::option::Option<f32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub bonus_count: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "5")]
-    pub item_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "6")]
-    pub def_index: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconItemLeagueViewPass {
-    #[prost(uint32, optional, tag = "1")]
-    pub account_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub league_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub admin: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub itemindex: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconItemEventTicket {
-    #[prost(uint32, optional, tag = "1")]
-    pub account_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub event_id: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "3")]
-    pub item_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcItemPreviewItemBoughtNotification {
-    #[prost(uint32, optional, tag = "1")]
-    pub item_def_index: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcStorePurchaseCancel {
-    #[prost(uint64, optional, tag = "1")]
-    pub txn_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcStorePurchaseCancelResponse {
-    #[prost(uint32, optional, tag = "1")]
-    pub result: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcStorePurchaseFinalize {
-    #[prost(uint64, optional, tag = "1")]
-    pub txn_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcStorePurchaseFinalizeResponse {
-    #[prost(uint32, optional, tag = "1")]
-    pub result: ::core::option::Option<u32>,
-    #[prost(uint64, repeated, packed = "false", tag = "2")]
-    pub item_ids: ::prost::alloc::vec::Vec<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcBannedWordListRequest {
-    #[prost(uint32, optional, tag = "1")]
-    pub ban_list_group_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub word_id: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcRequestAnnouncements {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcRequestAnnouncementsResponse {
-    #[prost(string, optional, tag = "1")]
-    pub announcement_title: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "2")]
-    pub announcement: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "3")]
-    pub nextmatch_title: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "4")]
-    pub nextmatch: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcBannedWord {
-    #[prost(uint32, optional, tag = "1")]
-    pub word_id: ::core::option::Option<u32>,
-    #[prost(
-        enumeration = "GcBannedWordType",
-        optional,
-        tag = "2",
-        default = "GcBannedWordDisableWord"
-    )]
-    pub word_type: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "3")]
-    pub word: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcBannedWordListResponse {
-    #[prost(uint32, optional, tag = "1")]
-    pub ban_list_group_id: ::core::option::Option<u32>,
-    #[prost(message, repeated, tag = "2")]
-    pub word_list: ::prost::alloc::vec::Vec<CMsgGcBannedWord>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcToGcBannedWordListBroadcast {
-    #[prost(message, optional, tag = "1")]
-    pub broadcast: ::core::option::Option<CMsgGcBannedWordListResponse>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcToGcBannedWordListUpdated {
-    #[prost(uint32, optional, tag = "1")]
-    pub group_id: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconDefaultEquippedDefinitionInstanceClient {
-    #[prost(uint32, optional, tag = "1")]
-    pub account_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub item_definition: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub class_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub slot_id: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcToGcDirtySdoCache {
-    #[prost(uint32, optional, tag = "1")]
-    pub sdo_type: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "2")]
-    pub key_uint64: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcToGcDirtyMultipleSdoCache {
-    #[prost(uint32, optional, tag = "1")]
-    pub sdo_type: ::core::option::Option<u32>,
-    #[prost(uint64, repeated, packed = "false", tag = "2")]
-    pub key_uint64: ::prost::alloc::vec::Vec<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcCollectItem {
-    #[prost(uint64, optional, tag = "1")]
-    pub collection_item_id: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "2")]
-    pub subject_item_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgSdoNoMemcached {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcToGcUpdateSqlKeyValue {
-    #[prost(string, optional, tag = "1")]
-    pub key_name: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcToGcIsTrustedServer {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steam_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcToGcIsTrustedServerResponse {
-    #[prost(bool, optional, tag = "1")]
-    pub is_trusted: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcToGcBroadcastConsoleCommand {
-    #[prost(string, optional, tag = "1")]
-    pub con_command: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcServerVersionUpdated {
-    #[prost(uint32, optional, tag = "1")]
-    pub server_version: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcClientVersionUpdated {
-    #[prost(uint32, optional, tag = "1")]
-    pub client_version: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcToGcWebApiAccountChanged {}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGcToGcRequestPassportItemGrant {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steam_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub league_id: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "3")]
-    pub reward_flag: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGameServerInfo {
-    #[prost(fixed32, optional, tag = "1")]
-    pub server_public_ip_addr: ::core::option::Option<u32>,
-    #[prost(fixed32, optional, tag = "2")]
-    pub server_private_ip_addr: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub server_port: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub server_tv_port: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "5")]
-    pub server_key: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "6")]
-    pub server_hibernation: ::core::option::Option<bool>,
-    #[prost(
-        enumeration = "c_msg_game_server_info::ServerType",
-        optional,
-        tag = "7",
-        default = "Unspecified"
-    )]
-    pub server_type: ::core::option::Option<i32>,
-    #[prost(uint32, optional, tag = "8")]
-    pub server_region: ::core::option::Option<u32>,
-    #[prost(float, optional, tag = "9")]
-    pub server_loadavg: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "10")]
-    pub server_tv_broadcast_time: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "11")]
-    pub server_game_time: ::core::option::Option<f32>,
-    #[prost(fixed64, optional, tag = "12")]
-    pub server_relay_connected_steam_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "13")]
-    pub relay_slots_max: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "14")]
-    pub relays_connected: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "15")]
-    pub relay_clients_connected: ::core::option::Option<i32>,
-    #[prost(fixed64, optional, tag = "16")]
-    pub relayed_game_server_steam_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "17")]
-    pub parent_relay_count: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "18")]
-    pub tv_secret_code: ::core::option::Option<u64>,
-}
-/// Nested message and enum types in `CMsgGameServerInfo`.
-pub mod c_msg_game_server_info {
-    #[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    pub enum ServerType {
-        Unspecified = 0,
-        Game = 1,
-        Proxy = 2,
-    }
-    impl ServerType {
-        /// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        pub fn as_str_name(&self) -> &'static str {
-            match self {
-                ServerType::Unspecified => "UNSPECIFIED",
-                ServerType::Game => "GAME",
-                ServerType::Proxy => "PROXY",
-            }
-        }
-        /// Creates an enum from field names used in the ProtoBuf definition.
-        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-            match value {
-                "UNSPECIFIED" => Some(Self::Unspecified),
-                "GAME" => Some(Self::Game),
-                "PROXY" => Some(Self::Proxy),
-                _ => None,
-            }
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconEquipSlot {
-    #[prost(uint32, optional, tag = "1")]
-    pub account_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub class_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub slot_id: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "4")]
-    pub item_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "5")]
-    pub item_definition: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgAdjustEquipSlot {
-    #[prost(uint32, optional, tag = "1")]
-    pub class_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub slot_id: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "3")]
-    pub item_id: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgAdjustEquipSlots {
-    #[prost(message, repeated, tag = "1")]
-    pub slots: ::prost::alloc::vec::Vec<CMsgAdjustEquipSlot>,
-    #[prost(uint32, optional, tag = "2")]
-    pub change_num: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgOpenCrate {
-    #[prost(uint64, optional, tag = "1")]
-    pub tool_item_id: ::core::option::Option<u64>,
-    #[prost(uint64, optional, tag = "2")]
-    pub subject_item_id: ::core::option::Option<u64>,
-    #[prost(bool, optional, tag = "3")]
-    pub for_rental: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CsoEconRentalHistory {
-    #[prost(uint32, optional, tag = "1")]
-    pub account_id: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "2")]
-    pub crate_item_id: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "3")]
-    pub crate_def_index: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub issue_date: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "5")]
-    pub expiration_date: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgAcknowledgeRentalExpiration {
-    #[prost(uint64, optional, tag = "1")]
-    pub crate_item_id: ::core::option::Option<u64>,
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EgcBaseMsg {
-    KEMsgGcSystemMessage = 4001,
-    KEMsgGcReplicateConVars = 4002,
-    KEMsgGcConVarUpdated = 4003,
-    KEMsgGcInQueue = 4008,
-    KEMsgGcInviteToParty = 4501,
-    KEMsgGcInvitationCreated = 4502,
-    KEMsgGcPartyInviteResponse = 4503,
-    KEMsgGcKickFromParty = 4504,
-    KEMsgGcLeaveParty = 4505,
-    KEMsgGcServerAvailable = 4506,
-    KEMsgGcClientConnectToServer = 4507,
-    KEMsgGcGameServerInfo = 4508,
-    KEMsgGcError = 4509,
-    KEMsgGcReplayUploadedToYouTube = 4510,
-    KEMsgGclanServerAvailable = 4511,
-}
-impl EgcBaseMsg {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EgcBaseMsg::KEMsgGcSystemMessage => "k_EMsgGCSystemMessage",
-            EgcBaseMsg::KEMsgGcReplicateConVars => "k_EMsgGCReplicateConVars",
-            EgcBaseMsg::KEMsgGcConVarUpdated => "k_EMsgGCConVarUpdated",
-            EgcBaseMsg::KEMsgGcInQueue => "k_EMsgGCInQueue",
-            EgcBaseMsg::KEMsgGcInviteToParty => "k_EMsgGCInviteToParty",
-            EgcBaseMsg::KEMsgGcInvitationCreated => "k_EMsgGCInvitationCreated",
-            EgcBaseMsg::KEMsgGcPartyInviteResponse => "k_EMsgGCPartyInviteResponse",
-            EgcBaseMsg::KEMsgGcKickFromParty => "k_EMsgGCKickFromParty",
-            EgcBaseMsg::KEMsgGcLeaveParty => "k_EMsgGCLeaveParty",
-            EgcBaseMsg::KEMsgGcServerAvailable => "k_EMsgGCServerAvailable",
-            EgcBaseMsg::KEMsgGcClientConnectToServer => "k_EMsgGCClientConnectToServer",
-            EgcBaseMsg::KEMsgGcGameServerInfo => "k_EMsgGCGameServerInfo",
-            EgcBaseMsg::KEMsgGcError => "k_EMsgGCError",
-            EgcBaseMsg::KEMsgGcReplayUploadedToYouTube => {
-                "k_EMsgGCReplay_UploadedToYouTube"
-            }
-            EgcBaseMsg::KEMsgGclanServerAvailable => "k_EMsgGCLANServerAvailable",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_EMsgGCSystemMessage" => Some(Self::KEMsgGcSystemMessage),
-            "k_EMsgGCReplicateConVars" => Some(Self::KEMsgGcReplicateConVars),
-            "k_EMsgGCConVarUpdated" => Some(Self::KEMsgGcConVarUpdated),
-            "k_EMsgGCInQueue" => Some(Self::KEMsgGcInQueue),
-            "k_EMsgGCInviteToParty" => Some(Self::KEMsgGcInviteToParty),
-            "k_EMsgGCInvitationCreated" => Some(Self::KEMsgGcInvitationCreated),
-            "k_EMsgGCPartyInviteResponse" => Some(Self::KEMsgGcPartyInviteResponse),
-            "k_EMsgGCKickFromParty" => Some(Self::KEMsgGcKickFromParty),
-            "k_EMsgGCLeaveParty" => Some(Self::KEMsgGcLeaveParty),
-            "k_EMsgGCServerAvailable" => Some(Self::KEMsgGcServerAvailable),
-            "k_EMsgGCClientConnectToServer" => Some(Self::KEMsgGcClientConnectToServer),
-            "k_EMsgGCGameServerInfo" => Some(Self::KEMsgGcGameServerInfo),
-            "k_EMsgGCError" => Some(Self::KEMsgGcError),
-            "k_EMsgGCReplay_UploadedToYouTube" => {
-                Some(Self::KEMsgGcReplayUploadedToYouTube)
-            }
-            "k_EMsgGCLANServerAvailable" => Some(Self::KEMsgGclanServerAvailable),
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EgcBaseProtoObjectTypes {
-    KEProtoObjectPartyInvite = 1001,
-    KEProtoObjectLobbyInvite = 1002,
-}
-impl EgcBaseProtoObjectTypes {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EgcBaseProtoObjectTypes::KEProtoObjectPartyInvite => {
-                "k_EProtoObjectPartyInvite"
-            }
-            EgcBaseProtoObjectTypes::KEProtoObjectLobbyInvite => {
-                "k_EProtoObjectLobbyInvite"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_EProtoObjectPartyInvite" => Some(Self::KEProtoObjectPartyInvite),
-            "k_EProtoObjectLobbyInvite" => Some(Self::KEProtoObjectLobbyInvite),
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum GcBannedWordType {
-    GcBannedWordDisableWord = 0,
-    GcBannedWordEnableWord = 1,
-}
-impl GcBannedWordType {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            GcBannedWordType::GcBannedWordDisableWord => "GC_BANNED_WORD_DISABLE_WORD",
-            GcBannedWordType::GcBannedWordEnableWord => "GC_BANNED_WORD_ENABLE_WORD",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "GC_BANNED_WORD_DISABLE_WORD" => Some(Self::GcBannedWordDisableWord),
-            "GC_BANNED_WORD_ENABLE_WORD" => Some(Self::GcBannedWordEnableWord),
-            _ => None,
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGchVacVerificationChange {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steamid: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(bool, optional, tag = "3")]
-    pub is_verified: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGchAccountPhoneNumberChange {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steamid: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "3")]
-    pub phone_id: ::core::option::Option<u64>,
-    #[prost(bool, optional, tag = "4")]
-    pub is_verified: ::core::option::Option<bool>,
-    #[prost(bool, optional, tag = "5")]
-    pub is_identifying: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGchInviteUserToLobby {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steamid: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "3")]
-    pub steamid_invited: ::core::option::Option<u64>,
-    #[prost(fixed64, optional, tag = "4")]
-    pub steamid_lobby: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CMsgGchRecurringSubscriptionStatusChange {
-    #[prost(fixed64, optional, tag = "1")]
-    pub steamid: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(fixed64, optional, tag = "3")]
-    pub agreementid: ::core::option::Option<u64>,
-    #[prost(bool, optional, tag = "4")]
-    pub active: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CQuestPublisherAddCommunityItemsToPlayerRequest {
-    #[prost(uint64, optional, tag = "1")]
-    pub steamid: ::core::option::Option<u64>,
-    #[prost(uint32, optional, tag = "2")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub match_item_type: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "4")]
-    pub match_item_class: ::core::option::Option<u32>,
-    #[prost(string, optional, tag = "5")]
-    pub prefix_item_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(message, repeated, tag = "6")]
-    pub attributes: ::prost::alloc::vec::Vec<
-        c_quest_publisher_add_community_items_to_player_request::Attribute,
-    >,
-    #[prost(string, optional, tag = "7")]
-    pub note: ::core::option::Option<::prost::alloc::string::String>,
-}
-/// Nested message and enum types in `CQuest_PublisherAddCommunityItemsToPlayer_Request`.
-pub mod c_quest_publisher_add_community_items_to_player_request {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Attribute {
-        #[prost(uint32, optional, tag = "1")]
-        pub attribute: ::core::option::Option<u32>,
-        #[prost(uint64, optional, tag = "2")]
-        pub value: ::core::option::Option<u64>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CQuestPublisherAddCommunityItemsToPlayerResponse {
-    #[prost(uint32, optional, tag = "1")]
-    pub items_matched: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub items_granted: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CCommunityGamePersonalDataCategoryInfo {
-    #[prost(string, optional, tag = "1")]
-    pub r#type: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "2")]
-    pub localization_token: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "3")]
-    pub template_file: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CCommunityGetGamePersonalDataCategoriesRequest {
-    #[prost(uint32, optional, tag = "1")]
-    pub appid: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CCommunityGetGamePersonalDataCategoriesResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub categories: ::prost::alloc::vec::Vec<CCommunityGamePersonalDataCategoryInfo>,
-    #[prost(string, optional, tag = "2")]
-    pub app_assets_basename: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CCommunityGetGamePersonalDataEntriesRequest {
-    #[prost(uint32, optional, tag = "1")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "2")]
-    pub steamid: ::core::option::Option<u64>,
-    #[prost(string, optional, tag = "3")]
-    pub r#type: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "4")]
-    pub continue_token: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CCommunityGetGamePersonalDataEntriesResponse {
-    #[prost(uint32, optional, tag = "1")]
-    pub gceresult: ::core::option::Option<u32>,
-    #[prost(string, repeated, tag = "2")]
-    pub entries: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "3")]
-    pub continue_token: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "4")]
-    pub continue_text: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CCommunityTerminateGamePersonalDataEntriesRequest {
-    #[prost(uint32, optional, tag = "1")]
-    pub appid: ::core::option::Option<u32>,
-    #[prost(uint64, optional, tag = "2")]
-    pub steamid: ::core::option::Option<u64>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CCommunityTerminateGamePersonalDataEntriesResponse {
-    #[prost(uint32, optional, tag = "1")]
-    pub gceresult: ::core::option::Option<u32>,
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EgcSystemMsg {
-    KEgcMsgInvalid = 0,
-    KEgcMsgMulti = 1,
-    KEgcMsgGenericReply = 10,
-    KEgcMsgSystemBase = 50,
-    KEgcMsgAchievementAwarded = 51,
-    KEgcMsgConCommand = 52,
-    KEgcMsgStartPlaying = 53,
-    KEgcMsgStopPlaying = 54,
-    KEgcMsgStartGameserver = 55,
-    KEgcMsgStopGameserver = 56,
-    KEgcMsgWgRequest = 57,
-    KEgcMsgWgResponse = 58,
-    KEgcMsgGetUserGameStatsSchema = 59,
-    KEgcMsgGetUserGameStatsSchemaResponse = 60,
-    KEgcMsgGetUserStatsDeprecated = 61,
-    KEgcMsgGetUserStatsResponse = 62,
-    KEgcMsgAppInfoUpdated = 63,
-    KEgcMsgValidateSession = 64,
-    KEgcMsgValidateSessionResponse = 65,
-    KEgcMsgLookupAccountFromInput = 66,
-    KEgcMsgSendHttpRequest = 67,
-    KEgcMsgSendHttpRequestResponse = 68,
-    KEgcMsgPreTestSetup = 69,
-    KEgcMsgRecordSupportAction = 70,
-    KEgcMsgGetAccountDetailsDeprecated = 71,
-    KEgcMsgReceiveInterAppMessage = 73,
-    KEgcMsgFindAccounts = 74,
-    KEgcMsgPostAlert = 75,
-    KEgcMsgGetLicenses = 76,
-    KEgcMsgGetUserStats = 77,
-    KEgcMsgGetCommands = 78,
-    KEgcMsgGetCommandsResponse = 79,
-    KEgcMsgAddFreeLicense = 80,
-    KEgcMsgAddFreeLicenseResponse = 81,
-    KEgcMsgGetIpLocation = 82,
-    KEgcMsgGetIpLocationResponse = 83,
-    KEgcMsgSystemStatsSchema = 84,
-    KEgcMsgGetSystemStats = 85,
-    KEgcMsgGetSystemStatsResponse = 86,
-    KEgcMsgSendEmail = 87,
-    KEgcMsgSendEmailResponse = 88,
-    KEgcMsgGetEmailTemplate = 89,
-    KEgcMsgGetEmailTemplateResponse = 90,
-    KEgcMsgGrantGuestPass = 91,
-    KEgcMsgGrantGuestPassResponse = 92,
-    KEgcMsgGetAccountDetails = 93,
-    KEgcMsgGetAccountDetailsResponse = 94,
-    KEgcMsgGetPersonaNames = 95,
-    KEgcMsgGetPersonaNamesResponse = 96,
-    KEgcMsgMultiplexMsg = 97,
-    KEgcMsgMultiplexMsgResponse = 98,
-    KEgcMsgWebApiRegisterInterfaces = 101,
-    KEgcMsgWebApiJobRequest = 102,
-    KEgcMsgWebApiJobRequestHttpResponse = 104,
-    KEgcMsgWebApiJobRequestForwardResponse = 105,
-    KEgcMsgMemCachedGet = 200,
-    KEgcMsgMemCachedGetResponse = 201,
-    KEgcMsgMemCachedSet = 202,
-    KEgcMsgMemCachedDelete = 203,
-    KEgcMsgMemCachedStats = 204,
-    KEgcMsgMemCachedStatsResponse = 205,
-    KEgcMsgMasterSetDirectory = 220,
-    KEgcMsgMasterSetDirectoryResponse = 221,
-    KEgcMsgMasterSetWebApiRouting = 222,
-    KEgcMsgMasterSetWebApiRoutingResponse = 223,
-    KEgcMsgMasterSetClientMsgRouting = 224,
-    KEgcMsgMasterSetClientMsgRoutingResponse = 225,
-    KEgcMsgSetOptions = 226,
-    KEgcMsgSetOptionsResponse = 227,
-    KEgcMsgSystemBase2 = 500,
-    KEgcMsgGetPurchaseTrustStatus = 501,
-    KEgcMsgGetPurchaseTrustStatusResponse = 502,
-    KEgcMsgUpdateSession = 503,
-    KEgcMsgGcAccountVacStatusChange = 504,
-    KEgcMsgCheckFriendship = 505,
-    KEgcMsgCheckFriendshipResponse = 506,
-    KEgcMsgGetPartnerAccountLink = 507,
-    KEgcMsgGetPartnerAccountLinkResponse = 508,
-    KEgcMsgDpPartnerMicroTxns = 512,
-    KEgcMsgDpPartnerMicroTxnsResponse = 513,
-    KEgcMsgVacVerificationChange = 518,
-    KEgcMsgAccountPhoneNumberChange = 519,
-    KEgcMsgInviteUserToLobby = 523,
-    KEgcMsgGetGamePersonalDataCategoriesRequest = 524,
-    KEgcMsgGetGamePersonalDataCategoriesResponse = 525,
-    KEgcMsgGetGamePersonalDataEntriesRequest = 526,
-    KEgcMsgGetGamePersonalDataEntriesResponse = 527,
-    KEgcMsgTerminateGamePersonalDataEntriesRequest = 528,
-    KEgcMsgTerminateGamePersonalDataEntriesResponse = 529,
-    KEgcMsgRecurringSubscriptionStatusChange = 530,
-    KEgcMsgDirectServiceMethod = 531,
-    KEgcMsgDirectServiceMethodResponse = 532,
-}
-impl EgcSystemMsg {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EgcSystemMsg::KEgcMsgInvalid => "k_EGCMsgInvalid",
-            EgcSystemMsg::KEgcMsgMulti => "k_EGCMsgMulti",
-            EgcSystemMsg::KEgcMsgGenericReply => "k_EGCMsgGenericReply",
-            EgcSystemMsg::KEgcMsgSystemBase => "k_EGCMsgSystemBase",
-            EgcSystemMsg::KEgcMsgAchievementAwarded => "k_EGCMsgAchievementAwarded",
-            EgcSystemMsg::KEgcMsgConCommand => "k_EGCMsgConCommand",
-            EgcSystemMsg::KEgcMsgStartPlaying => "k_EGCMsgStartPlaying",
-            EgcSystemMsg::KEgcMsgStopPlaying => "k_EGCMsgStopPlaying",
-            EgcSystemMsg::KEgcMsgStartGameserver => "k_EGCMsgStartGameserver",
-            EgcSystemMsg::KEgcMsgStopGameserver => "k_EGCMsgStopGameserver",
-            EgcSystemMsg::KEgcMsgWgRequest => "k_EGCMsgWGRequest",
-            EgcSystemMsg::KEgcMsgWgResponse => "k_EGCMsgWGResponse",
-            EgcSystemMsg::KEgcMsgGetUserGameStatsSchema => {
-                "k_EGCMsgGetUserGameStatsSchema"
-            }
-            EgcSystemMsg::KEgcMsgGetUserGameStatsSchemaResponse => {
-                "k_EGCMsgGetUserGameStatsSchemaResponse"
-            }
-            EgcSystemMsg::KEgcMsgGetUserStatsDeprecated => {
-                "k_EGCMsgGetUserStatsDEPRECATED"
-            }
-            EgcSystemMsg::KEgcMsgGetUserStatsResponse => "k_EGCMsgGetUserStatsResponse",
-            EgcSystemMsg::KEgcMsgAppInfoUpdated => "k_EGCMsgAppInfoUpdated",
-            EgcSystemMsg::KEgcMsgValidateSession => "k_EGCMsgValidateSession",
-            EgcSystemMsg::KEgcMsgValidateSessionResponse => {
-                "k_EGCMsgValidateSessionResponse"
-            }
-            EgcSystemMsg::KEgcMsgLookupAccountFromInput => {
-                "k_EGCMsgLookupAccountFromInput"
-            }
-            EgcSystemMsg::KEgcMsgSendHttpRequest => "k_EGCMsgSendHTTPRequest",
-            EgcSystemMsg::KEgcMsgSendHttpRequestResponse => {
-                "k_EGCMsgSendHTTPRequestResponse"
-            }
-            EgcSystemMsg::KEgcMsgPreTestSetup => "k_EGCMsgPreTestSetup",
-            EgcSystemMsg::KEgcMsgRecordSupportAction => "k_EGCMsgRecordSupportAction",
-            EgcSystemMsg::KEgcMsgGetAccountDetailsDeprecated => {
-                "k_EGCMsgGetAccountDetails_DEPRECATED"
-            }
-            EgcSystemMsg::KEgcMsgReceiveInterAppMessage => {
-                "k_EGCMsgReceiveInterAppMessage"
-            }
-            EgcSystemMsg::KEgcMsgFindAccounts => "k_EGCMsgFindAccounts",
-            EgcSystemMsg::KEgcMsgPostAlert => "k_EGCMsgPostAlert",
-            EgcSystemMsg::KEgcMsgGetLicenses => "k_EGCMsgGetLicenses",
-            EgcSystemMsg::KEgcMsgGetUserStats => "k_EGCMsgGetUserStats",
-            EgcSystemMsg::KEgcMsgGetCommands => "k_EGCMsgGetCommands",
-            EgcSystemMsg::KEgcMsgGetCommandsResponse => "k_EGCMsgGetCommandsResponse",
-            EgcSystemMsg::KEgcMsgAddFreeLicense => "k_EGCMsgAddFreeLicense",
-            EgcSystemMsg::KEgcMsgAddFreeLicenseResponse => {
-                "k_EGCMsgAddFreeLicenseResponse"
-            }
-            EgcSystemMsg::KEgcMsgGetIpLocation => "k_EGCMsgGetIPLocation",
-            EgcSystemMsg::KEgcMsgGetIpLocationResponse => "k_EGCMsgGetIPLocationResponse",
-            EgcSystemMsg::KEgcMsgSystemStatsSchema => "k_EGCMsgSystemStatsSchema",
-            EgcSystemMsg::KEgcMsgGetSystemStats => "k_EGCMsgGetSystemStats",
-            EgcSystemMsg::KEgcMsgGetSystemStatsResponse => {
-                "k_EGCMsgGetSystemStatsResponse"
-            }
-            EgcSystemMsg::KEgcMsgSendEmail => "k_EGCMsgSendEmail",
-            EgcSystemMsg::KEgcMsgSendEmailResponse => "k_EGCMsgSendEmailResponse",
-            EgcSystemMsg::KEgcMsgGetEmailTemplate => "k_EGCMsgGetEmailTemplate",
-            EgcSystemMsg::KEgcMsgGetEmailTemplateResponse => {
-                "k_EGCMsgGetEmailTemplateResponse"
-            }
-            EgcSystemMsg::KEgcMsgGrantGuestPass => "k_EGCMsgGrantGuestPass",
-            EgcSystemMsg::KEgcMsgGrantGuestPassResponse => {
-                "k_EGCMsgGrantGuestPassResponse"
-            }
-            EgcSystemMsg::KEgcMsgGetAccountDetails => "k_EGCMsgGetAccountDetails",
-            EgcSystemMsg::KEgcMsgGetAccountDetailsResponse => {
-                "k_EGCMsgGetAccountDetailsResponse"
-            }
-            EgcSystemMsg::KEgcMsgGetPersonaNames => "k_EGCMsgGetPersonaNames",
-            EgcSystemMsg::KEgcMsgGetPersonaNamesResponse => {
-                "k_EGCMsgGetPersonaNamesResponse"
-            }
-            EgcSystemMsg::KEgcMsgMultiplexMsg => "k_EGCMsgMultiplexMsg",
-            EgcSystemMsg::KEgcMsgMultiplexMsgResponse => "k_EGCMsgMultiplexMsgResponse",
-            EgcSystemMsg::KEgcMsgWebApiRegisterInterfaces => {
-                "k_EGCMsgWebAPIRegisterInterfaces"
-            }
-            EgcSystemMsg::KEgcMsgWebApiJobRequest => "k_EGCMsgWebAPIJobRequest",
-            EgcSystemMsg::KEgcMsgWebApiJobRequestHttpResponse => {
-                "k_EGCMsgWebAPIJobRequestHttpResponse"
-            }
-            EgcSystemMsg::KEgcMsgWebApiJobRequestForwardResponse => {
-                "k_EGCMsgWebAPIJobRequestForwardResponse"
-            }
-            EgcSystemMsg::KEgcMsgMemCachedGet => "k_EGCMsgMemCachedGet",
-            EgcSystemMsg::KEgcMsgMemCachedGetResponse => "k_EGCMsgMemCachedGetResponse",
-            EgcSystemMsg::KEgcMsgMemCachedSet => "k_EGCMsgMemCachedSet",
-            EgcSystemMsg::KEgcMsgMemCachedDelete => "k_EGCMsgMemCachedDelete",
-            EgcSystemMsg::KEgcMsgMemCachedStats => "k_EGCMsgMemCachedStats",
-            EgcSystemMsg::KEgcMsgMemCachedStatsResponse => {
-                "k_EGCMsgMemCachedStatsResponse"
-            }
-            EgcSystemMsg::KEgcMsgMasterSetDirectory => "k_EGCMsgMasterSetDirectory",
-            EgcSystemMsg::KEgcMsgMasterSetDirectoryResponse => {
-                "k_EGCMsgMasterSetDirectoryResponse"
-            }
-            EgcSystemMsg::KEgcMsgMasterSetWebApiRouting => {
-                "k_EGCMsgMasterSetWebAPIRouting"
-            }
-            EgcSystemMsg::KEgcMsgMasterSetWebApiRoutingResponse => {
-                "k_EGCMsgMasterSetWebAPIRoutingResponse"
-            }
-            EgcSystemMsg::KEgcMsgMasterSetClientMsgRouting => {
-                "k_EGCMsgMasterSetClientMsgRouting"
-            }
-            EgcSystemMsg::KEgcMsgMasterSetClientMsgRoutingResponse => {
-                "k_EGCMsgMasterSetClientMsgRoutingResponse"
-            }
-            EgcSystemMsg::KEgcMsgSetOptions => "k_EGCMsgSetOptions",
-            EgcSystemMsg::KEgcMsgSetOptionsResponse => "k_EGCMsgSetOptionsResponse",
-            EgcSystemMsg::KEgcMsgSystemBase2 => "k_EGCMsgSystemBase2",
-            EgcSystemMsg::KEgcMsgGetPurchaseTrustStatus => {
-                "k_EGCMsgGetPurchaseTrustStatus"
-            }
-            EgcSystemMsg::KEgcMsgGetPurchaseTrustStatusResponse => {
-                "k_EGCMsgGetPurchaseTrustStatusResponse"
-            }
-            EgcSystemMsg::KEgcMsgUpdateSession => "k_EGCMsgUpdateSession",
-            EgcSystemMsg::KEgcMsgGcAccountVacStatusChange => {
-                "k_EGCMsgGCAccountVacStatusChange"
-            }
-            EgcSystemMsg::KEgcMsgCheckFriendship => "k_EGCMsgCheckFriendship",
-            EgcSystemMsg::KEgcMsgCheckFriendshipResponse => {
-                "k_EGCMsgCheckFriendshipResponse"
-            }
-            EgcSystemMsg::KEgcMsgGetPartnerAccountLink => "k_EGCMsgGetPartnerAccountLink",
-            EgcSystemMsg::KEgcMsgGetPartnerAccountLinkResponse => {
-                "k_EGCMsgGetPartnerAccountLinkResponse"
-            }
-            EgcSystemMsg::KEgcMsgDpPartnerMicroTxns => "k_EGCMsgDPPartnerMicroTxns",
-            EgcSystemMsg::KEgcMsgDpPartnerMicroTxnsResponse => {
-                "k_EGCMsgDPPartnerMicroTxnsResponse"
-            }
-            EgcSystemMsg::KEgcMsgVacVerificationChange => "k_EGCMsgVacVerificationChange",
-            EgcSystemMsg::KEgcMsgAccountPhoneNumberChange => {
-                "k_EGCMsgAccountPhoneNumberChange"
-            }
-            EgcSystemMsg::KEgcMsgInviteUserToLobby => "k_EGCMsgInviteUserToLobby",
-            EgcSystemMsg::KEgcMsgGetGamePersonalDataCategoriesRequest => {
-                "k_EGCMsgGetGamePersonalDataCategoriesRequest"
-            }
-            EgcSystemMsg::KEgcMsgGetGamePersonalDataCategoriesResponse => {
-                "k_EGCMsgGetGamePersonalDataCategoriesResponse"
-            }
-            EgcSystemMsg::KEgcMsgGetGamePersonalDataEntriesRequest => {
-                "k_EGCMsgGetGamePersonalDataEntriesRequest"
-            }
-            EgcSystemMsg::KEgcMsgGetGamePersonalDataEntriesResponse => {
-                "k_EGCMsgGetGamePersonalDataEntriesResponse"
-            }
-            EgcSystemMsg::KEgcMsgTerminateGamePersonalDataEntriesRequest => {
-                "k_EGCMsgTerminateGamePersonalDataEntriesRequest"
-            }
-            EgcSystemMsg::KEgcMsgTerminateGamePersonalDataEntriesResponse => {
-                "k_EGCMsgTerminateGamePersonalDataEntriesResponse"
-            }
-            EgcSystemMsg::KEgcMsgRecurringSubscriptionStatusChange => {
-                "k_EGCMsgRecurringSubscriptionStatusChange"
-            }
-            EgcSystemMsg::KEgcMsgDirectServiceMethod => "k_EGCMsgDirectServiceMethod",
-            EgcSystemMsg::KEgcMsgDirectServiceMethodResponse => {
-                "k_EGCMsgDirectServiceMethodResponse"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_EGCMsgInvalid" => Some(Self::KEgcMsgInvalid),
-            "k_EGCMsgMulti" => Some(Self::KEgcMsgMulti),
-            "k_EGCMsgGenericReply" => Some(Self::KEgcMsgGenericReply),
-            "k_EGCMsgSystemBase" => Some(Self::KEgcMsgSystemBase),
-            "k_EGCMsgAchievementAwarded" => Some(Self::KEgcMsgAchievementAwarded),
-            "k_EGCMsgConCommand" => Some(Self::KEgcMsgConCommand),
-            "k_EGCMsgStartPlaying" => Some(Self::KEgcMsgStartPlaying),
-            "k_EGCMsgStopPlaying" => Some(Self::KEgcMsgStopPlaying),
-            "k_EGCMsgStartGameserver" => Some(Self::KEgcMsgStartGameserver),
-            "k_EGCMsgStopGameserver" => Some(Self::KEgcMsgStopGameserver),
-            "k_EGCMsgWGRequest" => Some(Self::KEgcMsgWgRequest),
-            "k_EGCMsgWGResponse" => Some(Self::KEgcMsgWgResponse),
-            "k_EGCMsgGetUserGameStatsSchema" => Some(Self::KEgcMsgGetUserGameStatsSchema),
-            "k_EGCMsgGetUserGameStatsSchemaResponse" => {
-                Some(Self::KEgcMsgGetUserGameStatsSchemaResponse)
-            }
-            "k_EGCMsgGetUserStatsDEPRECATED" => Some(Self::KEgcMsgGetUserStatsDeprecated),
-            "k_EGCMsgGetUserStatsResponse" => Some(Self::KEgcMsgGetUserStatsResponse),
-            "k_EGCMsgAppInfoUpdated" => Some(Self::KEgcMsgAppInfoUpdated),
-            "k_EGCMsgValidateSession" => Some(Self::KEgcMsgValidateSession),
-            "k_EGCMsgValidateSessionResponse" => {
-                Some(Self::KEgcMsgValidateSessionResponse)
-            }
-            "k_EGCMsgLookupAccountFromInput" => Some(Self::KEgcMsgLookupAccountFromInput),
-            "k_EGCMsgSendHTTPRequest" => Some(Self::KEgcMsgSendHttpRequest),
-            "k_EGCMsgSendHTTPRequestResponse" => {
-                Some(Self::KEgcMsgSendHttpRequestResponse)
-            }
-            "k_EGCMsgPreTestSetup" => Some(Self::KEgcMsgPreTestSetup),
-            "k_EGCMsgRecordSupportAction" => Some(Self::KEgcMsgRecordSupportAction),
-            "k_EGCMsgGetAccountDetails_DEPRECATED" => {
-                Some(Self::KEgcMsgGetAccountDetailsDeprecated)
-            }
-            "k_EGCMsgReceiveInterAppMessage" => Some(Self::KEgcMsgReceiveInterAppMessage),
-            "k_EGCMsgFindAccounts" => Some(Self::KEgcMsgFindAccounts),
-            "k_EGCMsgPostAlert" => Some(Self::KEgcMsgPostAlert),
-            "k_EGCMsgGetLicenses" => Some(Self::KEgcMsgGetLicenses),
-            "k_EGCMsgGetUserStats" => Some(Self::KEgcMsgGetUserStats),
-            "k_EGCMsgGetCommands" => Some(Self::KEgcMsgGetCommands),
-            "k_EGCMsgGetCommandsResponse" => Some(Self::KEgcMsgGetCommandsResponse),
-            "k_EGCMsgAddFreeLicense" => Some(Self::KEgcMsgAddFreeLicense),
-            "k_EGCMsgAddFreeLicenseResponse" => Some(Self::KEgcMsgAddFreeLicenseResponse),
-            "k_EGCMsgGetIPLocation" => Some(Self::KEgcMsgGetIpLocation),
-            "k_EGCMsgGetIPLocationResponse" => Some(Self::KEgcMsgGetIpLocationResponse),
-            "k_EGCMsgSystemStatsSchema" => Some(Self::KEgcMsgSystemStatsSchema),
-            "k_EGCMsgGetSystemStats" => Some(Self::KEgcMsgGetSystemStats),
-            "k_EGCMsgGetSystemStatsResponse" => Some(Self::KEgcMsgGetSystemStatsResponse),
-            "k_EGCMsgSendEmail" => Some(Self::KEgcMsgSendEmail),
-            "k_EGCMsgSendEmailResponse" => Some(Self::KEgcMsgSendEmailResponse),
-            "k_EGCMsgGetEmailTemplate" => Some(Self::KEgcMsgGetEmailTemplate),
-            "k_EGCMsgGetEmailTemplateResponse" => {
-                Some(Self::KEgcMsgGetEmailTemplateResponse)
-            }
-            "k_EGCMsgGrantGuestPass" => Some(Self::KEgcMsgGrantGuestPass),
-            "k_EGCMsgGrantGuestPassResponse" => Some(Self::KEgcMsgGrantGuestPassResponse),
-            "k_EGCMsgGetAccountDetails" => Some(Self::KEgcMsgGetAccountDetails),
-            "k_EGCMsgGetAccountDetailsResponse" => {
-                Some(Self::KEgcMsgGetAccountDetailsResponse)
-            }
-            "k_EGCMsgGetPersonaNames" => Some(Self::KEgcMsgGetPersonaNames),
-            "k_EGCMsgGetPersonaNamesResponse" => {
-                Some(Self::KEgcMsgGetPersonaNamesResponse)
-            }
-            "k_EGCMsgMultiplexMsg" => Some(Self::KEgcMsgMultiplexMsg),
-            "k_EGCMsgMultiplexMsgResponse" => Some(Self::KEgcMsgMultiplexMsgResponse),
-            "k_EGCMsgWebAPIRegisterInterfaces" => {
-                Some(Self::KEgcMsgWebApiRegisterInterfaces)
-            }
-            "k_EGCMsgWebAPIJobRequest" => Some(Self::KEgcMsgWebApiJobRequest),
-            "k_EGCMsgWebAPIJobRequestHttpResponse" => {
-                Some(Self::KEgcMsgWebApiJobRequestHttpResponse)
-            }
-            "k_EGCMsgWebAPIJobRequestForwardResponse" => {
-                Some(Self::KEgcMsgWebApiJobRequestForwardResponse)
-            }
-            "k_EGCMsgMemCachedGet" => Some(Self::KEgcMsgMemCachedGet),
-            "k_EGCMsgMemCachedGetResponse" => Some(Self::KEgcMsgMemCachedGetResponse),
-            "k_EGCMsgMemCachedSet" => Some(Self::KEgcMsgMemCachedSet),
-            "k_EGCMsgMemCachedDelete" => Some(Self::KEgcMsgMemCachedDelete),
-            "k_EGCMsgMemCachedStats" => Some(Self::KEgcMsgMemCachedStats),
-            "k_EGCMsgMemCachedStatsResponse" => Some(Self::KEgcMsgMemCachedStatsResponse),
-            "k_EGCMsgMasterSetDirectory" => Some(Self::KEgcMsgMasterSetDirectory),
-            "k_EGCMsgMasterSetDirectoryResponse" => {
-                Some(Self::KEgcMsgMasterSetDirectoryResponse)
-            }
-            "k_EGCMsgMasterSetWebAPIRouting" => Some(Self::KEgcMsgMasterSetWebApiRouting),
-            "k_EGCMsgMasterSetWebAPIRoutingResponse" => {
-                Some(Self::KEgcMsgMasterSetWebApiRoutingResponse)
-            }
-            "k_EGCMsgMasterSetClientMsgRouting" => {
-                Some(Self::KEgcMsgMasterSetClientMsgRouting)
-            }
-            "k_EGCMsgMasterSetClientMsgRoutingResponse" => {
-                Some(Self::KEgcMsgMasterSetClientMsgRoutingResponse)
-            }
-            "k_EGCMsgSetOptions" => Some(Self::KEgcMsgSetOptions),
-            "k_EGCMsgSetOptionsResponse" => Some(Self::KEgcMsgSetOptionsResponse),
-            "k_EGCMsgSystemBase2" => Some(Self::KEgcMsgSystemBase2),
-            "k_EGCMsgGetPurchaseTrustStatus" => Some(Self::KEgcMsgGetPurchaseTrustStatus),
-            "k_EGCMsgGetPurchaseTrustStatusResponse" => {
-                Some(Self::KEgcMsgGetPurchaseTrustStatusResponse)
-            }
-            "k_EGCMsgUpdateSession" => Some(Self::KEgcMsgUpdateSession),
-            "k_EGCMsgGCAccountVacStatusChange" => {
-                Some(Self::KEgcMsgGcAccountVacStatusChange)
-            }
-            "k_EGCMsgCheckFriendship" => Some(Self::KEgcMsgCheckFriendship),
-            "k_EGCMsgCheckFriendshipResponse" => {
-                Some(Self::KEgcMsgCheckFriendshipResponse)
-            }
-            "k_EGCMsgGetPartnerAccountLink" => Some(Self::KEgcMsgGetPartnerAccountLink),
-            "k_EGCMsgGetPartnerAccountLinkResponse" => {
-                Some(Self::KEgcMsgGetPartnerAccountLinkResponse)
-            }
-            "k_EGCMsgDPPartnerMicroTxns" => Some(Self::KEgcMsgDpPartnerMicroTxns),
-            "k_EGCMsgDPPartnerMicroTxnsResponse" => {
-                Some(Self::KEgcMsgDpPartnerMicroTxnsResponse)
-            }
-            "k_EGCMsgVacVerificationChange" => Some(Self::KEgcMsgVacVerificationChange),
-            "k_EGCMsgAccountPhoneNumberChange" => {
-                Some(Self::KEgcMsgAccountPhoneNumberChange)
-            }
-            "k_EGCMsgInviteUserToLobby" => Some(Self::KEgcMsgInviteUserToLobby),
-            "k_EGCMsgGetGamePersonalDataCategoriesRequest" => {
-                Some(Self::KEgcMsgGetGamePersonalDataCategoriesRequest)
-            }
-            "k_EGCMsgGetGamePersonalDataCategoriesResponse" => {
-                Some(Self::KEgcMsgGetGamePersonalDataCategoriesResponse)
-            }
-            "k_EGCMsgGetGamePersonalDataEntriesRequest" => {
-                Some(Self::KEgcMsgGetGamePersonalDataEntriesRequest)
-            }
-            "k_EGCMsgGetGamePersonalDataEntriesResponse" => {
-                Some(Self::KEgcMsgGetGamePersonalDataEntriesResponse)
-            }
-            "k_EGCMsgTerminateGamePersonalDataEntriesRequest" => {
-                Some(Self::KEgcMsgTerminateGamePersonalDataEntriesRequest)
-            }
-            "k_EGCMsgTerminateGamePersonalDataEntriesResponse" => {
-                Some(Self::KEgcMsgTerminateGamePersonalDataEntriesResponse)
-            }
-            "k_EGCMsgRecurringSubscriptionStatusChange" => {
-                Some(Self::KEgcMsgRecurringSubscriptionStatusChange)
-            }
-            "k_EGCMsgDirectServiceMethod" => Some(Self::KEgcMsgDirectServiceMethod),
-            "k_EGCMsgDirectServiceMethodResponse" => {
-                Some(Self::KEgcMsgDirectServiceMethodResponse)
-            }
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EsoMsg {
-    KEsoMsgCreate = 21,
-    KEsoMsgUpdate = 22,
-    KEsoMsgDestroy = 23,
-    KEsoMsgCacheSubscribed = 24,
-    KEsoMsgCacheUnsubscribed = 25,
-    KEsoMsgUpdateMultiple = 26,
-    KEsoMsgCacheSubscriptionCheck = 27,
-    KEsoMsgCacheSubscriptionRefresh = 28,
-}
-impl EsoMsg {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EsoMsg::KEsoMsgCreate => "k_ESOMsg_Create",
-            EsoMsg::KEsoMsgUpdate => "k_ESOMsg_Update",
-            EsoMsg::KEsoMsgDestroy => "k_ESOMsg_Destroy",
-            EsoMsg::KEsoMsgCacheSubscribed => "k_ESOMsg_CacheSubscribed",
-            EsoMsg::KEsoMsgCacheUnsubscribed => "k_ESOMsg_CacheUnsubscribed",
-            EsoMsg::KEsoMsgUpdateMultiple => "k_ESOMsg_UpdateMultiple",
-            EsoMsg::KEsoMsgCacheSubscriptionCheck => "k_ESOMsg_CacheSubscriptionCheck",
-            EsoMsg::KEsoMsgCacheSubscriptionRefresh => {
-                "k_ESOMsg_CacheSubscriptionRefresh"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_ESOMsg_Create" => Some(Self::KEsoMsgCreate),
-            "k_ESOMsg_Update" => Some(Self::KEsoMsgUpdate),
-            "k_ESOMsg_Destroy" => Some(Self::KEsoMsgDestroy),
-            "k_ESOMsg_CacheSubscribed" => Some(Self::KEsoMsgCacheSubscribed),
-            "k_ESOMsg_CacheUnsubscribed" => Some(Self::KEsoMsgCacheUnsubscribed),
-            "k_ESOMsg_UpdateMultiple" => Some(Self::KEsoMsgUpdateMultiple),
-            "k_ESOMsg_CacheSubscriptionCheck" => {
-                Some(Self::KEsoMsgCacheSubscriptionCheck)
-            }
-            "k_ESOMsg_CacheSubscriptionRefresh" => {
-                Some(Self::KEsoMsgCacheSubscriptionRefresh)
-            }
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EgcBaseClientMsg {
-    KEMsgGcClientWelcome = 4004,
-    KEMsgGcServerWelcome = 4005,
-    KEMsgGcClientHello = 4006,
-    KEMsgGcServerHello = 4007,
-    KEMsgGcClientConnectionStatus = 4009,
-    KEMsgGcServerConnectionStatus = 4010,
-    KEMsgGcClientHelloPartner = 4011,
-    KEMsgGcClientHelloPw = 4012,
-    KEMsgGcClientHelloR2 = 4013,
-    KEMsgGcClientHelloR3 = 4014,
-    KEMsgGcClientHelloR4 = 4015,
-}
-impl EgcBaseClientMsg {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EgcBaseClientMsg::KEMsgGcClientWelcome => "k_EMsgGCClientWelcome",
-            EgcBaseClientMsg::KEMsgGcServerWelcome => "k_EMsgGCServerWelcome",
-            EgcBaseClientMsg::KEMsgGcClientHello => "k_EMsgGCClientHello",
-            EgcBaseClientMsg::KEMsgGcServerHello => "k_EMsgGCServerHello",
-            EgcBaseClientMsg::KEMsgGcClientConnectionStatus => {
-                "k_EMsgGCClientConnectionStatus"
-            }
-            EgcBaseClientMsg::KEMsgGcServerConnectionStatus => {
-                "k_EMsgGCServerConnectionStatus"
-            }
-            EgcBaseClientMsg::KEMsgGcClientHelloPartner => "k_EMsgGCClientHelloPartner",
-            EgcBaseClientMsg::KEMsgGcClientHelloPw => "k_EMsgGCClientHelloPW",
-            EgcBaseClientMsg::KEMsgGcClientHelloR2 => "k_EMsgGCClientHelloR2",
-            EgcBaseClientMsg::KEMsgGcClientHelloR3 => "k_EMsgGCClientHelloR3",
-            EgcBaseClientMsg::KEMsgGcClientHelloR4 => "k_EMsgGCClientHelloR4",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_EMsgGCClientWelcome" => Some(Self::KEMsgGcClientWelcome),
-            "k_EMsgGCServerWelcome" => Some(Self::KEMsgGcServerWelcome),
-            "k_EMsgGCClientHello" => Some(Self::KEMsgGcClientHello),
-            "k_EMsgGCServerHello" => Some(Self::KEMsgGcServerHello),
-            "k_EMsgGCClientConnectionStatus" => Some(Self::KEMsgGcClientConnectionStatus),
-            "k_EMsgGCServerConnectionStatus" => Some(Self::KEMsgGcServerConnectionStatus),
-            "k_EMsgGCClientHelloPartner" => Some(Self::KEMsgGcClientHelloPartner),
-            "k_EMsgGCClientHelloPW" => Some(Self::KEMsgGcClientHelloPw),
-            "k_EMsgGCClientHelloR2" => Some(Self::KEMsgGcClientHelloR2),
-            "k_EMsgGCClientHelloR3" => Some(Self::KEMsgGcClientHelloR3),
-            "k_EMsgGCClientHelloR4" => Some(Self::KEMsgGcClientHelloR4),
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum EgcToGcMsg {
-    KEgcToGcMsgMasterAck = 150,
-    KEgcToGcMsgMasterAckResponse = 151,
-    KEgcToGcMsgRouted = 152,
-    KEgcToGcMsgRoutedReply = 153,
-    KEMsgUpdateSessionIp = 154,
-    KEMsgRequestSessionIp = 155,
-    KEMsgRequestSessionIpResponse = 156,
-    KEgcToGcMsgMasterStartupComplete = 157,
-}
-impl EgcToGcMsg {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            EgcToGcMsg::KEgcToGcMsgMasterAck => "k_EGCToGCMsgMasterAck",
-            EgcToGcMsg::KEgcToGcMsgMasterAckResponse => "k_EGCToGCMsgMasterAckResponse",
-            EgcToGcMsg::KEgcToGcMsgRouted => "k_EGCToGCMsgRouted",
-            EgcToGcMsg::KEgcToGcMsgRoutedReply => "k_EGCToGCMsgRoutedReply",
-            EgcToGcMsg::KEMsgUpdateSessionIp => "k_EMsgUpdateSessionIP",
-            EgcToGcMsg::KEMsgRequestSessionIp => "k_EMsgRequestSessionIP",
-            EgcToGcMsg::KEMsgRequestSessionIpResponse => "k_EMsgRequestSessionIPResponse",
-            EgcToGcMsg::KEgcToGcMsgMasterStartupComplete => {
-                "k_EGCToGCMsgMasterStartupComplete"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_EGCToGCMsgMasterAck" => Some(Self::KEgcToGcMsgMasterAck),
-            "k_EGCToGCMsgMasterAckResponse" => Some(Self::KEgcToGcMsgMasterAckResponse),
-            "k_EGCToGCMsgRouted" => Some(Self::KEgcToGcMsgRouted),
-            "k_EGCToGCMsgRoutedReply" => Some(Self::KEgcToGcMsgRoutedReply),
-            "k_EMsgUpdateSessionIP" => Some(Self::KEMsgUpdateSessionIp),
-            "k_EMsgRequestSessionIP" => Some(Self::KEMsgRequestSessionIp),
-            "k_EMsgRequestSessionIPResponse" => Some(Self::KEMsgRequestSessionIpResponse),
-            "k_EGCToGCMsgMasterStartupComplete" => {
-                Some(Self::KEgcToGcMsgMasterStartupComplete)
-            }
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ECommunityItemClass {
-    KECommunityItemClassInvalid = 0,
-    KECommunityItemClassBadge = 1,
-    KECommunityItemClassGameCard = 2,
-    KECommunityItemClassProfileBackground = 3,
-    KECommunityItemClassEmoticon = 4,
-    KECommunityItemClassBoosterPack = 5,
-    KECommunityItemClassConsumable = 6,
-    KECommunityItemClassGameGoo = 7,
-    KECommunityItemClassProfileModifier = 8,
-    KECommunityItemClassScene = 9,
-    KECommunityItemClassSalienItem = 10,
-}
-impl ECommunityItemClass {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            ECommunityItemClass::KECommunityItemClassInvalid => {
-                "k_ECommunityItemClass_Invalid"
-            }
-            ECommunityItemClass::KECommunityItemClassBadge => {
-                "k_ECommunityItemClass_Badge"
-            }
-            ECommunityItemClass::KECommunityItemClassGameCard => {
-                "k_ECommunityItemClass_GameCard"
-            }
-            ECommunityItemClass::KECommunityItemClassProfileBackground => {
-                "k_ECommunityItemClass_ProfileBackground"
-            }
-            ECommunityItemClass::KECommunityItemClassEmoticon => {
-                "k_ECommunityItemClass_Emoticon"
-            }
-            ECommunityItemClass::KECommunityItemClassBoosterPack => {
-                "k_ECommunityItemClass_BoosterPack"
-            }
-            ECommunityItemClass::KECommunityItemClassConsumable => {
-                "k_ECommunityItemClass_Consumable"
-            }
-            ECommunityItemClass::KECommunityItemClassGameGoo => {
-                "k_ECommunityItemClass_GameGoo"
-            }
-            ECommunityItemClass::KECommunityItemClassProfileModifier => {
-                "k_ECommunityItemClass_ProfileModifier"
-            }
-            ECommunityItemClass::KECommunityItemClassScene => {
-                "k_ECommunityItemClass_Scene"
-            }
-            ECommunityItemClass::KECommunityItemClassSalienItem => {
-                "k_ECommunityItemClass_SalienItem"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_ECommunityItemClass_Invalid" => Some(Self::KECommunityItemClassInvalid),
-            "k_ECommunityItemClass_Badge" => Some(Self::KECommunityItemClassBadge),
-            "k_ECommunityItemClass_GameCard" => Some(Self::KECommunityItemClassGameCard),
-            "k_ECommunityItemClass_ProfileBackground" => {
-                Some(Self::KECommunityItemClassProfileBackground)
-            }
-            "k_ECommunityItemClass_Emoticon" => Some(Self::KECommunityItemClassEmoticon),
-            "k_ECommunityItemClass_BoosterPack" => {
-                Some(Self::KECommunityItemClassBoosterPack)
-            }
-            "k_ECommunityItemClass_Consumable" => {
-                Some(Self::KECommunityItemClassConsumable)
-            }
-            "k_ECommunityItemClass_GameGoo" => Some(Self::KECommunityItemClassGameGoo),
-            "k_ECommunityItemClass_ProfileModifier" => {
-                Some(Self::KECommunityItemClassProfileModifier)
-            }
-            "k_ECommunityItemClass_Scene" => Some(Self::KECommunityItemClassScene),
-            "k_ECommunityItemClass_SalienItem" => {
-                Some(Self::KECommunityItemClassSalienItem)
-            }
-            _ => None,
-        }
-    }
-}
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum ECommunityItemAttribute {
-    KECommunityItemAttributeInvalid = 0,
-    KECommunityItemAttributeCardBorder = 1,
-    KECommunityItemAttributeLevel = 2,
-    KECommunityItemAttributeIssueNumber = 3,
-    KECommunityItemAttributeTradableTime = 4,
-    KECommunityItemAttributeStorePackageId = 5,
-    KECommunityItemAttributeCommunityItemAppId = 6,
-    KECommunityItemAttributeCommunityItemType = 7,
-    KECommunityItemAttributeProfileModiferEnabled = 8,
-    KECommunityItemAttributeExpiryTime = 9,
-}
-impl ECommunityItemAttribute {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            ECommunityItemAttribute::KECommunityItemAttributeInvalid => {
-                "k_ECommunityItemAttribute_Invalid"
-            }
-            ECommunityItemAttribute::KECommunityItemAttributeCardBorder => {
-                "k_ECommunityItemAttribute_CardBorder"
-            }
-            ECommunityItemAttribute::KECommunityItemAttributeLevel => {
-                "k_ECommunityItemAttribute_Level"
-            }
-            ECommunityItemAttribute::KECommunityItemAttributeIssueNumber => {
-                "k_ECommunityItemAttribute_IssueNumber"
-            }
-            ECommunityItemAttribute::KECommunityItemAttributeTradableTime => {
-                "k_ECommunityItemAttribute_TradableTime"
-            }
-            ECommunityItemAttribute::KECommunityItemAttributeStorePackageId => {
-                "k_ECommunityItemAttribute_StorePackageID"
-            }
-            ECommunityItemAttribute::KECommunityItemAttributeCommunityItemAppId => {
-                "k_ECommunityItemAttribute_CommunityItemAppID"
-            }
-            ECommunityItemAttribute::KECommunityItemAttributeCommunityItemType => {
-                "k_ECommunityItemAttribute_CommunityItemType"
-            }
-            ECommunityItemAttribute::KECommunityItemAttributeProfileModiferEnabled => {
-                "k_ECommunityItemAttribute_ProfileModiferEnabled"
-            }
-            ECommunityItemAttribute::KECommunityItemAttributeExpiryTime => {
-                "k_ECommunityItemAttribute_ExpiryTime"
-            }
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "k_ECommunityItemAttribute_Invalid" => {
-                Some(Self::KECommunityItemAttributeInvalid)
-            }
-            "k_ECommunityItemAttribute_CardBorder" => {
-                Some(Self::KECommunityItemAttributeCardBorder)
-            }
-            "k_ECommunityItemAttribute_Level" => {
-                Some(Self::KECommunityItemAttributeLevel)
-            }
-            "k_ECommunityItemAttribute_IssueNumber" => {
-                Some(Self::KECommunityItemAttributeIssueNumber)
-            }
-            "k_ECommunityItemAttribute_TradableTime" => {
-                Some(Self::KECommunityItemAttributeTradableTime)
-            }
-            "k_ECommunityItemAttribute_StorePackageID" => {
-                Some(Self::KECommunityItemAttributeStorePackageId)
-            }
-            "k_ECommunityItemAttribute_CommunityItemAppID" => {
-                Some(Self::KECommunityItemAttributeCommunityItemAppId)
-            }
-            "k_ECommunityItemAttribute_CommunityItemType" => {
-                Some(Self::KECommunityItemAttributeCommunityItemType)
-            }
-            "k_ECommunityItemAttribute_ProfileModiferEnabled" => {
-                Some(Self::KECommunityItemAttributeProfileModiferEnabled)
-            }
-            "k_ECommunityItemAttribute_ExpiryTime" => {
-                Some(Self::KECommunityItemAttributeExpiryTime)
-            }
-            _ => None,
-        }
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgVguiMenu {
-    #[prost(string, optional, tag = "1")]
-    pub name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "2")]
-    pub show: ::core::option::Option<bool>,
-    #[prost(message, repeated, tag = "3")]
-    pub keys: ::prost::alloc::vec::Vec<ccs_usr_msg_vgui_menu::Keys>,
-}
-/// Nested message and enum types in `CCSUsrMsg_VGUIMenu`.
-pub mod ccs_usr_msg_vgui_menu {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Keys {
-        #[prost(string, optional, tag = "1")]
-        pub name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(string, optional, tag = "2")]
-        pub value: ::core::option::Option<::prost::alloc::string::String>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgGeiger {
-    #[prost(int32, optional, tag = "1")]
-    pub range: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgTrain {
-    #[prost(int32, optional, tag = "1")]
-    pub train: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgHudText {
-    #[prost(string, optional, tag = "1")]
-    pub text: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgHudMsg {
-    #[prost(int32, optional, tag = "1")]
-    pub channel: ::core::option::Option<i32>,
-    #[prost(message, optional, tag = "2")]
-    pub pos: ::core::option::Option<CMsgVector2D>,
-    #[prost(message, optional, tag = "3")]
-    pub clr1: ::core::option::Option<CMsgRgba>,
-    #[prost(message, optional, tag = "4")]
-    pub clr2: ::core::option::Option<CMsgRgba>,
-    #[prost(int32, optional, tag = "5")]
-    pub effect: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "6")]
-    pub fade_in_time: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "7")]
-    pub fade_out_time: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "9")]
-    pub hold_time: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "10")]
-    pub fx_time: ::core::option::Option<f32>,
-    #[prost(string, optional, tag = "11")]
-    pub text: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgShake {
-    #[prost(int32, optional, tag = "1")]
-    pub command: ::core::option::Option<i32>,
+    pub hash: ::core::option::Option<u32>,
     #[prost(float, optional, tag = "2")]
-    pub local_amplitude: ::core::option::Option<f32>,
+    pub duration: ::core::option::Option<f32>,
+    #[prost(bool, optional, tag = "3")]
+    pub from_player: ::core::option::Option<bool>,
+    #[prost(int32, optional, tag = "4", default = "-1")]
+    pub ent_index: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageCloseCaptionDirect {
+    #[prost(fixed32, optional, tag = "1")]
+    pub hash: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "2")]
+    pub duration: ::core::option::Option<f32>,
+    #[prost(bool, optional, tag = "3")]
+    pub from_player: ::core::option::Option<bool>,
+    #[prost(int32, optional, tag = "4", default = "-1")]
+    pub ent_index: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageCloseCaptionPlaceholder {
+    #[prost(string, optional, tag = "1")]
+    pub string: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(float, optional, tag = "2")]
+    pub duration: ::core::option::Option<f32>,
+    #[prost(bool, optional, tag = "3")]
+    pub from_player: ::core::option::Option<bool>,
+    #[prost(int32, optional, tag = "4", default = "-1")]
+    pub ent_index: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageCurrentTimescale {
+    #[prost(float, optional, tag = "1")]
+    pub current: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageDesiredTimescale {
+    #[prost(float, optional, tag = "1")]
+    pub desired: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "2")]
+    pub acceleration: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub minblendrate: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "4")]
+    pub blenddeltamultiplier: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageFade {
+    #[prost(uint32, optional, tag = "1")]
+    pub duration: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub hold_time: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "3")]
+    pub flags: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "4")]
+    pub color: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageShake {
+    #[prost(uint32, optional, tag = "1")]
+    pub command: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "2")]
+    pub amplitude: ::core::option::Option<f32>,
     #[prost(float, optional, tag = "3")]
     pub frequency: ::core::option::Option<f32>,
     #[prost(float, optional, tag = "4")]
@@ -16417,19 +15807,140 @@ pub struct CcsUsrMsgShake {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgFade {
-    #[prost(int32, optional, tag = "1")]
-    pub duration: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub hold_time: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub flags: ::core::option::Option<i32>,
-    #[prost(message, optional, tag = "4")]
-    pub clr: ::core::option::Option<CMsgRgba>,
+pub struct CUserMessageShakeDir {
+    #[prost(message, optional, tag = "1")]
+    pub shake: ::core::option::Option<CUserMessageShake>,
+    #[prost(message, optional, tag = "2")]
+    pub direction: ::core::option::Option<CMsgVector>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgRumble {
+pub struct CUserMessageWaterShake {
+    #[prost(uint32, optional, tag = "1")]
+    pub command: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "2")]
+    pub amplitude: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub frequency: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "4")]
+    pub duration: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageScreenTilt {
+    #[prost(uint32, optional, tag = "1")]
+    pub command: ::core::option::Option<u32>,
+    #[prost(bool, optional, tag = "2")]
+    pub ease_in_out: ::core::option::Option<bool>,
+    #[prost(message, optional, tag = "3")]
+    pub angle: ::core::option::Option<CMsgVector>,
+    #[prost(float, optional, tag = "4")]
+    pub duration: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "5")]
+    pub time: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageSayText {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub playerindex: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "2")]
+    pub text: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "3")]
+    pub chat: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageSayText2 {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub entityindex: ::core::option::Option<i32>,
+    #[prost(bool, optional, tag = "2")]
+    pub chat: ::core::option::Option<bool>,
+    #[prost(string, optional, tag = "3")]
+    pub messagename: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "4")]
+    pub param1: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "5")]
+    pub param2: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "6")]
+    pub param3: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "7")]
+    pub param4: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageHudMsg {
+    #[prost(uint32, optional, tag = "1")]
+    pub channel: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "2")]
+    pub x: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub y: ::core::option::Option<f32>,
+    #[prost(fixed32, optional, tag = "4")]
+    pub color1: ::core::option::Option<u32>,
+    #[prost(fixed32, optional, tag = "5")]
+    pub color2: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "6")]
+    pub effect: ::core::option::Option<u32>,
+    #[prost(string, optional, tag = "11")]
+    pub message: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageHudText {
+    #[prost(string, optional, tag = "1")]
+    pub message: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageTextMsg {
+    #[prost(uint32, optional, tag = "1")]
+    pub dest: ::core::option::Option<u32>,
+    #[prost(string, repeated, tag = "2")]
+    pub param: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageGameTitle {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageResetHud {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageSendAudio {
+    #[prost(string, optional, tag = "1")]
+    pub soundname: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "2")]
+    pub stop: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageAudioParameter {
+    #[prost(uint32, optional, tag = "1")]
+    pub parameter_type: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub name_hash_code: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "3")]
+    pub value: ::core::option::Option<f32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub int_value: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageVoiceMask {
+    #[prost(uint32, repeated, packed = "false", tag = "1")]
+    pub gamerules_masks: ::prost::alloc::vec::Vec<u32>,
+    #[prost(uint32, repeated, packed = "false", tag = "2")]
+    pub ban_masks: ::prost::alloc::vec::Vec<u32>,
+    #[prost(bool, optional, tag = "3")]
+    pub mod_enable: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageRequestState {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageRumble {
     #[prost(int32, optional, tag = "1")]
     pub index: ::core::option::Option<i32>,
     #[prost(int32, optional, tag = "2")]
@@ -16439,1133 +15950,1622 @@ pub struct CcsUsrMsgRumble {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgCloseCaption {
-    #[prost(uint32, optional, tag = "1")]
-    pub hash: ::core::option::Option<u32>,
+pub struct CUserMessageSayTextChannel {
+    #[prost(int32, optional, tag = "1")]
+    pub player: ::core::option::Option<i32>,
     #[prost(int32, optional, tag = "2")]
-    pub duration: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "3")]
-    pub from_player: ::core::option::Option<bool>,
-    #[prost(string, optional, tag = "4")]
-    pub cctoken: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgCloseCaptionDirect {
-    #[prost(uint32, optional, tag = "1")]
-    pub hash: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "2")]
-    pub duration: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "3")]
-    pub from_player: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgSendAudio {
-    #[prost(string, optional, tag = "1")]
-    pub radio_sound: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgRawAudio {
-    #[prost(int32, optional, tag = "1")]
-    pub pitch: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2", default = "-1")]
-    pub entidx: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "3")]
-    pub duration: ::core::option::Option<f32>,
-    #[prost(string, optional, tag = "4")]
-    pub voice_filename: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgVoiceMask {
-    #[prost(message, repeated, tag = "1")]
-    pub player_masks: ::prost::alloc::vec::Vec<ccs_usr_msg_voice_mask::PlayerMask>,
-    #[prost(bool, optional, tag = "2")]
-    pub player_mod_enable: ::core::option::Option<bool>,
-}
-/// Nested message and enum types in `CCSUsrMsg_VoiceMask`.
-pub mod ccs_usr_msg_voice_mask {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct PlayerMask {
-        #[prost(int32, optional, tag = "1")]
-        pub game_rules_mask: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "2")]
-        pub ban_masks: ::core::option::Option<i32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgDamage {
-    #[prost(int32, optional, tag = "1")]
-    pub amount: ::core::option::Option<i32>,
-    #[prost(message, optional, tag = "2")]
-    pub inflictor_world_pos: ::core::option::Option<CMsgVector>,
-    #[prost(int32, optional, tag = "3", default = "-1")]
-    pub victim_entindex: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgRadioText {
-    #[prost(int32, optional, tag = "1")]
-    pub msg_dst: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2", default = "-1")]
-    pub client: ::core::option::Option<i32>,
+    pub channel: ::core::option::Option<i32>,
     #[prost(string, optional, tag = "3")]
-    pub msg_name: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, repeated, tag = "4")]
-    pub params: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    pub text: ::core::option::Option<::prost::alloc::string::String>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgHintText {
-    #[prost(string, optional, tag = "1")]
-    pub message: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgKeyHintText {
-    #[prost(string, repeated, tag = "1")]
-    pub messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgProcessSpottedEntityUpdate {
-    #[prost(bool, optional, tag = "1")]
-    pub new_update: ::core::option::Option<bool>,
-    #[prost(message, repeated, tag = "2")]
-    pub entity_updates: ::prost::alloc::vec::Vec<
-        ccs_usr_msg_process_spotted_entity_update::SpottedEntityUpdate,
-    >,
-}
-/// Nested message and enum types in `CCSUsrMsg_ProcessSpottedEntityUpdate`.
-pub mod ccs_usr_msg_process_spotted_entity_update {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct SpottedEntityUpdate {
-        #[prost(int32, optional, tag = "1", default = "-1")]
-        pub entity_idx: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "2")]
-        pub class_id: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "3")]
-        pub origin_x: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "4")]
-        pub origin_y: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "5")]
-        pub origin_z: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "6")]
-        pub angle_y: ::core::option::Option<i32>,
-        #[prost(bool, optional, tag = "7")]
-        pub defuser: ::core::option::Option<bool>,
-        #[prost(bool, optional, tag = "8")]
-        pub player_has_defuser: ::core::option::Option<bool>,
-        #[prost(bool, optional, tag = "9")]
-        pub player_has_c4: ::core::option::Option<bool>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgSendPlayerItemDrops {
-    #[prost(message, repeated, tag = "1")]
-    pub entity_updates: ::prost::alloc::vec::Vec<CEconItemPreviewDataBlock>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgSendPlayerItemFound {
-    #[prost(message, optional, tag = "1")]
-    pub iteminfo: ::core::option::Option<CEconItemPreviewDataBlock>,
-    #[prost(int32, optional, tag = "2", default = "-1")]
-    pub playerslot: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgReloadEffect {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub entidx: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub actanim: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "3")]
-    pub origin_x: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "4")]
-    pub origin_y: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "5")]
-    pub origin_z: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgWeaponSound {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub entidx: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "2")]
-    pub origin_x: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub origin_y: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "4")]
-    pub origin_z: ::core::option::Option<f32>,
-    #[prost(string, optional, tag = "5")]
-    pub sound: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(float, optional, tag = "6")]
-    pub game_timestamp: ::core::option::Option<f32>,
-    #[prost(fixed32, optional, tag = "7")]
-    pub source_soundscapeid: ::core::option::Option<u32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgUpdateScreenHealthBar {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub entidx: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "2")]
-    pub healthratio_old: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub healthratio_new: ::core::option::Option<f32>,
-    #[prost(int32, optional, tag = "4")]
-    pub style: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgEntityOutlineHighlight {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub entidx: ::core::option::Option<i32>,
-    #[prost(bool, optional, tag = "2")]
-    pub removehighlight: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgAdjustMoney {
-    #[prost(int32, optional, tag = "1")]
-    pub amount: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgReportHit {
-    #[prost(float, optional, tag = "1")]
-    pub pos_x: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "2")]
-    pub pos_y: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "4")]
-    pub timestamp: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub pos_z: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgKillCam {
-    #[prost(int32, optional, tag = "1")]
-    pub obs_mode: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2", default = "-1")]
-    pub first_target: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3", default = "-1")]
-    pub second_target: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgDesiredTimescale {
-    #[prost(float, optional, tag = "1")]
-    pub desired_timescale: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "2")]
-    pub duration_realtime_sec: ::core::option::Option<f32>,
-    #[prost(int32, optional, tag = "3")]
-    pub interpolator_type: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "4")]
-    pub start_blend_time: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgCurrentTimescale {
-    #[prost(float, optional, tag = "1")]
-    pub cur_timescale: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgAchievementEvent {
-    #[prost(int32, optional, tag = "1")]
-    pub achievement: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub count: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub user_id: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgMatchEndConditions {
-    #[prost(int32, optional, tag = "1")]
-    pub fraglimit: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub mp_maxrounds: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub mp_winlimit: ::core::option::Option<i32>,
-    #[prost(float, optional, tag = "4")]
-    pub mp_timelimit: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgPlayerStatsUpdate {
-    #[prost(int32, optional, tag = "1")]
-    pub version: ::core::option::Option<i32>,
-    #[prost(message, repeated, tag = "4")]
-    pub stats: ::prost::alloc::vec::Vec<ccs_usr_msg_player_stats_update::Stat>,
-    #[prost(uint32, optional, tag = "5")]
-    pub ehandle: ::core::option::Option<u32>,
-    #[prost(int32, optional, tag = "6")]
-    pub crc: ::core::option::Option<i32>,
-}
-/// Nested message and enum types in `CCSUsrMsg_PlayerStatsUpdate`.
-pub mod ccs_usr_msg_player_stats_update {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Stat {
-        #[prost(int32, optional, tag = "1")]
-        pub idx: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "2")]
-        pub delta: ::core::option::Option<i32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgQuestProgress {
+pub struct CUserMessageColoredText {
     #[prost(uint32, optional, tag = "1")]
-    pub quest_id: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "2")]
-    pub normal_points: ::core::option::Option<u32>,
-    #[prost(uint32, optional, tag = "3")]
-    pub bonus_points: ::core::option::Option<u32>,
-    #[prost(bool, optional, tag = "4")]
-    pub is_event_quest: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgScoreLeaderboardData {
-    #[prost(message, optional, tag = "1")]
-    pub data: ::core::option::Option<ScoreLeaderboardData>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgPlayerDecalDigitalSignature {
-    #[prost(message, optional, tag = "1")]
-    pub data: ::core::option::Option<PlayerDecalDigitalSignature>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgXRankGet {
-    #[prost(int32, optional, tag = "1")]
-    pub mode_idx: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub controller: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgXRankUpd {
-    #[prost(int32, optional, tag = "1")]
-    pub mode_idx: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub controller: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub ranking: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgCallVoteFailed {
-    #[prost(int32, optional, tag = "1")]
-    pub reason: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub time: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgVoteStart {
-    #[prost(int32, optional, tag = "1")]
-    pub team: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2", default = "-1")]
-    pub player_slot: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub vote_type: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "4")]
-    pub disp_str: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "5")]
-    pub details_str: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "6")]
-    pub other_team_str: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(bool, optional, tag = "7")]
-    pub is_yes_no_vote: ::core::option::Option<bool>,
-    #[prost(int32, optional, tag = "8", default = "-1")]
-    pub player_slot_target: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgVotePass {
-    #[prost(int32, optional, tag = "1")]
-    pub team: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub vote_type: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "3")]
-    pub disp_str: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "4")]
-    pub details_str: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgVoteFailed {
-    #[prost(int32, optional, tag = "1")]
-    pub team: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub reason: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgVoteSetup {
-    #[prost(string, repeated, tag = "1")]
-    pub potential_issues: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgSendLastKillerDamageToClient {
-    #[prost(int32, optional, tag = "1")]
-    pub num_hits_given: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub damage_given: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub num_hits_taken: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "4")]
-    pub damage_taken: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "5")]
-    pub actual_damage_given: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "6")]
-    pub actual_damage_taken: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgServerRankUpdate {
-    #[prost(message, repeated, tag = "1")]
-    pub rank_update: ::prost::alloc::vec::Vec<
-        ccs_usr_msg_server_rank_update::RankUpdate,
-    >,
-}
-/// Nested message and enum types in `CCSUsrMsg_ServerRankUpdate`.
-pub mod ccs_usr_msg_server_rank_update {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct RankUpdate {
-        #[prost(int32, optional, tag = "1")]
-        pub account_id: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "2")]
-        pub rank_old: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "3")]
-        pub rank_new: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "4")]
-        pub num_wins: ::core::option::Option<i32>,
-        #[prost(float, optional, tag = "5")]
-        pub rank_change: ::core::option::Option<f32>,
-        #[prost(int32, optional, tag = "6")]
-        pub rank_type_id: ::core::option::Option<i32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgXpUpdate {
-    #[prost(message, optional, tag = "1")]
-    pub data: ::core::option::Option<CMsgGcCstrike15V2Gc2ServerNotifyXpRewarded>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgItemPickup {
-    #[prost(string, optional, tag = "1")]
-    pub item: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgShowMenu {
-    #[prost(int32, optional, tag = "1")]
-    pub bits_valid_slots: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub display_time: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "3")]
-    pub menu_string: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgBarTime {
-    #[prost(string, optional, tag = "1")]
-    pub time: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgAmmoDenied {
-    #[prost(int32, optional, tag = "1")]
-    pub ammoidx: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgMarkAchievement {
-    #[prost(string, optional, tag = "1")]
-    pub achievement: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgMatchStatsUpdate {
-    #[prost(string, optional, tag = "1")]
-    pub update: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgItemDrop {
-    #[prost(int64, optional, tag = "1")]
-    pub itemid: ::core::option::Option<i64>,
-    #[prost(bool, optional, tag = "2")]
-    pub death: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgGlowPropTurnOff {
-    #[prost(int32, optional, tag = "1", default = "-1")]
-    pub entidx: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgRoundBackupFilenames {
-    #[prost(int32, optional, tag = "1")]
-    pub count: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub index: ::core::option::Option<i32>,
-    #[prost(string, optional, tag = "3")]
-    pub filename: ::core::option::Option<::prost::alloc::string::String>,
-    #[prost(string, optional, tag = "4")]
-    pub nicename: ::core::option::Option<::prost::alloc::string::String>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgSsui {
-    #[prost(bool, optional, tag = "1")]
-    pub show: ::core::option::Option<bool>,
-    #[prost(float, optional, tag = "2")]
-    pub start_time: ::core::option::Option<f32>,
-    #[prost(float, optional, tag = "3")]
-    pub end_time: ::core::option::Option<f32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgSurvivalStats {
-    #[prost(uint64, optional, tag = "1")]
-    pub xuid: ::core::option::Option<u64>,
-    #[prost(message, repeated, tag = "2")]
-    pub facts: ::prost::alloc::vec::Vec<ccs_usr_msg_survival_stats::Fact>,
-    #[prost(message, repeated, tag = "3")]
-    pub users: ::prost::alloc::vec::Vec<ccs_usr_msg_survival_stats::Placement>,
-    #[prost(message, repeated, tag = "5")]
-    pub damages: ::prost::alloc::vec::Vec<ccs_usr_msg_survival_stats::Damage>,
-    #[prost(int32, optional, tag = "4")]
-    pub ticknumber: ::core::option::Option<i32>,
-}
-/// Nested message and enum types in `CCSUsrMsg_SurvivalStats`.
-pub mod ccs_usr_msg_survival_stats {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Fact {
-        #[prost(int32, optional, tag = "1")]
-        pub r#type: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "2")]
-        pub display: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "3")]
-        pub value: ::core::option::Option<i32>,
-        #[prost(float, optional, tag = "4")]
-        pub interestingness: ::core::option::Option<f32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Placement {
-        #[prost(uint64, optional, tag = "1")]
-        pub xuid: ::core::option::Option<u64>,
-        #[prost(int32, optional, tag = "2")]
-        pub teamnumber: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "3")]
-        pub placement: ::core::option::Option<i32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Damage {
-        #[prost(uint64, optional, tag = "1")]
-        pub xuid: ::core::option::Option<u64>,
-        #[prost(int32, optional, tag = "2")]
-        pub to: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "3")]
-        pub to_hits: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "4")]
-        pub from: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "5")]
-        pub from_hits: ::core::option::Option<i32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgEndOfMatchAllPlayersData {
-    #[prost(message, repeated, tag = "1")]
-    pub allplayerdata: ::prost::alloc::vec::Vec<
-        ccs_usr_msg_end_of_match_all_players_data::PlayerData,
-    >,
-    #[prost(int32, optional, tag = "2")]
-    pub scene: ::core::option::Option<i32>,
-}
-/// Nested message and enum types in `CCSUsrMsg_EndOfMatchAllPlayersData`.
-pub mod ccs_usr_msg_end_of_match_all_players_data {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct Accolade {
-        #[prost(int32, optional, tag = "1")]
-        pub eaccolade: ::core::option::Option<i32>,
-        #[prost(float, optional, tag = "2")]
-        pub value: ::core::option::Option<f32>,
-        #[prost(int32, optional, tag = "3")]
-        pub position: ::core::option::Option<i32>,
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct PlayerData {
-        #[prost(int32, optional, tag = "1", default = "-1")]
-        pub slot: ::core::option::Option<i32>,
-        #[prost(uint64, optional, tag = "2")]
-        pub xuid: ::core::option::Option<u64>,
-        #[prost(string, optional, tag = "3")]
-        pub name: ::core::option::Option<::prost::alloc::string::String>,
-        #[prost(int32, optional, tag = "4")]
-        pub teamnumber: ::core::option::Option<i32>,
-        #[prost(message, optional, tag = "5")]
-        pub nomination: ::core::option::Option<Accolade>,
-        #[prost(message, repeated, tag = "6")]
-        pub items: ::prost::alloc::vec::Vec<super::CEconItemPreviewDataBlock>,
-        #[prost(int32, optional, tag = "7")]
-        pub playercolor: ::core::option::Option<i32>,
-        #[prost(bool, optional, tag = "8")]
-        pub isbot: ::core::option::Option<bool>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgRoundEndReportData {
-    #[prost(message, optional, tag = "1")]
-    pub init_conditions: ::core::option::Option<
-        ccs_usr_msg_round_end_report_data::InitialConditions,
-    >,
-    #[prost(message, repeated, tag = "2")]
-    pub all_rer_event_data: ::prost::alloc::vec::Vec<
-        ccs_usr_msg_round_end_report_data::RerEvent,
-    >,
-}
-/// Nested message and enum types in `CCSUsrMsg_RoundEndReportData`.
-pub mod ccs_usr_msg_round_end_report_data {
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct RerEvent {
-        #[prost(float, optional, tag = "1")]
-        pub timestamp: ::core::option::Option<f32>,
-        #[prost(int32, optional, tag = "2")]
-        pub terrorist_odds: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "3")]
-        pub ct_alive: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "4")]
-        pub t_alive: ::core::option::Option<i32>,
-        #[prost(message, optional, tag = "5")]
-        pub victim_data: ::core::option::Option<rer_event::Victim>,
-        #[prost(message, optional, tag = "6")]
-        pub objective_data: ::core::option::Option<rer_event::Objective>,
-        #[prost(message, repeated, tag = "7")]
-        pub all_damage_data: ::prost::alloc::vec::Vec<rer_event::Damage>,
-    }
-    /// Nested message and enum types in `RerEvent`.
-    pub mod rer_event {
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Victim {
-            #[prost(int32, optional, tag = "1")]
-            pub team_number: ::core::option::Option<i32>,
-            #[prost(int32, optional, tag = "2", default = "-1")]
-            pub playerslot: ::core::option::Option<i32>,
-            #[prost(uint64, optional, tag = "3")]
-            pub xuid: ::core::option::Option<u64>,
-            #[prost(int32, optional, tag = "4")]
-            pub color: ::core::option::Option<i32>,
-            #[prost(bool, optional, tag = "5")]
-            pub is_bot: ::core::option::Option<bool>,
-            #[prost(bool, optional, tag = "6")]
-            pub is_dead: ::core::option::Option<bool>,
-        }
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Objective {
-            #[prost(int32, optional, tag = "1")]
-            pub r#type: ::core::option::Option<i32>,
-        }
-        #[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        pub struct Damage {
-            #[prost(int32, optional, tag = "1", default = "-1")]
-            pub other_playerslot: ::core::option::Option<i32>,
-            #[prost(uint64, optional, tag = "2")]
-            pub other_xuid: ::core::option::Option<u64>,
-            #[prost(int32, optional, tag = "3")]
-            pub health_removed: ::core::option::Option<i32>,
-            #[prost(int32, optional, tag = "4")]
-            pub num_hits: ::core::option::Option<i32>,
-            #[prost(int32, optional, tag = "5")]
-            pub return_health_removed: ::core::option::Option<i32>,
-            #[prost(int32, optional, tag = "6")]
-            pub return_num_hits: ::core::option::Option<i32>,
-        }
-    }
-    #[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    pub struct InitialConditions {
-        #[prost(int32, optional, tag = "1")]
-        pub ct_equip_value: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "2")]
-        pub t_equip_value: ::core::option::Option<i32>,
-        #[prost(int32, optional, tag = "3")]
-        pub terrorist_odds: ::core::option::Option<i32>,
-    }
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgPostRoundDamageReport {
-    #[prost(uint64, optional, tag = "1")]
-    pub other_xuid: ::core::option::Option<u64>,
-    #[prost(int32, optional, tag = "2")]
-    pub given_kill_type: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub given_health_removed: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "4")]
-    pub given_num_hits: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "5")]
-    pub taken_kill_type: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "6")]
-    pub taken_health_removed: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "7")]
-    pub taken_num_hits: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgCurrentRoundOdds {
-    #[prost(int32, optional, tag = "1")]
-    pub odds: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgDeepStats {
-    #[prost(message, optional, tag = "1")]
-    pub stats: ::core::option::Option<CMsgGccStrike15ClientDeepStats>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgShootInfo {
-    #[prost(int32, optional, tag = "1")]
-    pub frame_number: ::core::option::Option<i32>,
-    #[prost(message, repeated, tag = "2")]
-    pub hitbox_transforms: ::prost::alloc::vec::Vec<CMsgTransform>,
-    #[prost(message, optional, tag = "3")]
-    pub shoot_pos: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "4")]
-    pub shoot_dir: ::core::option::Option<CMsgQAngle>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgResetHud {
-    #[prost(bool, optional, tag = "1")]
-    pub reset: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgGameTitle {
-    #[prost(int32, optional, tag = "1")]
-    pub dummy: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgRequestState {
-    #[prost(int32, optional, tag = "1")]
-    pub dummy: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgStopSpectatorMode {
-    #[prost(int32, optional, tag = "1")]
-    pub dummy: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgDisconnectToLobby {
-    #[prost(int32, optional, tag = "1")]
-    pub dummy: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgWarmupHasEnded {
-    #[prost(int32, optional, tag = "1")]
-    pub dummy: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgClientInfo {
-    #[prost(int32, optional, tag = "1")]
-    pub dummy: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgServerRankRevealAll {
-    #[prost(int32, optional, tag = "1")]
-    pub seconds_till_shutdown: ::core::option::Option<i32>,
-    #[prost(message, optional, tag = "2")]
-    pub reservation: ::core::option::Option<
-        CMsgGccStrike15V2MatchmakingGc2ServerReserve,
-    >,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgPreMatchSayText {
-    #[prost(uint32, optional, tag = "1")]
-    pub account_id: ::core::option::Option<u32>,
+    pub color: ::core::option::Option<u32>,
     #[prost(string, optional, tag = "2")]
     pub text: ::core::option::Option<::prost::alloc::string::String>,
     #[prost(bool, optional, tag = "3")]
-    pub all_chat: ::core::option::Option<bool>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgCounterStrafe {
-    #[prost(int32, optional, tag = "1")]
-    pub press_to_release_ns: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub total_keys_down: ::core::option::Option<i32>,
-}
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct CcsUsrMsgDamagePrediction {
-    #[prost(int32, optional, tag = "1")]
-    pub command_num: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "2")]
-    pub pellet_idx: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "3")]
-    pub victim_slot: ::core::option::Option<i32>,
-    #[prost(int32, optional, tag = "4")]
-    pub victim_starting_health: ::core::option::Option<i32>,
+    pub reset: ::core::option::Option<bool>,
+    #[prost(int32, optional, tag = "4", default = "-1")]
+    pub context_player_slot: ::core::option::Option<i32>,
     #[prost(int32, optional, tag = "5")]
-    pub victim_damage: ::core::option::Option<i32>,
-    #[prost(message, optional, tag = "6")]
-    pub shoot_pos: ::core::option::Option<CMsgVector>,
-    #[prost(message, optional, tag = "7")]
-    pub shoot_dir: ::core::option::Option<CMsgQAngle>,
+    pub context_value: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "6")]
+    pub context_team_id: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageItemPickup {
+    #[prost(string, optional, tag = "1")]
+    pub itemname: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageAmmoDenied {
+    #[prost(uint32, optional, tag = "1")]
+    pub ammo_id: ::core::option::Option<u32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageShowMenu {
+    #[prost(uint32, optional, tag = "1")]
+    pub validslots: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub displaytime: ::core::option::Option<u32>,
+    #[prost(bool, optional, tag = "3")]
+    pub needmore: ::core::option::Option<bool>,
+    #[prost(string, optional, tag = "4")]
+    pub menustring: ::core::option::Option<::prost::alloc::string::String>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageCreditsMsg {
+    #[prost(enumeration = "ERollType", optional, tag = "1", default = "RollNone")]
+    pub rolltype: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "2")]
+    pub logo_length: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CEntityMessagePlayJingle {
+    #[prost(message, optional, tag = "1")]
+    pub entity_msg: ::core::option::Option<CEntityMsg>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CEntityMessageScreenOverlay {
+    #[prost(bool, optional, tag = "1")]
+    pub start_effect: ::core::option::Option<bool>,
+    #[prost(message, optional, tag = "2")]
+    pub entity_msg: ::core::option::Option<CEntityMsg>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CEntityMessageRemoveAllDecals {
+    #[prost(bool, optional, tag = "1")]
+    pub remove_decals: ::core::option::Option<bool>,
+    #[prost(message, optional, tag = "2")]
+    pub entity_msg: ::core::option::Option<CEntityMsg>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CEntityMessagePropagateForce {
+    #[prost(message, optional, tag = "1")]
+    pub impulse: ::core::option::Option<CMsgVector>,
+    #[prost(message, optional, tag = "2")]
+    pub entity_msg: ::core::option::Option<CEntityMsg>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CEntityMessageDoSpark {
+    #[prost(message, optional, tag = "1")]
+    pub origin: ::core::option::Option<CMsgVector>,
+    #[prost(int32, optional, tag = "2", default = "-1")]
+    pub entityindex: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "3")]
+    pub radius: ::core::option::Option<f32>,
+    #[prost(fixed32, optional, tag = "4")]
+    pub color: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "5")]
+    pub beams: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "6")]
+    pub thick: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "7")]
+    pub duration: ::core::option::Option<f32>,
     #[prost(message, optional, tag = "8")]
-    pub aim_punch: ::core::option::Option<CMsgQAngle>,
+    pub entity_msg: ::core::option::Option<CEntityMsg>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CEntityMessageFixAngle {
+    #[prost(bool, optional, tag = "1")]
+    pub relative: ::core::option::Option<bool>,
+    #[prost(message, optional, tag = "2")]
+    pub angle: ::core::option::Option<CMsgQAngle>,
+    #[prost(message, optional, tag = "3")]
+    pub entity_msg: ::core::option::Option<CEntityMsg>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageCameraTransition {
+    #[prost(uint32, optional, tag = "1")]
+    pub camera_type: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "2")]
+    pub duration: ::core::option::Option<f32>,
+    #[prost(message, optional, tag = "3")]
+    pub params_data_driven: ::core::option::Option<
+        c_user_message_camera_transition::TransitionDataDriven,
+    >,
+}
+/// Nested message and enum types in `CUserMessageCameraTransition`.
+pub mod c_user_message_camera_transition {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct TransitionDataDriven {
+        #[prost(string, optional, tag = "1")]
+        pub filename: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(int32, optional, tag = "2", default = "-1")]
+        pub attach_ent_index: ::core::option::Option<i32>,
+        #[prost(float, optional, tag = "3")]
+        pub duration: ::core::option::Option<f32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMsgParticleManager {
+    #[prost(
+        enumeration = "ParticleMessage",
+        required,
+        tag = "1",
+        default = "GameParticleManagerEventCreate"
+    )]
+    pub r#type: i32,
+    #[prost(uint32, required, tag = "2")]
+    pub index: u32,
+    #[prost(message, optional, tag = "3")]
+    pub release_particle_index: ::core::option::Option<
+        c_user_msg_particle_manager::ReleaseParticleIndex,
+    >,
+    #[prost(message, optional, tag = "4")]
+    pub create_particle: ::core::option::Option<
+        c_user_msg_particle_manager::CreateParticle,
+    >,
+    #[prost(message, optional, tag = "5")]
+    pub destroy_particle: ::core::option::Option<
+        c_user_msg_particle_manager::DestroyParticle,
+    >,
+    #[prost(message, optional, tag = "6")]
+    pub destroy_particle_involving: ::core::option::Option<
+        c_user_msg_particle_manager::DestroyParticleInvolving,
+    >,
+    #[prost(message, optional, tag = "7")]
+    pub update_particle: ::core::option::Option<
+        c_user_msg_particle_manager::UpdateParticleObsolete,
+    >,
+    #[prost(message, optional, tag = "8")]
+    pub update_particle_fwd: ::core::option::Option<
+        c_user_msg_particle_manager::UpdateParticleFwdObsolete,
+    >,
+    #[prost(message, optional, tag = "9")]
+    pub update_particle_orient: ::core::option::Option<
+        c_user_msg_particle_manager::UpdateParticleOrientObsolete,
+    >,
+    #[prost(message, optional, tag = "10")]
+    pub update_particle_fallback: ::core::option::Option<
+        c_user_msg_particle_manager::UpdateParticleFallback,
+    >,
+    #[prost(message, optional, tag = "11")]
+    pub update_particle_offset: ::core::option::Option<
+        c_user_msg_particle_manager::UpdateParticleOffset,
+    >,
+    #[prost(message, optional, tag = "12")]
+    pub update_particle_ent: ::core::option::Option<
+        c_user_msg_particle_manager::UpdateParticleEnt,
+    >,
+    #[prost(message, optional, tag = "14")]
+    pub update_particle_should_draw: ::core::option::Option<
+        c_user_msg_particle_manager::UpdateParticleShouldDraw,
+    >,
+    #[prost(message, optional, tag = "15")]
+    pub update_particle_set_frozen: ::core::option::Option<
+        c_user_msg_particle_manager::UpdateParticleSetFrozen,
+    >,
+    #[prost(message, optional, tag = "16")]
+    pub change_control_point_attachment: ::core::option::Option<
+        c_user_msg_particle_manager::ChangeControlPointAttachment,
+    >,
+    #[prost(message, optional, tag = "17")]
+    pub update_entity_position: ::core::option::Option<
+        c_user_msg_particle_manager::UpdateEntityPosition,
+    >,
+    #[prost(message, optional, tag = "18")]
+    pub set_particle_fow_properties: ::core::option::Option<
+        c_user_msg_particle_manager::SetParticleFoWProperties,
+    >,
+    #[prost(message, optional, tag = "19")]
+    pub set_particle_text: ::core::option::Option<
+        c_user_msg_particle_manager::SetParticleText,
+    >,
+    #[prost(message, optional, tag = "20")]
+    pub set_particle_should_check_fow: ::core::option::Option<
+        c_user_msg_particle_manager::SetParticleShouldCheckFoW,
+    >,
+    #[prost(message, optional, tag = "21")]
+    pub set_control_point_model: ::core::option::Option<
+        c_user_msg_particle_manager::SetControlPointModel,
+    >,
+    #[prost(message, optional, tag = "22")]
+    pub set_control_point_snapshot: ::core::option::Option<
+        c_user_msg_particle_manager::SetControlPointSnapshot,
+    >,
+    #[prost(message, optional, tag = "23")]
+    pub set_texture_attribute: ::core::option::Option<
+        c_user_msg_particle_manager::SetTextureAttribute,
+    >,
+    #[prost(message, optional, tag = "24")]
+    pub set_scene_object_generic_flag: ::core::option::Option<
+        c_user_msg_particle_manager::SetSceneObjectGenericFlag,
+    >,
+    #[prost(message, optional, tag = "25")]
+    pub set_scene_object_tint_and_desat: ::core::option::Option<
+        c_user_msg_particle_manager::SetSceneObjectTintAndDesat,
+    >,
+    #[prost(message, optional, tag = "26")]
+    pub destroy_particle_named: ::core::option::Option<
+        c_user_msg_particle_manager::DestroyParticleNamed,
+    >,
+    #[prost(message, optional, tag = "27")]
+    pub particle_skip_to_time: ::core::option::Option<
+        c_user_msg_particle_manager::ParticleSkipToTime,
+    >,
+    #[prost(message, optional, tag = "28")]
+    pub particle_can_freeze: ::core::option::Option<
+        c_user_msg_particle_manager::ParticleCanFreeze,
+    >,
+    #[prost(message, optional, tag = "29")]
+    pub set_named_value_context: ::core::option::Option<
+        c_user_msg_particle_manager::SetParticleNamedValueContext,
+    >,
+    #[prost(message, optional, tag = "30")]
+    pub update_particle_transform: ::core::option::Option<
+        c_user_msg_particle_manager::UpdateParticleTransform,
+    >,
+    #[prost(message, optional, tag = "31")]
+    pub particle_freeze_transition_override: ::core::option::Option<
+        c_user_msg_particle_manager::ParticleFreezeTransitionOverride,
+    >,
+    #[prost(message, optional, tag = "32")]
+    pub freeze_particle_involving: ::core::option::Option<
+        c_user_msg_particle_manager::FreezeParticleInvolving,
+    >,
+    #[prost(message, optional, tag = "33")]
+    pub add_modellist_override_element: ::core::option::Option<
+        c_user_msg_particle_manager::AddModellistOverrideElement,
+    >,
+    #[prost(message, optional, tag = "34")]
+    pub clear_modellist_override: ::core::option::Option<
+        c_user_msg_particle_manager::ClearModellistOverride,
+    >,
+    #[prost(message, optional, tag = "35")]
+    pub create_physics_sim: ::core::option::Option<
+        c_user_msg_particle_manager::CreatePhysicsSim,
+    >,
+    #[prost(message, optional, tag = "36")]
+    pub destroy_physics_sim: ::core::option::Option<
+        c_user_msg_particle_manager::DestroyPhysicsSim,
+    >,
+    #[prost(message, optional, tag = "37")]
+    pub set_vdata: ::core::option::Option<c_user_msg_particle_manager::SetVData>,
+    #[prost(message, optional, tag = "38")]
+    pub set_material_override: ::core::option::Option<
+        c_user_msg_particle_manager::SetMaterialOverride,
+    >,
+}
+/// Nested message and enum types in `CUserMsg_ParticleManager`.
+pub mod c_user_msg_particle_manager {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ReleaseParticleIndex {}
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CreateParticle {
+        #[prost(fixed64, optional, tag = "1")]
+        pub particle_name_index: ::core::option::Option<u64>,
+        #[prost(int32, optional, tag = "2")]
+        pub attach_type: ::core::option::Option<i32>,
+        #[prost(uint32, optional, tag = "3", default = "16777215")]
+        pub entity_handle: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "4", default = "16777215")]
+        pub entity_handle_for_modifiers: ::core::option::Option<u32>,
+        #[prost(bool, optional, tag = "5")]
+        pub apply_voice_ban_rules: ::core::option::Option<bool>,
+        #[prost(int32, optional, tag = "6")]
+        pub team_behavior: ::core::option::Option<i32>,
+        #[prost(string, optional, tag = "7")]
+        pub control_point_configuration: ::core::option::Option<
+            ::prost::alloc::string::String,
+        >,
+        #[prost(bool, optional, tag = "8")]
+        pub cluster: ::core::option::Option<bool>,
+        #[prost(float, optional, tag = "9")]
+        pub endcap_time: ::core::option::Option<f32>,
+        #[prost(message, optional, tag = "10")]
+        pub aggregation_position: ::core::option::Option<super::CMsgVector>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DestroyParticle {
+        #[prost(bool, optional, tag = "1")]
+        pub destroy_immediately: ::core::option::Option<bool>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DestroyParticleInvolving {
+        #[prost(bool, optional, tag = "1")]
+        pub destroy_immediately: ::core::option::Option<bool>,
+        #[prost(uint32, optional, tag = "3", default = "16777215")]
+        pub entity_handle: ::core::option::Option<u32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DestroyParticleNamed {
+        #[prost(fixed64, optional, tag = "1")]
+        pub particle_name_index: ::core::option::Option<u64>,
+        #[prost(uint32, optional, tag = "2", default = "16777215")]
+        pub entity_handle: ::core::option::Option<u32>,
+        #[prost(bool, optional, tag = "3")]
+        pub destroy_immediately: ::core::option::Option<bool>,
+        #[prost(bool, optional, tag = "4")]
+        pub play_endcap: ::core::option::Option<bool>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateParticleObsolete {
+        #[prost(int32, optional, tag = "1")]
+        pub control_point: ::core::option::Option<i32>,
+        #[prost(message, optional, tag = "2")]
+        pub position: ::core::option::Option<super::CMsgVector>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateParticleFwdObsolete {
+        #[prost(int32, optional, tag = "1")]
+        pub control_point: ::core::option::Option<i32>,
+        #[prost(message, optional, tag = "2")]
+        pub forward: ::core::option::Option<super::CMsgVector>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateParticleOrientObsolete {
+        #[prost(int32, optional, tag = "1")]
+        pub control_point: ::core::option::Option<i32>,
+        #[prost(message, optional, tag = "2")]
+        pub forward: ::core::option::Option<super::CMsgVector>,
+        #[prost(message, optional, tag = "3")]
+        pub deprecated_right: ::core::option::Option<super::CMsgVector>,
+        #[prost(message, optional, tag = "4")]
+        pub up: ::core::option::Option<super::CMsgVector>,
+        #[prost(message, optional, tag = "5")]
+        pub left: ::core::option::Option<super::CMsgVector>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateParticleTransform {
+        #[prost(int32, optional, tag = "1")]
+        pub control_point: ::core::option::Option<i32>,
+        #[prost(message, optional, tag = "2")]
+        pub position: ::core::option::Option<super::CMsgVector>,
+        #[prost(message, optional, tag = "3")]
+        pub orientation: ::core::option::Option<super::CMsgQuaternion>,
+        #[prost(float, optional, tag = "4")]
+        pub interpolation_interval: ::core::option::Option<f32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateParticleFallback {
+        #[prost(int32, optional, tag = "1")]
+        pub control_point: ::core::option::Option<i32>,
+        #[prost(message, optional, tag = "2")]
+        pub position: ::core::option::Option<super::CMsgVector>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateParticleOffset {
+        #[prost(int32, optional, tag = "1")]
+        pub control_point: ::core::option::Option<i32>,
+        #[prost(message, optional, tag = "2")]
+        pub origin_offset: ::core::option::Option<super::CMsgVector>,
+        #[prost(message, optional, tag = "3")]
+        pub angle_offset: ::core::option::Option<super::CMsgQAngle>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateParticleEnt {
+        #[prost(int32, optional, tag = "1")]
+        pub control_point: ::core::option::Option<i32>,
+        #[prost(uint32, optional, tag = "2", default = "16777215")]
+        pub entity_handle: ::core::option::Option<u32>,
+        #[prost(int32, optional, tag = "3")]
+        pub attach_type: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "4")]
+        pub attachment: ::core::option::Option<i32>,
+        #[prost(message, optional, tag = "5")]
+        pub fallback_position: ::core::option::Option<super::CMsgVector>,
+        #[prost(bool, optional, tag = "6")]
+        pub include_wearables: ::core::option::Option<bool>,
+        #[prost(message, optional, tag = "7")]
+        pub offset_position: ::core::option::Option<super::CMsgVector>,
+        #[prost(message, optional, tag = "8")]
+        pub offset_angles: ::core::option::Option<super::CMsgQAngle>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateParticleSetFrozen {
+        #[prost(bool, optional, tag = "1")]
+        pub set_frozen: ::core::option::Option<bool>,
+        #[prost(float, optional, tag = "2")]
+        pub transition_duration: ::core::option::Option<f32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateParticleShouldDraw {
+        #[prost(bool, optional, tag = "1")]
+        pub should_draw: ::core::option::Option<bool>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ChangeControlPointAttachment {
+        #[prost(int32, optional, tag = "1")]
+        pub attachment_old: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "2")]
+        pub attachment_new: ::core::option::Option<i32>,
+        #[prost(uint32, optional, tag = "3", default = "16777215")]
+        pub entity_handle: ::core::option::Option<u32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct UpdateEntityPosition {
+        #[prost(uint32, optional, tag = "1", default = "16777215")]
+        pub entity_handle: ::core::option::Option<u32>,
+        #[prost(message, optional, tag = "2")]
+        pub position: ::core::option::Option<super::CMsgVector>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetParticleFoWProperties {
+        #[prost(int32, optional, tag = "1")]
+        pub fow_control_point: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "2")]
+        pub fow_control_point2: ::core::option::Option<i32>,
+        #[prost(float, optional, tag = "3")]
+        pub fow_radius: ::core::option::Option<f32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetParticleShouldCheckFoW {
+        #[prost(bool, optional, tag = "1")]
+        pub check_fow: ::core::option::Option<bool>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetControlPointModel {
+        #[prost(int32, optional, tag = "1")]
+        pub control_point: ::core::option::Option<i32>,
+        #[prost(string, optional, tag = "2")]
+        pub model_name: ::core::option::Option<::prost::alloc::string::String>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetControlPointSnapshot {
+        #[prost(int32, optional, tag = "1")]
+        pub control_point: ::core::option::Option<i32>,
+        #[prost(string, optional, tag = "2")]
+        pub snapshot_name: ::core::option::Option<::prost::alloc::string::String>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetParticleText {
+        #[prost(string, optional, tag = "1")]
+        pub text: ::core::option::Option<::prost::alloc::string::String>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetTextureAttribute {
+        #[prost(string, optional, tag = "1")]
+        pub attribute_name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(string, optional, tag = "2")]
+        pub texture_name: ::core::option::Option<::prost::alloc::string::String>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetSceneObjectGenericFlag {
+        #[prost(bool, optional, tag = "1")]
+        pub flag_value: ::core::option::Option<bool>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetSceneObjectTintAndDesat {
+        #[prost(fixed32, optional, tag = "1")]
+        pub tint: ::core::option::Option<u32>,
+        #[prost(float, optional, tag = "2")]
+        pub desat: ::core::option::Option<f32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ParticleSkipToTime {
+        #[prost(float, optional, tag = "1")]
+        pub skip_to_time: ::core::option::Option<f32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ParticleCanFreeze {
+        #[prost(bool, optional, tag = "1")]
+        pub can_freeze: ::core::option::Option<bool>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ParticleFreezeTransitionOverride {
+        #[prost(float, optional, tag = "1")]
+        pub freeze_transition_override: ::core::option::Option<f32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct FreezeParticleInvolving {
+        #[prost(bool, optional, tag = "1")]
+        pub set_frozen: ::core::option::Option<bool>,
+        #[prost(float, optional, tag = "2")]
+        pub transition_duration: ::core::option::Option<f32>,
+        #[prost(uint32, optional, tag = "3", default = "16777215")]
+        pub entity_handle: ::core::option::Option<u32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct AddModellistOverrideElement {
+        #[prost(string, optional, tag = "1")]
+        pub model_name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(float, optional, tag = "2")]
+        pub spawn_probability: ::core::option::Option<f32>,
+        #[prost(uint32, optional, tag = "3")]
+        pub groupid: ::core::option::Option<u32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ClearModellistOverride {
+        #[prost(uint32, optional, tag = "1")]
+        pub groupid: ::core::option::Option<u32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetParticleNamedValueContext {
+        #[prost(message, repeated, tag = "1")]
+        pub float_values: ::prost::alloc::vec::Vec<
+            set_particle_named_value_context::FloatContextValue,
+        >,
+        #[prost(message, repeated, tag = "2")]
+        pub vector_values: ::prost::alloc::vec::Vec<
+            set_particle_named_value_context::VectorContextValue,
+        >,
+        #[prost(message, repeated, tag = "3")]
+        pub transform_values: ::prost::alloc::vec::Vec<
+            set_particle_named_value_context::TransformContextValue,
+        >,
+        #[prost(message, repeated, tag = "4")]
+        pub ehandle_values: ::prost::alloc::vec::Vec<
+            set_particle_named_value_context::EHandleContext,
+        >,
+    }
+    /// Nested message and enum types in `SetParticleNamedValueContext`.
+    pub mod set_particle_named_value_context {
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct FloatContextValue {
+            #[prost(uint32, optional, tag = "1")]
+            pub value_name_hash: ::core::option::Option<u32>,
+            #[prost(float, optional, tag = "2")]
+            pub value: ::core::option::Option<f32>,
+        }
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct VectorContextValue {
+            #[prost(uint32, optional, tag = "1")]
+            pub value_name_hash: ::core::option::Option<u32>,
+            #[prost(message, optional, tag = "2")]
+            pub value: ::core::option::Option<super::super::CMsgVector>,
+        }
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct TransformContextValue {
+            #[prost(uint32, optional, tag = "1")]
+            pub value_name_hash: ::core::option::Option<u32>,
+            #[prost(message, optional, tag = "2")]
+            pub angles: ::core::option::Option<super::super::CMsgQAngle>,
+            #[prost(message, optional, tag = "3")]
+            pub translation: ::core::option::Option<super::super::CMsgVector>,
+        }
+        #[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        pub struct EHandleContext {
+            #[prost(uint32, optional, tag = "1")]
+            pub value_name_hash: ::core::option::Option<u32>,
+            #[prost(uint32, optional, tag = "2", default = "16777215")]
+            pub ent_index: ::core::option::Option<u32>,
+        }
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CreatePhysicsSim {
+        #[prost(string, optional, tag = "1")]
+        pub prop_group_name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(bool, optional, tag = "2")]
+        pub use_high_quality_simulation: ::core::option::Option<bool>,
+        #[prost(uint32, optional, tag = "3")]
+        pub max_particle_count: ::core::option::Option<u32>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct DestroyPhysicsSim {}
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetVData {
+        #[prost(string, optional, tag = "1")]
+        pub vdata_name: ::core::option::Option<::prost::alloc::string::String>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct SetMaterialOverride {
+        #[prost(string, optional, tag = "1")]
+        pub material_name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(bool, optional, tag = "2")]
+        pub include_children: ::core::option::Option<bool>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMsgHudError {
+    #[prost(int32, optional, tag = "1")]
+    pub order_id: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMsgCustomGameEvent {
+    #[prost(string, optional, tag = "1")]
+    pub event_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageHapticsManagerPulse {
+    #[prost(int32, optional, tag = "1")]
+    pub hand_id: ::core::option::Option<i32>,
+    #[prost(float, optional, tag = "2")]
+    pub effect_amplitude: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "3")]
+    pub effect_frequency: ::core::option::Option<f32>,
+    #[prost(float, optional, tag = "4")]
+    pub effect_duration: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageHapticsManagerEffect {
+    #[prost(int32, optional, tag = "1")]
+    pub hand_id: ::core::option::Option<i32>,
+    #[prost(uint32, optional, tag = "2")]
+    pub effect_name_hash_code: ::core::option::Option<u32>,
+    #[prost(float, optional, tag = "3")]
+    pub effect_scale: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageAnimStateGraphState {
+    #[prost(int32, optional, tag = "1")]
+    pub entity_index: ::core::option::Option<i32>,
+    #[prost(bytes = "vec", optional, tag = "2")]
+    pub data: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageUpdateCssClasses {
+    #[prost(int32, optional, tag = "1")]
+    pub target_world_panel: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "2")]
+    pub css_classes: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "3")]
+    pub is_add: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageServerFrameTime {
+    #[prost(float, optional, tag = "1")]
+    pub frame_time: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageLagCompensationError {
+    #[prost(float, optional, tag = "1")]
+    pub distance: ::core::option::Option<f32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageRequestDllStatus {
+    #[prost(string, optional, tag = "1")]
+    pub dll_action: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(bool, optional, tag = "2")]
+    pub full_report: ::core::option::Option<bool>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageRequestUtilAction {
+    #[prost(int32, optional, tag = "2")]
+    pub util1: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub util2: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "4")]
+    pub util3: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "5")]
+    pub util4: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "6")]
+    pub util5: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageUtilMsgResponse {
+    #[prost(fixed32, optional, tag = "1")]
+    pub crc: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "2")]
+    pub item_count: ::core::option::Option<i32>,
+    #[prost(fixed32, optional, tag = "3")]
+    pub crc2: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "4")]
+    pub item_count2: ::core::option::Option<i32>,
+    #[prost(int32, repeated, packed = "false", tag = "5")]
+    pub crc_part: ::prost::alloc::vec::Vec<i32>,
+    #[prost(int32, repeated, packed = "false", tag = "6")]
+    pub crc_part2: ::prost::alloc::vec::Vec<i32>,
+    #[prost(int32, optional, tag = "7")]
+    pub client_timestamp: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "8")]
+    pub platform: ::core::option::Option<i32>,
+    #[prost(message, repeated, tag = "9")]
+    pub itemdetails: ::prost::alloc::vec::Vec<
+        c_user_message_util_msg_response::ItemDetail,
+    >,
+    #[prost(int32, optional, tag = "10")]
+    pub itemgroup: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "11")]
+    pub total_count: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "12")]
+    pub total_count2: ::core::option::Option<i32>,
+}
+/// Nested message and enum types in `CUserMessage_UtilMsg_Response`.
+pub mod c_user_message_util_msg_response {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct ItemDetail {
+        #[prost(int32, optional, tag = "1")]
+        pub index: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "2")]
+        pub hash: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "3")]
+        pub crc: ::core::option::Option<i32>,
+        #[prost(string, optional, tag = "4")]
+        pub name: ::core::option::Option<::prost::alloc::string::String>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageDllStatus {
+    #[prost(string, optional, tag = "1")]
+    pub file_report: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "2")]
+    pub command_line: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(uint32, optional, tag = "3")]
+    pub total_files: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "4")]
+    pub process_id: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "5")]
+    pub osversion: ::core::option::Option<i32>,
+    #[prost(uint64, optional, tag = "6")]
+    pub client_time: ::core::option::Option<u64>,
+    #[prost(message, repeated, tag = "7")]
+    pub diagnostics: ::prost::alloc::vec::Vec<c_user_message_dll_status::CvDiagnostic>,
+    #[prost(message, repeated, tag = "8")]
+    pub modules: ::prost::alloc::vec::Vec<c_user_message_dll_status::CModule>,
+}
+/// Nested message and enum types in `CUserMessage_DllStatus`.
+pub mod c_user_message_dll_status {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CvDiagnostic {
+        #[prost(uint32, optional, tag = "1")]
+        pub id: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "2")]
+        pub extended: ::core::option::Option<u32>,
+        #[prost(uint64, optional, tag = "3")]
+        pub value: ::core::option::Option<u64>,
+        #[prost(string, optional, tag = "4")]
+        pub string_value: ::core::option::Option<::prost::alloc::string::String>,
+    }
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct CModule {
+        #[prost(uint64, optional, tag = "1")]
+        pub base_addr: ::core::option::Option<u64>,
+        #[prost(string, optional, tag = "2")]
+        pub name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(uint32, optional, tag = "3")]
+        pub size: ::core::option::Option<u32>,
+        #[prost(uint32, optional, tag = "4")]
+        pub timestamp: ::core::option::Option<u32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageRequestInventory {
+    #[prost(int32, optional, tag = "1")]
+    pub inventory: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "2")]
+    pub offset: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub options: ::core::option::Option<i32>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageInventoryResponse {
+    #[prost(fixed32, optional, tag = "1")]
+    pub crc: ::core::option::Option<u32>,
+    #[prost(int32, optional, tag = "2")]
+    pub item_count: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "5")]
+    pub osversion: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "6")]
+    pub perf_time: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "7")]
+    pub client_timestamp: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "8")]
+    pub platform: ::core::option::Option<i32>,
+    #[prost(message, repeated, tag = "9")]
+    pub inventories: ::prost::alloc::vec::Vec<
+        c_user_message_inventory_response::InventoryDetail,
+    >,
+    #[prost(message, repeated, tag = "10")]
+    pub inventories2: ::prost::alloc::vec::Vec<
+        c_user_message_inventory_response::InventoryDetail,
+    >,
+    #[prost(message, repeated, tag = "14")]
+    pub inventories3: ::prost::alloc::vec::Vec<
+        c_user_message_inventory_response::InventoryDetail,
+    >,
+    #[prost(int32, optional, tag = "11")]
+    pub inv_type: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "12")]
+    pub build_version: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "13")]
+    pub instance: ::core::option::Option<i32>,
+    #[prost(int64, optional, tag = "15")]
+    pub start_time: ::core::option::Option<i64>,
+}
+/// Nested message and enum types in `CUserMessage_Inventory_Response`.
+pub mod c_user_message_inventory_response {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct InventoryDetail {
+        #[prost(int32, optional, tag = "1")]
+        pub index: ::core::option::Option<i32>,
+        #[prost(int64, optional, tag = "2")]
+        pub primary: ::core::option::Option<i64>,
+        #[prost(int64, optional, tag = "3")]
+        pub offset: ::core::option::Option<i64>,
+        #[prost(int64, optional, tag = "4")]
+        pub first: ::core::option::Option<i64>,
+        #[prost(int64, optional, tag = "5")]
+        pub base: ::core::option::Option<i64>,
+        #[prost(string, optional, tag = "6")]
+        pub name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(string, optional, tag = "7")]
+        pub base_name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(int32, optional, tag = "8")]
+        pub base_detail: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "9")]
+        pub base_time: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "10")]
+        pub base_hash: ::core::option::Option<i32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageRequestDiagnostic {
+    #[prost(message, repeated, tag = "1")]
+    pub diagnostics: ::prost::alloc::vec::Vec<
+        c_user_message_request_diagnostic::Diagnostic,
+    >,
+}
+/// Nested message and enum types in `CUserMessageRequestDiagnostic`.
+pub mod c_user_message_request_diagnostic {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Diagnostic {
+        #[prost(int32, optional, tag = "1")]
+        pub index: ::core::option::Option<i32>,
+        #[prost(int64, optional, tag = "2")]
+        pub offset: ::core::option::Option<i64>,
+        #[prost(int32, optional, tag = "3")]
+        pub param: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "4")]
+        pub length: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "5")]
+        pub r#type: ::core::option::Option<i32>,
+        #[prost(int64, optional, tag = "6")]
+        pub base: ::core::option::Option<i64>,
+        #[prost(int64, optional, tag = "7")]
+        pub range: ::core::option::Option<i64>,
+        #[prost(int64, optional, tag = "8")]
+        pub extent: ::core::option::Option<i64>,
+        #[prost(int64, optional, tag = "9")]
+        pub detail: ::core::option::Option<i64>,
+        #[prost(string, optional, tag = "10")]
+        pub name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(string, optional, tag = "11")]
+        pub alias: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(bytes = "vec", optional, tag = "12")]
+        pub vardetail: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+        #[prost(int32, optional, tag = "13")]
+        pub context: ::core::option::Option<i32>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageDiagnosticResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub diagnostics: ::prost::alloc::vec::Vec<
+        c_user_message_diagnostic_response::Diagnostic,
+    >,
+    #[prost(int32, optional, tag = "2")]
+    pub build_version: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub instance: ::core::option::Option<i32>,
+    #[prost(int64, optional, tag = "4")]
+    pub start_time: ::core::option::Option<i64>,
+    #[prost(int32, optional, tag = "5")]
+    pub osversion: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "6")]
+    pub platform: ::core::option::Option<i32>,
+}
+/// Nested message and enum types in `CUserMessage_Diagnostic_Response`.
+pub mod c_user_message_diagnostic_response {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Diagnostic {
+        #[prost(int32, optional, tag = "1")]
+        pub index: ::core::option::Option<i32>,
+        #[prost(int64, optional, tag = "2")]
+        pub offset: ::core::option::Option<i64>,
+        #[prost(int32, optional, tag = "3")]
+        pub param: ::core::option::Option<i32>,
+        #[prost(int32, optional, tag = "4")]
+        pub length: ::core::option::Option<i32>,
+        #[prost(bytes = "vec", optional, tag = "5")]
+        pub detail: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+        #[prost(int64, optional, tag = "6")]
+        pub base: ::core::option::Option<i64>,
+        #[prost(int64, optional, tag = "7")]
+        pub range: ::core::option::Option<i64>,
+        #[prost(int32, optional, tag = "8")]
+        pub r#type: ::core::option::Option<i32>,
+        #[prost(string, optional, tag = "10")]
+        pub name: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(string, optional, tag = "11")]
+        pub alias: ::core::option::Option<::prost::alloc::string::String>,
+        #[prost(bytes = "vec", optional, tag = "12")]
+        pub backup: ::core::option::Option<::prost::alloc::vec::Vec<u8>>,
+        #[prost(int32, optional, tag = "13")]
+        pub context: ::core::option::Option<i32>,
+        #[prost(int64, optional, tag = "14")]
+        pub control: ::core::option::Option<i64>,
+        #[prost(int64, optional, tag = "15")]
+        pub augment: ::core::option::Option<i64>,
+        #[prost(int64, optional, tag = "16")]
+        pub placebo: ::core::option::Option<i64>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageExtraUserData {
+    #[prost(int32, optional, tag = "1")]
+    pub item: ::core::option::Option<i32>,
+    #[prost(int64, optional, tag = "2")]
+    pub value1: ::core::option::Option<i64>,
+    #[prost(int64, optional, tag = "3")]
+    pub value2: ::core::option::Option<i64>,
+    #[prost(bytes = "vec", repeated, tag = "4")]
+    pub detail1: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+    #[prost(bytes = "vec", repeated, tag = "5")]
+    pub detail2: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessageNotifyResponseFound {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub ent_index: ::core::option::Option<i32>,
+    #[prost(string, optional, tag = "2")]
+    pub rule_name: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "3")]
+    pub response_value: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(string, optional, tag = "4")]
+    pub response_concept: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(message, repeated, tag = "5")]
+    pub criteria: ::prost::alloc::vec::Vec<
+        c_user_message_notify_response_found::Criteria,
+    >,
+    #[prost(uint32, repeated, tag = "6")]
+    pub int_criteria_names: ::prost::alloc::vec::Vec<u32>,
+    #[prost(int32, repeated, tag = "7")]
+    pub int_criteria_values: ::prost::alloc::vec::Vec<i32>,
+    #[prost(uint32, repeated, tag = "8")]
+    pub float_criteria_names: ::prost::alloc::vec::Vec<u32>,
+    #[prost(float, repeated, packed = "false", tag = "9")]
+    pub float_criteria_values: ::prost::alloc::vec::Vec<f32>,
+    #[prost(uint32, repeated, tag = "10")]
+    pub symbol_criteria_names: ::prost::alloc::vec::Vec<u32>,
+    #[prost(uint32, repeated, tag = "11")]
+    pub symbol_criteria_values: ::prost::alloc::vec::Vec<u32>,
+    #[prost(int32, optional, tag = "12")]
+    pub speak_result: ::core::option::Option<i32>,
+}
+/// Nested message and enum types in `CUserMessage_NotifyResponseFound`.
+pub mod c_user_message_notify_response_found {
+    #[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    pub struct Criteria {
+        #[prost(uint32, optional, tag = "1")]
+        pub name_symbol: ::core::option::Option<u32>,
+        #[prost(string, optional, tag = "2")]
+        pub value: ::core::option::Option<::prost::alloc::string::String>,
+    }
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CUserMessagePlayResponseConditional {
+    #[prost(int32, optional, tag = "1", default = "-1")]
+    pub ent_index: ::core::option::Option<i32>,
+    #[prost(int32, repeated, packed = "false", tag = "2")]
+    pub player_slots: ::prost::alloc::vec::Vec<i32>,
+    #[prost(string, optional, tag = "3")]
+    pub response: ::core::option::Option<::prost::alloc::string::String>,
+    #[prost(message, optional, tag = "4")]
+    pub ent_origin: ::core::option::Option<CMsgVector>,
+    #[prost(float, optional, tag = "5")]
+    pub pre_delay: ::core::option::Option<f32>,
+    #[prost(int32, optional, tag = "6")]
+    pub mix_priority: ::core::option::Option<i32>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum ECstrike15UserMessages {
-    CsUmVguiMenu = 301,
-    CsUmGeiger = 302,
-    CsUmTrain = 303,
-    CsUmHudText = 304,
-    CsUmSayText = 305,
-    CsUmSayText2 = 306,
-    CsUmTextMsg = 307,
-    CsUmHudMsg = 308,
-    CsUmResetHud = 309,
-    CsUmGameTitle = 310,
-    CsUmShake = 312,
-    CsUmFade = 313,
-    CsUmRumble = 314,
-    CsUmCloseCaption = 315,
-    CsUmCloseCaptionDirect = 316,
-    CsUmSendAudio = 317,
-    CsUmRawAudio = 318,
-    CsUmVoiceMask = 319,
-    CsUmRequestState = 320,
-    CsUmDamage = 321,
-    CsUmRadioText = 322,
-    CsUmHintText = 323,
-    CsUmKeyHintText = 324,
-    CsUmProcessSpottedEntityUpdate = 325,
-    CsUmReloadEffect = 326,
-    CsUmAdjustMoney = 327,
-    CsUmUpdateTeamMoney = 328,
-    CsUmStopSpectatorMode = 329,
-    CsUmKillCam = 330,
-    CsUmDesiredTimescale = 331,
-    CsUmCurrentTimescale = 332,
-    CsUmAchievementEvent = 333,
-    CsUmMatchEndConditions = 334,
-    CsUmDisconnectToLobby = 335,
-    CsUmPlayerStatsUpdate = 336,
-    CsUmWarmupHasEnded = 338,
-    CsUmClientInfo = 339,
-    CsUmXRankGet = 340,
-    CsUmXRankUpd = 341,
-    CsUmCallVoteFailed = 345,
-    CsUmVoteStart = 346,
-    CsUmVotePass = 347,
-    CsUmVoteFailed = 348,
-    CsUmVoteSetup = 349,
-    CsUmServerRankRevealAll = 350,
-    CsUmSendLastKillerDamageToClient = 351,
-    CsUmServerRankUpdate = 352,
-    CsUmItemPickup = 353,
-    CsUmShowMenu = 354,
-    CsUmBarTime = 355,
-    CsUmAmmoDenied = 356,
-    CsUmMarkAchievement = 357,
-    CsUmMatchStatsUpdate = 358,
-    CsUmItemDrop = 359,
-    CsUmGlowPropTurnOff = 360,
-    CsUmSendPlayerItemDrops = 361,
-    CsUmRoundBackupFilenames = 362,
-    CsUmSendPlayerItemFound = 363,
-    CsUmReportHit = 364,
-    CsUmXpUpdate = 365,
-    CsUmQuestProgress = 366,
-    CsUmScoreLeaderboardData = 367,
-    CsUmPlayerDecalDigitalSignature = 368,
-    CsUmWeaponSound = 369,
-    CsUmUpdateScreenHealthBar = 370,
-    CsUmEntityOutlineHighlight = 371,
-    CsUmSsui = 372,
-    CsUmSurvivalStats = 373,
-    CsUmDisconnectToLobby2 = 374,
-    CsUmEndOfMatchAllPlayersData = 375,
-    CsUmPostRoundDamageReport = 376,
-    CsUmRoundEndReportData = 379,
-    CsUmCurrentRoundOdds = 380,
-    CsUmDeepStats = 381,
-    CsUmShootInfo = 383,
-    CsUmCounterStrafe = 385,
-    CsUmDamagePrediction = 386,
+pub enum EBaseUserMessages {
+    UmAchievementEvent = 101,
+    UmCloseCaption = 102,
+    UmCloseCaptionDirect = 103,
+    UmCurrentTimescale = 104,
+    UmDesiredTimescale = 105,
+    UmFade = 106,
+    UmGameTitle = 107,
+    UmHudMsg = 110,
+    UmHudText = 111,
+    UmColoredText = 113,
+    UmRequestState = 114,
+    UmResetHud = 115,
+    UmRumble = 116,
+    UmSayText = 117,
+    UmSayText2 = 118,
+    UmSayTextChannel = 119,
+    UmShake = 120,
+    UmShakeDir = 121,
+    UmWaterShake = 122,
+    UmTextMsg = 124,
+    UmScreenTilt = 125,
+    UmVoiceMask = 128,
+    UmSendAudio = 130,
+    UmItemPickup = 131,
+    UmAmmoDenied = 132,
+    UmShowMenu = 134,
+    UmCreditsMsg = 135,
+    UmCloseCaptionPlaceholder = 142,
+    UmCameraTransition = 143,
+    UmAudioParameter = 144,
+    UmParticleManager = 145,
+    UmHudError = 146,
+    UmCustomGameEvent = 148,
+    UmAnimGraphUpdate = 149,
+    UmHapticsManagerPulse = 150,
+    UmHapticsManagerEffect = 151,
+    UmCommandQueueState = 152,
+    UmUpdateCssClasses = 153,
+    UmServerFrameTime = 154,
+    UmLagCompensationError = 155,
+    UmRequestDllStatus = 156,
+    UmRequestUtilAction = 157,
+    UmUtilActionResponse = 158,
+    UmDllStatusResponse = 159,
+    UmRequestInventory = 160,
+    UmInventoryResponse = 161,
+    UmRequestDiagnostic = 162,
+    UmDiagnosticResponse = 163,
+    UmExtraUserData = 164,
+    UmNotifyResponseFound = 165,
+    UmPlayResponseConditional = 166,
+    UmMaxBase = 200,
 }
-impl ECstrike15UserMessages {
+impl EBaseUserMessages {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            ECstrike15UserMessages::CsUmVguiMenu => "CS_UM_VGUIMenu",
-            ECstrike15UserMessages::CsUmGeiger => "CS_UM_Geiger",
-            ECstrike15UserMessages::CsUmTrain => "CS_UM_Train",
-            ECstrike15UserMessages::CsUmHudText => "CS_UM_HudText",
-            ECstrike15UserMessages::CsUmSayText => "CS_UM_SayText",
-            ECstrike15UserMessages::CsUmSayText2 => "CS_UM_SayText2",
-            ECstrike15UserMessages::CsUmTextMsg => "CS_UM_TextMsg",
-            ECstrike15UserMessages::CsUmHudMsg => "CS_UM_HudMsg",
-            ECstrike15UserMessages::CsUmResetHud => "CS_UM_ResetHud",
-            ECstrike15UserMessages::CsUmGameTitle => "CS_UM_GameTitle",
-            ECstrike15UserMessages::CsUmShake => "CS_UM_Shake",
-            ECstrike15UserMessages::CsUmFade => "CS_UM_Fade",
-            ECstrike15UserMessages::CsUmRumble => "CS_UM_Rumble",
-            ECstrike15UserMessages::CsUmCloseCaption => "CS_UM_CloseCaption",
-            ECstrike15UserMessages::CsUmCloseCaptionDirect => "CS_UM_CloseCaptionDirect",
-            ECstrike15UserMessages::CsUmSendAudio => "CS_UM_SendAudio",
-            ECstrike15UserMessages::CsUmRawAudio => "CS_UM_RawAudio",
-            ECstrike15UserMessages::CsUmVoiceMask => "CS_UM_VoiceMask",
-            ECstrike15UserMessages::CsUmRequestState => "CS_UM_RequestState",
-            ECstrike15UserMessages::CsUmDamage => "CS_UM_Damage",
-            ECstrike15UserMessages::CsUmRadioText => "CS_UM_RadioText",
-            ECstrike15UserMessages::CsUmHintText => "CS_UM_HintText",
-            ECstrike15UserMessages::CsUmKeyHintText => "CS_UM_KeyHintText",
-            ECstrike15UserMessages::CsUmProcessSpottedEntityUpdate => {
-                "CS_UM_ProcessSpottedEntityUpdate"
-            }
-            ECstrike15UserMessages::CsUmReloadEffect => "CS_UM_ReloadEffect",
-            ECstrike15UserMessages::CsUmAdjustMoney => "CS_UM_AdjustMoney",
-            ECstrike15UserMessages::CsUmUpdateTeamMoney => "CS_UM_UpdateTeamMoney",
-            ECstrike15UserMessages::CsUmStopSpectatorMode => "CS_UM_StopSpectatorMode",
-            ECstrike15UserMessages::CsUmKillCam => "CS_UM_KillCam",
-            ECstrike15UserMessages::CsUmDesiredTimescale => "CS_UM_DesiredTimescale",
-            ECstrike15UserMessages::CsUmCurrentTimescale => "CS_UM_CurrentTimescale",
-            ECstrike15UserMessages::CsUmAchievementEvent => "CS_UM_AchievementEvent",
-            ECstrike15UserMessages::CsUmMatchEndConditions => "CS_UM_MatchEndConditions",
-            ECstrike15UserMessages::CsUmDisconnectToLobby => "CS_UM_DisconnectToLobby",
-            ECstrike15UserMessages::CsUmPlayerStatsUpdate => "CS_UM_PlayerStatsUpdate",
-            ECstrike15UserMessages::CsUmWarmupHasEnded => "CS_UM_WarmupHasEnded",
-            ECstrike15UserMessages::CsUmClientInfo => "CS_UM_ClientInfo",
-            ECstrike15UserMessages::CsUmXRankGet => "CS_UM_XRankGet",
-            ECstrike15UserMessages::CsUmXRankUpd => "CS_UM_XRankUpd",
-            ECstrike15UserMessages::CsUmCallVoteFailed => "CS_UM_CallVoteFailed",
-            ECstrike15UserMessages::CsUmVoteStart => "CS_UM_VoteStart",
-            ECstrike15UserMessages::CsUmVotePass => "CS_UM_VotePass",
-            ECstrike15UserMessages::CsUmVoteFailed => "CS_UM_VoteFailed",
-            ECstrike15UserMessages::CsUmVoteSetup => "CS_UM_VoteSetup",
-            ECstrike15UserMessages::CsUmServerRankRevealAll => {
-                "CS_UM_ServerRankRevealAll"
-            }
-            ECstrike15UserMessages::CsUmSendLastKillerDamageToClient => {
-                "CS_UM_SendLastKillerDamageToClient"
-            }
-            ECstrike15UserMessages::CsUmServerRankUpdate => "CS_UM_ServerRankUpdate",
-            ECstrike15UserMessages::CsUmItemPickup => "CS_UM_ItemPickup",
-            ECstrike15UserMessages::CsUmShowMenu => "CS_UM_ShowMenu",
-            ECstrike15UserMessages::CsUmBarTime => "CS_UM_BarTime",
-            ECstrike15UserMessages::CsUmAmmoDenied => "CS_UM_AmmoDenied",
-            ECstrike15UserMessages::CsUmMarkAchievement => "CS_UM_MarkAchievement",
-            ECstrike15UserMessages::CsUmMatchStatsUpdate => "CS_UM_MatchStatsUpdate",
-            ECstrike15UserMessages::CsUmItemDrop => "CS_UM_ItemDrop",
-            ECstrike15UserMessages::CsUmGlowPropTurnOff => "CS_UM_GlowPropTurnOff",
-            ECstrike15UserMessages::CsUmSendPlayerItemDrops => {
-                "CS_UM_SendPlayerItemDrops"
-            }
-            ECstrike15UserMessages::CsUmRoundBackupFilenames => {
-                "CS_UM_RoundBackupFilenames"
-            }
-            ECstrike15UserMessages::CsUmSendPlayerItemFound => {
-                "CS_UM_SendPlayerItemFound"
-            }
-            ECstrike15UserMessages::CsUmReportHit => "CS_UM_ReportHit",
-            ECstrike15UserMessages::CsUmXpUpdate => "CS_UM_XpUpdate",
-            ECstrike15UserMessages::CsUmQuestProgress => "CS_UM_QuestProgress",
-            ECstrike15UserMessages::CsUmScoreLeaderboardData => {
-                "CS_UM_ScoreLeaderboardData"
-            }
-            ECstrike15UserMessages::CsUmPlayerDecalDigitalSignature => {
-                "CS_UM_PlayerDecalDigitalSignature"
-            }
-            ECstrike15UserMessages::CsUmWeaponSound => "CS_UM_WeaponSound",
-            ECstrike15UserMessages::CsUmUpdateScreenHealthBar => {
-                "CS_UM_UpdateScreenHealthBar"
-            }
-            ECstrike15UserMessages::CsUmEntityOutlineHighlight => {
-                "CS_UM_EntityOutlineHighlight"
-            }
-            ECstrike15UserMessages::CsUmSsui => "CS_UM_SSUI",
-            ECstrike15UserMessages::CsUmSurvivalStats => "CS_UM_SurvivalStats",
-            ECstrike15UserMessages::CsUmDisconnectToLobby2 => "CS_UM_DisconnectToLobby2",
-            ECstrike15UserMessages::CsUmEndOfMatchAllPlayersData => {
-                "CS_UM_EndOfMatchAllPlayersData"
-            }
-            ECstrike15UserMessages::CsUmPostRoundDamageReport => {
-                "CS_UM_PostRoundDamageReport"
-            }
-            ECstrike15UserMessages::CsUmRoundEndReportData => "CS_UM_RoundEndReportData",
-            ECstrike15UserMessages::CsUmCurrentRoundOdds => "CS_UM_CurrentRoundOdds",
-            ECstrike15UserMessages::CsUmDeepStats => "CS_UM_DeepStats",
-            ECstrike15UserMessages::CsUmShootInfo => "CS_UM_ShootInfo",
-            ECstrike15UserMessages::CsUmCounterStrafe => "CS_UM_CounterStrafe",
-            ECstrike15UserMessages::CsUmDamagePrediction => "CS_UM_DamagePrediction",
+            EBaseUserMessages::UmAchievementEvent => "UM_AchievementEvent",
+            EBaseUserMessages::UmCloseCaption => "UM_CloseCaption",
+            EBaseUserMessages::UmCloseCaptionDirect => "UM_CloseCaptionDirect",
+            EBaseUserMessages::UmCurrentTimescale => "UM_CurrentTimescale",
+            EBaseUserMessages::UmDesiredTimescale => "UM_DesiredTimescale",
+            EBaseUserMessages::UmFade => "UM_Fade",
+            EBaseUserMessages::UmGameTitle => "UM_GameTitle",
+            EBaseUserMessages::UmHudMsg => "UM_HudMsg",
+            EBaseUserMessages::UmHudText => "UM_HudText",
+            EBaseUserMessages::UmColoredText => "UM_ColoredText",
+            EBaseUserMessages::UmRequestState => "UM_RequestState",
+            EBaseUserMessages::UmResetHud => "UM_ResetHUD",
+            EBaseUserMessages::UmRumble => "UM_Rumble",
+            EBaseUserMessages::UmSayText => "UM_SayText",
+            EBaseUserMessages::UmSayText2 => "UM_SayText2",
+            EBaseUserMessages::UmSayTextChannel => "UM_SayTextChannel",
+            EBaseUserMessages::UmShake => "UM_Shake",
+            EBaseUserMessages::UmShakeDir => "UM_ShakeDir",
+            EBaseUserMessages::UmWaterShake => "UM_WaterShake",
+            EBaseUserMessages::UmTextMsg => "UM_TextMsg",
+            EBaseUserMessages::UmScreenTilt => "UM_ScreenTilt",
+            EBaseUserMessages::UmVoiceMask => "UM_VoiceMask",
+            EBaseUserMessages::UmSendAudio => "UM_SendAudio",
+            EBaseUserMessages::UmItemPickup => "UM_ItemPickup",
+            EBaseUserMessages::UmAmmoDenied => "UM_AmmoDenied",
+            EBaseUserMessages::UmShowMenu => "UM_ShowMenu",
+            EBaseUserMessages::UmCreditsMsg => "UM_CreditsMsg",
+            EBaseUserMessages::UmCloseCaptionPlaceholder => "UM_CloseCaptionPlaceholder",
+            EBaseUserMessages::UmCameraTransition => "UM_CameraTransition",
+            EBaseUserMessages::UmAudioParameter => "UM_AudioParameter",
+            EBaseUserMessages::UmParticleManager => "UM_ParticleManager",
+            EBaseUserMessages::UmHudError => "UM_HudError",
+            EBaseUserMessages::UmCustomGameEvent => "UM_CustomGameEvent",
+            EBaseUserMessages::UmAnimGraphUpdate => "UM_AnimGraphUpdate",
+            EBaseUserMessages::UmHapticsManagerPulse => "UM_HapticsManagerPulse",
+            EBaseUserMessages::UmHapticsManagerEffect => "UM_HapticsManagerEffect",
+            EBaseUserMessages::UmCommandQueueState => "UM_CommandQueueState",
+            EBaseUserMessages::UmUpdateCssClasses => "UM_UpdateCssClasses",
+            EBaseUserMessages::UmServerFrameTime => "UM_ServerFrameTime",
+            EBaseUserMessages::UmLagCompensationError => "UM_LagCompensationError",
+            EBaseUserMessages::UmRequestDllStatus => "UM_RequestDllStatus",
+            EBaseUserMessages::UmRequestUtilAction => "UM_RequestUtilAction",
+            EBaseUserMessages::UmUtilActionResponse => "UM_UtilActionResponse",
+            EBaseUserMessages::UmDllStatusResponse => "UM_DllStatusResponse",
+            EBaseUserMessages::UmRequestInventory => "UM_RequestInventory",
+            EBaseUserMessages::UmInventoryResponse => "UM_InventoryResponse",
+            EBaseUserMessages::UmRequestDiagnostic => "UM_RequestDiagnostic",
+            EBaseUserMessages::UmDiagnosticResponse => "UM_DiagnosticResponse",
+            EBaseUserMessages::UmExtraUserData => "UM_ExtraUserData",
+            EBaseUserMessages::UmNotifyResponseFound => "UM_NotifyResponseFound",
+            EBaseUserMessages::UmPlayResponseConditional => "UM_PlayResponseConditional",
+            EBaseUserMessages::UmMaxBase => "UM_MAX_BASE",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "CS_UM_VGUIMenu" => Some(Self::CsUmVguiMenu),
-            "CS_UM_Geiger" => Some(Self::CsUmGeiger),
-            "CS_UM_Train" => Some(Self::CsUmTrain),
-            "CS_UM_HudText" => Some(Self::CsUmHudText),
-            "CS_UM_SayText" => Some(Self::CsUmSayText),
-            "CS_UM_SayText2" => Some(Self::CsUmSayText2),
-            "CS_UM_TextMsg" => Some(Self::CsUmTextMsg),
-            "CS_UM_HudMsg" => Some(Self::CsUmHudMsg),
-            "CS_UM_ResetHud" => Some(Self::CsUmResetHud),
-            "CS_UM_GameTitle" => Some(Self::CsUmGameTitle),
-            "CS_UM_Shake" => Some(Self::CsUmShake),
-            "CS_UM_Fade" => Some(Self::CsUmFade),
-            "CS_UM_Rumble" => Some(Self::CsUmRumble),
-            "CS_UM_CloseCaption" => Some(Self::CsUmCloseCaption),
-            "CS_UM_CloseCaptionDirect" => Some(Self::CsUmCloseCaptionDirect),
-            "CS_UM_SendAudio" => Some(Self::CsUmSendAudio),
-            "CS_UM_RawAudio" => Some(Self::CsUmRawAudio),
-            "CS_UM_VoiceMask" => Some(Self::CsUmVoiceMask),
-            "CS_UM_RequestState" => Some(Self::CsUmRequestState),
-            "CS_UM_Damage" => Some(Self::CsUmDamage),
-            "CS_UM_RadioText" => Some(Self::CsUmRadioText),
-            "CS_UM_HintText" => Some(Self::CsUmHintText),
-            "CS_UM_KeyHintText" => Some(Self::CsUmKeyHintText),
-            "CS_UM_ProcessSpottedEntityUpdate" => {
-                Some(Self::CsUmProcessSpottedEntityUpdate)
-            }
-            "CS_UM_ReloadEffect" => Some(Self::CsUmReloadEffect),
-            "CS_UM_AdjustMoney" => Some(Self::CsUmAdjustMoney),
-            "CS_UM_UpdateTeamMoney" => Some(Self::CsUmUpdateTeamMoney),
-            "CS_UM_StopSpectatorMode" => Some(Self::CsUmStopSpectatorMode),
-            "CS_UM_KillCam" => Some(Self::CsUmKillCam),
-            "CS_UM_DesiredTimescale" => Some(Self::CsUmDesiredTimescale),
-            "CS_UM_CurrentTimescale" => Some(Self::CsUmCurrentTimescale),
-            "CS_UM_AchievementEvent" => Some(Self::CsUmAchievementEvent),
-            "CS_UM_MatchEndConditions" => Some(Self::CsUmMatchEndConditions),
-            "CS_UM_DisconnectToLobby" => Some(Self::CsUmDisconnectToLobby),
-            "CS_UM_PlayerStatsUpdate" => Some(Self::CsUmPlayerStatsUpdate),
-            "CS_UM_WarmupHasEnded" => Some(Self::CsUmWarmupHasEnded),
-            "CS_UM_ClientInfo" => Some(Self::CsUmClientInfo),
-            "CS_UM_XRankGet" => Some(Self::CsUmXRankGet),
-            "CS_UM_XRankUpd" => Some(Self::CsUmXRankUpd),
-            "CS_UM_CallVoteFailed" => Some(Self::CsUmCallVoteFailed),
-            "CS_UM_VoteStart" => Some(Self::CsUmVoteStart),
-            "CS_UM_VotePass" => Some(Self::CsUmVotePass),
-            "CS_UM_VoteFailed" => Some(Self::CsUmVoteFailed),
-            "CS_UM_VoteSetup" => Some(Self::CsUmVoteSetup),
-            "CS_UM_ServerRankRevealAll" => Some(Self::CsUmServerRankRevealAll),
-            "CS_UM_SendLastKillerDamageToClient" => {
-                Some(Self::CsUmSendLastKillerDamageToClient)
-            }
-            "CS_UM_ServerRankUpdate" => Some(Self::CsUmServerRankUpdate),
-            "CS_UM_ItemPickup" => Some(Self::CsUmItemPickup),
-            "CS_UM_ShowMenu" => Some(Self::CsUmShowMenu),
-            "CS_UM_BarTime" => Some(Self::CsUmBarTime),
-            "CS_UM_AmmoDenied" => Some(Self::CsUmAmmoDenied),
-            "CS_UM_MarkAchievement" => Some(Self::CsUmMarkAchievement),
-            "CS_UM_MatchStatsUpdate" => Some(Self::CsUmMatchStatsUpdate),
-            "CS_UM_ItemDrop" => Some(Self::CsUmItemDrop),
-            "CS_UM_GlowPropTurnOff" => Some(Self::CsUmGlowPropTurnOff),
-            "CS_UM_SendPlayerItemDrops" => Some(Self::CsUmSendPlayerItemDrops),
-            "CS_UM_RoundBackupFilenames" => Some(Self::CsUmRoundBackupFilenames),
-            "CS_UM_SendPlayerItemFound" => Some(Self::CsUmSendPlayerItemFound),
-            "CS_UM_ReportHit" => Some(Self::CsUmReportHit),
-            "CS_UM_XpUpdate" => Some(Self::CsUmXpUpdate),
-            "CS_UM_QuestProgress" => Some(Self::CsUmQuestProgress),
-            "CS_UM_ScoreLeaderboardData" => Some(Self::CsUmScoreLeaderboardData),
-            "CS_UM_PlayerDecalDigitalSignature" => {
-                Some(Self::CsUmPlayerDecalDigitalSignature)
-            }
-            "CS_UM_WeaponSound" => Some(Self::CsUmWeaponSound),
-            "CS_UM_UpdateScreenHealthBar" => Some(Self::CsUmUpdateScreenHealthBar),
-            "CS_UM_EntityOutlineHighlight" => Some(Self::CsUmEntityOutlineHighlight),
-            "CS_UM_SSUI" => Some(Self::CsUmSsui),
-            "CS_UM_SurvivalStats" => Some(Self::CsUmSurvivalStats),
-            "CS_UM_DisconnectToLobby2" => Some(Self::CsUmDisconnectToLobby2),
-            "CS_UM_EndOfMatchAllPlayersData" => Some(Self::CsUmEndOfMatchAllPlayersData),
-            "CS_UM_PostRoundDamageReport" => Some(Self::CsUmPostRoundDamageReport),
-            "CS_UM_RoundEndReportData" => Some(Self::CsUmRoundEndReportData),
-            "CS_UM_CurrentRoundOdds" => Some(Self::CsUmCurrentRoundOdds),
-            "CS_UM_DeepStats" => Some(Self::CsUmDeepStats),
-            "CS_UM_ShootInfo" => Some(Self::CsUmShootInfo),
-            "CS_UM_CounterStrafe" => Some(Self::CsUmCounterStrafe),
-            "CS_UM_DamagePrediction" => Some(Self::CsUmDamagePrediction),
+            "UM_AchievementEvent" => Some(Self::UmAchievementEvent),
+            "UM_CloseCaption" => Some(Self::UmCloseCaption),
+            "UM_CloseCaptionDirect" => Some(Self::UmCloseCaptionDirect),
+            "UM_CurrentTimescale" => Some(Self::UmCurrentTimescale),
+            "UM_DesiredTimescale" => Some(Self::UmDesiredTimescale),
+            "UM_Fade" => Some(Self::UmFade),
+            "UM_GameTitle" => Some(Self::UmGameTitle),
+            "UM_HudMsg" => Some(Self::UmHudMsg),
+            "UM_HudText" => Some(Self::UmHudText),
+            "UM_ColoredText" => Some(Self::UmColoredText),
+            "UM_RequestState" => Some(Self::UmRequestState),
+            "UM_ResetHUD" => Some(Self::UmResetHud),
+            "UM_Rumble" => Some(Self::UmRumble),
+            "UM_SayText" => Some(Self::UmSayText),
+            "UM_SayText2" => Some(Self::UmSayText2),
+            "UM_SayTextChannel" => Some(Self::UmSayTextChannel),
+            "UM_Shake" => Some(Self::UmShake),
+            "UM_ShakeDir" => Some(Self::UmShakeDir),
+            "UM_WaterShake" => Some(Self::UmWaterShake),
+            "UM_TextMsg" => Some(Self::UmTextMsg),
+            "UM_ScreenTilt" => Some(Self::UmScreenTilt),
+            "UM_VoiceMask" => Some(Self::UmVoiceMask),
+            "UM_SendAudio" => Some(Self::UmSendAudio),
+            "UM_ItemPickup" => Some(Self::UmItemPickup),
+            "UM_AmmoDenied" => Some(Self::UmAmmoDenied),
+            "UM_ShowMenu" => Some(Self::UmShowMenu),
+            "UM_CreditsMsg" => Some(Self::UmCreditsMsg),
+            "UM_CloseCaptionPlaceholder" => Some(Self::UmCloseCaptionPlaceholder),
+            "UM_CameraTransition" => Some(Self::UmCameraTransition),
+            "UM_AudioParameter" => Some(Self::UmAudioParameter),
+            "UM_ParticleManager" => Some(Self::UmParticleManager),
+            "UM_HudError" => Some(Self::UmHudError),
+            "UM_CustomGameEvent" => Some(Self::UmCustomGameEvent),
+            "UM_AnimGraphUpdate" => Some(Self::UmAnimGraphUpdate),
+            "UM_HapticsManagerPulse" => Some(Self::UmHapticsManagerPulse),
+            "UM_HapticsManagerEffect" => Some(Self::UmHapticsManagerEffect),
+            "UM_CommandQueueState" => Some(Self::UmCommandQueueState),
+            "UM_UpdateCssClasses" => Some(Self::UmUpdateCssClasses),
+            "UM_ServerFrameTime" => Some(Self::UmServerFrameTime),
+            "UM_LagCompensationError" => Some(Self::UmLagCompensationError),
+            "UM_RequestDllStatus" => Some(Self::UmRequestDllStatus),
+            "UM_RequestUtilAction" => Some(Self::UmRequestUtilAction),
+            "UM_UtilActionResponse" => Some(Self::UmUtilActionResponse),
+            "UM_DllStatusResponse" => Some(Self::UmDllStatusResponse),
+            "UM_RequestInventory" => Some(Self::UmRequestInventory),
+            "UM_InventoryResponse" => Some(Self::UmInventoryResponse),
+            "UM_RequestDiagnostic" => Some(Self::UmRequestDiagnostic),
+            "UM_DiagnosticResponse" => Some(Self::UmDiagnosticResponse),
+            "UM_ExtraUserData" => Some(Self::UmExtraUserData),
+            "UM_NotifyResponseFound" => Some(Self::UmNotifyResponseFound),
+            "UM_PlayResponseConditional" => Some(Self::UmPlayResponseConditional),
+            "UM_MAX_BASE" => Some(Self::UmMaxBase),
             _ => None,
         }
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-pub enum EcsUsrMsgDisconnectToLobbyAction {
-    KEcsUsrMsgDisconnectToLobbyActionDefault = 0,
-    KEcsUsrMsgDisconnectToLobbyActionGoQueue = 1,
+pub enum EBaseEntityMessages {
+    EmPlayJingle = 136,
+    EmScreenOverlay = 137,
+    EmRemoveAllDecals = 138,
+    EmPropagateForce = 139,
+    EmDoSpark = 140,
+    EmFixAngle = 141,
 }
-impl EcsUsrMsgDisconnectToLobbyAction {
+impl EBaseEntityMessages {
     /// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            EcsUsrMsgDisconnectToLobbyAction::KEcsUsrMsgDisconnectToLobbyActionDefault => {
-                "k_ECSUsrMsg_DisconnectToLobby_Action_Default"
+            EBaseEntityMessages::EmPlayJingle => "EM_PlayJingle",
+            EBaseEntityMessages::EmScreenOverlay => "EM_ScreenOverlay",
+            EBaseEntityMessages::EmRemoveAllDecals => "EM_RemoveAllDecals",
+            EBaseEntityMessages::EmPropagateForce => "EM_PropagateForce",
+            EBaseEntityMessages::EmDoSpark => "EM_DoSpark",
+            EBaseEntityMessages::EmFixAngle => "EM_FixAngle",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "EM_PlayJingle" => Some(Self::EmPlayJingle),
+            "EM_ScreenOverlay" => Some(Self::EmScreenOverlay),
+            "EM_RemoveAllDecals" => Some(Self::EmRemoveAllDecals),
+            "EM_PropagateForce" => Some(Self::EmPropagateForce),
+            "EM_DoSpark" => Some(Self::EmDoSpark),
+            "EM_FixAngle" => Some(Self::EmFixAngle),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ERollType {
+    RollNone = -1,
+    RollStats = 0,
+    RollCredits = 1,
+    RollLateJoinLogo = 2,
+    RollOuttro = 3,
+}
+impl ERollType {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            ERollType::RollNone => "ROLL_NONE",
+            ERollType::RollStats => "ROLL_STATS",
+            ERollType::RollCredits => "ROLL_CREDITS",
+            ERollType::RollLateJoinLogo => "ROLL_LATE_JOIN_LOGO",
+            ERollType::RollOuttro => "ROLL_OUTTRO",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ROLL_NONE" => Some(Self::RollNone),
+            "ROLL_STATS" => Some(Self::RollStats),
+            "ROLL_CREDITS" => Some(Self::RollCredits),
+            "ROLL_LATE_JOIN_LOGO" => Some(Self::RollLateJoinLogo),
+            "ROLL_OUTTRO" => Some(Self::RollOuttro),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ParticleMessage {
+    GameParticleManagerEventCreate = 0,
+    GameParticleManagerEventUpdate = 1,
+    GameParticleManagerEventUpdateForward = 2,
+    GameParticleManagerEventUpdateOrientation = 3,
+    GameParticleManagerEventUpdateFallback = 4,
+    GameParticleManagerEventUpdateEnt = 5,
+    GameParticleManagerEventUpdateOffset = 6,
+    GameParticleManagerEventDestroy = 7,
+    GameParticleManagerEventDestroyInvolving = 8,
+    GameParticleManagerEventRelease = 9,
+    GameParticleManagerEventLatency = 10,
+    GameParticleManagerEventShouldDraw = 11,
+    GameParticleManagerEventFrozen = 12,
+    GameParticleManagerEventChangeControlPointAttachment = 13,
+    GameParticleManagerEventUpdateEntityPosition = 14,
+    GameParticleManagerEventSetFowProperties = 15,
+    GameParticleManagerEventSetText = 16,
+    GameParticleManagerEventSetShouldCheckFow = 17,
+    GameParticleManagerEventSetControlPointModel = 18,
+    GameParticleManagerEventSetControlPointSnapshot = 19,
+    GameParticleManagerEventSetTextureAttribute = 20,
+    GameParticleManagerEventSetSceneObjectGenericFlag = 21,
+    GameParticleManagerEventSetSceneObjectTintAndDesat = 22,
+    GameParticleManagerEventDestroyNamed = 23,
+    GameParticleManagerEventSkipToTime = 24,
+    GameParticleManagerEventCanFreeze = 25,
+    GameParticleManagerEventSetNamedValueContext = 26,
+    GameParticleManagerEventUpdateTransform = 27,
+    GameParticleManagerEventFreezeTransitionOverride = 28,
+    GameParticleManagerEventFreezeInvolving = 29,
+    GameParticleManagerEventAddModellistOverrideElement = 30,
+    GameParticleManagerEventClearModellistOverride = 31,
+    GameParticleManagerEventCreatePhysicsSim = 32,
+    GameParticleManagerEventDestroyPhysicsSim = 33,
+    GameParticleManagerEventSetVdata = 34,
+    GameParticleManagerEventSetMaterialOverride = 35,
+}
+impl ParticleMessage {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            ParticleMessage::GameParticleManagerEventCreate => {
+                "GAME_PARTICLE_MANAGER_EVENT_CREATE"
             }
-            EcsUsrMsgDisconnectToLobbyAction::KEcsUsrMsgDisconnectToLobbyActionGoQueue => {
-                "k_ECSUsrMsg_DisconnectToLobby_Action_GoQueue"
+            ParticleMessage::GameParticleManagerEventUpdate => {
+                "GAME_PARTICLE_MANAGER_EVENT_UPDATE"
+            }
+            ParticleMessage::GameParticleManagerEventUpdateForward => {
+                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_FORWARD"
+            }
+            ParticleMessage::GameParticleManagerEventUpdateOrientation => {
+                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ORIENTATION"
+            }
+            ParticleMessage::GameParticleManagerEventUpdateFallback => {
+                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_FALLBACK"
+            }
+            ParticleMessage::GameParticleManagerEventUpdateEnt => {
+                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ENT"
+            }
+            ParticleMessage::GameParticleManagerEventUpdateOffset => {
+                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_OFFSET"
+            }
+            ParticleMessage::GameParticleManagerEventDestroy => {
+                "GAME_PARTICLE_MANAGER_EVENT_DESTROY"
+            }
+            ParticleMessage::GameParticleManagerEventDestroyInvolving => {
+                "GAME_PARTICLE_MANAGER_EVENT_DESTROY_INVOLVING"
+            }
+            ParticleMessage::GameParticleManagerEventRelease => {
+                "GAME_PARTICLE_MANAGER_EVENT_RELEASE"
+            }
+            ParticleMessage::GameParticleManagerEventLatency => {
+                "GAME_PARTICLE_MANAGER_EVENT_LATENCY"
+            }
+            ParticleMessage::GameParticleManagerEventShouldDraw => {
+                "GAME_PARTICLE_MANAGER_EVENT_SHOULD_DRAW"
+            }
+            ParticleMessage::GameParticleManagerEventFrozen => {
+                "GAME_PARTICLE_MANAGER_EVENT_FROZEN"
+            }
+            ParticleMessage::GameParticleManagerEventChangeControlPointAttachment => {
+                "GAME_PARTICLE_MANAGER_EVENT_CHANGE_CONTROL_POINT_ATTACHMENT"
+            }
+            ParticleMessage::GameParticleManagerEventUpdateEntityPosition => {
+                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ENTITY_POSITION"
+            }
+            ParticleMessage::GameParticleManagerEventSetFowProperties => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_FOW_PROPERTIES"
+            }
+            ParticleMessage::GameParticleManagerEventSetText => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_TEXT"
+            }
+            ParticleMessage::GameParticleManagerEventSetShouldCheckFow => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_SHOULD_CHECK_FOW"
+            }
+            ParticleMessage::GameParticleManagerEventSetControlPointModel => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_CONTROL_POINT_MODEL"
+            }
+            ParticleMessage::GameParticleManagerEventSetControlPointSnapshot => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_CONTROL_POINT_SNAPSHOT"
+            }
+            ParticleMessage::GameParticleManagerEventSetTextureAttribute => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_TEXTURE_ATTRIBUTE"
+            }
+            ParticleMessage::GameParticleManagerEventSetSceneObjectGenericFlag => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_SCENE_OBJECT_GENERIC_FLAG"
+            }
+            ParticleMessage::GameParticleManagerEventSetSceneObjectTintAndDesat => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_SCENE_OBJECT_TINT_AND_DESAT"
+            }
+            ParticleMessage::GameParticleManagerEventDestroyNamed => {
+                "GAME_PARTICLE_MANAGER_EVENT_DESTROY_NAMED"
+            }
+            ParticleMessage::GameParticleManagerEventSkipToTime => {
+                "GAME_PARTICLE_MANAGER_EVENT_SKIP_TO_TIME"
+            }
+            ParticleMessage::GameParticleManagerEventCanFreeze => {
+                "GAME_PARTICLE_MANAGER_EVENT_CAN_FREEZE"
+            }
+            ParticleMessage::GameParticleManagerEventSetNamedValueContext => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_NAMED_VALUE_CONTEXT"
+            }
+            ParticleMessage::GameParticleManagerEventUpdateTransform => {
+                "GAME_PARTICLE_MANAGER_EVENT_UPDATE_TRANSFORM"
+            }
+            ParticleMessage::GameParticleManagerEventFreezeTransitionOverride => {
+                "GAME_PARTICLE_MANAGER_EVENT_FREEZE_TRANSITION_OVERRIDE"
+            }
+            ParticleMessage::GameParticleManagerEventFreezeInvolving => {
+                "GAME_PARTICLE_MANAGER_EVENT_FREEZE_INVOLVING"
+            }
+            ParticleMessage::GameParticleManagerEventAddModellistOverrideElement => {
+                "GAME_PARTICLE_MANAGER_EVENT_ADD_MODELLIST_OVERRIDE_ELEMENT"
+            }
+            ParticleMessage::GameParticleManagerEventClearModellistOverride => {
+                "GAME_PARTICLE_MANAGER_EVENT_CLEAR_MODELLIST_OVERRIDE"
+            }
+            ParticleMessage::GameParticleManagerEventCreatePhysicsSim => {
+                "GAME_PARTICLE_MANAGER_EVENT_CREATE_PHYSICS_SIM"
+            }
+            ParticleMessage::GameParticleManagerEventDestroyPhysicsSim => {
+                "GAME_PARTICLE_MANAGER_EVENT_DESTROY_PHYSICS_SIM"
+            }
+            ParticleMessage::GameParticleManagerEventSetVdata => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_VDATA"
+            }
+            ParticleMessage::GameParticleManagerEventSetMaterialOverride => {
+                "GAME_PARTICLE_MANAGER_EVENT_SET_MATERIAL_OVERRIDE"
             }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "k_ECSUsrMsg_DisconnectToLobby_Action_Default" => {
-                Some(Self::KEcsUsrMsgDisconnectToLobbyActionDefault)
+            "GAME_PARTICLE_MANAGER_EVENT_CREATE" => {
+                Some(Self::GameParticleManagerEventCreate)
             }
-            "k_ECSUsrMsg_DisconnectToLobby_Action_GoQueue" => {
-                Some(Self::KEcsUsrMsgDisconnectToLobbyActionGoQueue)
+            "GAME_PARTICLE_MANAGER_EVENT_UPDATE" => {
+                Some(Self::GameParticleManagerEventUpdate)
             }
+            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_FORWARD" => {
+                Some(Self::GameParticleManagerEventUpdateForward)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ORIENTATION" => {
+                Some(Self::GameParticleManagerEventUpdateOrientation)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_FALLBACK" => {
+                Some(Self::GameParticleManagerEventUpdateFallback)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ENT" => {
+                Some(Self::GameParticleManagerEventUpdateEnt)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_OFFSET" => {
+                Some(Self::GameParticleManagerEventUpdateOffset)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_DESTROY" => {
+                Some(Self::GameParticleManagerEventDestroy)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_DESTROY_INVOLVING" => {
+                Some(Self::GameParticleManagerEventDestroyInvolving)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_RELEASE" => {
+                Some(Self::GameParticleManagerEventRelease)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_LATENCY" => {
+                Some(Self::GameParticleManagerEventLatency)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SHOULD_DRAW" => {
+                Some(Self::GameParticleManagerEventShouldDraw)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_FROZEN" => {
+                Some(Self::GameParticleManagerEventFrozen)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_CHANGE_CONTROL_POINT_ATTACHMENT" => {
+                Some(Self::GameParticleManagerEventChangeControlPointAttachment)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_ENTITY_POSITION" => {
+                Some(Self::GameParticleManagerEventUpdateEntityPosition)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_FOW_PROPERTIES" => {
+                Some(Self::GameParticleManagerEventSetFowProperties)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_TEXT" => {
+                Some(Self::GameParticleManagerEventSetText)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_SHOULD_CHECK_FOW" => {
+                Some(Self::GameParticleManagerEventSetShouldCheckFow)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_CONTROL_POINT_MODEL" => {
+                Some(Self::GameParticleManagerEventSetControlPointModel)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_CONTROL_POINT_SNAPSHOT" => {
+                Some(Self::GameParticleManagerEventSetControlPointSnapshot)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_TEXTURE_ATTRIBUTE" => {
+                Some(Self::GameParticleManagerEventSetTextureAttribute)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_SCENE_OBJECT_GENERIC_FLAG" => {
+                Some(Self::GameParticleManagerEventSetSceneObjectGenericFlag)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_SCENE_OBJECT_TINT_AND_DESAT" => {
+                Some(Self::GameParticleManagerEventSetSceneObjectTintAndDesat)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_DESTROY_NAMED" => {
+                Some(Self::GameParticleManagerEventDestroyNamed)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SKIP_TO_TIME" => {
+                Some(Self::GameParticleManagerEventSkipToTime)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_CAN_FREEZE" => {
+                Some(Self::GameParticleManagerEventCanFreeze)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_NAMED_VALUE_CONTEXT" => {
+                Some(Self::GameParticleManagerEventSetNamedValueContext)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_UPDATE_TRANSFORM" => {
+                Some(Self::GameParticleManagerEventUpdateTransform)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_FREEZE_TRANSITION_OVERRIDE" => {
+                Some(Self::GameParticleManagerEventFreezeTransitionOverride)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_FREEZE_INVOLVING" => {
+                Some(Self::GameParticleManagerEventFreezeInvolving)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_ADD_MODELLIST_OVERRIDE_ELEMENT" => {
+                Some(Self::GameParticleManagerEventAddModellistOverrideElement)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_CLEAR_MODELLIST_OVERRIDE" => {
+                Some(Self::GameParticleManagerEventClearModellistOverride)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_CREATE_PHYSICS_SIM" => {
+                Some(Self::GameParticleManagerEventCreatePhysicsSim)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_DESTROY_PHYSICS_SIM" => {
+                Some(Self::GameParticleManagerEventDestroyPhysicsSim)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_VDATA" => {
+                Some(Self::GameParticleManagerEventSetVdata)
+            }
+            "GAME_PARTICLE_MANAGER_EVENT_SET_MATERIAL_OVERRIDE" => {
+                Some(Self::GameParticleManagerEventSetMaterialOverride)
+            }
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum EHapticPulseType {
+    VrHandHapticPulseLight = 0,
+    VrHandHapticPulseMedium = 1,
+    VrHandHapticPulseStrong = 2,
+}
+impl EHapticPulseType {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            EHapticPulseType::VrHandHapticPulseLight => "VR_HAND_HAPTIC_PULSE_LIGHT",
+            EHapticPulseType::VrHandHapticPulseMedium => "VR_HAND_HAPTIC_PULSE_MEDIUM",
+            EHapticPulseType::VrHandHapticPulseStrong => "VR_HAND_HAPTIC_PULSE_STRONG",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "VR_HAND_HAPTIC_PULSE_LIGHT" => Some(Self::VrHandHapticPulseLight),
+            "VR_HAND_HAPTIC_PULSE_MEDIUM" => Some(Self::VrHandHapticPulseMedium),
+            "VR_HAND_HAPTIC_PULSE_STRONG" => Some(Self::VrHandHapticPulseStrong),
             _ => None,
         }
     }
