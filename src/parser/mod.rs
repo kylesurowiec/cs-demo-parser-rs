@@ -861,15 +861,20 @@ impl<R: Read> Parser<R> {
                 },
                 | proto_msg::SvcMessages::SvcPacketEntities => {
                     if let Ok(msg) = proto_msg::CsvcMsgPacketEntities::decode(buf) {
-                        for (ent, op) in self.s2_tables.parse_packet_entities(&msg) {
-                            let ev = EntityEvent {
-                                entity: ent.clone(),
-                                op,
-                            };
-                            self.dispatch_event(ev.clone());
-                            if op.contains(crate::sendtables::EntityOp::CREATED) {
-                                self.dispatch_event(EntityCreated { entity: ent });
+                        if self.header.as_ref().map(|h| h.filestamp.as_str()) == Some("PBDEMS2") {
+                            for (ent, op) in self.s2_tables.parse_packet_entities(&msg) {
+                                let ev = EntityEvent {
+                                    entity: ent.clone(),
+                                    op,
+                                };
+                                self.dispatch_event(ev.clone());
+                                if op.contains(crate::sendtables::EntityOp::CREATED) {
+                                    self.dispatch_event(EntityCreated { entity: ent });
+                                }
                             }
+                        } else {
+                            // TODO: implement PacketEntities parsing for Source 1 demos
+                            // For now, just ignore the message to avoid panicking.
                         }
                         self.dispatch_net_message(msg);
                     }
