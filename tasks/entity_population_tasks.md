@@ -3,7 +3,7 @@
 This file tracks progress on the items listed in `entity_population_checklist.md`.
 Check off tasks as implementations are completed.
 
-- [ ] Parse server classes from `svc_ServerInfo` and datatable messages so entity definitions are available before frames are processed.
+- [x] Parse server classes from `svc_ServerInfo` and datatable messages so entity definitions are available before frames are processed.
 - [ ] Decode string tables, especially `userinfo` and item definition tables, to obtain player names and equipment mapping.
 - [ ] Populate `GameState.players_by_user_id` and `players_by_entity_id` whenever `player_connect` or entity creation events are seen.
 - [ ] Update `Player` fields such as `steam_id64`, `name`, `team`, and `entity_id` from the parsed data.
