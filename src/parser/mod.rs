@@ -524,11 +524,10 @@ impl<R: Read> Parser<R> {
     }
 
     fn parse_packet_s1(&mut self) -> Result<(), ParserError> {
-        // Net message headers in Source 1 demos are 160 bits (152 bits for the
-        // split packet header plus 4 bits each for flags and view flags). The
-        // previous code multiplied by 8 again which resulted in skipping 160
-        // bytes rather than 160 bits and corrupted the remaining reads.
-        const HEADER_BITS: u32 = 152 + 4 + 4;
+        // Net message headers in Source 1 demos consist of 160 bytes (152 bytes
+        // of `CommandInfo` plus 4 bytes each for `seqNrIn` and `seqNrOut`). The
+        // size here is specified in bits, so multiply by 8 before skipping.
+        const HEADER_BITS: u32 = (152 + 4 + 4) * 8;
         self.bit_reader.skip_bits(HEADER_BITS);
         let size = self.bit_reader.read_signed_int(32) as usize;
 
