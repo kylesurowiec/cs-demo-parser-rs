@@ -60,8 +60,10 @@ fn main() {
     });
 
     let scoreboard: std::sync::Arc<std::sync::Mutex<HashMap<i32, (u32, u32)>>> = Default::default();
+    let names: std::sync::Arc<std::sync::Mutex<HashMap<i32, String>>> = Default::default();
     let desc_clone = descriptors.clone();
     let sb_clone = scoreboard.clone();
+    let names_clone = names.clone();
     parser.register_net_message_handler::<CsvcMsgGameEvent, _>(move |ev| {
         let map = desc_clone.lock().unwrap();
         let desc = match ev.eventid.and_then(|id| map.get(&id)) {
@@ -69,6 +71,20 @@ fn main() {
             | None => return,
         };
         match desc.name.as_str() {
+            | "player_connect" | "player_connect_full" => {
+                let mut userid = 0;
+                let mut name = String::new();
+                for ((kname, _), key) in desc.keys.iter().zip(&ev.keys) {
+                    match kname.as_str() {
+                        | "userid" => userid = key_to_i32(key),
+                        | "name" => name = key.val_string.clone().unwrap_or_default(),
+                        | _ => {},
+                    }
+                }
+                if userid != 0 && !name.is_empty() {
+                    names_clone.lock().unwrap().insert(userid, name);
+                }
+            },
             | "player_death" => {
                 let mut victim = 0;
                 let mut attacker = 0;
@@ -85,6 +101,16 @@ fn main() {
                 if attacker != 0 {
                     sb_clone.lock().unwrap().entry(attacker).or_insert((0, 0)).0 += 1;
                 }
+                let names_map = names_clone.lock().unwrap();
+                let attacker_name = names_map
+                    .get(&attacker)
+                    .cloned()
+                    .unwrap_or_else(|| format!("#{}", attacker));
+                let victim_name = names_map
+                    .get(&victim)
+                    .cloned()
+                    .unwrap_or_else(|| format!("#{}", victim));
+                println!("{} killed {}", attacker_name, victim_name);
             },
             | _ => {},
         }
@@ -104,6 +130,7 @@ fn main() {
             .by_user_id()
             .get(id)
             .map(|p| p.name.clone())
+            .or_else(|| names.lock().unwrap().get(id).cloned())
             .unwrap_or_else(|| format!("#{}", id));
         println!("{}: {} kills / {} deaths", name, k, d);
     }
