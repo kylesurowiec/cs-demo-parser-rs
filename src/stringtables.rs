@@ -13,6 +13,9 @@ pub struct StringTableEntry {
 pub struct StringTable {
     pub name: String,
     pub entries: HashMap<i32, StringTableEntry>,
+    pub max_entries: i32,
+    pub user_data_fixed_size: bool,
+    pub user_data_size_bits: i32,
 }
 
 #[derive(Default)]
@@ -35,10 +38,16 @@ impl StringTables {
         msg: &msg::CsvcMsgCreateStringTable,
     ) -> Option<StringTable> {
         let id = self.tables.len() as i32;
-        let table = StringTable {
+        let mut table = StringTable {
             name: msg.name.clone().unwrap_or_default(),
+            max_entries: msg.max_entries.unwrap_or_default(),
+            user_data_fixed_size: msg.user_data_fixed_size.unwrap_or(false),
+            user_data_size_bits: msg.user_data_size_bits.unwrap_or(0),
             ..Default::default()
         };
+        if let (Some(num), Some(data)) = (msg.num_entries, &msg.string_data) {
+            parse_s1_entries(&mut table, num, data);
+        }
         self.name_to_id.insert(table.name.clone(), id);
         self.tables.insert(id, table.clone());
         Some(table)
@@ -50,13 +59,8 @@ impl StringTables {
     ) -> Option<StringTable> {
         if let Some(id) = msg.table_id {
             if let Some(table) = self.tables.get_mut(&id) {
-                if let Some(data) = &msg.string_data {
-                    let entry = StringTableEntry {
-                        value: String::from_utf8_lossy(data).into_owned(),
-                        user_data: data.clone(),
-                    };
-                    let idx = table.entries.len() as i32;
-                    table.entries.insert(idx, entry);
+                if let (Some(num), Some(data)) = (msg.num_changed_entries, &msg.string_data) {
+                    parse_s1_entries_update(table, num, data);
                 }
                 return Some(table.clone());
             }
@@ -93,6 +97,76 @@ fn read_var_uint32(slice: &mut &[u8]) -> u32 {
         s += 7;
     }
     x
+}
+
+fn parse_s1_entries(table: &mut StringTable, num: i32, data: &[u8]) {
+    use std::io::Cursor;
+    let mut r = crate::bitreader::BitReader::new_small(Cursor::new(data));
+    if r.read_bit() {
+        return;
+    }
+    let bits = if table.max_entries > 0 {
+        ((table.max_entries as f32).log2().ceil()) as u32
+    } else {
+        0
+    };
+    let mut idx: i32 = -1;
+    let mut history: Vec<String> = Vec::new();
+    for _ in 0..num {
+        if r.read_bit() {
+            idx += 1;
+        } else {
+            idx = r.read_int(bits) as i32;
+        }
+        let mut key = String::new();
+        if r.read_bit() {
+            if r.read_bit() {
+                let hist_idx = r.read_int(5) as usize;
+                let bytes = r.read_int(5) as usize;
+                if hist_idx < history.len() {
+                    let h = &history[hist_idx];
+                    let slice = &h[..bytes.min(h.len())];
+                    key.push_str(slice);
+                }
+                key.push_str(&r.read_string());
+            } else {
+                key = r.read_string();
+            }
+        }
+        if history.len() >= 32 {
+            history.remove(0);
+        }
+        history.push(key.clone());
+        let mut user_data = Vec::new();
+        if r.read_bit() {
+            if table.user_data_fixed_size {
+                let bytes = (table.user_data_size_bits as u32 + 7) / 8;
+                for _ in 0..bytes {
+                    user_data.push(r.read_int(8) as u8);
+                }
+            } else {
+                let len = r.read_int(14) as usize;
+                for _ in 0..len {
+                    user_data.push(r.read_int(8) as u8);
+                }
+            }
+        }
+        table.entries.insert(idx, StringTableEntry { value: key, user_data });
+    }
+}
+
+fn parse_s1_entries_update(table: &mut StringTable, num: i32, data: &[u8]) {
+    let res = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+        parse_s1_entries(table, num, data);
+    }));
+    if res.is_err() {
+        let entry = StringTableEntry {
+            value: String::from_utf8_lossy(data).into_owned(),
+            user_data: data.to_vec(),
+        };
+        let idx = table.entries.len() as i32;
+        table.entries.insert(idx, entry);
+    }
 }
 
 impl StringTables {

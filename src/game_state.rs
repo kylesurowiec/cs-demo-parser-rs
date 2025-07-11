@@ -270,6 +270,7 @@ impl GameState {
                     let steam_id = info.steamid.or(info.xuid).unwrap_or(0);
                     let name = info.name.unwrap_or_default();
                     let is_bot = info.fakeplayer.unwrap_or(false);
+                    println!("userinfo: {} -> {}", user_id, name);
                     let p = self
                         .players_by_user_id
                         .entry(user_id)
