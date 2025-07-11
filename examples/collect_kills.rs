@@ -2,6 +2,8 @@ use cs_demo_parser::parser::Parser;
 use cs_demo_parser::proto::msg::cs_demo_parser_rs::{
     CsvcMsgGameEvent, CsvcMsgGameEventList, csvc_msg_game_event,
 };
+use cs_demo_parser::proto::msgs2::CMsgPlayerInfo;
+use prost::Message;
 use std::collections::HashMap;
 use std::env;
 use std::fs::File;
@@ -64,6 +66,20 @@ fn main() {
     let desc_clone = descriptors.clone();
     let sb_clone = scoreboard.clone();
     let names_clone = names.clone();
+    let names_clone2 = names.clone();
+    parser.register_on_string_table(move |table| {
+        if table.name.eq_ignore_ascii_case("userinfo") {
+            for (idx, entry) in &table.entries {
+                if !entry.user_data.is_empty() {
+                    if let Ok(info) = CMsgPlayerInfo::decode(&entry.user_data[..]) {
+                        if let Some(name) = info.name {
+                            names_clone2.lock().unwrap().insert(*idx, name);
+                        }
+                    }
+                }
+            }
+        }
+    });
     parser.register_net_message_handler::<CsvcMsgGameEvent, _>(move |ev| {
         let map = desc_clone.lock().unwrap();
         let desc = match ev.eventid.and_then(|id| map.get(&id)) {
