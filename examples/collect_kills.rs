@@ -73,7 +73,8 @@ fn main() {
                 if !entry.user_data.is_empty() {
                     if let Ok(info) = CMsgPlayerInfo::decode(&entry.user_data[..]) {
                         if let Some(name) = info.name {
-                            names_clone2.lock().unwrap().insert(*idx, name);
+                            let user_id = info.userid.unwrap_or(*idx);
+                            names_clone2.lock().unwrap().insert(user_id, name);
                         }
                     }
                 }
